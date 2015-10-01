@@ -1,0 +1,152 @@
+/**
+ Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
+#ifndef __M2ETIS_WRAPPER_TCPWRAPPER_H__
+#define __M2ETIS_WRAPPER_TCPWRAPPER_H__
+
+#include "boost/asio.hpp"
+
+#include <deque>
+
+#include "m2etis/net/NetworkCallbackInterface.h"
+#include "m2etis/net/NetworkInterface.h"
+#include "m2etis/net/NetworkType.h"
+#include "m2etis/net/NodeHandle.h"
+
+#include "boost/make_shared.hpp"
+#include "boost/thread/mutex.hpp"
+
+namespace boost {
+	class thread;
+}
+
+namespace m2etis {
+namespace wrapper {
+namespace tcp {
+
+	class TcpWrapper : public net::NetworkInterface<net::NetworkType<net::TCP>> {
+	private:
+		typedef std::pair<std::vector<uint8_t>, boost::asio::ip::tcp::socket *> msgPair;
+
+		bool _initialized;
+
+		net::NetworkType<net::TCP>::Key _local;
+		net::NetworkType<net::TCP>::Key _rendezvouz;
+
+		boost::asio::io_service _io_service;
+		boost::asio::ip::tcp::acceptor * _acceptor;
+
+		boost::mutex lock_; // used to lock _sockets
+		std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *> _sockets;
+
+		boost::asio::io_service::strand _strand__;
+
+		// buffers messages till they got sent
+		std::deque<msgPair> _outbox;
+		boost::asio::io_service::work * _work; // keeps the io_service running
+		void workerFunc();
+
+		/**
+		 * \brief called after incoming connection. New thread
+		 */
+		void readFromSocket(boost::asio::ip::tcp::socket * oldSocket);
+
+		TcpWrapper(const TcpWrapper &) = delete;
+		TcpWrapper & operator=(const TcpWrapper & rhs) = delete;
+		
+		std::map<net::NetworkType<net::TCP>::Key, net::NetworkType<net::TCP>::Key> _mapping_metis_real;
+		std::map<net::NetworkType<net::TCP>::Key, net::NetworkType<net::TCP>::Key> _mapping_real_metis;
+
+		boost::mutex _mapLock;
+
+	public:
+		TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort);
+
+		~TcpWrapper();
+
+		/**
+		 * \brief ruft die andere send methode auf
+		 */
+		void send(const message::NetworkMessage<net::NetworkType<net::TCP>>::Ptr msg, net::NodeHandle<net::NetworkType<net::TCP>>::Ptr_const hint);
+
+		/**
+		 * \brief Schickt type(Dann Trennung durch "/") und payload(als char*) in einem stream buff an to (ip:port )
+		 */
+		void send(const message::NetworkMessage<net::NetworkType<net::TCP>>::Ptr msg);
+
+		std::multimap<uint16_t, boost::thread *> threads_;
+
+		/**
+		 * \brief Gibt Pointer mit eigenen Daten zurück
+		 * \return Im Pointer steht der _name, _port und key aus (_name:_port)
+		 */
+		net::NodeHandle<net::NetworkType<net::TCP>>::Ptr getSelfNodeHandle() const {
+			if (!_initialized) {
+				throw std::runtime_error("TCPWrapper: not initialized. call init first!");
+			}
+
+			net::NodeHandle<net::NetworkType<net::TCP>>::Ptr node = boost::make_shared<net::NodeHandle<net::NetworkType<net::TCP>>>();
+			node->key_ = _local;
+			node->hostname_ = _local.ipStr();
+			node->port_ = _local.getPort();
+
+			return node;
+		}
+
+		/**
+		 * \brief Momentan geschieht hier nichts. Es werden alle MsgTypes delivered. Unteescheidung muss eine Schicht drüber gemacht werden.
+		 */
+		void registerMessageType(const message::MessageType type, const bool ack) const;
+
+		net::NetworkType<net::TCP>::Key getRoot() const {
+			return _rendezvouz;
+		}
+
+		void write(const std::vector<uint8_t> & message, boost::asio::ip::tcp::socket * sock);
+
+		void writeImpl(const std::vector<uint8_t> & message, boost::asio::ip::tcp::socket * sock);
+
+		void write();
+
+		void writeHandler(const boost::system::error_code & error, const size_t bytesTransferred);
+
+		void handleAccept(const boost::system::error_code & error, boost::asio::ip::tcp::socket * socket);
+		
+		net::NetworkType<net::TCP>::Key real2metis(net::NetworkType<net::TCP>::Key key) {
+			auto it = _mapping_real_metis.find(key);
+			if (it == _mapping_real_metis.end()) {
+				return key;
+			}
+			return it->second;
+		}
+		
+		net::NetworkType<net::TCP>::Key metis2real(net::NetworkType<net::TCP>::Key key) {
+			auto it = _mapping_metis_real.find(key);
+			if (it == _mapping_metis_real.end()) {
+				return key;
+			}
+			return it->second;
+		}
+
+	private:
+		void eraseSocket(net::NetworkType<net::TCP>::Key realKey);
+	};
+
+} /* namespace tcp */
+} /* namespace wrapper */
+} /* namespace m2etis */
+
+#endif /* __M2ETIS_WRAPPER_TCPWRAPPER_H__ */

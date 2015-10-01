@@ -1,0 +1,114 @@
+--- !Application
+
+metadata:
+  id: TestApplication
+
+parameters:
+
+#  - testParam1:
+#      unit: kbps
+#      min: 10
+#      max: 100
+#      default: 50
+#
+#  - testParam2:
+#      unit: kbps
+#      min: 1
+#      max: 10
+#      default: 2
+#
+#  - testParam3:
+#      unit: kbps
+#      min: 1
+#      max: 10
+#      default: 5
+#
+#  - testParam4:
+#      unit: kbps
+#      min: 1
+#      max: 10
+#      default: 4
+#      formula: 5* $testParam1 + 2* $testParam2
+
+  - Number of Publishers:
+      unit: !!null
+      min: 1
+      max: 2
+      default: 1
+
+  - Number of Subscribers:
+      unit: !!null
+      min: 1
+      max: 1
+      default: 1
+
+  - Number of Publisher-Subscribers:
+      unit: !!null
+      min: 1
+      max: 1
+      default: 1
+
+  - Time between Messages:
+      unit: s
+      values: [1]
+      default: 1
+
+  - Number of Messages:
+      unit: !!null
+      values: [30]
+      default: 30
+
+  - Number of Messages during Burst:
+      unit: !!null
+      min: 0
+      max: 0
+      default: 0
+
+  - Burst Duration:
+      unit: !!null
+      min: 0
+      max: 0
+      default: 0
+
+  - Burst Frequency:
+      unit: s
+      min: 0
+      max: 0
+      default: 0
+
+  - Chance to Unsubscribe:
+      unit: !!null
+      min: 0
+      max: 0
+      default: 0
+
+  - Time to Unsubscribe:
+      unit: !!null
+      min: 0
+      max: 0
+      default: 0
+
+  - Time to Subscribe:
+      unit: !!null
+      min: 0
+      max: 0
+      default: 0
+
+  - Drop Chance:
+      unit: !!null
+      min: 0
+      max: 0
+      default: 0
+
+  - Compensate dropped Messages:
+      unit: !!null
+      values: ["false"]
+      default: "false"
+
+
+presets:
+  - RaidGroup:
+    - Number of Subscribers: 10
+
+  - CapitalCity:
+    - Number of Publisher-Subscribers: 20

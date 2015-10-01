@@ -1,0 +1,13 @@
+--- !Strategy
+
+metadata:
+  id: DetMergeOrder
+  info: m2etis::message::DetMergeOrderInfo<m2etis::pubsub::order::DetMergeConfig>
+
+parameters:
+  - m2etis::pubsub::order::DetMergeConfig
+
+classification:
+  type: order
+  description:
+

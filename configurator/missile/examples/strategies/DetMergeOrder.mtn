@@ -1,0 +1,16 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: DetMergeOrder
+  Description: ""
+
+Classification:
+  Type: Order
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: m2etis::message::DetMergeOrderInfo<m2etis::pubsub::order::DetMergeConfig>
+  Parameters:
+    - m2etis::net::NetworkType<m2etis::net::OMNET>
+    - m2etis::pubsub::order::DetMergeConfig

@@ -1,0 +1,153 @@
+/**
+ Copyright 2013 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+#ifndef m2etis_GeneratedChannelNameExample_h
+#define m2etis_GeneratedChannelNameExample_h
+
+namespace m2etis {
+    namespace pubsub {
+
+#ifdef WITH_SIM
+		const static uint16_t CHANNEL_COUNT = 17;
+#define M2ETIS_CHANNELLIST SIM_Spreadit_Null_OMNET_Null_Null_Simulation, SIM_Spreadit_MTP_OMNET_Null_Null_Simulation, SIM_Spreadit_DetMerge_OMNET_Null_Null_Simulation, SIM_Spreadit_GMS_OMNET_Null_Null_Simulation, SIM_Direct_Null_OMNET_Null_Null_Simulation, SIM_Direct_MTP_OMNET_Null_Null_Simulation, SIM_Direct_DetMerge_OMNET_Null_Null_Simulation, SIM_Direct_GMS_OMNET_Null_Null_Simulation, SIM_DirectBroadcast_Null_OMNET_Null_Null_Simulation, SIM_DirectBroadcast_MTP_OMNET_Null_Null_Simulation, SIM_DirectBroadcast_DetMerge_OMNET_Null_Null_Simulation, SIM_DirectBroadcast_GMS_OMNET_Null_Null_Simulation, SIM_Scribe_Null_OMNET_Null_Null_Simulation, SIM_Direct_Null_OMNET_Ack_Null_Simulation, SIM_Spreadit_Null_OMNET_Null_Time_Simulation, SIM_Direct_Null_OMNET_Null_Null_DirectBroadcast_Simulation, SIM_Direct_Null_OMNET_Nack_Null_Simulation
+		enum ChannelName : uint16_t {
+            SIM_Spreadit_Null_OMNET_Null_Null_Simulation,
+            SIM_Spreadit_MTP_OMNET_Null_Null_Simulation,
+            SIM_Spreadit_DetMerge_OMNET_Null_Null_Simulation,
+            SIM_Spreadit_GMS_OMNET_Null_Null_Simulation,
+            SIM_Direct_Null_OMNET_Null_Null_Simulation,
+            SIM_Direct_MTP_OMNET_Null_Null_Simulation,
+            SIM_Direct_DetMerge_OMNET_Null_Null_Simulation,
+            SIM_Direct_GMS_OMNET_Null_Null_Simulation,
+            SIM_DirectBroadcast_Null_OMNET_Null_Null_Simulation,
+            SIM_DirectBroadcast_MTP_OMNET_Null_Null_Simulation,
+            SIM_DirectBroadcast_DetMerge_OMNET_Null_Null_Simulation,
+            SIM_DirectBroadcast_GMS_OMNET_Null_Null_Simulation,
+            SIM_Scribe_Null_OMNET_Null_Null_Simulation,
+			SIM_Direct_Null_OMNET_Ack_Null_Simulation,
+            SIM_Spreadit_Null_OMNET_Null_Time_Simulation,
+            SIM_Direct_Null_OMNET_Null_Null_DirectBroadcast_Simulation,
+			SIM_Direct_Null_OMNET_Nack_Null_Simulation
+        };
+
+#else
+		const static uint16_t CHANNEL_COUNT = 97;
+#define M2ETIS_CHANNELLIST TEST_Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Direct_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Direct_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Direct_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Direct_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Direct_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Direct_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Direct_Null_MTP_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Direct_Null_MTP_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Direct_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Direct_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Direct_Null_GMS_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Direct_Null_GMS_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Direct_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Direct_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Direct_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Direct_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Direct_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Direct_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Direct_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Direct_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Direct_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Direct_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Direct_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Direct_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Direct_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Direct_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Direct_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Direct_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Direct_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Direct_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_DirectBroadcast_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP,TEST_DirectBroadcast_Null_Null_Null_Null_Null_Null_Null_CharVector_UDP,TEST_DirectBroadcast_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_DirectBroadcast_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_DirectBroadcast_Null_MTP_Null_Null_Null_Null_Null_CharVector_TCP,TEST_DirectBroadcast_Null_MTP_Null_Null_Null_Null_Null_CharVector_UDP,TEST_DirectBroadcast_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_DirectBroadcast_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_DirectBroadcast_Null_GMS_Null_Null_Null_Null_Null_CharVector_TCP,TEST_DirectBroadcast_Null_GMS_Null_Null_Null_Null_Null_CharVector_UDP,TEST_DirectBroadcast_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_DirectBroadcast_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_TCP,TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_UDP,TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_TCP,TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_UDP,TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_TCP,TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_UDP,TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Spreadit_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Spreadit_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Spreadit_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Spreadit_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Spreadit_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Spreadit_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Spreadit_Null_MTP_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Spreadit_Null_MTP_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Spreadit_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Spreadit_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Spreadit_Null_GMS_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Spreadit_Null_GMS_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Spreadit_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Spreadit_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Spreadit_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Spreadit_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Spreadit_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Spreadit_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Spreadit_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Spreadit_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Spreadit_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Spreadit_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,TEST_Spreadit_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_TCP,TEST_Spreadit_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_UDP,TEST_Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,TEST_Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP, TEST_Direct_Integration_UDP
+		enum ChannelName : uint16_t {
+        	TEST_Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Direct_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Direct_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Direct_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Direct_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Direct_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Direct_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Direct_Null_MTP_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Direct_Null_MTP_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Direct_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Direct_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Direct_Null_GMS_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Direct_Null_GMS_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Direct_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Direct_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Direct_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Direct_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Direct_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Direct_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Direct_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Direct_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Direct_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Direct_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Direct_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Direct_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Direct_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Direct_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Direct_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Direct_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Direct_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Direct_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_Null_Null_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_Null_MTP_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_Null_MTP_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_Null_GMS_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_Null_GMS_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Spreadit_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Spreadit_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Spreadit_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Spreadit_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Spreadit_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Spreadit_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Spreadit_Null_MTP_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Spreadit_Null_MTP_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Spreadit_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Spreadit_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Spreadit_Null_GMS_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Spreadit_Null_GMS_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Spreadit_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Spreadit_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Spreadit_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Spreadit_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Spreadit_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Spreadit_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Spreadit_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Spreadit_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Spreadit_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Spreadit_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Spreadit_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_TCP,
+        	TEST_Spreadit_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_UDP,
+        	TEST_Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_TCP,
+        	TEST_Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDP,
+        	TEST_Direct_Integration_UDP
+        };
+
+
+#endif
+    }
+}
+
+#endif

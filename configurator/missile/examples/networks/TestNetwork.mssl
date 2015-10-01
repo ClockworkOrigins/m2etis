@@ -1,0 +1,18 @@
+--- !Network
+
+metadata:
+  id: TestNetwork
+
+parameters:
+  - "*.underlayConfigurator.measurementTime": "60s"
+  - "**.enableDrops": "false"
+  - "**.sendPeriod": "1s"
+  - "**.numRend": 0
+  - "**.largestKey": 10
+  - "**.udp.constantDelay": "30ms"
+  - "**.udp.jitter": 0.1
+  - "**.packetSize": "1B"
+  - "**.datarate": "1Mbps"
+  - "**.lossTimeout": "10s"
+  - "**.upstream": "500kbps"
+  - "**.downstream": "6000kbps"

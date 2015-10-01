@@ -1,0 +1,45 @@
+---
+!Event
+
+Id: test
+
+Payload:
+  Fields:
+
+    - explicit_unbounded_field_name:
+        type: type_name
+        range: [unbounded, unbounded]
+
+    # Possible types of bounded fields
+    implicit_unbounded_field_name: [type: type_name]
+    explicit_unbounded_field_name: [type: type_name, range: [unbounded, unbounded]]
+    lower_bounded_field_name: [type: type_name, range: [0, unbounded]]
+    upper_bounded_field_name: [type: type_name, range: [unbounded, 10]]
+    lower_upper_bounded_field_name: [type: type_name, range: [0, 10]]
+
+    # Enumeration field
+    enumeration_field_name: [type: enum, values: [a, b, c]]
+
+  Partitioning:
+    key: [test, test2]
+
+Parameters:
+  scalars:
+    test_param_3: 5
+  presets: [preset_1, preset_2]
+
+Dimensions:
+  context:
+    affected:
+      radius: 50
+    ctype: city
+  validity:
+    predicate: t < 50
+  synchronisation:
+    lost: 0
+    compensated: 0
+    unordered: 1
+
+MetricLimits:
+  latency: [0, 100]
+  bandwidth: [100, unbounded]

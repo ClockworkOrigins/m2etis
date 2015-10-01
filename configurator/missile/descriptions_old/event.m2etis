@@ -1,0 +1,40 @@
+--- !Event
+application: !include /home/amw/PycharmProjects/yamlDSL/descriptions/app.m2etis
+
+metadata:
+  id: TestEvent
+  author:
+  version:
+  date:
+
+payload:
+  fields:
+    test: [int, public]
+    test2: float
+    test3: Long
+  key: [test, test2]
+
+parameters:
+  scalars:
+    test_param_3: 5
+  presets: [preset_1, preset_2]
+
+dimensions:
+  context:
+    affected:
+      radius: 50
+    ctype: city
+  validity:
+    predicate: t < 50
+  synchronisation:
+    lost: 0
+    compensated: 0
+    unordered: 1
+
+limits:
+  latency:
+    type: upper
+    value: 100
+  bandwidth:
+    type: lower
+    value: 100

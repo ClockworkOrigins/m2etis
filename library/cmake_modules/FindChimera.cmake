@@ -1,0 +1,50 @@
+# Find CHIMERA includes and library
+#
+# This module defines
+#  CHIMERA_INCLUDE_DIR
+#  CHIMERA_LIBRARIES, the libraries to link against to use Chimera.
+#  CHIMERA_LIB_DIR, the location of the libraries
+#  CHIMERA_FOUND, If false, do not try to use Chimera
+#
+# Copyright � 2007, Matt Williams
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+
+IF (CHIMERA_LIBRARIES AND CHIMERA_INCLUDE_DIR)
+    SET(CHIMERA_FIND_QUIETLY TRUE) # Already in cache, be silent
+ENDIF (CHIMERA_LIBRARIES AND CHIMERA_INCLUDE_DIR)
+
+IF (WIN32) #Windows
+    MESSAGE(STATUS "Looking for Chimera")
+    SET(CHIMERA_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/../dependencies/chimera/include/)
+    SET(CHIMERA_LIB_DIR ${CMAKE_SOURCE_DIR}/../dependencies/chimera/lib/win32/) 
+    SET(CHIMERA_LIBRARIES debug chimera optimized chimera)
+ELSE (WIN32) #Unix
+    MESSAGE(STATUS "Looking for Chimera")
+    SET(CHIMERA_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/../dependencies/chimera/include/)
+    SET(CHIMERA_LIB_DIR ${CMAKE_SOURCE_DIR}/../dependencies/chimera/lib/) 
+    SET(CHIMERA_LIBRARIES chimera CACHE STRING "")
+ENDIF (WIN32)
+
+SET(CHIMERA_INCLUDE_DIR ${CHIMERA_INCLUDE_DIR} CACHE PATH "" FORCE)
+SET(CHIMERA_LIB_DIR ${CHIMERA_LIB_DIR} CACHE PATH "" FORCE)
+SET(CHIMERA_LIBRARIES ${CHIMERA_LIBRARIES} CACHE STRING "" FORCE)
+
+MARK_AS_ADVANCED(CHIMERA_INCLUDE_DIR)
+MARK_AS_ADVANCED(CHIMERA_LIB_DIR)
+MARK_AS_ADVANCED(CHIMERA_LIBRARIES)
+
+IF (CHIMERA_INCLUDE_DIR AND CHIMERA_LIBRARIES)
+    SET(CHIMERA_FOUND TRUE)
+ENDIF (CHIMERA_INCLUDE_DIR AND CHIMERA_LIBRARIES)
+
+IF (CHIMERA_FOUND)
+    IF (NOT CHIMERA_FIND_QUIETLY)
+        MESSAGE(STATUS "  libraries : ${CHIMERA_LIBRARIES} from ${CHIMERA_LIB_DIR}")
+        MESSAGE(STATUS "  includes  : ${CHIMERA_INCLUDE_DIR}")
+    ENDIF (NOT CHIMERA_FIND_QUIETLY)
+ELSE (CHIMERA_FOUND)
+    IF (CHIMERA_FIND_REQUIRED)
+        MESSAGE(FATAL_ERROR "Could not find Chimera")
+    ENDIF (CHIMERA_FIND_REQUIRED)
+ENDIF (CHIMERA_FOUND)

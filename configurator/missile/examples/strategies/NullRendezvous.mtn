@@ -1,0 +1,14 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NullRendezvous
+  Description: ""
+
+Classification:
+  Type: Rendezvous
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: ""
+  Parameters: []

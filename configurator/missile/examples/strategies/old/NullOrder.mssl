@@ -1,0 +1,12 @@
+--- !Strategy
+
+metadata:
+  id: NullOrder
+  info: m2etis::message::NullOrderInfo
+
+parameters:
+  !!null ''
+
+classification:
+  type: order
+  description:

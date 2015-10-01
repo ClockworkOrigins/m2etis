@@ -1,0 +1,15 @@
+--- !Strategy
+metadata:
+  id: test3
+
+dimensions:
+  synchronisation:
+    lost: 1
+    compensated: 0
+    unordered: 1
+
+blacklist: [SpreadIt, Scribe]
+
+limits:
+
+costformula: 3*x^2+4*x

@@ -1,0 +1,12 @@
+--- !Strategy
+
+metadata:
+  id: NullSecurity
+  info: !!null ''
+
+parameters: !!null ''
+
+classification:
+  type: security
+  description:
+    enabled: False

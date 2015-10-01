@@ -1,0 +1,14 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NullSecurity
+  Description: ""
+
+Classification:
+  Type: Security
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: m2etis::message::NullSecurityInfo
+  Parameters: []

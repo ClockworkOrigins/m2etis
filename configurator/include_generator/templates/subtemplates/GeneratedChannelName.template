@@ -1,0 +1,6 @@
+$define_name
+        const static int CHANNEL_COUNT = $channel_count;
+        #define M2ETIS_CHANNELLIST $channel_names_list
+        enum ChannelName : unsigned int {
+            $channel_names_enum
+        };

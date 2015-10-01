@@ -1,0 +1,13 @@
+--- !Strategy
+
+metadata:
+  id: NullPartition
+  info: !!null ''
+
+parameters:
+  - "SimulationEventType"
+
+
+classification:
+  type: partition
+  description:

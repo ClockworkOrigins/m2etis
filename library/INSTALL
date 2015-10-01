@@ -1,0 +1,12 @@
+INSTALL documentation for m2etis
+
+
+OSX
+-----------------
+
+1. openssl libcrypt
+
+Before running CMake with an empty build tree, set the CMAKE_OSX_ARCHITECTURES environment variable. It should be set to contain a ; separated list of architectures that you want in the binary. For example, for 32-bit Intel you would do this:
+CMAKE_OSX_ARCHITECTURES=i386
+If you wish to build both as 32 and 64 bit, do this:
+CMAKE_OSX_ARCHITECTURES=i386;x86_64

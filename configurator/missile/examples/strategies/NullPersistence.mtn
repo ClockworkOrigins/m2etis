@@ -1,0 +1,14 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NullPersistence
+  Description: ""
+
+Classification:
+  Type: Persistence
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: m2etis::message::NullPersistenceInfo
+  Parameters: []

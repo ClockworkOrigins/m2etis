@@ -1,0 +1,39 @@
+/**
+ * \mainpage M2etis Documentation
+ *
+ * \section sec_main_overview Overview
+ *
+ * Massive Multiuser Event InfraStructure(M2etis) is a framework for optimizing event dissemination via a Peer-to-Peer(p2p) network
+ *
+ * \subsection subsec_architecture Architecture of M2etis
+ *
+ * \image html m2etis_Architektur.png
+ *
+ * \subsection subsec_uml UML diagram of M2etis
+ *
+ * \image html uml-diagramm.png
+ *
+ * \section sec_usage_user Usage by application
+ *
+ * The class \ref m2etis::pubsub::PubSubSystem is the main entry point of the PubSub-Component of M2etis.
+ * 
+ * \subsection subsec_example Code-Example
+ *
+ * \image html anwendersicht_code.png
+ *
+ * - line 15: inits a node on port 7000 which publishes messages
+ * - line 16: gets the instance of the channel "ANY_ALL" (every kind of message)
+ * - line 18-22: inits two nodes on port 7001 and 7002 and subscribes them at the channel "ANY_ALL"
+ * - line 27: publishes a message
+ * 
+ * \section sec_kbr_api Key based routing(KBR) API
+ *
+ * \ref m2etis::net::NetworkInterface represents the KBR-API. It is an abstraction of the basic functionality of P2P-Networks using KBR.
+ *
+ * \image html Routing_einer_Nachricht.png
+ *
+ * \section sec_pubsub_controller NetworkController
+ *
+ * \ref m2etis::net::NetworkController implements the \ref m2etis::net::NetworkCallbackInterface and represents the connection between the PubSub-Component and the P2P-Network. It has the needed functionality for \ref m2etis::pubsub::Channel for sending messages to the network
+ *
+ */

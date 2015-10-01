@@ -1,0 +1,75 @@
+/**
+ Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
+// TODO: (Daniel) namespace?
+
+/**
+ * \addtogroup net
+ * @ {
+ */
+
+#ifndef __KEYFACTORY_H__
+#define __KEYFACTORY_H__
+
+#include "m2etis/net/key/Key.h"
+
+/**
+ * \ingroup net
+ *
+ * \class KeyFactory
+ * \brief KeyFactory
+ *
+ * Long Desc
+ *
+ */
+template<class FactoryProvider, class KeyProvider>
+class KeyFactory : public FactoryProvider {
+public:
+	/**
+	 * \brief encodes a key
+	 *
+	 * \param[in] topic topic to encode
+	 * \return a key object
+	 */
+	m2etis::net::Key<KeyProvider> encodeTopic(const std::string & topic) {
+		return encode(topic);
+	}
+
+	/**
+	 * \brief creates a key
+	 *
+	 * \param[in] key key
+	 * \return a key object
+	 */
+	m2etis::net::Key<KeyProvider> createKey(const std::string & key) {
+		return Key(key);
+	}
+
+	/**
+	 * \brief creates a key
+	 *
+	 * \param[in] key key
+	 * \return a pointer to a key object
+	 */
+	m2etis::net::Key<KeyProvider> * createKeyPtr(const std::string & key) {
+		return new Key(key);
+	}
+};
+
+#endif /* __KEYFACTORY_H__ */
+
+/** @}
+ */

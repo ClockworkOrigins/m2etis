@@ -1,0 +1,15 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NullFilter
+  Description: ""
+
+Classification:
+  Type: Filter
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: ""
+  Parameters:
+    - SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>

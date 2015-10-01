@@ -1,0 +1,12 @@
+--- !Strategy
+
+metadata:
+  id: NullValidity
+  info: !!null ''
+
+parameters: !!null ''
+
+
+classification:
+  type: validity
+  description:

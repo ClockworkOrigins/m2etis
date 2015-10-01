@@ -1,0 +1,18 @@
+index 58eb54d..1fb420f 100644
+--- src/message.c
++++ src/message.c
+@@ -290,7 +290,13 @@ int message_send (void *chstate, ChimeraHost * host, Message * message,
+ 	 * [ type ] [ size ] [ key ] [ data ] 
+ 	 */
+ 
+-	if (host == NULL)
++        /* Johannes Held 17.11.2010
++         * added
++         *   host == 0
++         * you can set host to 0 if you want to stop the message routing.
++         * Don't know why it doesn't work with 0 before
++         */
++	if (host == NULL || host == 0)
+ 		return (0);
+ 
+ 	size = HEADER_SIZE + message->size;

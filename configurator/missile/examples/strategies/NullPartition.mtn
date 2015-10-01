@@ -1,0 +1,15 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NullPartition
+  Description: ""
+
+Classification:
+  Type: Partition
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: ""
+  Parameters:
+    - SimulationEventType

@@ -1,0 +1,362 @@
+IncludeGenerator: None
+
+Interpolator:
+
+  interpolation_parameters:
+    - "**.numSubs"
+    - "**.numPubs"
+  interpolation_metrics:
+    - "Latency - All nodes - Avg.mean"
+    - "Latency - All nodes - Min.mean"
+
+
+ParameterCollector:
+
+  intuitive_parameter_names:
+    "Number of Subscribers": "**.numSubs"
+    "Number of Publishers": "**.numPubs"
+    "Number of Publisher-Subscribers": "**.numPubSubs"
+    "Packet Size": "**.packetSize"
+    "Time between Messages": "**.sendPeriod"
+    "Number of Messages": "**.numToSend"
+    "Number of Messages during Burst": "**.burstAmount"
+    "Burst Duration": "**.burstDuration"
+    "Burst Frequency": "**.burstFrequency"
+    "Chance to Unsubscribe": "**.chanceToUnsubscribe"
+    "Time to Unsubscribe": "**.timeToUnsubscribe"
+    "Time to Subscribe": "**.timeToSubscribe"
+    "Drop Chance": "**.dropChance"
+    "Compensate dropped Messages": "**.compensateDrop"
+
+
+  channel_specific_parameters:
+    "**.numToSend": 0
+    "**.burstAmount": 0
+    "**.burstDuration": 0
+    "**.burstFrequency": 0
+    "**.chanceToUnsubscribe": 0
+    "**.timeToUnsubscribe": "0s"
+    "**.timeToSubscribe": "0s"
+    "**.dropChance": 0
+    "**.compensateDrop": "false"
+    "**.disableOverlay": "true"
+
+Simulator:
+
+  dependent_parameters:
+    "**.targetOverlayTerminalNum": {dependency: ["**.numSubs", "**.numPubs", "**.numPubSubs"]}
+
+
+  technical_parameters:
+    "*.underlayConfigurator.churnGeneratorTypes": "\"oversim.common.NoChurn\""
+    "**.overlayType": "\"oversim.overlay.pastry.PastryModules\""
+    "**.neighborCache.enableNeighborCache": "true"
+    "**.numTiers": 2
+    "**.tier1Type": "\"m2etis.middleware.M2etisPubSub\""
+    "**.tier2Type": "\"m2etis.applications.TupleFeeder.TupleFeederModules\""
+    "SimpleUnderlayNetwork.churnGenerator*.channelTypes": "\"m2etis.simple_m2etis_channel\""
+    "**.drawOverlayTopology": "true"
+    "**.measureNetwInitPhase": "false"
+    "**.useCommonAPIforward": "true"
+    "**.disableOverlay": "true"
+    "**.queueSize": "10MiB"
+
+# Configuration information for the Configurator
+Configurator:
+
+  path_to_application_description: "../missile/examples/applications/TestApplication.mssl"
+  path_to_network_description: "../missile/examples/networks/TestNetwork.mssl"
+  path_to_strategy_repository: "../missile/examples/strategies"
+
+  path_to_default_event_description: "../missile/examples/events/DefaultEvent.mssl"
+
+  m2etis_library_directory: "../../library"
+  m2etis_simulator_directory: "../../simulator"
+
+  database:
+    hostname: "localhost"
+    port: "27017"
+    db_name: "sianwahl_test"
+    collection_name: "application_cost_model"
+
+  dimension_mapping:
+
+    formal_dimensions:
+      - context
+      - synchronization
+      - validity
+      - persistency
+      - security
+      - rendezvous
+
+    formal_strategy_types:
+      context:
+        - Routing
+        - Filter
+      synchronization:
+        - Order
+        - Delivery
+      validity:
+        - Delivery
+        - Timeliness
+      persistency:
+        - Persistency
+      security:
+        - Security
+      rendezvous:
+        - Rendezvous
+
+    m2etis_strategy_types:
+      Routing:
+        - Routing
+      Filter:
+        - Filter
+        - Partition
+      Order:
+        - Order
+      Delivery:
+        - Deliver
+      Timeliness:
+        - Validity
+      Persistency:
+        - Persistence
+      Security:
+        - Security
+      Rendezvous:
+        - Rendezvous
+
+
+
+# Configuration information for the SimulationAutomator
+SimulationAutomator:
+
+  default_binary_path: &bin_path "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+  default_run_directory: &run_dir "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  default_user_name: &user_name "sianwahl"
+  
+  simulation_nodes:
+  - connection:
+      hostname: "faui6s1.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s2.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s3.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s4.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s5.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s6.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s7.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s8.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s9.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s10.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s11.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s12.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s13.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s15.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s1.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s2.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s3.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s4.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s5.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s6.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s7.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s8.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s9.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s10.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s11.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s12.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s13.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+  - connection:
+      hostname: "faui6s15.informatik.uni-erlangen.de"
+      port: "22"
+      username: *user_name
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: *bin_path
+      runDirectory: *run_dir
+

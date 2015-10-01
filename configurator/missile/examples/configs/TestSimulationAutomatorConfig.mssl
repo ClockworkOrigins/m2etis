@@ -1,0 +1,135 @@
+---
+simulation_nodes:
+  - connection:
+      hostname: "faui6s1.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s2.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s3.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s4.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s5.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s6.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s7.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s8.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s1.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s2.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s3.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s4.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s5.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s6.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s7.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+  - connection:
+      hostname: "faui6s8.informatik.uni-erlangen.de"
+      port: "22"
+      username: "sianwahl"
+      keyfile: "/home/i6stud/sianwahl/.ssh/id_rsa"
+    simulator:
+      binaryPath: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/src/m2etis-simulator"
+      runDirectory: "/home/i6stud/sianwahl/mt/m2etis/simulator/m2etis/simulations"
+database:
+  hostname: "localhost"
+  port: "27017"
+  db_name: "sianwahl_test"
+  collection_name: "simulations"

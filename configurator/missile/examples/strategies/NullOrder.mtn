@@ -1,0 +1,15 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NullOrder
+  Description: ""
+
+Classification:
+  Type: Order
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: m2etis::message::NullOrderInfo
+  Parameters:
+    - m2etis::net::NetworkType<m2etis::net::OMNET>

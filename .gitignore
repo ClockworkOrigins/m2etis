@@ -1,0 +1,12 @@
+/dependencies/boost
+/dependencies/clockUtils
+/dependencies/gflags
+/dependencies/glog
+/dependencies/gmock
+/dependencies/gperftools
+/library/dist
+CMakeCache.txt
+Makefile
+CMakeFiles/
+CTestTestfile.cmake
+cmake_install.cmake

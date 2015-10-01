@@ -1,0 +1,14 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NullValidity
+  Description: ""
+
+Classification:
+  Type: Validity
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: m2etis::message::NullValidityInfo
+  Parameters: []

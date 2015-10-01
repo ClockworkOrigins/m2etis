@@ -1,0 +1,21 @@
+--- !Strategy
+
+Identifier: XYZ
+
+Dimensions:
+  - synchronisation:
+      lost: 0
+      compensated: 0
+      unordered: 1
+
+StrategyBlacklist:
+  - SpreadIt
+  - Scribe
+
+MetricsLimits:
+  - latency:
+      Type: upper
+      Value: 100
+      Condition: numSubs > 200
+
+Costformula: 3*x^2+4*x

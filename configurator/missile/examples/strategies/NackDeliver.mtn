@@ -1,0 +1,19 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NackDeliver
+  Description: ""
+
+Classification:
+  Type: Deliver
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: m2etis::message::NackDeliverInfo
+  Parameters:
+    - m2etis::net::NetworkType<m2etis::net::OMNET>
+    - 5
+    - m2etis::pubsub::deliver::Amount::EXACTLY_ONCE
+
+

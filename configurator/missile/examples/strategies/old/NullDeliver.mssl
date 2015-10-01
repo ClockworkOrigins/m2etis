@@ -1,0 +1,11 @@
+--- !Strategy
+
+metadata:
+  id: NullDeliver
+  info: !!null ''
+
+parameters: !!null ''
+
+classification:
+  type: deliver
+  description:

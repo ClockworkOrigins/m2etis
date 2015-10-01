@@ -1,0 +1,11 @@
+--- !Strategy
+
+metadata:
+  id: SpreaditRouting
+  info: m2etis::message::SpreadItRoutingInfo<m2etis::net::NetworkType<m2etis::net::OMNET>>
+
+parameters: !!null ''
+
+classification:
+  type: routing
+  description:

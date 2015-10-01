@@ -1,0 +1,13 @@
+--- !Strategy
+
+metadata:
+  id: NullPersistence
+  info: !!null ''
+
+parameters: !!null ''
+
+
+classification:
+  type: persistence
+  description:
+    enabled: False

@@ -1,0 +1,63 @@
+--- !Event
+
+metadata:
+  id: TestEvent
+  author: Andreas M. Wahl
+  version: 1.0
+  date: 23.05.2013
+
+payload:
+  fields:
+
+    - testField1:
+        type: int
+        range:
+         from: 1
+         to: 10
+         step: 1
+
+    - testField2:
+         type: enum
+         values:
+           - a
+           - b
+           - c
+
+    - testField3:
+         type: int
+         values:
+           - 1
+           - 2
+           - 3
+
+  key:
+
+    - testField1
+    - testField2
+
+parameters:
+  scalars:
+    - Number of Publishers: 1
+
+  presets:
+
+    - RaidGroup
+
+dimensions:
+  context:
+    ctype: circle_space
+    affected:
+      - regionId
+      - radius: 5
+  synchronization:
+  validity:
+  security:
+    enabled: False
+  persistency:
+      enabled: False
+
+requirements:
+
+
+
+

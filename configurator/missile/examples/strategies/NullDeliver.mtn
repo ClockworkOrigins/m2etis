@@ -1,0 +1,16 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: NullDeliver
+  Description: ""
+
+Classification:
+  Type: Deliver
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: m2etis::message::NullDeliverInfo
+  Parameters:
+    - m2etis::net::NetworkType<m2etis::net::OMNET>
+

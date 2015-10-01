@@ -1,0 +1,19 @@
+--- !Strategy
+metadata:
+  id: test1
+
+dimensions:
+  synchronisation:
+    lost: 0
+    compensated: 0
+    unordered: 1
+
+blacklist: [SpreadIt, Scribe]
+
+limits:
+  latency:
+    type: upper
+    value: 100
+    condition: numSubs > 200
+
+costformula: 3*x^2+4*x

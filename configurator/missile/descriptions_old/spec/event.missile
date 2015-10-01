@@ -1,0 +1,62 @@
+---
+
+Identifier: hallo
+
+Payload:
+
+  Fields:
+
+    - explicit_unbounded_field_name:
+        type: type_name
+        range: [unbounded, unbounded]
+
+    - implicit_unbounded_field_name:
+        type: type_name
+
+    - explicit_unbounded_field_name:
+        type: type_name
+        range: [unbounded, unbounded]
+
+    - lower_bounded_field_name:
+        type: type_name
+        range: [0, unbounded]
+
+    - upper_bounded_field_name:
+        type: type_name
+        range: [unbounded, 10]
+
+    - lower_upper_bounded_field_name:
+        type: type_name
+        range: [0, 10]
+
+    - enumeration_field_name:
+        type: enum
+        values: [a, b, c]
+
+  Partition:
+    Key: [param1, param2]
+    Condition:
+    Size:
+
+
+Parameters:
+
+  Scalars:
+    - parameter1_name: 5
+    - parameter2_name: 10
+
+  PresetReferences:
+    - Preset_1
+    - Preset_2
+
+Dimensions:
+
+  Context:
+  Validity:
+  Synchronisation:
+
+MetricsRanges:
+
+  - Bandwidth: [10, unbounded]
+  - Latency: [unbounded, 100]
+

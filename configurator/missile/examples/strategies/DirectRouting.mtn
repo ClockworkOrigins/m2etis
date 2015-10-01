@@ -1,0 +1,15 @@
+--- !Strategy
+
+Metadata Description:
+  Identifier: DirectRouting
+  Description: ""
+
+Classification:
+  Type: Routing
+  Exclusions: []
+
+Configuration:
+  Configuration Class: ""
+  Configuration Information Class: m2etis::message::DirectRoutingInfo<m2etis::net::NetworkType<m2etis::net::OMNET>>
+  Parameters:
+    - m2etis::net::NetworkType<m2etis::net::OMNET>

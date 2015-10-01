@@ -1,0 +1,14 @@
+--- !Strategy
+
+metadata:
+  id: NullFilter
+  info: !!null ''
+
+parameters:
+  - "SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>"
+
+classification:
+  type: filter
+  description:
+
+blacklist:
