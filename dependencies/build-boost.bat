@@ -1,3 +1,11 @@
+SET ARCH=32
+IF [%1] == [64] (
+	SET ARCH=64
+)
+IF [%1] == [32] (
+	SET ARCH=32
+)
+
 call build-common.bat
 
 Set ARCHIVE=boost_1_58_0.tar.bz2
@@ -32,7 +40,7 @@ call bootstrap.bat
 
 if not exist b2.exe exit /b
 
-b2 toolset=msvc --with-date_time --with-filesystem --with-regex --with-serialization --with-system --with-thread link=shared threading=multi --layout=system variant=release install --prefix=%PREFIX% stage > NUL
+b2 toolset=msvc address-model=%ARCH% --with-date_time --with-filesystem --with-regex --with-serialization --with-system --with-thread link=shared threading=multi --layout=system variant=release install --prefix=%PREFIX% stage > NUL
 
 echo "Cleaning up"
 cd %DEP_DIR%
