@@ -40,6 +40,16 @@ IF(NOT CMAKE_BUILD_TYPE)
 		FORCE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 
+# Setting last version
+SET(LAST_VERSION_MAJOR 0)
+SET(LAST_VERSION_MINOR 3)
+SET(LAST_VERSION_PATCH 0)
+
+# Setting current version
+SET(VERSION_MAJOR 0)
+SET(VERSION_MINOR 4)
+SET(VERSION_PATCH 0)
+
 #---
 # Global Macros and Definitions
 #---
@@ -74,8 +84,8 @@ ELSEIF(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
 	SET (CMAKE_CXX_FLAGS_RELEASE		"${CXX_FLAGS} -O3 -DNDEBUG")
 	SET (CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${CXX_FLAGS} -O2 -g")
 ELSEIF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
-	set (CMAKE_CXX_FLAGS_DEBUG		"${CMAKE_CXX_FLAGS_DEBUG} /bigobj")
-	set (CMAKE_CXX_FLAGS_MINSIZEREL		"${CMAKE_CXX_FLAGS_MINSIZEREL} /bigobj")
+	set (CMAKE_CXX_FLAGS_DEBUG		"${CMAKE_CXX_FLAGS_DEBUG} /MP /bigobj")
+	set (CMAKE_CXX_FLAGS_MINSIZEREL		"${CMAKE_CXX_FLAGS_MINSIZEREL} /MP /bigobj")
 	set (CMAKE_CXX_FLAGS_RELEASE		"${CMAKE_CXX_FLAGS_RELEASE} /MP /bigobj")
 	set (CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /MP /bigobj")
 ELSE()
@@ -140,7 +150,6 @@ ENDIF(WITH_MESSAGECOMPRESSION)
 # Dependencies
 #
 #----------------------------------------------------
-
 
 #Boost
 #---------------------------------------------------
@@ -214,10 +223,6 @@ IF(WITH_LOGGING)
 	ENDIF(NOT WIN32)
 	include_directories(SYSTEM ${GLOG_INCLUDE_DIR})
 ENDIF(WITH_LOGGING)
-
-#SSL CRYPTO
-#----------------------------------------------------
-#FIND_PACKAGE(SSL REQUIRED)
 
 IF(WITH_PROFILING)
 	SET(LIBNAME "GPerfTools")
@@ -355,7 +360,6 @@ IF(WIN32)
 		execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different ${filename} ${CMAKE_BINARY_DIR}/dist)
 	endforeach()
 ENDIF(WIN32)
-
 
 # INSTALL
 install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})

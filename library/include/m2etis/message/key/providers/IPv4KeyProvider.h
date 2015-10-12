@@ -21,8 +21,6 @@
 
 #include "m2etis/message/key/Key.h"
 
-#include "boost/lexical_cast.hpp"
-
 namespace m2etis {
 namespace message {
 
@@ -39,7 +37,7 @@ namespace message {
 		}
 
 		inline std::string portStr() {
-			return boost::lexical_cast<std::string>(port);
+			return std::to_string(port);
 		}
 
 		inline uint16_t getPort() const {

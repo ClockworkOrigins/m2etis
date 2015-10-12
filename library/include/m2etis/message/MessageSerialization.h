@@ -34,7 +34,7 @@ namespace m2etis {
 namespace message {
 namespace serialization {
 
-	template <class NetworkType>
+	template<class NetworkType>
 	typename NetworkMessage<NetworkType>::Ptr deserializeNetworkMsg(const std::string & msg) {
 		std::stringstream objStringStream(msg);
 
@@ -56,7 +56,7 @@ namespace serialization {
 		return nm;
 	}
 
-	template <class MessageType>
+	template<class MessageType>
 	std::string serializeNetworkMsg(typename MessageType::Ptr msg) {
 		std::stringstream objStringStream;
 		boost::archive::text_oarchive objOArchive(objStringStream, boost::archive::no_header | boost::archive::no_codecvt | boost::archive::no_xml_tag_checking | boost::archive::archive_flags::no_tracking);
