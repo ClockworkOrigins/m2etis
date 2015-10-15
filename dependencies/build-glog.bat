@@ -21,7 +21,7 @@ if not exist %BUILD_DIR% exit /b
 echo "Building GLog"
 cd %BUILD_DIR%
 
-"%CMake3%"\cmake -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%ARCH%" .
+"%CMake3%"\cmake -DCMAKE_INSTALL_PREFIX=%PREFIX% -DBUILD_SHARED_LIBS=ON -G "%ARCH%" .
 
 MSBuild.exe google-glog.sln /p:Configuration=Release > NUL
 
