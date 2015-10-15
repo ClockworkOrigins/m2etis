@@ -1,41 +1,31 @@
+SET ARCH=Visual Studio 12
+IF [%1] == [64] (
+	SET ARCH=Visual Studio 12 Win64
+)
+IF [%1] == [32] (
+	SET ARCH=Visual Studio 12
+)
+
 call build-common.bat
 
-Set ARCHIVE=gflags-2.0-no-svn-files.tar
-Set BUILD_DIR=%TMP_DIR%/gflags-2.0
+Set ARCHIVE=gflags-2.1.2.zip
+Set BUILD_DIR=%TMP_DIR%/gflags-2.1.2
 Set PREFIX=%DEP_DIR%/gflags
 
 echo "Compile GFlags"
 
 call build-common.bat downloadAndUnpack %ARCHIVE% %BUILD_DIR%
 
-echo "Patching GFlags"
-
-cd %DEP_DIR%
-
-call download-dependency.bat gflags_2.0_patch_pre.zip
-
-cd %TMP_DIR%
-
-winrar.exe x gflags_2.0_patch_pre.zip
-
 echo "Building GFlags"
 cd %BUILD_DIR%
 
-for %%X in (devenv.exe) do (set FOUND=%%~$PATH:X)
-if not defined FOUND ( xcopy /S /Y "%TMP_DIR%/gflags_sln" "%BUILD_DIR%" ) else ( devenv gflags.sln /upgrade )
+cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%ARCH%" .
 
 MSBuild.exe gflags.sln /p:Configuration=Release > NUL
 
 echo "Installing GFlags"
-mkdir "%PREFIX%"
-mkdir "%PREFIX%/include"
-mkdir "%PREFIX%/lib"
-mkdir "%PREFIX%/include/gflags"
-xcopy /S /Y "%BUILD_DIR%/src" "%PREFIX%/include/gflags" > NUL
-xcopy /S /Y "%BUILD_DIR%/src/windows" "%PREFIX%/include/gflags" > NUL
-xcopy /S /Y "%BUILD_DIR%/src/windows/gflags" "%PREFIX%/include/gflags" > NUL
 
-xcopy /S /Y "%BUILD_DIR%/Release" "%PREFIX%/lib" > NUL
+MSBuild.exe INSTALL.vcxproj /p:Configuration=Release > NUL
 
 echo "Cleaning up"
 cd %DEP_DIR%

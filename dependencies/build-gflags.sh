@@ -5,8 +5,8 @@ cd "$(readlink "$(dirname "${0}")")"
 . ./build-common.sh
 
 # googletest
-ARCHIVE="gflags-2.0-no-svn-files.tar"
-BUILD_DIR="${BUILD_ROOT}/gflags-2.0"
+ARCHIVE="gflags-2.1.2.zip"
+BUILD_DIR="${BUILD_ROOT}/gflags-2.1.2"
 
 PREFIX="${DEP_DIR}/gflags/"
 DEBUG_FLAG=""
@@ -35,16 +35,12 @@ title "Compile Google Flags"
 
 status "Extracting Google Flags"
 cd "${BUILD_ROOT}"
-tar xvf "${ARCHIVE}" #>/dev/null
+unzip "${ARCHIVE}" #>/dev/null
 
 status "Configuring Google Flags"
 cd "${BUILD_DIR}"
 
-if [[ "$COMPILER" == "clang" ]]; then
-	CXXFLAGS="$STDLIB" CC=clang CXX=clang++ ./configure --prefix=${PREFIX}
-else
-	./configure --prefix=${PREFIX}
-fi
+cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -DCMAKE_CXX_COMPILER=${COMPILER} .
 
 status "Building Google Flags"
 make ${PARALLEL_FLAG} #>/dev/null
