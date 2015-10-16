@@ -107,7 +107,7 @@ namespace message {
         friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, unsigned int /* version */) {
-        	//ar & boost::serialization::base_object<KeyProvider>(*this);
+        	ar & boost::serialization::base_object<KeyProvider>(*this);
         }
 	};
 
