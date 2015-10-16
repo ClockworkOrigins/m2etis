@@ -28,13 +28,14 @@ namespace message {
 	public:
         typedef boost::shared_ptr<NullSecurityInfo> Ptr;
 
-        static bool doSerialize(ActionType t) {
+        static bool doSerialize(ActionType) {
         	return false;
         }
 
     private:
         friend class boost::serialization::access;
-		template <typename Archive> void serialize(Archive & ar, const unsigned int version) {
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
 			ar & boost::serialization::base_object<SecurityInfo>(*this);
 		}
 	};

@@ -31,7 +31,7 @@ namespace pubsub {
 
 namespace filter {
 
-	template <typename EventType, typename AttributeType>
+	template<typename EventType, typename AttributeType>
 	class AttributeFilter : public Predicate<EventType> {
 	public:
 		AttributeFilter() : attribute_id_(-1) {}
@@ -59,7 +59,7 @@ namespace filter {
 		virtual bool overlaps(const Predicate<EventType> * other_predicate) const override {
 			const AttributeFilter * other_attribute_filter = dynamic_cast<const AttributeFilter *>(other_predicate);
 
-			if (other_attribute_filter == 0) {
+			if (other_attribute_filter == nullptr) {
 				return true; // AttributeFilters for different attributes overlap
 			}
 			return overlaps(other_attribute_filter);
@@ -67,7 +67,7 @@ namespace filter {
 
 		virtual bool overlaps(const AttributeFilter *) const = 0;
 
-		template <typename OtherAttributeType>
+		template<typename OtherAttributeType>
 		bool overlaps(const AttributeFilter<EventType, OtherAttributeType> *) const {
 			return true; // filters with different attribute types overlap
 		}
@@ -90,9 +90,9 @@ namespace filter {
 		virtual size_t doHash() const {
 			// hash function should be improved:
 			if (constants_.empty()) {
-				return (std::hash<AttributeName>()(attribute_id_)^std::hash<std::string>()(std::string(typeid(*this).name())));
+				return (std::hash<AttributeName>()(attribute_id_) ^ std::hash<std::string>()(std::string(typeid(*this).name())));
 			} else {
-				return ((std::hash<AttributeName>()(attribute_id_)^std::hash<AttributeType>()(*(constants_.begin())))^std::hash<std::string>()(std::string(typeid(*this).name())));
+				return ((std::hash<AttributeName>()(attribute_id_) ^ std::hash<AttributeType>()(*(constants_.begin()))) ^ std::hash<std::string>()(std::string(typeid(*this).name())));
 			}
 		}
 
@@ -100,9 +100,9 @@ namespace filter {
 		std::vector<AttributeType> constants_;
 
 		friend class boost::serialization::access; // not sure if necessary
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<Predicate<EventType> >(*this);
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<Predicate<EventType>>(*this);
 			ar & attribute_id_;
 			ar & constants_;
 		}

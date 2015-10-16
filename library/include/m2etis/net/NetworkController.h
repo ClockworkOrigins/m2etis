@@ -144,7 +144,7 @@ namespace net {
 			msgQueue_.push(DeliverInfo(message));
 		}
 
-		void update(const typename NetworkType::Key & key, const typename NodeHandle<NetworkType>::Ptr_const handle, bool joined) {}
+		void update(const typename NetworkType::Key &, const typename NodeHandle<NetworkType>::Ptr_const, bool) {}
 
 		// methods provided for Topics
 		void send(typename message::NetworkMessage<NetworkType>::Ptr msg) {

@@ -46,7 +46,7 @@ namespace order {
 		/**
 		 * \brief no extra informations need to be stored
 		 */
-		bool configureOrderInfo(uint64_t id, const message::ActionType mtype, typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & rec) {
+		bool configureOrderInfo(uint64_t id, const message::ActionType, typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 			// no infos, just send
 			BaseOrder<NetworkType>::function_(id, msgProcess::MSG_PROCESS_AND_DELETE);
 			return true;
@@ -55,25 +55,25 @@ namespace order {
 		/**
 		 * \brief nothing has to be done on arrival
 		 */
-		void processSubscribePayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processSubscribePayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
 		 * \brief nothing has to be done on arrival
 		 */
-		void processPublishPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processPublishPayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
 		 * \brief called for every NotifyMsg that arrived
 		 */
-		void processNotifyPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processNotifyPayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
 		 * \brief nothing has to be done on arrival
 		 */
-		bool processControlPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		bool processControlPayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 			return false;
 		}
 
@@ -81,13 +81,13 @@ namespace order {
 		 * \brief this function is used to get the pointers to all other NullOrder instances of this Channel (other trees)
 		 * They are needed for multi-group ordering
 		 */
-		void otherOrders(const std::vector<NullOrder *> & others) {
+		void otherOrders(const std::vector<NullOrder *> &) {
 		}
 
 		/**
 		 * \brief deliver the message as soon as it arrived
 		 */
-		void receive(uint64_t id, typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void receive(uint64_t id, typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 			// deliver instant
 			BaseOrder<NetworkType>::function_(id, msgProcess::MSG_PROCESS_AND_DELETE);
 		}
@@ -95,7 +95,7 @@ namespace order {
 		/**
 		 * \brief notified when message dropped by filter or validity strategy
 		 */
-		void notifyRemovedMessage(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & receiver) {
+		void notifyRemovedMessage(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 	};
 

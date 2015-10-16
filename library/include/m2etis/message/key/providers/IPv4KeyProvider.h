@@ -73,7 +73,7 @@ namespace message {
 				std::stringstream ss(key.substr(pos, bytend));
 				int t;
 				ss >> t;
-				ip[i] = t;
+				ip[i] = int8_t(t);
 				pos = bytend + 1;
 			}
 			std::stringstream sport(key.substr(ipend + 1, key.length() - ipend - 1));

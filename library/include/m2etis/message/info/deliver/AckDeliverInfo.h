@@ -29,7 +29,7 @@ namespace message {
 
 		virtual ~AckDeliverInfo() {}
 
-		static bool doSerialize(const message::ActionType mtype) {
+		static bool doSerialize(const ActionType) {
 			return true;
 		}
 

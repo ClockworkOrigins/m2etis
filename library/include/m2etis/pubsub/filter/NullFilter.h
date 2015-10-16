@@ -32,7 +32,7 @@ namespace filter {
 	// registering a filter means to get the same number of events or more than before
 	// deregistering a filter means to get the same number of events or less than before
 
-	template <typename EventType, typename NetworkType>
+	template<typename EventType, typename NetworkType>
 	class NullFilter {
 	public:
 		typedef boost::shared_ptr<EventType> PayloadPtr;
@@ -52,16 +52,16 @@ namespace filter {
 		NullFilter() {}
 		virtual ~NullFilter() {}
 
-		void  getSubscribePayload(boost::shared_ptr<FilterExp<EventType> > filter, bool is_periodic_resubscribe, typename message::FilterInfo::Ptr filterInfo) {  // return boost::make_shared<m2etis::pubsub::filter::FilterExp<EventType> > (m2etis::pubsub::filter::TruePredicate<EventType>()); // return the predicate, it must be sent "up" and save it yourself
+		void getSubscribePayload(boost::shared_ptr<FilterExp<EventType>>, bool, typename message::FilterInfo::Ptr) {  // return boost::make_shared<m2etis::pubsub::filter::FilterExp<EventType> > (m2etis::pubsub::filter::TruePredicate<EventType>()); // return the predicate, it must be sent "up" and save it yourself
 			return;
 		}
 
-		void  getUnsubscribePayload(typename message::FilterInfo::Ptr filterInfo) {
+		void getUnsubscribePayload(typename message::FilterInfo::Ptr filterInfo) {
 			// perhaps send it "up" that it can be removed?
 			// return boost::make_shared<m2etis::pubsub::filter::FilterExp<EventType> > ();
 		}
 
-		FilterUnsubscribeInformation getUnsubscribePayload(typename message::FilterInfo::Ptr filterInfo, boost::shared_ptr<FilterExp<EventType> > filter) {
+		FilterUnsubscribeInformation getUnsubscribePayload(typename message::FilterInfo::Ptr, boost::shared_ptr<FilterExp<EventType>>) {
 			return FORWARDUNSUBSCRIBE;
 		}
 
@@ -69,29 +69,28 @@ namespace filter {
 			return ""; // prefilter or preprocess the message and give other nodes a hint
 		}
 
-		std::string processSubscribePayload(const typename NetworkType::Key & sender_key, typename message::FilterInfo::Ptr filterInfo) {
+		std::string processSubscribePayload(const typename NetworkType::Key &, typename message::FilterInfo::Ptr) {
 			return ""; // from sender, comes that filterinfo (maybe a predicate)
 		}
 
-		bool processUnsubscribePayload(const typename NetworkType::Key & sender_key, typename message::FilterInfo::Ptr filterInfo) {
+		bool processUnsubscribePayload(const typename NetworkType::Key &, typename message::FilterInfo::Ptr) {
 			return ""; // from sender, comes that filterinfo (maybe a predicate)
 		}
 
 		// called by routing strategy:
-		void processRoutingStrategyUnsubscribeNotification(const typename NetworkType::Key sender_key) {
+		void processRoutingStrategyUnsubscribeNotification(const typename NetworkType::Key) {
 		}
 
-		bool match(const typename NetworkType::Key & to, typename message::FilterInfo::Ptr filterInfo, PayloadPtr event) const {
-			return true; 	// Given the filterinfo (from getPublishPayload), the message and the recipient
-							// decide if he need's that message
+		bool match(const typename NetworkType::Key &, typename message::FilterInfo::Ptr, PayloadPtr) const {
+			return true; 	// Given the filterinfo (from getPublishPayload), the message and the recipient decide if he need's that message
 		}
 
 		// function matching against own dynamic_filters before delivering to application:
-		bool match(PayloadPtr event) const {
+		bool match(PayloadPtr) const {
 			return true;
 		}
 
-		void setSelf(const typename NetworkType::Key & self) {}
+		void setSelf(const typename NetworkType::Key &) {}
 
 	private:
 		typename FilterInfoType::Ptr cast(typename message::FilterInfo::Ptr ptr) const {

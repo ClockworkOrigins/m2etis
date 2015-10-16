@@ -45,8 +45,8 @@ namespace message {
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
 			ar & boost::serialization::base_object<FilterInfo>(*this);
 			ar & dynamic_filter_;
 		}

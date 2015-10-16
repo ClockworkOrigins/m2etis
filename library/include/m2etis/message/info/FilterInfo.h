@@ -41,8 +41,8 @@ namespace message {
 		virtual ~FilterInfo() {}
 
 		friend class boost::serialization::access; // not sure if necessary
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
 			ar & isUnsubscribe_;
 		}
 	};

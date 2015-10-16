@@ -34,7 +34,7 @@ namespace deliver {
 	public:
 		typedef message::NullDeliverInfo DeliverInfoType;
 
-		NullDeliver(PubSubSystemEnvironment * pssi, const typename NetworkType::Key & self) : BaseDeliver<NetworkType>(pssi) {
+		NullDeliver(PubSubSystemEnvironment * pssi, const typename NetworkType::Key &) : BaseDeliver<NetworkType>(pssi) {
 		}
 
 		virtual ~NullDeliver() {}
@@ -42,46 +42,46 @@ namespace deliver {
 		/**
 		 * \brief used to process payload
 		 */
-		bool processPublishPayload(typename message::DeliverInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		bool processPublishPayload(typename message::DeliverInfo::Ptr, const typename NetworkType::Key &) {
 			return true;
 		}
 
 		/**
 		 * \brief used to process payload
 		 */
-		bool processNotifyPayload(typename message::DeliverInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		bool processNotifyPayload(typename message::DeliverInfo::Ptr, const typename NetworkType::Key &) {
 			return true;
 		}
 
 		/**
 		 * \brief used to process payload
 		 */
-		bool processSubscribePayload(typename message::DeliverInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		bool processSubscribePayload(typename message::DeliverInfo::Ptr, const typename NetworkType::Key &) {
 			return true;
 		}
 
 		/**
 		 * \brief used to process payload
 		 */
-		bool processUnsubscribePayload(typename message::DeliverInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		bool processUnsubscribePayload(typename message::DeliverInfo::Ptr, const typename NetworkType::Key &) {
 			return true;
 		}
 
-		bool processOtherControlPayload(typename message::DeliverInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		bool processOtherControlPayload(typename message::DeliverInfo::Ptr, const typename NetworkType::Key &) {
 			return true;
 		}
 
 		/**
 		 * \brief creates the DeliverInfo
 		 */
-		void configureDeliverInfo(uint64_t id, const message::ActionType mtype, typename message::DeliverInfo::Ptr ptr, const typename NetworkType::Key & receiver, message::ControlType ct) {
+		void configureDeliverInfo(uint64_t id, const message::ActionType, typename message::DeliverInfo::Ptr, const typename NetworkType::Key &, message::ControlType) {
 			BaseDeliver<NetworkType>::process_(id, msgProcess::MSG_PROCESS_AND_DELETE);
 		}
 
 		/**
 		 * \brief processes Control Messages (id got acked)
 		 */
-		bool processControlPayload(typename message::DeliverInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		bool processControlPayload(typename message::DeliverInfo::Ptr, const typename NetworkType::Key &) {
 			return false;
 		}
 	};

@@ -36,7 +36,7 @@ namespace routing {
 		typedef std::vector<typename NetworkType::Key> KeyList;
 
 	public:
-		BaseRouting(unsigned int topic_name, PubSubSystemEnvironment * pssi) : sendCtrlMsg_() {
+		BaseRouting(unsigned int, PubSubSystemEnvironment *) : sendCtrlMsg_() {
 		}
 
 		virtual ~BaseRouting() {

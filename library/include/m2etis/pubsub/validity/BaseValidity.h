@@ -25,7 +25,7 @@ namespace validity {
 
 	class BaseValidity {
 	public:
-		explicit BaseValidity(PubSubSystemEnvironment * pssi) {}
+		explicit BaseValidity(PubSubSystemEnvironment *) {}
 		virtual ~BaseValidity() {}
 
 		/**

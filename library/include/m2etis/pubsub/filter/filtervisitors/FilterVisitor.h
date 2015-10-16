@@ -41,43 +41,43 @@ namespace filter {
 		virtual void Visit(const OrExp<EventType> *) = 0;
 		virtual void Visit(const Predicate<EventType> *) = 0;
 
-		virtual void getAttributeType(const GreaterThanAttributeFilter<EventType, std::string> * filter)  {
+		virtual void getAttributeType(const GreaterThanAttributeFilter<EventType, std::string> *)  {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType with const GreaterThanAttributeFilter<EventType, std::string> * called.");
 		}
 
-		virtual void getAttributeType(const GreaterThanAttributeFilter<EventType, int> * filter)  {
+		virtual void getAttributeType(const GreaterThanAttributeFilter<EventType, int> *)  {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType with const GreaterThanAttributeFilter<EventType, std::int> * called.");
 		}
 
-		virtual void getAttributeType(const LessThanAttributeFilter<EventType, std::string> * filter)  {
+		virtual void getAttributeType(const LessThanAttributeFilter<EventType, std::string> *)  {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType called.");
 		}
 
-		virtual void getAttributeType(const LessThanAttributeFilter<EventType, int> * filter)  {
+		virtual void getAttributeType(const LessThanAttributeFilter<EventType, int> *)  {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType called.");
 		}
 
-		virtual void getAttributeType(const EqualsAttributeFilter<EventType, std::string> * filter)  {
+		virtual void getAttributeType(const EqualsAttributeFilter<EventType, std::string> *)  {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType called.");
 		}
 
-		virtual void getAttributeType(const EqualsAttributeFilter<EventType, int> * filter)  {
+		virtual void getAttributeType(const EqualsAttributeFilter<EventType, int> *)  {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType called.");
 		}
 
-		virtual void getAttributeType(const NotEqualsAttributeFilter<EventType, std::string> * filter)  {
+		virtual void getAttributeType(const NotEqualsAttributeFilter<EventType, std::string> *)  {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType called.");
 		}
 
-		virtual void getAttributeType(const NotEqualsAttributeFilter<EventType, int> * filter)  {
+		virtual void getAttributeType(const NotEqualsAttributeFilter<EventType, int> *)  {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType called.");
 		}
 
-		virtual void getAttributeType(const AttributeFilter<EventType, std::string> * filter) {
+		virtual void getAttributeType(const AttributeFilter<EventType, std::string> *) {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType with const AttributeFilter<EventType, std::string> * called.");
 		}
 
-		virtual void getAttributeType(const AttributeFilter<EventType, int> * filter) {
+		virtual void getAttributeType(const AttributeFilter<EventType, int> *) {
 			M2ETIS_THROW_API("FilterVisitor", "unimplemented method getAttributeType with const AttributeFilter<EventType, int> * called.");
 		}
 

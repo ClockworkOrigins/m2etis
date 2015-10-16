@@ -27,16 +27,17 @@ namespace message {
 	template<class NetworkType>
 	class DirectRoutingInfo : public RoutingInfo<NetworkType> {
 	public:
-		typedef boost::shared_ptr<DirectRoutingInfo<NetworkType> > Ptr;
+		typedef boost::shared_ptr<DirectRoutingInfo<NetworkType>> Ptr;
 
-        static bool doSerialize(ActionType t) {
+        static bool doSerialize(ActionType) {
         	return false;
         }
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive> void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<RoutingInfo<NetworkType> >(*this);
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<RoutingInfo<NetworkType>>(*this);
 		}
 	};
 

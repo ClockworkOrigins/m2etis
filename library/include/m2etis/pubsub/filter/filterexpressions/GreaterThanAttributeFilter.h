@@ -23,11 +23,11 @@ namespace m2etis {
 namespace pubsub {
 namespace filter {
 
-	template <typename EventType, typename AttributeType> class EqualsAttributeFilter;
-	template <typename EventType, typename AttributeType> class NotEqualsAttributeFilter;
-	template <typename EventType, typename AttributeType> class LessThanAttributeFilter;
+	template<typename EventType, typename AttributeType> class EqualsAttributeFilter;
+	template<typename EventType, typename AttributeType> class NotEqualsAttributeFilter;
+	template<typename EventType, typename AttributeType> class LessThanAttributeFilter;
 
-	template <typename EventType, typename AttributeType>
+	template<typename EventType, typename AttributeType>
 	class GreaterThanAttributeFilter : public AttributeFilter<EventType, AttributeType> {
 	public:
 		typedef EventType schema; // needed for operator overloading
@@ -69,9 +69,9 @@ namespace filter {
 
 	 private:
 		friend class boost::serialization::access; // not sure if necessary
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<AttributeFilter<EventType, AttributeType> >(*this);
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<AttributeFilter<EventType, AttributeType>>(*this);
 		}
 	}; // GreaterThanAttributeFilter
 

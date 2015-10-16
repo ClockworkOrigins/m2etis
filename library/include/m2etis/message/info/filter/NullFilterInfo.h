@@ -28,18 +28,18 @@ namespace message {
 	template<class EventType>
 	class NullFilterInfo : public FilterInfo {
 	public:
-		typedef boost::shared_ptr<NullFilterInfo<EventType> > Ptr;
+		typedef boost::shared_ptr<NullFilterInfo<EventType>> Ptr;
 
-        static bool doSerialize(ActionType t) {
+        static bool doSerialize(ActionType) {
         	return false;
         }
 
-		boost::shared_ptr<pubsub::filter::FilterExp<EventType> > dynamic_filter_; // TODO: (Daniel) why is here a dynamic filter???
+		boost::shared_ptr<pubsub::filter::FilterExp<EventType>> dynamic_filter_; // TODO: (Daniel) why is here a dynamic filter???
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
 			ar & boost::serialization::base_object<FilterInfo>(*this);
 			ar & dynamic_filter_;
 		}

@@ -39,6 +39,11 @@
 
 #include "boost/bind.hpp"
 
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+	#pragma warning(push)
+	#pragma warning(disable : 4127)
+#endif
+
 namespace m2etis {
 namespace pubsub {
 
@@ -594,6 +599,10 @@ namespace pubsub {
 
 } /* namespace pubsub */
 } /* namespace m2etis */
+
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+	#pragma warning(pop)
+#endif
 
 #endif /* __M2ETIS_PUBSUB_TREE_H__ */
 

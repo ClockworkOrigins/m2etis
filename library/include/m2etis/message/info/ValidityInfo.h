@@ -28,7 +28,7 @@ namespace message {
 		ValidityInfo() {}
 
 		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int /*version*/) {
+		void serialize(Archive &, const unsigned int) {
 		}
 	};
 

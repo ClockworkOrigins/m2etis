@@ -23,12 +23,12 @@ namespace m2etis {
 namespace pubsub {
 namespace filter {
 
-	template <typename EventType>
+	template<typename EventType>
 	class OrExp : public FilterExp<EventType> {
 	public:
 		typedef EventType schema; // needed for operator overloading
 		OrExp() {} // for boost serialization
-		OrExp(const boost::shared_ptr<FilterExp<EventType> > op1, const boost::shared_ptr<FilterExp<EventType> > op2) : operand1_(op1), operand2_(op2) {}
+		OrExp(const boost::shared_ptr<FilterExp<EventType>> op1, const boost::shared_ptr<FilterExp<EventType>> op2) : operand1_(op1), operand2_(op2) {}
 		virtual ~OrExp() {}
 
 		virtual void Accept(FilterVisitor<EventType> & filter_visitor) const override {
@@ -37,7 +37,7 @@ namespace filter {
 			filter_visitor.Visit(this);
 		}
 
-		virtual operator boost::shared_ptr<FilterExp<EventType> >() const {
+		virtual operator boost::shared_ptr<FilterExp<EventType>>() const {
 			M2ETIS_LOG_DEBUG("OrExp", "conversion operator in FilterExp to shared_ptr<FilterExp<EventType>>. Originally only intented for debugging purposes");
 			return boost::make_shared<OrExp<EventType> >(*this);
 		}
@@ -48,8 +48,8 @@ namespace filter {
 		}
 
 	private:
-		boost::shared_ptr<FilterExp<EventType> > operand1_;
-		boost::shared_ptr<FilterExp<EventType> > operand2_;
+		boost::shared_ptr<FilterExp<EventType>> operand1_;
+		boost::shared_ptr<FilterExp<EventType>> operand2_;
 
 		virtual bool doCompare(const FilterExp<EventType> & other_filter) const override {
 			const OrExp * other_OrExp = dynamic_cast<const OrExp *>(&other_filter);
@@ -62,13 +62,13 @@ namespace filter {
 		}
 
 		virtual size_t doHash() const {
-			return std::hash<FilterExp<EventType> >()(*operand1_) ^ std::hash<FilterExp<EventType> > ()(*operand2_);
+			return std::hash<FilterExp<EventType>>()(*operand1_) ^ std::hash<FilterExp<EventType>>()(*operand2_);
 		}
 
 		friend class boost::serialization::access;
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<FilterExp<EventType> >(*this);
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<FilterExp<EventType>>(*this);
 			ar & operand1_;
 			ar & operand2_;
 		}

@@ -23,11 +23,11 @@ namespace m2etis {
 namespace pubsub {
 namespace filter {
 
-	template <typename EventType, typename NetworkType> class AttributeTypeInformation;
-	template <typename EventType, typename NetworkType> class DecisionTreeFilter;
-	template <typename EventType, typename NetworkType> class GeneralBooleanExpressionsFilter;
+	template<typename EventType, typename NetworkType> class AttributeTypeInformation;
+	template<typename EventType, typename NetworkType> class DecisionTreeFilter;
+	template<typename EventType, typename NetworkType> class GeneralBooleanExpressionsFilter;
 
-	template <typename EventType>
+	template<typename EventType>
 	class Predicate : public FilterExp<EventType> {
 	public:
 		virtual ~Predicate() {}
@@ -38,14 +38,14 @@ namespace filter {
 
 		virtual void getAttributeType(FilterVisitor<EventType> & visitor) const = 0;
 
-		virtual bool match(const EventType & event) const = 0; // TODO: (Roland) make abstract
-		virtual bool overlaps(const Predicate<EventType> * other_predicate) const { return true; } // implemented for serialization= 0;
+		virtual bool match(const EventType &) const = 0; // TODO: (Roland) make abstract
+		virtual bool overlaps(const Predicate<EventType> *) const { return true; } // implemented for serialization= 0;
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<FilterExp<EventType> >(*this);
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<FilterExp<EventType>>(*this);
 		}
 	}; // class Predicate
 

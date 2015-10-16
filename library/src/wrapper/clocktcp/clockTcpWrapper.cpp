@@ -33,7 +33,7 @@ namespace m2etis {
 namespace wrapper {
 namespace clocktcp {
 
-	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) :
+	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string &, const uint16_t) :
 		_initialized(true),
 		_local(listenIP + ":" + boost::lexical_cast<std::string>(listenPort)),
 		_lock(),
@@ -134,7 +134,7 @@ namespace clocktcp {
 		}
 	}
 
-	void clockTcpWrapper::registerMessageType(const message::MessageType type, const bool ack) const {
+	void clockTcpWrapper::registerMessageType(const message::MessageType, const bool) const {
 		if (!_initialized) {
 			M2ETIS_THROW_FAILURE("clockTcpWrapper - clockTcpWrapper not initialized", "Call init first!", -1);
 		}

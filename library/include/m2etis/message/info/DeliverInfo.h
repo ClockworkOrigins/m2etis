@@ -29,7 +29,8 @@ namespace message {
 
 		virtual ~DeliverInfo() {}
 
-		template <typename Archive> void serialize(Archive & ar, const unsigned int /*version*/) {}
+		template<typename Archive>
+		void serialize(Archive &, const unsigned int) {}
 	};
 
 } /* namespace message */

@@ -30,7 +30,7 @@ namespace message {
 
 		virtual ~NackDeliverInfo() {}
 
-		static bool doSerialize(const message::ActionType mtype) {
+		static bool doSerialize(const ActionType) {
 			return true;
 		}
 

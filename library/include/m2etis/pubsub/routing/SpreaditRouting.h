@@ -38,7 +38,7 @@ namespace m2etis {
 namespace pubsub {
 namespace routing {
 
-	template <class NetworkType>
+	template<class NetworkType>
 	class SpreaditRouting : public BaseRouting<NetworkType> {
 	public:
 		typedef message::SpreadItRoutingInfo<NetworkType> RoutingInfoType;
@@ -111,7 +111,7 @@ namespace routing {
 			return subscribed_;
 		}
 
-		void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) {
+		void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key &) {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 			switch (msgType) {
 			case message::SUBSCRIBE: {
@@ -282,11 +282,11 @@ namespace routing {
 			rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 		}
 
-		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key &, typename NetworkType::Key &, message::ActionType & msgType) {
 			msgType = message::NOTIFY;
 		}
 
-		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key &, typename NetworkType::Key &, message::ActionType &) {
 			if (subscriber_.empty()) {
 				routingInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 			}
@@ -374,6 +374,8 @@ namespace routing {
 
 			return purging_;
 		}
+
+		SpreaditRouting & operator=(const SpreaditRouting &);
 	};
 
 } /* namespace routing */

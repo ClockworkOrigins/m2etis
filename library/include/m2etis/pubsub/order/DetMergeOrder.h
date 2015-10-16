@@ -74,7 +74,7 @@ namespace order {
 		 * \brief configure Infos
 		 * This functions sets all necessary information for this message
 		 */
-		bool configureOrderInfo(uint64_t id, const message::ActionType mtype, typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & rec) {
+		bool configureOrderInfo(uint64_t id, const message::ActionType mtype, typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key &) {
 			if (mtype != message::PUBLISH) {
 				BaseOrder<NetworkType>::function_(id, msgProcess::MSG_PROCESS_AND_DELETE);
 				return true;
@@ -104,7 +104,7 @@ namespace order {
 		 * \brief process Control Messages
 		 * They are only used to sync
 		 */
-		bool processControlPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		bool processControlPayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 			assert(false);
 			return false;
 		}
@@ -112,32 +112,32 @@ namespace order {
 		/**
 		 * \brief this strategie doesn't care about subscribes
 		 */
-		void processSubscribePayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processSubscribePayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
 		 * \brief this strategie doesn't care about publish payloads here
 		 */
-		void processPublishPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processPublishPayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
 		 * \brief called for every NotifyMsg that arrived
 		 */
-		void processNotifyPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processNotifyPayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
 		 * \brief this strategie doesn't need the other trees
 		 */
-		void otherOrders(const std::vector<DetMergeOrder *> & others) {
+		void otherOrders(const std::vector<DetMergeOrder *> &) {
 		}
 
 		/**
 		 * \brief called when a message is received
 		 * This function updates the internal state of this strategie and pushes the msg in a queue
 		 */
-		void receive(uint64_t id, typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void receive(uint64_t id, typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key &) {
 			typename OrderInfoType::Ptr info = boost::static_pointer_cast<OrderInfoType>(ptr);
 			// Update time
 			rt = pssi_->scheduler_.getTime() / Config::raster;
@@ -178,7 +178,7 @@ namespace order {
 		/**
 		 * \brief notified when message dropped by filter or validity strategy
 		 */
-		void notifyRemovedMessage(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & receiver) {
+		void notifyRemovedMessage(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 	private:

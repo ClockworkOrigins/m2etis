@@ -26,7 +26,7 @@ const unsigned int FIRSTCHANNEL = 0;
 const unsigned int CHANNELAMOUNT = m2etis::pubsub::CHANNEL_COUNT;
 
 void testSerialization(m2etis::pubsub::ChannelName cn) {
-	m2etis::pubsub::PubSubSystem ps("127.0.0.1", 12345, "127.0.0.1", 12345, {"127.0.0.1"});
+	m2etis::pubsub::PubSubSystem ps("127.0.0.1", 12345, "127.0.0.1", 12345, { "127.0.0.1" });
 	std::string s;
 
 	m2etis::message::M2etisMessage::Ptr mm = ps.createMessage<CharVectorEventType>(cn);
@@ -35,31 +35,31 @@ void testSerialization(m2etis::pubsub::ChannelName cn) {
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size(), 80) << "Subscribe of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size(), 80u) << "Subscribe of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
 
 	*mm->typePtr = m2etis::message::UNSUBSCRIBE;
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size(), 80) << "Unsubscribe of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size(), 80u) << "Unsubscribe of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
 
 	*mm->typePtr = m2etis::message::CONTROL;
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size(), 80) << "Control of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size(), 80u) << "Control of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
 
 	*mm->typePtr = m2etis::message::PUBLISH;
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size(), 50) << "Publish of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size(), 50u) << "Publish of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
 
 	*mm->typePtr = m2etis::message::NOTIFY;
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size() , 50) << "Notify of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size() , 50u) << "Notify of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
 }
 
 TEST(M2etis, testSerializedMessages) {
@@ -75,7 +75,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 	std::vector<boost::shared_ptr<DCB>> _callbacks;
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		_pubSubs.push_back(boost::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, {"127.0.0.1"})));
+		_pubSubs.push_back(boost::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, { "127.0.0.1" })));
 		_callbacks.push_back(boost::shared_ptr<DCB>(new DCB()));
 	}
 
@@ -162,11 +162,11 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 	boost::this_thread::sleep(boost::posix_time::milliseconds(1000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < 50; ++i) {
-			for (unsigned short j = 0; j < NODE_AMOUNT; ++j) {
-				m2etis::message::M2etisMessage::Ptr m = _pubSubs[j]->createMessage<CharVectorEventType>(cn);
-				_pubSubs[j]->publish<CharVectorEventType>(cn, m);
-			}
+		for (unsigned short j = 0; j < NODE_AMOUNT; ++j) {
+			m2etis::message::M2etisMessage::Ptr m = _pubSubs[j]->createMessage<CharVectorEventType>(cn);
+			_pubSubs[j]->publish<CharVectorEventType>(cn, m);
 		}
+	}
 
 	boost::this_thread::sleep(boost::posix_time::milliseconds(1000 * NODE_AMOUNT));
 

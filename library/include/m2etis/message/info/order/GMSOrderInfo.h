@@ -40,7 +40,7 @@ namespace message {
 		/**
 		 * \brief serialise for ALL messages
 		 */
-		static bool doSerialize(ActionType t) {
+		static bool doSerialize(ActionType) {
 				return true;
 		}
 
@@ -76,7 +76,8 @@ namespace message {
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive> void serialize(Archive & ar, const unsigned int version) {
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
 			ar & boost::serialization::base_object<OrderInfo>(*this);
 			ar & msgNr;
 			ar & realTree;

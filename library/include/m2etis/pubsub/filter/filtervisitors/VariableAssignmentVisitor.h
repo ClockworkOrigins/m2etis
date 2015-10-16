@@ -52,7 +52,7 @@ namespace filter {
 		}
 
 		virtual void Visit(const Predicate<EventType> * current_predicate) override {
-			operand_stack_.push(static_cast<bool>(predicate_assignment_ & (1UL << predicate_number_)));
+			operand_stack_.push((predicate_assignment_ & (1UL << predicate_number_)) != 0);
 			predicate_index_[predicate_number_] = current_predicate;
 			++predicate_number_;
 		}

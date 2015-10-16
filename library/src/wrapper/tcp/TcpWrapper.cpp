@@ -215,7 +215,7 @@ namespace tcp {
 		}
 	}
 
-	void TcpWrapper::registerMessageType(const message::MessageType type, const bool ack) const {
+	void TcpWrapper::registerMessageType(const message::MessageType, const bool) const {
 		if (!_initialized) {
 			M2ETIS_THROW_FAILURE("TcpWrapper - TcpWrapper not initialized", "Call init first!", -1);
 		}
@@ -294,7 +294,7 @@ namespace tcp {
 		boost::asio::async_write(*(message.second), boost::asio::buffer(&(message.first[0]), message.first.size()), _strand__.wrap(boost::bind(&TcpWrapper::writeHandler, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)));
 	}
 
-	void TcpWrapper::writeHandler(const boost::system::error_code & error, const size_t bytesTransferred) {
+	void TcpWrapper::writeHandler(const boost::system::error_code & error, const size_t) {
 		boost::asio::ip::tcp::socket * sock = _outbox.front().second;
 		_outbox.pop_front();
 

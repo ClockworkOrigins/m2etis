@@ -63,21 +63,21 @@ namespace net {
 		return chimeracontroller_;
 	}
 #endif
-	NetworkController<NetworkType<TCP> > * NetworkFactory::createNetworkController(NetworkType<TCP> t) {
+	NetworkController<NetworkType<TCP> > * NetworkFactory::createNetworkController(NetworkType<TCP>) {
 		if (tcpcontroller_ == nullptr) {
 			tcpcontroller_ = new NetworkController<NetworkType<TCP> >(new wrapper::tcp::TcpWrapper(_listenIP, _listenPort, _connectIP, _connectPort), _pssi);
 		}
 		return tcpcontroller_;
 	}
 
-	NetworkController<NetworkType<UDP> > * NetworkFactory::createNetworkController(NetworkType<UDP> t) {
+	NetworkController<NetworkType<UDP> > * NetworkFactory::createNetworkController(NetworkType<UDP>) {
 		if (udpcontroller_ == nullptr) {
 			udpcontroller_ = new NetworkController<NetworkType<UDP> >(new wrapper::udp::UdpWrapper(_listenIP, _listenPort, _connectIP, _connectPort), _pssi);
 		}
 		return udpcontroller_;
 	}
 
-	NetworkController<NetworkType<clockTCP> > * NetworkFactory::createNetworkController(NetworkType<clockTCP> t) {
+	NetworkController<NetworkType<clockTCP> > * NetworkFactory::createNetworkController(NetworkType<clockTCP>) {
 		if (clocktcpcontroller_ == nullptr) {
 			clocktcpcontroller_ = new NetworkController<NetworkType<clockTCP> >(new wrapper::clocktcp::clockTcpWrapper(_listenIP, _listenPort, _connectIP, _connectPort), _pssi);
 		}

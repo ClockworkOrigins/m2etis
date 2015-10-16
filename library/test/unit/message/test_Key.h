@@ -29,7 +29,7 @@ TEST(KeyTest, CtorIPv4) {
     m2etis::message::Key<m2etis::message::IPv4KeyProvider> * p = new m2etis::message::Key<m2etis::message::IPv4KeyProvider>();
     EXPECT_EQ("0.0.0.0:0", p->toStr());
 
-    const m2etis::message::Key<m2etis::message::IPv4KeyProvider> k1("1.2.3.4:12345");
+    m2etis::message::Key<m2etis::message::IPv4KeyProvider> k1("1.2.3.4:12345");
     EXPECT_EQ("1.2.3.4:12345", k1.toStr());
 
 	// serialize

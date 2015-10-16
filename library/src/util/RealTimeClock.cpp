@@ -30,7 +30,7 @@ namespace util {
 		Stop();
 	}
 
-	uint64_t RealTimeClock::getCurrentTime(uint64_t oldTime) {
+	uint64_t RealTimeClock::getCurrentTime(uint64_t) {
 		return uint64_t(boost::posix_time::time_period(startTime_, boost::posix_time::microsec_clock::universal_time()).length().total_microseconds());
 	}
 

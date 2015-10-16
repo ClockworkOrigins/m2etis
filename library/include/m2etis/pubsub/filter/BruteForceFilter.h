@@ -57,7 +57,7 @@ namespace filter {
 		virtual ~BruteForceFilter() {
 		}
 
-		virtual void getSubscribePayload(boost::shared_ptr<FilterExp<EventType>> filter, bool is_periodic_resubscribe, typename message::FilterInfo::Ptr filterInfo) override {
+		virtual void getSubscribePayload(boost::shared_ptr<FilterExp<EventType>> filter, bool, typename message::FilterInfo::Ptr filterInfo) override {
 			// save filter if not yet stored:
 			dynamic_filters_[self_].insert(filter);
 

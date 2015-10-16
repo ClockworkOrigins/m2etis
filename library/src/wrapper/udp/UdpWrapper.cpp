@@ -57,7 +57,7 @@ namespace udp {
 		}
 	}
 
-	void UdpWrapper::handleReceive(const boost::system::error_code & error, size_t len, boost::asio::ip::udp::endpoint * re) {
+	void UdpWrapper::handleReceive(const boost::system::error_code &, size_t len, boost::asio::ip::udp::endpoint * re) {
 		std::vector<uint8_t> data(len);
 		for (size_t i = 0; i < len; i++) {
 			data[i] = recv_buf[i];
@@ -71,7 +71,7 @@ namespace udp {
 		workerFunc();
 	}
 
-	void UdpWrapper::handleReceive(boost::asio::ip::udp::socket * socket, std::string message, boost::asio::ip::udp::endpoint * endpoint, size_t len) {
+	void UdpWrapper::handleReceive(boost::asio::ip::udp::socket *, std::string message, boost::asio::ip::udp::endpoint * endpoint, size_t len) {
 		std::vector<uint8_t> v(message.begin(), message.begin() + std::string::difference_type(len));
 		std::string msgString(v.begin(), v.end());
 
@@ -121,7 +121,7 @@ namespace udp {
 		this->write();
 	}
 
-	void UdpWrapper::registerMessageType(const message::MessageType type, const bool ack) const {
+	void UdpWrapper::registerMessageType(const message::MessageType, const bool) const {
 		if (!_initialized) {
 			M2ETIS_THROW_FAILURE("UdpWrapper - UdpWrapper not initialized", "Call init first!", -1);
 		}
