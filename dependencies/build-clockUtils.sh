@@ -30,7 +30,7 @@ rm -rf "${PREFIX}"
 ./download-dependency.sh ${ARCHIVE} http://clockwork-origins.de/clockUtils/downloads/
 
 cd "${BUILD_ROOT}"
-unzip "${EX_DIR}/${ARCHIVE}" >/dev/null
+unzip "${ARCHIVE}" >/dev/null
 
 cd "${BUILD_DIR}"
 

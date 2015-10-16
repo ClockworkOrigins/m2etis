@@ -76,22 +76,12 @@ namespace routing {
 
 		uint64_t purgeID_;
 
-		DirectBroadcastRouting(const unsigned short topic_name, PubSubSystemEnvironment * pssi, const typename NetworkType::Key & root) : BaseRouting<NetworkType>(topic_name, pssi), periodic_(directbroadcast::RESUBSCRIPTION_INTERVAL), purge_distance_(directbroadcast::PURGE_DISTANCE), _pssi(pssi), _removed_subscribereventlistener(), topic_name_(topic_name), self_(), selfSubscribed_(false), _subscriber(), _purging(true), _newSubs(), _nodes(), _root(root) {
+		uint64_t registerID_;
+
+		DirectBroadcastRouting(const unsigned short topic_name, PubSubSystemEnvironment * pssi, const typename NetworkType::Key & root) : BaseRouting<NetworkType>(topic_name, pssi), periodic_(directbroadcast::RESUBSCRIPTION_INTERVAL), purge_distance_(directbroadcast::PURGE_DISTANCE), _pssi(pssi), _removed_subscribereventlistener(), purgeID_(), registerID_(), topic_name_(topic_name), self_(), selfSubscribed_(false), _subscriber(), _purging(true), _newSubs(), _nodes(), _root(root) {
 			purgeID_ = pssi->scheduler_.runRepeated(purge_distance_, boost::bind(&DirectBroadcastRouting::purgeList, this), 6);
-			pssi->scheduler_.runOnce(1, [this]() {
-				if (self_ != _root) {
-#if I6E_PLATFORM == I6E_PLATFORM_WIN32
-					RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
-#elif I6E_PLATFORM == I6E_PLATFORM_LINUX
-					typename RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
-#endif
-					newInfo->action = RoutingInfoType::RoutingType::REDIRECT;
-#if I6E_PLATFORM == I6E_PLATFORM_WIN32
-					sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
-#elif I6E_PLATFORM == I6E_PLATFORM_LINUX
-					BaseRouting<NetworkType>::sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
-#endif
-				}
+			registerID_ = pssi->scheduler_.runOnce(1, [this]() {
+				registerOnRoot();
 				return false;
 			}, 1);
 		}
@@ -99,6 +89,23 @@ namespace routing {
 		virtual ~DirectBroadcastRouting() {
 			_purging = false;
 			_pssi->scheduler_.stop(purgeID_);
+			_pssi->scheduler_.stop(registerID_);
+		}
+
+		void registerOnRoot() {
+			if (self_ != _root) {
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+				RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
+#elif I6E_PLATFORM == I6E_PLATFORM_LINUX
+				typename RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
+#endif
+				newInfo->action = RoutingInfoType::RoutingType::REDIRECT;
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+				sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
+#elif I6E_PLATFORM == I6E_PLATFORM_LINUX
+				BaseRouting<NetworkType>::sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
+#endif
+			}
 		}
 
 		void setSelf(const typename NetworkType::Key & self) {

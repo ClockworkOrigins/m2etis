@@ -105,6 +105,7 @@ namespace tcp {
 
 			boost::asio::ip::tcp::socket * newSocket = new boost::asio::ip::tcp::socket(_io_service);
 			_acceptor->async_accept(*newSocket, boost::bind(&TcpWrapper::handleAccept, this, boost::asio::placeholders::error, newSocket));
+			_sockets.insert(std::make_pair(_local, newSocket));
 		} catch(util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();

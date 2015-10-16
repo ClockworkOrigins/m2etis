@@ -23,7 +23,7 @@
 namespace m2etis {
 namespace util {
 
-	RealTimeClock::RealTimeClock(const boost::function<void(void)> & f) : startTime_(boost::posix_time::microsec_clock::universal_time()), update_(f), thread_(boost::bind(&RealTimeClock::clockUpdater, this)), _running(true) {
+	RealTimeClock::RealTimeClock(const boost::function<void(void)> & f) : startTime_(boost::posix_time::microsec_clock::universal_time()), update_(f), _running(true), thread_(boost::bind(&RealTimeClock::clockUpdater, this)) {
 	}
 
 	RealTimeClock::~RealTimeClock() {

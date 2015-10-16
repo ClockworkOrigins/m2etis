@@ -44,9 +44,9 @@ namespace util {
 
 		boost::function<void(void)> update_;
 
-		boost::thread thread_;
-
 		volatile bool _running;
+
+		boost::thread thread_;
 	};
 
 } /* namespace util */

@@ -114,9 +114,9 @@ namespace message {
 			return false;
 		}
 
-    private:
-        friend class boost::serialization::access;
-        template<class Archive>
+	private:
+		friend class boost::serialization::access;
+		template<class Archive>
 		void serialize(Archive & ar, unsigned int /*version*/) {
 			ar & ip;
 			ar & port;

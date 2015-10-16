@@ -119,6 +119,7 @@ namespace net {
 		virtual ~NetworkController() {
 			pssi_->scheduler_.stop(processingID_);
 			_running = false;
+			delete network_;
 			network_ = nullptr;
 		}
 

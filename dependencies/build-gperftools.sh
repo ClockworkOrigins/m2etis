@@ -65,8 +65,6 @@ cd "${BUILD_DIR}"
 # set readable
 chmod -R u+w .
 
-patch -p0 -i "${EX_DIR}/gperftools-gcc-4.7-siginfo.patch"
-
 status "Configuring GPerfTools"
 ./configure --libdir="${PREFIX}/lib" --prefix="${PREFIX}" --enable-frame-pointers ${BUILD_TYPE} >/dev/null
 
