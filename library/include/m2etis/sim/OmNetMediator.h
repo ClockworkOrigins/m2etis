@@ -51,7 +51,7 @@ namespace sim {
 		 * \param[in] known_hostname IP of the root node
 		 * \param[in] known_hostport port of the root node
 		 */
-		OmNetMediator(const std::string & ip, const int port, const std::string & known_hostname, const int known_hostport) : _nodeHandle(new net::NodeHandle<net::NetworkType<net::OMNET> >), _callback(NULL), _ocallback(NULL), _name(ip), _hostName(known_hostname), _listenPort(port), _hostPort(known_hostport), _root(_hostName + std::string(":") + boost::lexical_cast<std::string>(_hostPort)), _pubsub() {
+		OmNetMediator(const std::string & ip, const int port, const std::string & known_hostname, const int known_hostport) : _nodeHandle(new net::NodeHandle<net::NetworkType<net::OMNET> >), _callback(NULL), _ocallback(NULL), _name(ip), _hostName(known_hostname), _listenPort(port), _hostPort(known_hostport), _root(_hostName + std::string(":") + std::to_string(_hostPort)), _pubsub() {
 		}
 
 		/**

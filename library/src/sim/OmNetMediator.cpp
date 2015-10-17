@@ -83,7 +83,7 @@ namespace sim {
 
 	void OmNetMediator::registerMessageType(const net::NetworkType<net::OMNET>::MessageType type, const bool ack) const {
 		// not needed by Simulator, yet
-		// M2ETIS_LOG_INFO("OmNetMediator::registerMessageType", "called with type " + boost::lexical_cast<std::string>(type) + " and ack " + boost::lexical_cast<std::string>(ack));
+		// M2ETIS_LOG_INFO("OmNetMediator::registerMessageType", "called with type " + std::to_string(type) + " and ack " + std::to_string(ack));
 	}
 
 	// Methods used by underlying Network to send Messages to m2etis

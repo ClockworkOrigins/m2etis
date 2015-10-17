@@ -78,7 +78,7 @@ std::string convertEventToString(m2etis::pubsub::filter::Position position) {
 
 class Node: public m2etis::pubsub::BasicDeliverCallbackInterface<CurrentEventType> {
 public:
-    Node(std::string ip, unsigned int port, std::string hostname, unsigned int host_port, m2etis::pubsub::ChannelName cname, bool sscribe) : _subscribed(sscribe),  _pubsub(new m2etis::pubsub::PubSubSystem(ip, port, hostname, host_port, {hostname})), _chan(cname), _port(port) {
+    Node(std::string ip, unsigned int port, std::string hostname, uint16_t host_port, m2etis::pubsub::ChannelName cname, bool sscribe) : _subscribed(sscribe),  _pubsub(new m2etis::pubsub::PubSubSystem(ip, port, hostname, host_port, {hostname})), _chan(cname), _port(port) {
         if (_subscribed) {
             _pubsub->subscribe<CurrentEventType>(_chan, *this);
         }

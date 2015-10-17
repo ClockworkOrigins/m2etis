@@ -168,7 +168,7 @@ namespace pubsub {
 			M2ETIS_THROW_API("PubSubSystem", "Invalid call, initialize PubSubSystem first.");
 		}
 		if (channel >= channels_->count) {
-			M2ETIS_THROW_API("PubSubSystem", std::string("Invalid channel, enum exceeds CHANNEL_COUNT: ") + boost::lexical_cast<std::string>(channel));
+			M2ETIS_THROW_API("PubSubSystem", std::string("Invalid channel, enum exceeds CHANNEL_COUNT: ") + std::to_string(channel));
 		}
 		BasicChannelInterface<EventType> * const ret = dynamic_cast<BasicChannelInterface<EventType> * const>(channels_->channels()[channel]);
 		if (ret == NULL) {

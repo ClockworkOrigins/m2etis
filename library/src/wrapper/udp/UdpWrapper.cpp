@@ -77,7 +77,7 @@ namespace udp {
 
 		message::NetworkMessage<net::NetworkType<net::UDP>>::Ptr msg(message::serialization::deserializeNetworkMsg<net::NetworkType<net::UDP>>(msgString));
 
-		msg->sender = net::NetworkType<net::UDP>::Key(endpoint->address().to_string() + ":" + boost::lexical_cast<std::string>(endpoint->port()));
+		msg->sender = net::NetworkType<net::UDP>::Key(endpoint->address().to_string() + ":" + std::to_string(endpoint->port()));
 
 		_callback->deliver(msg);
 	}

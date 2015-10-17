@@ -19,7 +19,6 @@
 
 #include <iterator>
 
-#include "boost/lexical_cast.hpp"
 #include "boost/serialization/export.hpp"
 #include "boost/serialization/base_object.hpp"
 #include "boost/serialization/list.hpp"
@@ -45,7 +44,7 @@ namespace filter {
 		Position() {}
 
 		std::string toStr() const {
-			return region + ";" + boost::lexical_cast<std::string>(x) + ";" +  boost::lexical_cast<std::string>(y);
+			return region + ";" + std::to_string(x) + ";" +  std::to_string(y);
 		}
 
 		std::string get_region () const { return region; }
@@ -62,7 +61,7 @@ namespace filter {
 
 	private:
 		friend class boost::serialization::access;
-		template <class Archive>
+		template<class Archive>
 		void serialize(Archive & ar, const unsigned int) {
 			ar & issuer;
 			ar & region;

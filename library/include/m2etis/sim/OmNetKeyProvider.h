@@ -24,7 +24,6 @@
 
 #include "m2etis/message/key/Key.h"
 
-#include "boost/lexical_cast.hpp"
 #include "boost/serialization/array.hpp"
 
 namespace m2etis {

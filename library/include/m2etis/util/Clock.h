@@ -28,7 +28,6 @@
 
 #include "m2etis/util/Logger.h"
 
-#include "boost/lexical_cast.hpp"
 #include "boost/thread.hpp"
 
 namespace m2etis {

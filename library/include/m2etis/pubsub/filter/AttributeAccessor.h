@@ -24,7 +24,7 @@ namespace pubsub {
 namespace filter {
 
 	// maps attribute identifier for event type and attribute type to attribute value
-	template <typename EventType, typename AttributeType>
+	template<typename EventType, typename AttributeType>
 	class AttributeAccessor : public AttributeAccessor_Basic  {
 	public:
 		// constructor with pointer to EventType attribute member

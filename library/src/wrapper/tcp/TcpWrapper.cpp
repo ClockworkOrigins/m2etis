@@ -34,8 +34,8 @@ namespace tcp {
 
 	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) :
 		_initialized(true),
-		_local(listenIP + ":" + boost::lexical_cast<std::string>(listenPort)),
-		_rendezvouz(connectIP + ":" + boost::lexical_cast<std::string>(connectPort)),
+		_local(listenIP + ":" + std::to_string(listenPort)),
+		_rendezvouz(connectIP + ":" + std::to_string(connectPort)),
 		_io_service(),
 		_acceptor(),
 		_sockets(),
@@ -117,7 +117,7 @@ namespace tcp {
 			M2ETIS_THROW_FAILURE("TcpWrapper - Error accepting connection", error.message(), error.value());
 		}
 
-		message::Key<message::IPv4KeyProvider> k(socket->remote_endpoint().address().to_string() + ":" + boost::lexical_cast<std::string>(socket->remote_endpoint().port()));
+		message::Key<message::IPv4KeyProvider> k(socket->remote_endpoint().address().to_string() + ":" + std::to_string(socket->remote_endpoint().port()));
 
 		{
 			boost::mutex::scoped_lock l(lock_);
@@ -222,7 +222,7 @@ namespace tcp {
 	}
 
 	void TcpWrapper::readFromSocket(boost::asio::ip::tcp::socket * socket) {
-		net::NetworkType<net::TCP>::Key realKey(socket->remote_endpoint().address().to_string() + ":" + boost::lexical_cast<std::string>(socket->remote_endpoint().port()));
+		net::NetworkType<net::TCP>::Key realKey(socket->remote_endpoint().address().to_string() + ":" + std::to_string(socket->remote_endpoint().port()));
 		net::NetworkType<net::TCP>::Key metisKey = real2metis(realKey);
 		try {
 			boost::asio::streambuf buf;
