@@ -285,7 +285,6 @@ BOOST_CLASS_IMPLEMENTATION(m2etis::message::NullFilterInfo<CharVectorEventType>,
 BOOST_CLASS_EXPORT(m2etis::message::BruteForceFilterInfo<CharVectorEventType>) // TODO: (Roland) check if necessary
 BOOST_CLASS_IMPLEMENTATION(m2etis::message::BruteForceFilterInfo<CharVectorEventType>, boost::serialization::object_serializable)
 
-
 BOOST_CLASS_EXPORT(m2etis::message::NullOrderInfo)
 BOOST_CLASS_IMPLEMENTATION(m2etis::message::NullOrderInfo, boost::serialization::object_serializable)
 BOOST_CLASS_EXPORT(m2etis::message::DetMergeOrderInfo<m2etis::config::order::DetMergeConfigTest>)
@@ -297,11 +296,7 @@ BOOST_CLASS_IMPLEMENTATION(m2etis::message::GMSOrderInfo<m2etis::net::NetworkTyp
 BOOST_CLASS_EXPORT(m2etis::message::GMSOrderInfo<m2etis::net::NetworkType<m2etis::net::UDP>>)
 BOOST_CLASS_IMPLEMENTATION(m2etis::message::GMSOrderInfo<m2etis::net::NetworkType<m2etis::net::UDP>>, boost::serialization::object_serializable)
 
-
-//with char vector instead of position:
-
-
-//necessary exports to serialize filters
+// necessary exports to serialize filters
 BOOST_CLASS_EXPORT(m2etis::pubsub::filter::TruePredicate<CharVectorEventType>)
 BOOST_CLASS_EXPORT(m2etis::pubsub::filter::Predicate<CharVectorEventType>)
 typedef m2etis::pubsub::filter::EqualsAttributeFilter<CharVectorEventType, int> EQUALSCharVectorEventTypeINT;

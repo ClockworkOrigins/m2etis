@@ -43,22 +43,18 @@ namespace message {
 	class Key : public KeyProvider {
 	public:
 		/**
+		 * \brief Default constructor
+		 */
+		Key() : KeyProvider() {
+        }
+
+		/**
 		 * \brief Copy Constructor
 		 * \param[in] rval key to copy
 		 */
 		Key(const Key & rval) {
             KeyProvider::setKey(rval);
 		}
-
-		/**
-		 * \brief Standardconstructor
-		 */
-		Key() : KeyProvider() {
-        }
-
-        inline static size_t size() {
-            return KeyProvider::KEYLENGTH;
-        }
 
 		/**
       	 * \brief Constructor
@@ -70,7 +66,11 @@ namespace message {
 
         explicit Key(const std::vector<unsigned char> & val) : KeyProvider() {
             KeyProvider::deserialize(val);
-        }
+		}
+
+		inline static size_t size() {
+			return KeyProvider::KEYLENGTH;
+		}
 
 		/**
       	 * \brief Gets a string representation of the key
@@ -80,7 +80,6 @@ namespace message {
 		inline std::string toStr() const {
 			return KeyProvider::keytoStr();
 		}
-
 
         Key<KeyProvider> & operator=(const Key<KeyProvider> & rval) {
             KeyProvider::setKey(rval);
