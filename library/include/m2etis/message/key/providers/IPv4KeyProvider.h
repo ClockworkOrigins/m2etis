@@ -47,7 +47,7 @@ namespace message {
 		virtual ~IPv4KeyProvider() {}
 
 	protected:
-		IPv4KeyProvider() : port(0) {
+		IPv4KeyProvider() : ip(), port(0) {
 			for (int i = 0; i < 4; ++i) {
 				ip[i] = 0;
 			}
