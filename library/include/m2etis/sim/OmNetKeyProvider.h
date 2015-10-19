@@ -56,7 +56,7 @@ namespace sim {
 		std::string keytoStr() const {
 			std::ostringstream ret;
 
-			ret << static_cast<int>(ip[0]) << "." << static_cast<int>(ip[1]) << "." << static_cast<int>(ip[2]) << "." << static_cast<int>(ip[3])<< ":" << port;
+			ret << int(ip[0]) << "." << int(ip[1]) << "." << int(ip[2]) << "." << int(ip[3])<< ":" << port;
 
 			return ret.str();
 		}
