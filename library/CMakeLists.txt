@@ -359,6 +359,11 @@ IF(WIN32)
 	foreach(filename ${files})
 		execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different ${filename} ${CMAKE_BINARY_DIR}/dist)
 	endforeach()
+
+	configure_file(${CMAKE_SOURCE_DIR}/../config/build-archive.bat.in ${CMAKE_BINARY_DIR}/build-archive.bat @ONLY)
+	
+	add_custom_target(BuildReleaseSourceArchive COMMAND build-archive.bat WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	add_custom_target(BuildRevisionSourceArchive COMMAND build-archive.bat packageRevision WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 ENDIF(WIN32)
 
 # INSTALL

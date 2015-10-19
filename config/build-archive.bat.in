@@ -1,0 +1,49 @@
+@echo OFF
+
+IF "[%1]" == "[getRevision]" (goto getRevision)
+
+SET SUFFIX=@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@-src
+IF "[%1]" == "[packageRevision]" (for /f %%i in ('build-archive.bat getRevision') do SET SUFFIX=@LAST_VERSION_MAJOR@.@LAST_VERSION_MINOR@.@LAST_VERSION_PATCH@-src-rev%%i)
+
+SET archiveName=m2etis-%SUFFIX%
+
+mkdir "%archiveName%"
+mkdir "%archiveName%/dependencies"
+
+xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/../config" "@CMAKE_BINARY_DIR@/%archiveName%/config"
+xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/../docs" "@CMAKE_BINARY_DIR@/%archiveName%/docs"
+xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/../integrationtest" "@CMAKE_BINARY_DIR@/%archiveName%/integrationtest"
+xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/../library" "@CMAKE_BINARY_DIR@/%archiveName%/library"
+xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/../simulator" "@CMAKE_BINARY_DIR@/%archiveName%/simulator"
+
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-boost.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-boost.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-boost.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-boost.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-chimera.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-chimera.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-clockUtils.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-clockUtils.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-clockUtils.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-clockUtils.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-common.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-common.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-common.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-common.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-configurator.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-configurator.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-dependencies.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-dependencies.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-dependencies.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-dependencies.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-gflags.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-gflags.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-gflags.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-gflags.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-glog.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-glog.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-glog.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-glog.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-gmock.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-gmock.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-gmock.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-gmock.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-gperftools.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-gperftools.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-gperftools.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-gperftools.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/build-simulator.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-simulator.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/create_virtualenv.py" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/create_virtualenv.py*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/download-dependency.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/download-dependency.bat*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../dependencies/download-dependency.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/download-dependency.sh*"
+xcopy /F "@CMAKE_SOURCE_DIR@/../LICENSE" "@CMAKE_BINARY_DIR@/%archiveName%/LICENSE*"
+
+winrar a -afzip -df %archiveName%.zip %archiveName%
+exit /b
+
+:getRevision
+cd @CMAKE_SOURCE_DIR@
+git rev-list HEAD --count
+exit /b
