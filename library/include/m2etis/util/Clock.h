@@ -16,7 +16,7 @@
  */
 
 /**
- * \addtogroup core
+ * \addtogroup util
  * @ {
  */
 
@@ -33,12 +33,21 @@
 namespace m2etis {
 namespace util {
 
+	/**
+	 * \brief Clock for time handling, Updater is the implementation of the time, like a RealTimeClock measuring real time
+	 */
 	template<class Updater>
 	class Clock : public Updater {
 	public:
+		/**
+		 * \brief initializes Clock and propagates Update method to Updater
+		 */
 		Clock() : Updater(boost::bind(&Clock::Update, this)), timer_(), lock_(), usedIds_(0), systemTime_(0), running_(true), offset_(0) {
 		}
 
+		/**
+		 * \brief destructor
+		 */
 		~Clock() {
 			Updater::Stop();
 			running_ = false;
@@ -61,7 +70,7 @@ namespace util {
 		}
 
 		/**
-		 * \brief Will return the time since the Clock has been started
+		 * \brief Will return the real time since the Clock has been started
 		 *
 		 * \return Current time in microseconds
 		 */
@@ -69,45 +78,43 @@ namespace util {
 			return systemTime_;
 		}
 
-		void Update() {
-			if (!running_) {
-				return;
-			}
-			// Get current time.
-			boost::mutex::scoped_lock sl(lock_);
-			systemTime_ = Updater::getCurrentTime(systemTime_);
-			notifyTimer();
-		}
-
+		/**
+		 * \brief returns a new ID for a timer
+		 */
 		uint64_t registerTimer() {
 			std::pair<uint64_t, boost::condition_variable *> p(std::make_pair(UINT64_MAX, new boost::condition_variable()));
 
-			lock_.lock();
+			boost::mutex::scoped_lock lock(lock_);
 			uint64_t id = usedIds_++;
 			timer_[id] = p;
-			lock_.unlock();
 
 			return id;
 		}
 
+		/**
+		 * \brief frees a timer ID
+		 */
 		void unregisterTimer(uint64_t timerID) {
-			lock_.lock();
+			boost::mutex::scoped_lock lock(lock_);
 			delete timer_[timerID].second;
 			timer_.erase(timerID);
-			lock_.unlock();
 		}
 
+		/**
+		 * \brief updates the time a given timer has to wait
+		 */
 		void updateWaitTime(uint64_t timerID, uint64_t time) {
-			lock_.lock();
+			boost::mutex::scoped_lock lock(lock_);
 			if (time <= systemTime_ + offset_) {
 				timer_[timerID].second->notify_all();
-				lock_.unlock();
 				return;
 			}
 			timer_[timerID].first = time;
-			lock_.unlock();
 		}
 
+		/**
+		 * \brief timer with timerID will wait for time and then be unlocked again
+		 */
 		bool waitForTime(uint64_t timerID, uint64_t time) {
 			if (!running_) {
 				return false;
@@ -121,20 +128,23 @@ namespace util {
 			return running_;
 		}
 
+		/**
+		 * \brief gets state of the Clock
+		 */
 		bool isRunning() {
 			return running_;
 		}
 
+		/**
+		 * \brief sets offset of this Clock to adjust times over network
+		 */
 		void setOffset(int64_t offset) {
 			offset_ = offset;
 		}
 
 	private:
-		Clock(const Clock &) = delete;
-		Clock & operator=(const Clock &) = delete;
-
 		//        id            wakeuptime      variable
-		std::map<uint64_t, std::pair<uint64_t, boost::condition_variable *> > timer_;
+		std::map<uint64_t, std::pair<uint64_t, boost::condition_variable *>> timer_;
 
 		boost::mutex lock_;
 		uint64_t usedIds_;
@@ -146,6 +156,16 @@ namespace util {
 
 		volatile int64_t offset_;
 
+		void Update() {
+			if (!running_) {
+				return;
+			}
+			// Get current time.
+			boost::mutex::scoped_lock sl(lock_);
+			systemTime_ = Updater::getCurrentTime(systemTime_);
+			notifyTimer();
+		}
+
 		void notifyTimer() {
 			for (std::map<uint64_t, std::pair<uint64_t, boost::condition_variable *>>::iterator it = timer_.begin(); it != timer_.end(); ++it) {
 				if (systemTime_ + offset_ >= it->second.first) {
@@ -154,6 +174,9 @@ namespace util {
 				}
 			}
 		}
+
+		Clock(const Clock &) = delete;
+		Clock & operator=(const Clock &) = delete;
 	};
 
 } /* namespace util */

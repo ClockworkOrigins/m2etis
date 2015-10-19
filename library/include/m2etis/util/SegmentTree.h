@@ -12,7 +12,11 @@
  * WITHOUT  WARRANTIES  OR  CONDITIONS  OF  ANY  KIND,  either  express  or  implied.
  * See  the  License  for  the  specific  language  governing  permissions  and
  * limitations  under  the  License.
- *
+ */
+
+/**
+ * \addtogroup util
+ * @ {
  */
 
 #ifndef __M2ETIS_UTIL_SEGMENTTREE_H__
@@ -22,11 +26,13 @@
 
 #include "m2etis/util/Exceptions.h"
 
-#include "boost/thread/recursive_mutex.hpp"
-
 namespace m2etis {
 namespace util {
 
+	/**
+	 * \brief SegmentTree handles integer values and stores segments of set values
+	 * e.g. inserting values 2, 3 and 4 results in a segment [2,4]
+	 */
 	template<typename T>
 	class SegmentTree {
 	public:
@@ -37,6 +43,9 @@ namespace util {
 			_elements.clear();
 		}
 
+		/**
+		 * \brief inserts a value into the tree
+		 */
 		void insert(const T & value) {
 			if (contains(value)) {
 				return;
@@ -79,6 +88,9 @@ namespace util {
 			}
 		}
 
+		/**
+		 * \brief returns whether value is stored in the tree or not
+		 */
 		bool contains(const T & value) {
 			if (_elements.empty()) {
 				return false;
@@ -97,10 +109,16 @@ namespace util {
 			return false;
 		}
 
+		/**
+		 * \brief returns the amount of segments, is always <= count()
+		 */
 		unsigned int size() const {
 			return _elements.size();
 		}
 
+		/**
+		 * \brief returns the amount of stored elements
+		 */
 		unsigned int count() const {
 			unsigned int counter = 0;
 
@@ -112,10 +130,14 @@ namespace util {
 		}
 
 	private:
-		std::vector<std::pair<T, T> > _elements;
+		std::vector<std::pair<T, T>> _elements;
 	};
 
 } /* namespace util */
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_UTIL_SEGMENTTREE_H__ */
+
+/**
+ * @}
+ */

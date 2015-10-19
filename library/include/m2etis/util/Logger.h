@@ -14,6 +14,11 @@
  limitations under the License.
 */
 
+/**
+ * \addtogroup util
+ * @ {
+ */
+
 #ifndef __M2ETIS_UTIL_LOGGER_H__
 #define __M2ETIS_UTIL_LOGGER_H__
 
@@ -95,3 +100,7 @@ namespace log {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_UTIL_LOGGER_H__ */
+
+/**
+ * @}
+ */

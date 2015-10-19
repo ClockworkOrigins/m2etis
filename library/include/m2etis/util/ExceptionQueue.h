@@ -14,6 +14,11 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup util
+ * @ {
+ */
+
 #ifndef __M2ETIS_UTILS_EXCEPTIONQUEUE_H__
 #define __M2ETIS_UTILS_EXCEPTIONQUEUE_H__
 
@@ -29,7 +34,7 @@ namespace util {
 	 * \class ExceptionQueue
 	 * \brief Implements a queue that supports multiple producers but only one consumer.
 	 *
-	 * Implements a queue that supports multiple producers but only one consumer by using boost::mutex.
+	 * Implements a queue that supports multiple producers but only one consumer by using std::mutex.
 	 */
 	class ExceptionQueue {
 	private:
@@ -61,3 +66,7 @@ namespace util {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_UTILS_EXCEPTIONQUEUE_H__ */
+
+/**
+ * @}
+ */

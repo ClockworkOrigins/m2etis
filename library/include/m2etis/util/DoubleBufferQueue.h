@@ -15,6 +15,11 @@
  *
  */
 
+/**
+ * \addtogroup util
+ * @ {
+ */
+
 #ifndef __M2ETIS_UTIL_DOUBLEBUFFERQUEUE_H__
 #define __M2ETIS_UTIL_DOUBLEBUFFERQUEUE_H__
 
@@ -152,3 +157,7 @@ namespace util {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_UTIL_DOUBLEBUFFERQUEUE_H__ */
+
+/**
+ * @}
+ */
