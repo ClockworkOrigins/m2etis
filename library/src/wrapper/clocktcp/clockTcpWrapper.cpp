@@ -74,7 +74,7 @@ namespace clocktcp {
 				});
 			boost::mutex::scoped_lock l(_lock);
 			_sockets[_local] = newSocket;
-		} catch(util::SystemFailureException & e) {
+		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 		}
@@ -114,7 +114,7 @@ namespace clocktcp {
 				return;
 			}
 			_sockets.find(realKey)->second->writePacketAsync(std::vector<uint8_t>(ser.begin(), ser.end()));
-		} catch(util::SystemFailureException & e) {
+		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 

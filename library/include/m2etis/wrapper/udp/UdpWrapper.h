@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup wrapper
+ * @ {
  */
 
 #ifndef __M2ETIS_WRAPPER_UDP_UDPWRAPPER_H__
@@ -32,39 +37,11 @@
 namespace m2etis {
 namespace wrapper {
 namespace udp {
-
-    class UdpWrapper : public net::NetworkInterface<net::NetworkType<net::UDP> > {
-	private:
-		typedef std::pair<std::vector<unsigned char>, message::Key<message::IPv4KeyProvider>> msgPair;
-
-		bool _initialized;
-		std::string _name;
-		std::string _hostName;
-		uint16_t _listenPort;
-		uint16_t _hostPort;
-		boost::asio::io_service _io_service;
-		boost::asio::ip::udp::socket * _socket;
-		net::NetworkType<net::UDP>::Key _root;
-
-		std::vector<boost::thread *> threads_;
-		boost::array<uint8_t, 1048576> recv_buf;
-
-		void workerFunc();
-
-		void handleReceive(boost::asio::ip::udp::socket * socket, std::string message, boost::asio::ip::udp::endpoint * endpoint, size_t len);
-		void handleReceive(const boost::system::error_code & error, size_t len, boost::asio::ip::udp::endpoint * re);
-
-		UdpWrapper(const UdpWrapper &) = delete;
-		UdpWrapper & operator=(const UdpWrapper & rhs) = delete;
-
-		boost::asio::io_service::strand _strand__;
-		// buffers messages till they got sent
-		std::deque<msgPair> _outbox;
-		boost::asio::io_service::work _work; // keeps the io_service running
-
-		boost::asio::ip::udp::endpoint * _endpoint;
-		boost::asio::ip::udp::endpoint * _remote_endpoint;
-
+	
+	/**
+	 * \brief creates connections using boosts UdpSocket
+	 */
+    class UdpWrapper : public net::NetworkInterface<net::NetworkType<net::UDP>> {
 	public:
 		UdpWrapper(const std::string & ownIP, uint16_t listenPort, const std::string & hostIP, uint16_t hostPort) :
 			_initialized(false),
@@ -144,7 +121,7 @@ namespace udp {
 		}
 
 		/**
-		 * \brief Momentan geschieht hier nichts. Es werden alle MsgTypes delivered. Untescheidung muss eine Schicht drüber gemacht werden.
+		 * \brief Not used right now
 		 */
 		void registerMessageType(const message::MessageType type, const bool ack) const;
 
@@ -152,12 +129,35 @@ namespace udp {
 			return _root;
 		}
 
+	private:
+		typedef std::pair<std::vector<unsigned char>, message::Key<message::IPv4KeyProvider>> msgPair;
+
+		bool _initialized;
+		std::string _name;
+		std::string _hostName;
+		uint16_t _listenPort;
+		uint16_t _hostPort;
+		boost::asio::io_service _io_service;
+		boost::asio::ip::udp::socket * _socket;
+		net::NetworkType<net::UDP>::Key _root;
+
+		std::vector<boost::thread *> threads_;
+		boost::array<uint8_t, 1048576> recv_buf;
+
+		boost::asio::io_service::strand _strand__;
+		// buffers messages till they got sent
+		std::deque<msgPair> _outbox;
+		boost::asio::io_service::work _work; // keeps the io_service running
+
+		boost::asio::ip::udp::endpoint * _endpoint;
+		boost::asio::ip::udp::endpoint * _remote_endpoint;
+
 		void write(const std::vector<uint8_t> & message, message::Key<message::IPv4KeyProvider> key);
 
 		void writeImpl(const std::vector<uint8_t> & message, message::Key<message::IPv4KeyProvider> key);
 
 		void write() {
-			while(!_outbox.empty() && _initialized) {
+			while (!_outbox.empty() && _initialized) {
 				msgPair & message = _outbox[0];
 				boost::asio::ip::udp::resolver resolver(_io_service);
 				boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), message.second.ipStr(), message.second.portStr());
@@ -168,6 +168,14 @@ namespace udp {
 				_outbox.pop_front();
 			}
 		}
+
+		void workerFunc();
+
+		void handleReceive(boost::asio::ip::udp::socket * socket, std::string message, boost::asio::ip::udp::endpoint * endpoint, size_t len);
+		void handleReceive(const boost::system::error_code & error, size_t len, boost::asio::ip::udp::endpoint * re);
+
+		UdpWrapper(const UdpWrapper &) = delete;
+		UdpWrapper & operator=(const UdpWrapper & rhs) = delete;
 	};
 
 } /* namespace udp */
@@ -176,3 +184,6 @@ namespace udp {
 
 #endif /* __M2ETIS_WRAPPER_UDP_UDPWRAPPER_H__ */
 
+/**
+ * @}
+ */

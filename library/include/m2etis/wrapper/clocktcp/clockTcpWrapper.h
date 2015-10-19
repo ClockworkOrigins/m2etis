@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,11 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup wrapper
+ * @ {
+ */
+
 #ifndef __M2ETIS_WRAPPER_CLOCKTCPWRAPPER_H__
 #define __M2ETIS_WRAPPER_CLOCKTCPWRAPPER_H__
 
@@ -27,21 +32,30 @@
 
 namespace boost {
 	class thread;
-}
+} /* namespace boost */
 namespace clockUtils {
-	namespace sockets {
-		class TcpSocket;
-	}
-}
+namespace sockets {
+	class TcpSocket;
+} /* namespace sockets */
+} /* namespace clockUtils */
 
 namespace m2etis {
 namespace wrapper {
 namespace clocktcp {
 
+	/**
+	 * \brief creates connections using clockUtils' TcpSocket
+	 */
 	class clockTcpWrapper : public net::NetworkInterface<net::NetworkType<net::clockTCP>> {
 	public:
+		/**
+		 * \brief starts a TcpSocket connection listening
+		 */
 		clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort);
 
+		/**
+		 * \brief closes socket and all its connections
+		 */
 		~clockTcpWrapper();
 
 		/**
@@ -69,7 +83,7 @@ namespace clocktcp {
 		}
 
 		/**
-		 * \brief Momentan geschieht hier nichts. Es werden alle MsgTypes delivered. Unteescheidung muss eine Schicht drüber gemacht werden.
+		 * \brief Doesn't do anything right now
 		 */
 		void registerMessageType(const message::MessageType type, const bool ack) const;
 
@@ -113,3 +127,7 @@ namespace clocktcp {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_WRAPPER_CLOCKTCPWRAPPER_H__ */
+
+/**
+ * @}
+ */
