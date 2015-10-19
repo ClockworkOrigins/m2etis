@@ -52,18 +52,17 @@ namespace tcp {
 		~TcpWrapper();
 
 		/**
-		 * \brief ruft die andere send methode auf
+		 * \brief calls the other send method
 		 */
 		void send(const message::NetworkMessage<net::NetworkType<net::TCP>>::Ptr msg, net::NodeHandle<net::NetworkType<net::TCP>>::Ptr_const hint);
 
 		/**
-		 * \brief Schickt type(Dann Trennung durch "/") und payload(als char*) in einem stream buff an to (ip:port )
+		 * \brief sends message
 		 */
 		void send(const message::NetworkMessage<net::NetworkType<net::TCP>>::Ptr msg);
 
 		/**
-		 * \brief Gibt Pointer mit eigenen Daten zurück
-		 * \return Im Pointer steht der _name, _port und key aus (_name:_port)
+		 * \brief returns pointer with own data
 		 */
 		net::NodeHandle<net::NetworkType<net::TCP>>::Ptr getSelfNodeHandle() const {
 			if (!_initialized) {
@@ -79,10 +78,13 @@ namespace tcp {
 		}
 
 		/**
-		 * \brief Momentan geschieht hier nichts. Es werden alle MsgTypes delivered. Unteescheidung muss eine Schicht drüber gemacht werden.
+		 * \brief Not used right now
 		 */
 		void registerMessageType(const message::MessageType type, const bool ack) const;
-
+		
+		/**
+		 * \brief returns root node
+		 */
 		net::NetworkType<net::TCP>::Key getRoot() const {
 			return _rendezvouz;
 		}
