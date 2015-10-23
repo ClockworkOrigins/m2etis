@@ -45,7 +45,6 @@ TEST(Scheduler, Once) {
 	sched.runOnce(75000, boost::bind(&func1, cl.getTime() + 75000, &cl, 1), 1);
 	for (int i = 0; i < 40; ++i) {
 		boost::this_thread::sleep(boost::posix_time::milliseconds(5));
-		cl.Update();
 	}
 	EXPECT_EQ(func1_counter, 5);
 }
@@ -73,7 +72,6 @@ TEST(Scheduler, RepeatOnce) {
 	sched.runRepeated(75000, boost::bind(func2, cl.getTime() + 75000, &cl, &sched, 4), 1);
 	for (int i = 0; i < 40; ++i) {
 		boost::this_thread::sleep(boost::posix_time::milliseconds(5));
-		cl.Update();
 	}
     int b[] = {0, 4, 3, 5, 1, 2};
 	std::vector<int> ref(b, b + sizeof(b) / sizeof(int));

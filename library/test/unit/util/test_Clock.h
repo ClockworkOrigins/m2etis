@@ -28,7 +28,6 @@ TEST(Clock, RealTime) {
     	lastTime += 2000;
     	for(int i = 1; i < 10; ++i) {
     		boost::this_thread::sleep(boost::posix_time::milliseconds(50));
-    		clock.Update();
     		// set the value on the right to anything that will work. As long it is << 50.000
     		// the test is ok. It's just .. this loop takes more than 0 microsecssecs
     		long a = clock.getTime();
@@ -65,12 +64,10 @@ TEST(Clock, Notifies) {
     	boost::thread(boost::bind(func, clock)).detach();
     	for (int i = 0; i < 20; ++i) {
     		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
-    		clock->Update();
     	}
     	EXPECT_FALSE(done);
     	for (int i = 0; i < 30; ++i) {
     		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
-    		clock->Update();
     	}
     	EXPECT_TRUE(done);
     	delete clock;
