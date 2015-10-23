@@ -54,6 +54,9 @@ namespace util {
 		 */
 		void Stop();
 
+	protected:
+		void Init();
+
 	private:
 		const boost::posix_time::ptime startTime_;
 

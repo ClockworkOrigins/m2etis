@@ -67,16 +67,6 @@ namespace pubsub {
 		}
 
 		~Scheduler() {
-			running_ = false;
-			lock_.lock();
-			while (!queue_.empty()) {
-				queue_.pop();
-			}
-			lock_.unlock();
-#ifndef WITH_SIM
-			worker_.interrupt();
-			worker_.join();
-#endif
 			// FIXME: this won't be enough since the object doesn't exist anymore, but the thread hasn't shut down yet
 		}
 
@@ -123,6 +113,22 @@ namespace pubsub {
 			lock_.lock();
 			stopMap_[id] = true;
 			lock_.unlock();
+		}
+
+		/**
+		 * \brief Stops whole Scheduler and removes all tasks
+		 */
+		void Stop() {
+			running_ = false;
+			lock_.lock();
+			while (!queue_.empty()) {
+				queue_.pop();
+			}
+			lock_.unlock();
+#ifndef WITH_SIM
+			worker_.interrupt();
+			worker_.join();
+#endif
 		}
 
 #ifdef WITH_SIM
