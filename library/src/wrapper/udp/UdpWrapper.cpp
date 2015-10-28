@@ -51,7 +51,7 @@ namespace udp {
 			// start receiving again
 			boost::system::error_code error;
 			_socket->async_receive_from(boost::asio::buffer(recv_buf, parameters::UDPWRAPPER_SIZE), *_remote_endpoint, boost::bind(&UdpWrapper::handleReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, _remote_endpoint));
-		} catch(util::SystemFailureException & e) {
+		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 		}

@@ -33,6 +33,7 @@ namespace pubsub {
 	PubSubSystem::~PubSubSystem() {
 		_running = false;
 		_pssi->scheduler_.stop(exceptionID_);
+		_pssi->scheduler_.Stop();
 		delete channels_;
 		delete _pssi;
 		_exceptionCallbacks.clear();

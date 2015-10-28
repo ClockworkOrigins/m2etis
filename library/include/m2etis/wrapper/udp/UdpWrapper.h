@@ -163,10 +163,10 @@ namespace udp {
 				msgPair & message = _outbox[0];
 				boost::asio::ip::udp::resolver resolver(_io_service);
 				boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), message.second.ipStr(), message.second.portStr());
-				boost::asio::ip::udp::endpoint * endpoint = new boost::asio::ip::udp::endpoint(*resolver.resolve(query));
+				boost::asio::ip::udp::endpoint endpoint(*resolver.resolve(query));
 				boost::system::error_code err;
 
-				_socket->send_to(boost::asio::buffer(message.first), *endpoint);
+				_socket->send_to(boost::asio::buffer(message.first), endpoint);
 				_outbox.pop_front();
 			}
 		}

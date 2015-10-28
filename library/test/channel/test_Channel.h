@@ -35,37 +35,37 @@ void testSerialization(m2etis::pubsub::ChannelName cn) {
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size(), 80u) << "Subscribe of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size(), 80u) << "Subscribe of Channel " << int(cn) << " with size of " << s.size() << " to big!";
 
 	*mm->typePtr = m2etis::message::UNSUBSCRIBE;
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size(), 80u) << "Unsubscribe of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size(), 80u) << "Unsubscribe of Channel " << int(cn) << " with size of " << s.size() << " to big!";
 
 	*mm->typePtr = m2etis::message::CONTROL;
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size(), 80u) << "Control of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size(), 80u) << "Control of Channel " << int(cn) << " with size of " << s.size() << " to big!";
 
 	*mm->typePtr = m2etis::message::PUBLISH;
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size(), 50u) << "Publish of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size(), 50u) << "Publish of Channel " << int(cn) << " with size of " << s.size() << " to big!";
 
 	*mm->typePtr = m2etis::message::NOTIFY;
 
 	s = m2etis::message::serialization::serializeNetworkMsg<m2etis::message::M2etisMessage>(mm);
 
-	EXPECT_LT(s.size() , 50u) << "Notify of Channel " << static_cast<int>(cn) << " with size of " << s.size() << " to big!";
+	EXPECT_LT(s.size() , 50u) << "Notify of Channel " << int(cn) << " with size of " << s.size() << " to big!";
 }
 
 TEST(M2etis, testSerializedMessages) {
-	for (unsigned int i = FIRSTCHANNEL; i < CHANNELAMOUNT; ++i) {
+	for (unsigned int i = FIRSTCHANNEL; i < CHANNELAMOUNT - 1; ++i) {
 		std::cout << "Start Channel " << i << std::endl;
-		testSerialization(static_cast<m2etis::pubsub::ChannelName>(i));
+		testSerialization(m2etis::pubsub::ChannelName(i));
 		std::cout << "Finish Channel " << i << std::endl;
 	}
 }
@@ -76,7 +76,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs.push_back(boost::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, { "127.0.0.1" })));
-		_callbacks.push_back(boost::shared_ptr<DCB>(new DCB()));
+		_callbacks.push_back(boost::make_shared<DCB>());
 	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
@@ -111,9 +111,9 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 }
 
 TEST(M2etis, testChannelsForDelivery) {
-	for (unsigned int i = FIRSTCHANNEL; i < CHANNELAMOUNT; ++i) {
+	for (unsigned int i = FIRSTCHANNEL; i < CHANNELAMOUNT - 1; ++i) {
 		std::cout << "Start Channel " << i << std::endl;
-		testChannel(static_cast<m2etis::pubsub::ChannelName>(i));
+		testChannel(m2etis::pubsub::ChannelName(i));
 		std::cout << "Finish Channel " << i << std::endl;
 
 		boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
@@ -126,7 +126,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs.push_back(boost::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, {"127.0.0.1"})));
-		_callbacks.push_back(boost::shared_ptr<DCB>(new DCB()));
+		_callbacks.push_back(boost::make_shared<DCB>());
 	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
@@ -176,9 +176,9 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 }
 
 TEST(M2etis, testChannelsForUnsubscribe) {
-	for (unsigned int i = FIRSTCHANNEL; i < CHANNELAMOUNT; ++i) {
+	for (unsigned int i = FIRSTCHANNEL; i < CHANNELAMOUNT - 1; ++i) {
 		std::cout << "Start Channel " << i << std::endl;
-		testUnsubscribe(static_cast<m2etis::pubsub::ChannelName>(i));
+		testUnsubscribe(m2etis::pubsub::ChannelName(i));
 		std::cout << "Finish Channel " << i << std::endl;
 
 		boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
