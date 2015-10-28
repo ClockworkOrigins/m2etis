@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +41,6 @@ namespace net {
 	 * \brief NodeHandle in different structured p2p-systems.
 	 *
 	 * Long Desc
-	 *
 	 */
     template<class NetworkType>
 	class NodeHandle {

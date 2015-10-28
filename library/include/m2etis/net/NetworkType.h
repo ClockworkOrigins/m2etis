@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup net
+ * @ {
  */
 
 #ifndef __M2ETIS_NET_NETWORKTYPE_H__
@@ -64,38 +69,38 @@ namespace net {
 
 		typedef NetworkName value_type;
 		typedef NetworkType<nettype> type;
-		typedef typename KeyPChooser<NetworkType<nettype> >::KeyProvider KeyProvider;
+		typedef typename KeyPChooser<NetworkType<nettype>>::KeyProvider KeyProvider;
 		typedef message::Key<KeyProvider> Key;
 		typedef message::NetworkMessage<type> Message;
 		typedef message::MessageType MessageType;
 	};
 
 	template<>
-	class KeyPChooser<NetworkType<TCP> > {
+	class KeyPChooser<NetworkType<TCP>> {
 	public:
 		typedef message::IPv4KeyProvider KeyProvider;
 	};
 
 	template<>
-	class KeyPChooser<NetworkType<UDP> > {
+	class KeyPChooser<NetworkType<UDP>> {
 	public:
 		typedef message::IPv4KeyProvider KeyProvider;
 	};
 
 	template<>
-	class KeyPChooser<NetworkType<clockTCP> > {
+	class KeyPChooser<NetworkType<clockTCP>> {
 	public:
 		typedef message::IPv4KeyProvider KeyProvider;
 	};
 
 	template<>
-	class KeyPChooser<NetworkType<CHIMERA> > {
+	class KeyPChooser<NetworkType<CHIMERA>> {
 	public:
 		typedef message::SHA1KeyProvider KeyProvider;
 	};
 
 	template<>
-	class KeyPChooser<NetworkType<OMNET> > {
+	class KeyPChooser<NetworkType<OMNET>> {
 	public:
 		typedef sim::OmNetKeyProvider KeyProvider;
 	};
@@ -104,3 +109,7 @@ namespace net {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_NET_NETWORKTYPE_H__ */
+
+/**
+ *  @}
+ */
