@@ -59,9 +59,10 @@ namespace tcp {
 		for (std::pair<uint16_t, boost::thread *> p : threads_) {
 			p.second->interrupt();
 
-			if (p.first == 1) {
+			// TODO: (Daniel) why are readFromSocket threads not joined? joining them seems to have no negative effect
+			//if (p.first == 1) {
 				p.second->join();
-			}
+			//}
 		}
 		for (std::pair<uint16_t, boost::thread *> p : threads_) {
 			delete p.second;
@@ -74,6 +75,7 @@ namespace tcp {
 				delete it->second;
 			}
 		}
+		_sockets.clear();
 		lock_.unlock();
 		delete _acceptor;
 	}
@@ -105,6 +107,7 @@ namespace tcp {
 
 			boost::asio::ip::tcp::socket * newSocket = new boost::asio::ip::tcp::socket(_io_service);
 			_acceptor->async_accept(*newSocket, boost::bind(&TcpWrapper::handleAccept, this, boost::asio::placeholders::error, newSocket));
+			boost::mutex::scoped_lock l(lock_);
 			_sockets.insert(std::make_pair(_local, newSocket));
 		} catch(util::SystemFailureException & e) {
 			e.writeLog();
@@ -126,8 +129,9 @@ namespace tcp {
 		}
 
 		// Listen for new connection
-		boost::asio::ip::tcp::socket * newSocket = new boost::asio::ip::tcp::socket(_io_service);
-		_acceptor->async_accept(*newSocket, boost::bind(&TcpWrapper::handleAccept, this, boost::asio::placeholders::error, newSocket));
+		// TODO: (Daniel) was this really necessary? commented it out because newSocket caused memory leak and comparing to CU::TcpSocket it mustn't be necessary
+		//boost::asio::ip::tcp::socket * newSocket = new boost::asio::ip::tcp::socket(_io_service);
+		//_acceptor->async_accept(*newSocket, boost::bind(&TcpWrapper::handleAccept, this, boost::asio::placeholders::error, newSocket));
 	}
 
 	void TcpWrapper::send(const message::NetworkMessage<net::NetworkType<net::TCP>>::Ptr msg, net::NodeHandle<net::NetworkType<net::TCP>>::Ptr_const hint) {
@@ -204,6 +208,7 @@ namespace tcp {
 			boost::mutex::scoped_lock sl(_mapLock);
 			net::NetworkType<net::TCP>::Key realKey = metis2real(metisKey);
 
+			boost::mutex::scoped_lock l(lock_);
 			if (_sockets.find(realKey) != _sockets.end()) {
 				_sockets[realKey]->close();
 				delete _sockets[realKey];
@@ -267,7 +272,7 @@ namespace tcp {
 					socket->close();
 					delete socket;
 					it->second = nullptr;
-					threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, realKey))));
+					threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, it->first))));
 					break;
 				}
 			}
@@ -277,41 +282,51 @@ namespace tcp {
 	}
 
 	void TcpWrapper::write(const std::vector<uint8_t> & message, boost::asio::ip::tcp::socket * sock) {
-		_strand__.post(boost::bind(&TcpWrapper::writeImpl, this, message, sock));
+		if (_initialized) {
+			_strand__.post(boost::bind(&TcpWrapper::writeImpl, this, message, sock));
+		}
 	}
 
 	void TcpWrapper::writeImpl(const std::vector<uint8_t> & message, boost::asio::ip::tcp::socket * sock) {
-		_outbox.push_back(make_pair(message, sock));
-		if (_outbox.size() > 1) {
-			// outstanding async_write
-			return;
+		if (_initialized) {
+			_outbox.push_back(make_pair(message, sock));
+			if (_outbox.size() > 1) {
+				// outstanding async_write
+				return;
+			}
+			this->write();
 		}
-		this->write();
 	}
 
 	void TcpWrapper::write() {
-		const msgPair & message = _outbox[0];
-		boost::asio::async_write(*(message.second), boost::asio::buffer(&(message.first[0]), message.first.size()), _strand__.wrap(boost::bind(&TcpWrapper::writeHandler, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)));
+		if (_initialized) {
+			assert(!_outbox.empty());
+			const msgPair & message = _outbox[0];
+			boost::asio::async_write(*(message.second), boost::asio::buffer(&(message.first[0]), message.first.size()), _strand__.wrap(boost::bind(&TcpWrapper::writeHandler, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)));
+		}
 	}
 
 	void TcpWrapper::writeHandler(const boost::system::error_code & error, const size_t) {
-		boost::asio::ip::tcp::socket * sock = _outbox.front().second;
-		_outbox.pop_front();
+		if (_initialized) {
+			boost::asio::ip::tcp::socket * sock = _outbox.front().second;
+			_outbox.pop_front();
 
-		if (error) {
-			for(std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-				if (it->second == sock) {
-					sock->close();
-					delete sock;
-					it->second = nullptr;
-					break;
+			if (error) {
+				boost::mutex::scoped_lock l(lock_);
+				for(std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+					if (it->second == sock) {
+						sock->close();
+						delete sock;
+						it->second = nullptr;
+						break;
+					}
 				}
 			}
-		}
 
-		if (!_outbox.empty()) {
-			// more messages to send
-			this->write();
+			if (!_outbox.empty()) {
+				// more messages to send
+				this->write();
+			}
 		}
 	}
 
@@ -322,6 +337,7 @@ namespace tcp {
 		boost::this_thread::interruption_point();
 		_mapping_metis_real.erase(real2metis(realKey));
 		_mapping_real_metis.erase(realKey);
+		boost::mutex::scoped_lock l(lock_);
 		_sockets.erase(realKey);
 	}
 

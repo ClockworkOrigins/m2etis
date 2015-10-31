@@ -71,8 +71,8 @@ TEST(M2etis, testSerializedMessages) {
 }
 
 void testChannel(m2etis::pubsub::ChannelName cn) {
-	std::vector<boost::shared_ptr<m2etis::pubsub::PubSubSystem>> _pubSubs;
 	std::vector<boost::shared_ptr<DCB>> _callbacks;
+	std::vector<boost::shared_ptr<m2etis::pubsub::PubSubSystem>> _pubSubs;
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs.push_back(boost::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, { "127.0.0.1" })));
@@ -111,18 +111,18 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 }
 
 TEST(M2etis, testChannelsForDelivery) {
-	for (unsigned int i = FIRSTCHANNEL; i < CHANNELAMOUNT - 1; ++i) {
+	for (unsigned int i = FIRSTCHANNEL; i < CHANNELAMOUNT - 1; i++) {
 		std::cout << "Start Channel " << i << std::endl;
 		testChannel(m2etis::pubsub::ChannelName(i));
 		std::cout << "Finish Channel " << i << std::endl;
 
-		boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 	}
 }
 
 void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
-	std::vector<boost::shared_ptr<m2etis::pubsub::PubSubSystem>> _pubSubs;
 	std::vector<boost::shared_ptr<DCB>> _callbacks;
+	std::vector<boost::shared_ptr<m2etis::pubsub::PubSubSystem>> _pubSubs;
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs.push_back(boost::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, {"127.0.0.1"})));

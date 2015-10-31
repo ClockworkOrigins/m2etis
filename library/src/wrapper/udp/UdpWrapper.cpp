@@ -67,6 +67,8 @@ namespace udp {
 		std::stringstream ss;
 		ss << re->address().to_string() << ":" << re->port();
 		message::Key<message::IPv4KeyProvider> k(ss.str());
+
+		// TODO: (Daniel) is this really necessary? shouldn't workerFunc line 53 loop internally? check with integration test ore bigger channel test (more clients subscribing)
 		boost::thread t(boost::bind(&UdpWrapper::handleReceive, this, _socket, message, re, len));
 		workerFunc();
 	}
