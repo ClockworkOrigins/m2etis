@@ -129,9 +129,9 @@ namespace tcp {
 		}
 
 		// Listen for new connection
-		// TODO: (Daniel) was this really necessary? commented it out because newSocket caused memory leak and comparing to CU::TcpSocket it mustn't be necessary
-		//boost::asio::ip::tcp::socket * newSocket = new boost::asio::ip::tcp::socket(_io_service);
-		//_acceptor->async_accept(*newSocket, boost::bind(&TcpWrapper::handleAccept, this, boost::asio::placeholders::error, newSocket));
+		boost::asio::ip::tcp::socket * newSocket = new boost::asio::ip::tcp::socket(_io_service);
+		_sockets[_local] = newSocket;
+		_acceptor->async_accept(*newSocket, boost::bind(&TcpWrapper::handleAccept, this, boost::asio::placeholders::error, newSocket));
 	}
 
 	void TcpWrapper::send(const message::NetworkMessage<net::NetworkType<net::TCP>>::Ptr msg, net::NodeHandle<net::NetworkType<net::TCP>>::Ptr_const hint) {
@@ -289,12 +289,24 @@ namespace tcp {
 
 	void TcpWrapper::writeImpl(const std::vector<uint8_t> & message, boost::asio::ip::tcp::socket * sock) {
 		if (_initialized) {
-			_outbox.push_back(make_pair(message, sock));
-			if (_outbox.size() > 1) {
-				// outstanding async_write
-				return;
+			bool goOn = false;
+			{
+				boost::mutex::scoped_lock l(lock_);
+				for(std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+					if (it->second == sock) {
+						goOn = true;
+						break;
+					}
+				}
 			}
-			this->write();
+			if (goOn) {
+				_outbox.push_back(make_pair(message, sock));
+				if (_outbox.size() > 1) {
+					// outstanding async_write
+					return;
+				}
+				this->write();
+			}
 		}
 	}
 
@@ -302,7 +314,19 @@ namespace tcp {
 		if (_initialized) {
 			assert(!_outbox.empty());
 			const msgPair & message = _outbox[0];
-			boost::asio::async_write(*(message.second), boost::asio::buffer(&(message.first[0]), message.first.size()), _strand__.wrap(boost::bind(&TcpWrapper::writeHandler, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)));
+			bool goOn = false;
+			{
+				boost::mutex::scoped_lock l(lock_);
+				for(std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+					if (it->second == message.second) {
+						goOn = true;
+						break;
+					}
+				}
+			}
+			if (goOn) {
+				boost::asio::async_write(*(message.second), boost::asio::buffer(&(message.first[0]), message.first.size()), _strand__.wrap(boost::bind(&TcpWrapper::writeHandler, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)));
+			}
 		}
 	}
 
