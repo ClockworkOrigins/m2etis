@@ -36,12 +36,7 @@ namespace m2etis {
 namespace wrapper {
 namespace udp {
 
-	UdpWrapper::UdpWrapper(const std::string & ownIP, uint16_t listenPort, const std::string & hostIP, uint16_t hostPort) : _initialized(false), _name("127.0.0.1"), _hostName("127.0.0.1"), _listenPort(12345), _hostPort(12345), _io_service(), _socket(), _root(), _strand__(_io_service), _outbox(), _work(_io_service), _endpoint(), _remote_endpoint() {
-			_hostName = hostIP;
-			_hostPort = hostPort;
-			_name = ownIP;
-			_listenPort = listenPort;
-
+	UdpWrapper::UdpWrapper(const std::string & ownIP, uint16_t listenPort, const std::string & hostIP, uint16_t hostPort) : _initialized(false), _name(ownIP), _hostName(hostIP), _listenPort(listenPort), _hostPort(hostPort), _io_service(), _socket(), _root(), _strand__(_io_service), _outbox(), _work(_io_service), _endpoint(), _remote_endpoint() {
 			std::stringstream ss;
 			ss << _hostName << ":" << _hostPort;
 			_root = net::NetworkType<net::UDP>::Key(ss.str());
@@ -57,7 +52,7 @@ namespace udp {
 		_initialized = false;
 		_io_service.stop();
 		for (size_t i = 0; i < threads_.size(); ++i) {
-			threads_[i]->interrupt();
+			//threads_[i]->interrupt();
 			threads_[i]->join();
 			delete threads_[i];
 		}
@@ -90,7 +85,10 @@ namespace udp {
 		}
 	}
 
-	void UdpWrapper::handleReceive(const boost::system::error_code &, size_t len, boost::asio::ip::udp::endpoint * re) {
+	void UdpWrapper::handleReceive(const boost::system::error_code & e, size_t len, boost::asio::ip::udp::endpoint * re) {
+		if (e.value() != 0) {
+			return;
+		}
 		std::vector<uint8_t> data(len);
 		for (size_t i = 0; i < len; i++) {
 			data[i] = recv_buf[i];
@@ -109,13 +107,17 @@ namespace udp {
 		std::vector<uint8_t> v(message.begin(), message.begin() + std::string::difference_type(len));
 		std::string msgString(v.begin(), v.end());
 
-		message::NetworkMessage<net::NetworkType<net::UDP>>::Ptr msg(message::serialization::deserializeNetworkMsg<net::NetworkType<net::UDP>>(msgString));
+		try {
+			message::NetworkMessage<net::NetworkType<net::UDP>>::Ptr msg(message::serialization::deserializeNetworkMsg<net::NetworkType<net::UDP>>(msgString));
 
-		msg->sender = net::NetworkType<net::UDP>::Key(endpoint->address().to_string() + ":" + std::to_string(endpoint->port()));
+			msg->sender = net::NetworkType<net::UDP>::Key(endpoint->address().to_string() + ":" + std::to_string(endpoint->port()));
 
-		delete endpoint;
+			delete endpoint;
 
-		_callback->deliver(msg);
+			_callback->deliver(msg);
+		} catch (boost::archive::archive_exception & e) {
+			std::cout << "Caught exception: " << e.what() << std::endl;
+		}
 	}
 
 	void UdpWrapper::send(const message::NetworkMessage<net::NetworkType<net::UDP>>::Ptr msg, net::NodeHandle<net::NetworkType<net::UDP>>::Ptr_const hint) {

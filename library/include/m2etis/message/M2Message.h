@@ -30,7 +30,7 @@
 namespace m2etis {
 namespace message {
 
-	template <class EventType>
+	template<class EventType>
 	class M2Message {
 	public:
 		// Message Ptr
@@ -74,7 +74,7 @@ namespace message {
 		}
 	};
 
-	typedef M2Message<std::vector<unsigned char> > M2etisMessage;
+	typedef M2Message<std::vector<unsigned char>> M2etisMessage;
 	std::ostream & operator<<(std::ostream & s, const M2etisMessage::Ptr);
 
 #ifdef WITH_SIM

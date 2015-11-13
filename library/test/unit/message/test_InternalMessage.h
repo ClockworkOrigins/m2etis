@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -63,13 +63,10 @@ TEST(InternalMessageTest, Serialize) {
 	EXPECT_EQ("123.123.123.123:123", m1->receiver.toStr());
 	EXPECT_EQ(t, m1->getPayloadString());
 
-	std::cout << "1" << std::endl;
 	// Serialize
 	std::string y = m2etis::message::serialization::serializeNetworkMsg<NetMessage>(m1);
-	std::cout << "2" << std::endl;
 	// Deserialize
 	NetMessage::Ptr mm2 = m2etis::message::serialization::deserializeNetworkMsg<m2etis::net::NetworkType<m2etis::net::UDP>>(y);
-	std::cout << "3" << std::endl;
 	IMessage m2(*static_cast<IMessage *>(mm2.get()));
 
 	// Test for equality
@@ -92,12 +89,9 @@ TEST(InternalMessageTest, Serialize) {
 	EXPECT_EQ(t3, m3->getPayloadString());
 
 	// Serialize
-	std::cout << "4" << std::endl;
 	std::string y3 = m2etis::message::serialization::serializeNetworkMsg<NetMessage>(m3);
-	std::cout << "5" << std::endl;
 	// Deserialize
 	NetMessage::Ptr mm3 = m2etis::message::serialization::deserializeNetworkMsg<m2etis::net::NetworkType<m2etis::net::UDP>>(y3);
-	std::cout << "6" << std::endl;
 	IMessage m4(*static_cast<IMessage *>(mm3.get()));
 
 	// Test for equality
