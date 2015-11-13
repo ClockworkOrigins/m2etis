@@ -50,7 +50,7 @@ namespace message {
 		VALIDITY
 	};
 
-	template <class NetworkType, class ChannelType, class EventType>
+	template<class NetworkType, class ChannelType, class EventType>
 	class InternalMessage : public M2Message<EventType>, public NetworkMessage<NetworkType> {
 	public:
 		// Message Ptr
@@ -65,12 +65,13 @@ namespace message {
 		typedef typename ChannelType::ValidityStrategy::ValidityInfoType VInfo;
 
 		typedef struct TreeHelper {
-			unsigned int topic;
-			boost::shared_ptr<pubsub::filter::FilterExp<EventType> > predicates;
+			uint16_t topic;
+			boost::shared_ptr<pubsub::filter::FilterExp<EventType>> predicates;
 			typename NetworkType::Key root;
 
 			TreeHelper() : topic(), predicates(), root() {}
-			TreeHelper(unsigned int t, boost::shared_ptr<pubsub::filter::FilterExp<EventType> > p, typename NetworkType::Key r) : topic(t), predicates(p), root(r) {}
+			TreeHelper(uint16_t t, boost::shared_ptr<pubsub::filter::FilterExp<EventType>> p, typename NetworkType::Key r) : topic(t), predicates(p), root(r) {
+			}
 
 	        friend class boost::serialization::access;
 	        template <class Archive>
@@ -142,7 +143,7 @@ namespace message {
 		/**
 		 * \brief list of all topics being removed during leave
 		 */
-		std::set<unsigned int> _topics;
+		std::set<uint16_t> _topics;
 
 		InternalMessage() : M2Message<EventType>(&type), NetworkMessage<NetworkType>(&type),
 			type(),
@@ -214,11 +215,11 @@ namespace message {
         template <class Archive>
 		void serialize(Archive & ar, const unsigned int) {
         	ar & type;
-        	ActionType actionType = static_cast<ActionType>(type & ACTION_TYPE_MASK);
+        	ActionType actionType = ActionType(type & ACTION_TYPE_MASK);
         	if (actionType == PUBLISH || actionType == NOTIFY) {
-        		ar & boost::serialization::base_object<m2etis::message::M2Message<EventType> >(*this);
+        		ar & boost::serialization::base_object<m2etis::message::M2Message<EventType>>(*this);
         	}
-        	ar & boost::serialization::base_object<m2etis::message::NetworkMessage<NetworkType> >(*this);
+        	ar & boost::serialization::base_object<m2etis::message::NetworkMessage<NetworkType>>(*this);
         	if (RInfo::doSerialize(actionType)) {
         		ar & routingInfo;
         	}

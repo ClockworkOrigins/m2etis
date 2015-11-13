@@ -476,8 +476,8 @@ namespace pubsub {
 		/**
 		 * \brief removes list of given topics
 		 */
-		void removeTopics(const std::set<unsigned int> & topics) {
-			for (unsigned int ttr : topics) {
+		void removeTopics(const std::set<uint16_t> & topics) {
+			for (uint16_t ttr : topics) {
 				for (size_t j = 0; j < trees_.size(); ++j) {
 					if (trees_[j]->getTopic() == ttr) {
 						ChannelType::PartitionStrategy::removePartition(j);
