@@ -17,7 +17,7 @@
 #ifndef __I6ESYSTEMPARAMETERS_H__
 #define __I6ESYSTEMPARAMETERS_H__
 
-// #include "config.h"
+#include "m2etis/Config.h"
 
 // Global platform specific defines
 #define I6E_PLATFORM_WIN32 1
@@ -47,7 +47,7 @@
 // TODO: Finish off all platforms
 #ifndef M2ETIS_API
 	#if I6E_PLATFORM == I6E_PLATFORM_WIN32
-		#ifdef ISIXE_BUILD_SHARED
+		#ifdef M2ETIS_BUILD_SHARED
 			#ifdef m2etis_EXPORTS
 				#define M2ETIS_API __declspec(dllexport)
 			#else

@@ -9,7 +9,7 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 # Global Build Configuration
 #---
 
-OPTION(I6MC_BUILD_SHARED "Build i6m2etis_shared" ON)
+OPTION(M2ETIS_BUILD_SHARED "Build m2etis shared" ON)
 OPTION(WITH_LOGGING "enables Logging" ON)
 OPTION(WITH_SIM "builds with simulator" OFF)
 OPTION(WITH_TESTING "builds with testing code" ON)
@@ -88,18 +88,6 @@ ELSEIF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
 ELSE()
 	message (SEND_INFO "Unknown C++ compiler \"${CMAKE_CXX_COMPILER_ID}\". Only GNU, Clang and MSVC are completely supported.")
 ENDIF()
-
-#Exports Compilerflag for platform independency (used for declspec macro)
-IF(WIN32)
-	IF(I6MC_BUILD_SHARED)
-		SET(I6MC_DLL 1)
-	ENDIF(I6MC_BUILD_SHARED)
-ENDIF(WIN32)
-
-IF(I6MC_DLL)
-	ADD_DEFINITIONS(-DI6MC_EXPORTS)
-	ADD_DEFINITIONS(-DISIXE_BUILD_SHARED)
-ENDIF(I6MC_DLL)
 
 #Directory definitions
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/" ${CMAKE_MODULE_PATH})
@@ -249,6 +237,10 @@ include_directories(SYSTEM ${CLOCKUTILS_INCLUDE_DIR})
 #------
 #Build m2etis libs
 #------
+
+configure_file(${CMAKE_SOURCE_DIR}/../config/Config.h.in ${CMAKE_BINARY_DIR}/include/m2etis/Config.h @ONLY)
+INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
+
 file(GLOB_RECURSE utils ${I6MC_SRC_DIR}/util/*.cpp)
 file(GLOB_RECURSE utils_header ${I6MC_INC_DIR}/util/*.h)
 
@@ -298,16 +290,6 @@ SOURCE_GROUP(wrapper\\self FILES ${m2etis_self_wrapper_header} ${m2etis_self_wra
 SOURCE_GROUP(wrapper\\udp FILES ${m2etis_udp_wrapper_header} ${m2etis_udp_wrapper})
 SOURCE_GROUP(wrapper\\chimera FILES ${m2etis_chimera_wrapper_header} ${m2etis_chimera_wrapper})
 
-#Defines an Option to build i6m2etis_net as shared lib
-IF(WIN32)
-	IF(I6MC_BUILD_SHARED)
-		SET(I6MC_DLL 1)
-	ENDIF(I6MC_BUILD_SHARED)
-ENDIF(WIN32)
-IF(I6MC_DLL)
-	ADD_DEFINITIONS(-DI6EC_EXPORTS)
-ENDIF(I6MC_DLL)
-
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${I6MC_INC_DIR}")
 
 SET(m2etis_source ${utils_header} ${utils} ${net_header} ${net} ${message_header} ${message} ${m2etis_pubsub_header} ${m2etis_pubsub} ${m2etis_config_header} ${m2etis_config} ${m2etis_tcp_wrapper_header} ${m2etis_tcp_wrapper} ${m2etis_clocktcp_wrapper_header} ${m2etis_clocktcp_wrapper} ${m2etis_udp_wrapper_header} ${m2etis_udp_wrapper})
@@ -342,9 +324,9 @@ IF(WITH_PROFILING)
 	target_link_libraries(m2etis ${GPerfTools_LIBRARIES})
 ENDIF(WITH_PROFILING)
 
-IF(WIN32 AND I6MC_BUILD_SHARED)
+IF(WIN32 AND M2ETIS_BUILD_SHARED)
 	add_custom_command(TARGET m2etis POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/dist/${CMAKE_BUILD_TYPE}/$<CONFIGURATION>/m2etis.dll ${CMAKE_BINARY_DIR}/dist/)
-ENDIF(WIN32 AND I6MC_BUILD_SHARED)
+ENDIF(WIN32 AND M2ETIS_BUILD_SHARED)
 
 # TESTING
 IF(WITH_TESTING)
@@ -367,6 +349,7 @@ ENDIF(WIN32)
 
 # INSTALL
 install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${CMAKE_BINARY_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 install(TARGETS m2etis
 	RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
