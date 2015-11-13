@@ -36,6 +36,39 @@ namespace m2etis {
 namespace wrapper {
 namespace udp {
 
+	UdpWrapper::UdpWrapper(const std::string & ownIP, uint16_t listenPort, const std::string & hostIP, uint16_t hostPort) : _initialized(false), _name("127.0.0.1"), _hostName("127.0.0.1"), _listenPort(12345), _hostPort(12345), _io_service(), _socket(), _root(), _strand__(_io_service), _outbox(), _work(_io_service), _endpoint(), _remote_endpoint() {
+			_hostName = hostIP;
+			_hostPort = hostPort;
+			_name = ownIP;
+			_listenPort = listenPort;
+
+			std::stringstream ss;
+			ss << _hostName << ":" << _hostPort;
+			_root = net::NetworkType<net::UDP>::Key(ss.str());
+
+			threads_.push_back(new boost::thread(boost::bind(&boost::asio::io_service::run, &_strand__.get_io_service())));
+			boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+			threads_.push_back(new boost::thread(boost::bind(&UdpWrapper::workerFunc, this)));
+			boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+			_initialized = true;
+	}
+
+	UdpWrapper::~UdpWrapper() {
+		_initialized = false;
+		_io_service.stop();
+		for (size_t i = 0; i < threads_.size(); ++i) {
+			threads_[i]->interrupt();
+			threads_[i]->join();
+			delete threads_[i];
+		}
+		if (_socket != nullptr) {
+			_socket->close();
+			delete _socket;
+		}
+		delete _endpoint;
+		delete _remote_endpoint;
+	}
+
 	void UdpWrapper::workerFunc() {
 		try {
 			if (_socket == nullptr) {
@@ -68,7 +101,6 @@ namespace udp {
 		ss << re->address().to_string() << ":" << re->port();
 		message::Key<message::IPv4KeyProvider> k(ss.str());
 
-		// TODO: (Daniel) is this really necessary? shouldn't workerFunc line 53 loop internally? check with integration test ore bigger channel test (more clients subscribing)
 		boost::thread t(boost::bind(&UdpWrapper::handleReceive, this, _socket, message, re, len));
 		workerFunc();
 	}
@@ -80,6 +112,8 @@ namespace udp {
 		message::NetworkMessage<net::NetworkType<net::UDP>>::Ptr msg(message::serialization::deserializeNetworkMsg<net::NetworkType<net::UDP>>(msgString));
 
 		msg->sender = net::NetworkType<net::UDP>::Key(endpoint->address().to_string() + ":" + std::to_string(endpoint->port()));
+
+		delete endpoint;
 
 		_callback->deliver(msg);
 	}
@@ -111,16 +145,33 @@ namespace udp {
 	}
 
 	void UdpWrapper::write(const std::vector<uint8_t> & message, message::Key<message::IPv4KeyProvider> key) {
-		_strand__.post(boost::bind(&UdpWrapper::writeImpl, this, message, key));
+		if (_initialized) {
+			_strand__.post(boost::bind(&UdpWrapper::writeImpl, this, message, key));
+		}
 	}
 
 	void UdpWrapper::writeImpl(const std::vector<uint8_t> & message, message::Key<message::IPv4KeyProvider> key) {
-		_outbox.push_back(std::make_pair(message, key));
-		if (_outbox.size() > 1) {
-			// outstanding async_write
-			return;
+		if (_initialized) {
+			_outbox.push_back(std::make_pair(message, key));
+			if (_outbox.size() > 1) {
+				// outstanding async_write
+				return;
+			}
+			this->write();
 		}
-		this->write();
+	}
+
+	void UdpWrapper::write() {
+		while (!_outbox.empty() && _initialized) {
+			msgPair & message = _outbox[0];
+			boost::asio::ip::udp::resolver resolver(_io_service);
+			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), message.second.ipStr(), message.second.portStr());
+			boost::asio::ip::udp::endpoint endpoint(*resolver.resolve(query));
+			boost::system::error_code err;
+
+			_socket->send_to(boost::asio::buffer(message.first), endpoint);
+			_outbox.pop_front();
+		}
 	}
 
 	void UdpWrapper::registerMessageType(const message::MessageType, const bool) const {

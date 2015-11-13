@@ -67,7 +67,6 @@ namespace pubsub {
 		}
 
 		~Scheduler() {
-			// FIXME: this won't be enough since the object doesn't exist anymore, but the thread hasn't shut down yet
 		}
 
 		/**
@@ -120,15 +119,14 @@ namespace pubsub {
 		 */
 		void Stop() {
 			running_ = false;
+#ifndef WITH_SIM
+			worker_.join();
+#endif
 			lock_.lock();
 			while (!queue_.empty()) {
 				queue_.pop();
 			}
 			lock_.unlock();
-#ifndef WITH_SIM
-			worker_.interrupt();
-			worker_.join();
-#endif
 		}
 
 #ifdef WITH_SIM
@@ -147,9 +145,6 @@ namespace pubsub {
 
 				if (b) {
 					stopMap_.erase(j.id);
-				}
-
-				if (b) {
 					continue;
 				}
 
@@ -220,7 +215,7 @@ namespace pubsub {
 					t = queue_.top().time;
 				}
 				lock_.unlock();
-				if (!clock_.waitForTime(tID, t)) {
+				if (!running_ || !clock_.waitForTime(tID, t)) {
 					break;
 				}
 			}
