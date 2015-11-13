@@ -101,7 +101,7 @@ namespace udp {
 		ss << re->address().to_string() << ":" << re->port();
 		message::Key<message::IPv4KeyProvider> k(ss.str());
 
-		boost::thread t(boost::bind(&UdpWrapper::handleReceive, this, _socket, message, re, len));
+		threads_.push_back(new boost::thread(boost::bind(&UdpWrapper::handleReceive, this, _socket, message, re, len)));
 		workerFunc();
 	}
 
