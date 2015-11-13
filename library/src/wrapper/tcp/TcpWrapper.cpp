@@ -199,7 +199,7 @@ namespace tcp {
 				return;
 			}
 			write(v, _sockets.find(realKey)->second);
-		} catch(util::SystemFailureException & e) {
+		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 

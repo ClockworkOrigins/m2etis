@@ -26,7 +26,7 @@ namespace pubsub {
 	PubSubSystem::PubSubSystem(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort, const std::vector<std::string> & rootList) : _pssi(new PubSubSystemEnvironment(listenIP, listenPort, connectIP, connectPort)), channels_(new ChannelConfiguration(listenIP, listenPort, connectIP, connectPort, _pssi, rootList)), initialized(true), _exceptionCallbacks(5, std::vector<boost::function<void(const std::string &)>>()), _running(true) {
 		exceptionID_ = _pssi->scheduler_.runRepeated(500000, boost::bind(&PubSubSystem::exceptionLoop, this), 4);
 #ifdef WITH_LOGGING
-        util::log::initializeLogging();
+		util::log::initializeLogging();
 #endif
 	}
 
@@ -38,7 +38,7 @@ namespace pubsub {
 		delete _pssi;
 		_exceptionCallbacks.clear();
 #ifdef WITH_LOGGING
-        util::log::shutdownLogging();
+		util::log::shutdownLogging();
 #endif
 	}
 
