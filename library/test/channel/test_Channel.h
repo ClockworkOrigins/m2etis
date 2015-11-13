@@ -79,18 +79,20 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 		_callbacks.push_back(boost::make_shared<DCB>());
 	}
 
+	boost::this_thread::sleep(boost::posix_time::milliseconds(2000 * NODE_AMOUNT));
+
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->subscribe<CharVectorEventType>(cn, *_callbacks[i]);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(2000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);
 		_pubSubs[i]->publish<CharVectorEventType>(cn, m);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(2000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		ASSERT_EQ(NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << cn << " lost messages!";
@@ -129,18 +131,20 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		_callbacks.push_back(boost::make_shared<DCB>());
 	}
 
+	boost::this_thread::sleep(boost::posix_time::milliseconds(2000 * NODE_AMOUNT));
+
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->subscribe<CharVectorEventType>(cn, *_callbacks[i]);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(2000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);
 		_pubSubs[i]->publish<CharVectorEventType>(cn, m);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(2000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		ASSERT_EQ(NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << cn << " lost messages!";
@@ -153,7 +157,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		}
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(1500 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(2000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->unsubscribe<CharVectorEventType>(cn);
@@ -168,7 +172,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		}
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(1000 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(2000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		ASSERT_EQ(50 * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << cn << " lost messages!";
