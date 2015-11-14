@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
+
+/**
+ * \addtogroup message
+ * @ {
+ */
 
 #ifndef __M2ETIS_MESSAGE_M2MESSAGE_H__
 #define __M2ETIS_MESSAGE_M2MESSAGE_H__
@@ -67,7 +72,9 @@ namespace message {
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive> void serialize(Archive & ar, const unsigned int /*version*/) {
+
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int /*version*/) {
 #ifndef WITH_SIM
 			ar & payload; // Don't serialize payload for simulator, payload size is set in config
 #endif /* WITH_SIM */
@@ -86,3 +93,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_M2MESSAGE_H__ */
+
+/**
+ *  @}
+ */

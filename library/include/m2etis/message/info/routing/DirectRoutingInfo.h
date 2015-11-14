@@ -14,6 +14,11 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup message
+ * @ {
+ */
+
 #ifndef __M2ETIS_MESSAGE_DIRECTROUTINGINFO_H__
 #define __M2ETIS_MESSAGE_DIRECTROUTINGINFO_H__
 
@@ -45,3 +50,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_DIRECTROUTINGINFO_H__ */
+
+/**
+ *  @}
+ */

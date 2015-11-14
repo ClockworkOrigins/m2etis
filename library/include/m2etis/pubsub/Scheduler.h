@@ -16,7 +16,7 @@
  */
 
 /**
- * \addtogroup core
+ * \addtogroup pubsub
  * @ {
  */
 

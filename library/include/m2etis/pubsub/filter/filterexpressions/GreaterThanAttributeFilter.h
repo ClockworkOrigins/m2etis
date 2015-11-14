@@ -14,6 +14,11 @@ Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
+
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_GREATERTHANATTRIBUTEFILTER_H__
 #define __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_GREATERTHANATTRIBUTEFILTER_H__
 
@@ -80,3 +85,7 @@ namespace filter {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_GREATERTHANATTRIBUTEFILTER_H__ */
+
+/**
+ *  @}
+ */

@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
  */
 
 /**
- * \addtogroup net
+ * \addtogroup message
  * @ {
  */
 
@@ -104,6 +104,7 @@ namespace message {
 
     private:
         friend class boost::serialization::access;
+
         template<class Archive>
         void serialize(Archive & ar, unsigned int /* version */) {
         	ar & boost::serialization::base_object<KeyProvider>(*this);
@@ -115,5 +116,6 @@ namespace message {
 
 #endif /* __M2ETIS_MESSAGE_KEY_H__ */
 
-/** @}
+/**
+ *  @}
  */

@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +14,12 @@
  limitations under the License.
  */
 
-// necessary filter type exports. Each new constraint type (filter attribute) has to be addded here.
+/**
+ * \addtogroup message
+ * @ {
+ */
 
+// necessary filter type exports. Each new constraint type (filter attribute) has to be addded here.
 
 #ifndef __M2ETIS_MESSAGE_INFO_FILTERINFO_H__
 #define __M2ETIS_MESSAGE_INFO_FILTERINFO_H__
@@ -51,3 +55,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_INFO_FILTERINFO_H__ */
+
+/**
+ *  @}
+ */

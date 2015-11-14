@@ -24,7 +24,6 @@
 #define I6E_PLATFORM_LINUX 2
 #define BOOST_ALL_DYN_LINK
 #define WIN32_LEAN_AND_MEAN
-//#define _WIN32_WINNT 0x0501
 // Determine the current platform
 #if defined(WIN32 ) || defined(__WIN32__ ) || defined(_WIN32 )
 #   define I6E_PLATFORM I6E_PLATFORM_WIN32
@@ -65,20 +64,9 @@
 
 #ifdef _MSC_VER
 #   pragma warning(disable : 4251) // dll interface to be used by clients...
-
-// #   pragma warning (disable : 4275) // non dll-interface class used as base
-                                    // for dll-interface class
-
-// #   pragma warning (disable : 4661) // no suitable definition provided for
-                                    // explicit template instantiation request
-
-// #   pragma warning (disable : 4311) // type cast' : pointer truncation from 'xxx*'
-                                    // to 'unsigned int'
-
 #endif
 
 #endif /* __I6ESYSTEMPARAMETERS_H__ */
-
 
 /*
  * Documentation for all important macros. As doxygen doesn't offer an overview on all defined macros,

@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,19 +46,23 @@ namespace message {
 		 *
 		 * \return Returns an object of the message
 		 */
-	    template<class EventType> typename M2Message<EventType>::Ptr createMessage(const EventType & w) const {
+	    template<class EventType>
+		typename M2Message<EventType>::Ptr createMessage(const EventType & w) const {
 			return boost::make_shared<InternalMessage<NetworkType, ChannelType, EventType>>(w);
 		}
 
-	    template<class EventType> typename M2Message<EventType>::Ptr createMessage() const {
+	    template<class EventType>
+		typename M2Message<EventType>::Ptr createMessage() const {
 			return boost::make_shared<InternalMessage<NetworkType, ChannelType, EventType>>();
 		}
 
-	    template<class EventType> typename NetworkMessage<NetworkType>::Ptr transformToNetworkMessage(typename M2Message<EventType>::Ptr msg) const {
+	    template<class EventType>
+		typename NetworkMessage<NetworkType>::Ptr transformToNetworkMessage(typename M2Message<EventType>::Ptr msg) const {
 	    	return boost::static_pointer_cast<InternalMessage<NetworkType, ChannelType, EventType>>(msg);
 	    }
 
-	    template <class EventType> typename message::M2Message<EventType>::Ptr transformToM2Message(typename message::NetworkMessage<NetworkType>::Ptr msg) const {
+	    template <class EventType>
+		typename message::M2Message<EventType>::Ptr transformToM2Message(typename message::NetworkMessage<NetworkType>::Ptr msg) const {
 	    	return boost::static_pointer_cast<InternalMessage<NetworkType, ChannelType, EventType>>(msg);
 	    }
 	};

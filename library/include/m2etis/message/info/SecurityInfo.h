@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup message
+ * @ {
  */
 
 #ifndef __M2ETIS_MESSAGE_INFO_SECURITYINFO_H__
@@ -36,3 +41,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_INFO_SECURITYINFO_H__ */
+
+/**
+ *  @}
+ */

@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +14,9 @@
  limitations under the License.
  */
 
-/*
- * DO NOT define ChannelConfigurations here!!! Use the appropriate included ConfigurationHeader
+/**
+ * \addtogroup pubsub
+ * @ {
  */
 
 // The sequence of following statements is important. Do not reorder!!!
@@ -48,3 +49,7 @@ namespace m2etis {
 }
 
 #endif /* __M2ETIS_PUBSUB_CHANNELCONFIGURATION_H__ */
+
+/**
+ *  @}
+ */

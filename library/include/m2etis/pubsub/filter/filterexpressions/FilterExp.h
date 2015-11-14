@@ -1,5 +1,4 @@
-
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup pubsub
+ * @ {
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXP_H__
@@ -86,3 +90,7 @@ namespace std {
 } /* namespace std */
 
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXP_H_ */
+
+/**
+ *  @}
+ */

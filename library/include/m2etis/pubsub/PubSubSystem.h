@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -221,8 +221,8 @@ namespace pubsub {
 } /* namespace pubsub */
 } /* namespace m2etis */
 
+#endif /* __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__ */
+
 /**
  *  @}
  */
-
-#endif /* __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__ */
