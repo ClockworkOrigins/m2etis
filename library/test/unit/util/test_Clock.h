@@ -24,14 +24,13 @@
 
 TEST(Clock, RealTime) {
     	m2etis::util::Clock<m2etis::util::RealTimeClock> clock;
-    	long lastTime = clock.getTime();
+    	uint64_t lastTime = clock.getTime();
     	lastTime += 2000;
     	for(int i = 1; i < 10; ++i) {
     		boost::this_thread::sleep(boost::posix_time::milliseconds(50));
-    		clock.Update();
     		// set the value on the right to anything that will work. As long it is << 50.000
     		// the test is ok. It's just .. this loop takes more than 0 microsecssecs
-    		long a = clock.getTime();
+    		uint64_t a = clock.getTime();
     		EXPECT_LT(std::abs(a - lastTime), 51000);
     		lastTime = a;
     	}
@@ -41,15 +40,15 @@ TEST(Clock, RealTime) {
     	EXPECT_EQ(clock.registerTimer(), 2);
 }
 
-long sT;
+uint64_t sT;
 bool done;
 
 void func(m2etis::util::Clock<m2etis::util::RealTimeClock> * c) {
 	for(int i = 0; i < 10; ++i) {
 		// wait for some time
-		int wT = 50000;
+		uint64_t wT = 50000;
 		c->waitForTime(0, sT + wT);
-		long t = c->getTime();
+		uint64_t t = c->getTime();
 		EXPECT_LE(sT + wT, t);
 		sT = t;
 	}
@@ -65,12 +64,10 @@ TEST(Clock, Notifies) {
     	boost::thread(boost::bind(func, clock)).detach();
     	for (int i = 0; i < 20; ++i) {
     		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
-    		clock->Update();
     	}
     	EXPECT_FALSE(done);
     	for (int i = 0; i < 30; ++i) {
     		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
-    		clock->Update();
     	}
     	EXPECT_TRUE(done);
     	delete clock;

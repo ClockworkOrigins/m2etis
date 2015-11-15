@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,11 +42,12 @@ namespace net {
 	 * \brief NetworkFactory
 	 *
 	 * Long Desc
-	 *
 	 */
 	class NetworkFactory {
 	public:
 		NetworkFactory(const std::string & listenIP, const unsigned short listenPort, const std::string & connectIP, const unsigned short connectPort, pubsub::PubSubSystemEnvironment * pssi);
+
+		~NetworkFactory();
 
 		/**
 		 * \brief creates NetworkController
@@ -69,8 +70,6 @@ namespace net {
 #ifdef WITH_SIM
 		NetworkController<NetworkType<OMNET>> * createNetworkController(NetworkType<OMNET>);
 #endif
-
-		~NetworkFactory();
 
 	private:
 		std::string _listenIP;

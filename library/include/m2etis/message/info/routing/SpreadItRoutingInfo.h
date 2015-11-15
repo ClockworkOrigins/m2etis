@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,11 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup message
+ * @ {
+ */
+
 #ifndef __M2ETIS_MESSAGE_SPREADITROUTINGINFO_H__
 #define __M2ETIS_MESSAGE_SPREADITROUTINGINFO_H__
 
@@ -27,7 +32,7 @@ namespace message {
 	template<class NetworkType>
 	class SpreadItRoutingInfo : public RoutingInfo<NetworkType> {
 	public:
-		typedef boost::shared_ptr<SpreadItRoutingInfo<NetworkType> > Ptr;
+		typedef boost::shared_ptr<SpreadItRoutingInfo<NetworkType>> Ptr;
 
         static bool doSerialize(ActionType t) {
         	if (t == NOTIFY || t == PUBLISH || t == JOIN || t == STATE || t == LEAVE) {
@@ -42,8 +47,10 @@ namespace message {
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive> void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<RoutingInfo<NetworkType> >(*this);
+
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<RoutingInfo<NetworkType>>(*this);
 			ar & node_adress;
 		}
 	};
@@ -52,3 +59,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_SPREADITROUTINGINFO_H__ */
+
+/**
+ *  @}
+ */

@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup pubsub
+ * @ {
  */
 
 #ifndef __M2ETIS_PUBSUB_ORDER_GMSORDER_H__
@@ -268,7 +273,7 @@ namespace order {
 		/**
 		 * \brief processes a publish payload
 		 */
-		void processPublishPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processPublishPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key &) {
 			typename OrderInfoType::Ptr info = boost::static_pointer_cast<OrderInfoType>(ptr);
 			assert(BaseOrder<NetworkType>::isRoot_); // only the root node receives publish messages
 			info->msgNr = nextSend++; // give it a unique id
@@ -279,7 +284,7 @@ namespace order {
 		/**
 		 * \brief called for every NotifyMsg that arrived
 		 */
-		void processNotifyPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processNotifyPayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
@@ -427,6 +432,7 @@ namespace order {
 			typename OrderInfoType::Ptr p = boost::make_shared<OrderInfoType>();
 			p->msgNr = msgId;
 			p->realTree = treeId;
+			// TODO: (Daniel) remove magic number!
 			p->seqNr = 123456789; // random value to identify these messages in configure order info
 			// publish this message normally
 			BaseOrder<NetworkType>::sendMsg_(p, typename NetworkType::Key(), ControlTarget::ALL);
@@ -435,7 +441,7 @@ namespace order {
 		/**
 		 * \brief notified when message dropped by filter or validity strategy
 		 */
-		void notifyRemovedMessage(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & receiver) {
+		void notifyRemovedMessage(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 	};
 
@@ -444,3 +450,7 @@ namespace order {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_ORDER_GMSORDER_H__ */
+
+/**
+ *  @}
+ */

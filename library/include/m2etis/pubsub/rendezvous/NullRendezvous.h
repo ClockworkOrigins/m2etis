@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,10 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
 
 #ifndef __M2ETIS_PUBSUB_RENDEZVOUS_NULLRENDEZVOUS_H__
 #define __M2ETIS_PUBSUB_RENDEZVOUS_NULLRENDEZVOUS_H__
@@ -44,3 +48,7 @@ namespace rendezvous {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_RENDEZVOUS_NULLRENDEZVOUS_H__ */
+
+/**
+ *  @}
+ */

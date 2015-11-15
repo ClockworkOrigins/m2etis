@@ -14,6 +14,11 @@ Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
+
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_TRUEPREDICATE_H__
 #define __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_TRUEPREDICATE_H__
 
@@ -24,7 +29,7 @@ namespace pubsub {
 namespace filter {
 
 	// class TruePredicate helpful if no static or dynamic predicate given
-	template <typename EventType>
+	template<typename EventType>
 	class TruePredicate : public Predicate<EventType> {
 	public:
 		typedef EventType schema; // needed for operator overloading
@@ -33,18 +38,19 @@ namespace filter {
 			filter_visitor.Visit(this);
 		}
 
-		virtual bool match(const EventType & event) const { return true; }
-		virtual bool overlaps(const Predicate<EventType> * other_predicate) const { return true; } // other_predicate assumed to be satisfiable
+		virtual bool match(const EventType &) const { return true; }
+		virtual bool overlaps(const Predicate<EventType> *) const { return true; } // other_predicate assumed to be satisfiable
 		virtual ~TruePredicate() {}
 
-		virtual void getAttributeType(FilterVisitor<EventType> & visitor) const override {
+		virtual void getAttributeType(FilterVisitor<EventType> &) const override {
 			M2ETIS_THROW_API("TruePredicate", "getAttributeType not allowed in strategies with attribute types.");
 		}
 
 	private:
 		friend class boost::serialization::access; // not sure if necessary
-		template <typename Archive> void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<Predicate<EventType> >(*this);
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<Predicate<EventType>>(*this);
 		}
 	}; // class TruePredicate
 
@@ -53,3 +59,7 @@ namespace filter {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_TRUEPREDICATE_H__ */
+
+/**
+ *  @}
+ */

@@ -42,9 +42,9 @@ unzip "${ARCHIVE}" #>/dev/null
 status "Configuring Google Logger"
 cd "${BUILD_DIR}"
 
-cmake -DCMAKE_INSTALL_PREFIX=%PREFIX% -DCMAKE_INSTALL_PREFIX=%PREFIX% -DCMAKE_CXX_COMPILER=${COMPILER} .
+cmake -DWITH_GFLAGS=OFF -DCMAKE_INSTALL_PREFIX=${PREFIX} .
 status "Building Google Logger"
-make ${PARALLEL_FLAG} #>/dev/null
+make ${PARALLEL_FLAG} &> ${DEP_DIR}/out #>/dev/null
 
 status "Installing Google Logger"
 make ${PARALLEL_FLAG} install 

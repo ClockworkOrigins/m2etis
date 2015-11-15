@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup pubsub
+ * @ {
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_BRUTEFORCEFILTER_H__
@@ -57,7 +62,7 @@ namespace filter {
 		virtual ~BruteForceFilter() {
 		}
 
-		virtual void getSubscribePayload(boost::shared_ptr<FilterExp<EventType>> filter, bool is_periodic_resubscribe, typename message::FilterInfo::Ptr filterInfo) override {
+		virtual void getSubscribePayload(boost::shared_ptr<FilterExp<EventType>> filter, bool, typename message::FilterInfo::Ptr filterInfo) override {
 			// save filter if not yet stored:
 			dynamic_filters_[self_].insert(filter);
 
@@ -197,3 +202,7 @@ namespace filter {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_FILTER_BRUTEFORCEFILTER_H__ */
+
+/**
+ *  @}
+ */

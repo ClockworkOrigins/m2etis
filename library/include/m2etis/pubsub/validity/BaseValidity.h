@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,11 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
+
 #ifndef __M2ETIS_PUBSUB_VALIDITY_BASEVALIDITY_H__
 #define __M2ETIS_PUBSUB_VALIDITY_BASEVALIDITY_H__
 
@@ -25,7 +30,7 @@ namespace validity {
 
 	class BaseValidity {
 	public:
-		explicit BaseValidity(PubSubSystemEnvironment * pssi) {}
+		explicit BaseValidity(PubSubSystemEnvironment *) {}
 		virtual ~BaseValidity() {}
 
 		/**
@@ -54,3 +59,7 @@ namespace validity {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_VALIDITY_BASEVALIDITY_H__ */
+
+/**
+ *  @}
+ */

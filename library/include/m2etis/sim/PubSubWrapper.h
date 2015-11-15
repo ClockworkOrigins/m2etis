@@ -91,7 +91,7 @@ namespace sim {
 		 * \param[in] msg message to be transformed
 		 * \param[in] chan channel for this message
 		 */
-		message::NetworkMessage<net::NetworkType<net::OMNET> >::Ptr transformToNetworkMessage(message::M2Message<SimulationEventType>::Ptr msg, const pubsub::ChannelName chan);
+		message::NetworkMessage<net::NetworkType<net::OMNET>>::Ptr transformToNetworkMessage(message::M2Message<SimulationEventType>::Ptr msg, const pubsub::ChannelName chan);
 
 		/**
 		 * \brief method to create M2Message out of a NetworkMessage
@@ -99,7 +99,7 @@ namespace sim {
 		 * \param[in] msg message to be transformed
 		 * \param[in] chan channel for this message
 		 */
-		message::M2Message<SimulationEventType>::Ptr transformToM2etisMessage(message::NetworkMessage<net::NetworkType<net::OMNET> >::Ptr msg, const pubsub::ChannelName chan);
+		message::M2Message<SimulationEventType>::Ptr transformToM2etisMessage(message::NetworkMessage<net::NetworkType<net::OMNET>>::Ptr msg, const pubsub::ChannelName chan);
 
 		/**
 		 * \brief getter for PubSubSystemEnvironment

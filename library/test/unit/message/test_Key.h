@@ -29,8 +29,15 @@ TEST(KeyTest, CtorIPv4) {
     m2etis::message::Key<m2etis::message::IPv4KeyProvider> * p = new m2etis::message::Key<m2etis::message::IPv4KeyProvider>();
     EXPECT_EQ("0.0.0.0:0", p->toStr());
 
-    const m2etis::message::Key<m2etis::message::IPv4KeyProvider> k1("1.2.3.4:12345");
+    m2etis::message::Key<m2etis::message::IPv4KeyProvider> k1("1.2.3.4:12345");
     EXPECT_EQ("1.2.3.4:12345", k1.toStr());
+
+	delete p;
+}
+
+TEST(KeyTest, Serialize) {
+	m2etis::message::Key<m2etis::message::IPv4KeyProvider> k1("1.2.3.4:12345");
+	EXPECT_EQ("1.2.3.4:12345", k1.toStr());
 
 	// serialize
 	std::stringstream objStringStream;
@@ -45,8 +52,6 @@ TEST(KeyTest, CtorIPv4) {
 	objOArchive2 >> k2;
 
 	EXPECT_EQ("1.2.3.4:12345", k2.toStr());
-
-	delete p;
 }
 
 #endif /* __M2ETIS_KEY_TEST_H__ */

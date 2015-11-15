@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +14,17 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup message
+ * @ {
+ */
+
 #ifndef __M2ETIS_MESSAGE_IPV4KEYPROVIDER_H__
 #define __M2ETIS_MESSAGE_IPV4KEYPROVIDER_H__
 
 #include <cstring>
 
 #include "m2etis/message/key/Key.h"
-
-#include "boost/lexical_cast.hpp"
 
 namespace m2etis {
 namespace message {
@@ -39,7 +42,7 @@ namespace message {
 		}
 
 		inline std::string portStr() {
-			return boost::lexical_cast<std::string>(port);
+			return std::to_string(port);
 		}
 
 		inline uint16_t getPort() const {
@@ -75,7 +78,7 @@ namespace message {
 				std::stringstream ss(key.substr(pos, bytend));
 				int t;
 				ss >> t;
-				ip[i] = t;
+				ip[i] = uint8_t(t);
 				pos = bytend + 1;
 			}
 			std::stringstream sport(key.substr(ipend + 1, key.length() - ipend - 1));
@@ -116,9 +119,10 @@ namespace message {
 			return false;
 		}
 
-    private:
-        friend class boost::serialization::access;
-        template<class Archive>
+	private:
+		friend class boost::serialization::access;
+
+		template<class Archive>
 		void serialize(Archive & ar, unsigned int /*version*/) {
 			ar & ip;
 			ar & port;
@@ -129,3 +133,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_IPV4KEYPROVIDER_H__ */
+
+/**
+ *  @}
+ */

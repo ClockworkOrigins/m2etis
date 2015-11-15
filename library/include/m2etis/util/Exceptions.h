@@ -14,6 +14,11 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup util
+ * @ {
+ */
+
 #ifndef __M2ETIS_UTIL_EXCEPTIONS_H__
 #define __M2ETIS_UTIL_EXCEPTIONS_H__
 
@@ -22,10 +27,16 @@
 
 #include "boost/exception/all.hpp"
 
+/**
+ * \brief throws on internal errors
+ */
 #define M2ETIS_THROW_FAILURE(module, message, errorcode) {\
 		throw m2etis::util::SystemFailureException(module, message, __FILE__, __LINE__, errorcode);\
 	}
 
+/**
+ * \brief throws on wrong API usage
+ */
 #define M2ETIS_THROW_API(module, message) {\
 		throw m2etis::util::ApiException(module, message, __FILE__, __LINE__);\
 	}
@@ -79,6 +90,9 @@ namespace util {
 		 */
 		M2ETIS_API virtual const char * what() const throw();
 
+		/**
+		 * \brief writes the error message to the ExceptionQueue
+		 */
 		M2ETIS_API void PassToMain();
 
 	protected:
@@ -114,3 +128,7 @@ namespace util {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_UTIL_EXCEPTIONS_H__ */
+
+/**
+ * @}
+ */

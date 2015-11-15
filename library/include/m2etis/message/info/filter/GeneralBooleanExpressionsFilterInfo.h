@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup message
+ * @ {
  */
 
 #ifndef __M2ETIS_MESSAGE_GENERALBOOLEANEXPRESSIONSFILTERINFO_H__
@@ -30,7 +35,7 @@ namespace message {
 	template<class EventType>
 	class GeneralBooleanExpressionsFilterInfo : public FilterInfo {
 	public:
-		typedef boost::shared_ptr<GeneralBooleanExpressionsFilterInfo<EventType> > Ptr;
+		typedef boost::shared_ptr<GeneralBooleanExpressionsFilterInfo<EventType>> Ptr;
 
         static bool doSerialize(ActionType t) {
         	if (t == NOTIFY || t == PUBLISH || t == JOIN || t == STATE || t == LEAVE) {
@@ -40,11 +45,11 @@ namespace message {
         	return true;
         }
 
-		std::set<boost::shared_ptr<pubsub::filter::FilterExp<EventType> > > dynamic_filter_;
+		std::set<boost::shared_ptr<pubsub::filter::FilterExp<EventType>>> dynamic_filter_;
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive>
+		template<typename Archive>
 		void serialize(Archive & ar, const unsigned int version) {
 			ar & boost::serialization::base_object<FilterInfo>(*this);
 			ar & dynamic_filter_;
@@ -55,3 +60,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_GENERALBOOLEANEXPRESSIONSFILTERINFO_H__ */
+
+/**
+ *  @}
+ */

@@ -45,7 +45,7 @@ namespace sim {
 		/**
 		 * \brief send method to be called by OmNetMediator
 		 */
-		virtual void send(const message::ActionType type, const std::string & to, const message::M2Message<SimulationEventType>::Ptr payload, net::NodeHandle<net::NetworkType<net::OMNET> >::Ptr_const hint, unsigned int size) = 0;
+		virtual void send(const message::ActionType type, const std::string & to, const message::M2Message<SimulationEventType>::Ptr payload, net::NodeHandle<net::NetworkType<net::OMNET>>::Ptr_const hint, unsigned int size) = 0;
 
 		/**
 		 * \brief returns SHA1 key for the given channel

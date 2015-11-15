@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,6 +53,11 @@
 #include "boost/shared_ptr.hpp"
 #include "boost/thread/locks.hpp"
 
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+	#pragma warning(push)
+	#pragma warning(disable : 4127)
+#endif
+
 namespace m2etis {
 namespace pubsub {
 
@@ -77,14 +82,14 @@ namespace pubsub {
 		net::NetworkController<NetworkType> * controller_;
 		std::vector<TreeType *> trees_;
 		util::DoubleBufferQueue<typename message::M2Message<EventType>::Ptr> msgQueue_;
-		util::DoubleBufferQueue<std::pair<BasicDeliverCallbackInterface<EventType> *, boost::shared_ptr<filter::FilterExp<EventType> > > > subscribeQueue_;
-		util::DoubleBufferQueue<boost::shared_ptr<filter::FilterExp<EventType> > > unsubscribeQueue_; // for filter strategies
+		util::DoubleBufferQueue<std::pair<BasicDeliverCallbackInterface<EventType> *, boost::shared_ptr<filter::FilterExp<EventType>>>> subscribeQueue_;
+		util::DoubleBufferQueue<boost::shared_ptr<filter::FilterExp<EventType>>> unsubscribeQueue_; // for filter strategies
 		bool unsubscribe_;
 		PubSubSystemEnvironment * pssi_;
 		std::map<typename NetworkType::Key, uint64_t> _nodeList;
 		bool joined;
 		bool _hasSubscribe;
-		std::pair<BasicDeliverCallbackInterface<EventType> *, boost::shared_ptr<filter::FilterExp<EventType> > > _lastSubscribe;
+		std::pair<BasicDeliverCallbackInterface<EventType> *, boost::shared_ptr<filter::FilterExp<EventType>>> _lastSubscribe;
 		uint64_t parseID_;
 		uint64_t dynamicPeriodID_;
 
@@ -92,10 +97,10 @@ namespace pubsub {
 		/**
 		 * \brief Constructor
 		 */
-		Channel(const ChannelName topic_name, const std::string & ip, uint16_t port, const std::string & rendezvousIP, uint16_t known_hostport, PubSubSystemEnvironment * pssi, const std::vector<std::string> & rootList) : ChannelType::PartitionStrategy(), ChannelType::RendezvousStrategy(rootList), _self(ip + std::string(":") + boost::lexical_cast<std::string>(port)), _rendezvous(rendezvousIP + std::string(":") + boost::lexical_cast<std::string>(known_hostport)), factory_(message::MessageFactory<ChannelType, NetworkType>()), topic_(topic_name), controller_(pssi->_factory->createNetworkController(NetworkType())), msgQueue_(), subscribeQueue_(), unsubscribeQueue_(), unsubscribe_(false), pssi_(pssi), _nodeList({std::make_pair(_self, 0)}), joined(false), _hasSubscribe(false), _lastSubscribe(), dynamicPeriodID_(UINT64_MAX) {
+		Channel(const ChannelName topic_name, const std::string & ip, uint16_t port, const std::string & rendezvousIP, uint16_t known_hostport, PubSubSystemEnvironment * pssi, const std::vector<std::string> & rootList) : ChannelType::PartitionStrategy(), ChannelType::RendezvousStrategy(rootList), _self(ip + std::string(":") + std::to_string(port)), _rendezvous(rendezvousIP + std::string(":") + std::to_string(known_hostport)), factory_(message::MessageFactory<ChannelType, NetworkType>()), topic_(topic_name), controller_(pssi->_factory->createNetworkController(NetworkType())), msgQueue_(), subscribeQueue_(), unsubscribeQueue_(), unsubscribe_(false), pssi_(pssi), _nodeList({std::make_pair(_self, 0)}), joined(false), _hasSubscribe(false), _lastSubscribe(), dynamicPeriodID_(UINT64_MAX) {
 			if (!ChannelType::PartitionStrategy::DYNAMIC_PARTITION) {
 				for (auto name : ChannelType::PartitionStrategy::getTreeNames()) {
-					trees_.push_back(pssi->_tree_factory->template createTree<ChannelType, NetworkType, EventType>(_self, _rendezvous, typename NetworkType::Key(ChannelType::RendezvousStrategy::getRoot() + ":" + boost::lexical_cast<std::string>(known_hostport)), pssi, topic_));
+					trees_.push_back(pssi->_tree_factory->template createTree<ChannelType, NetworkType, EventType>(_self, _rendezvous, typename NetworkType::Key(ChannelType::RendezvousStrategy::getRoot() + ":" + std::to_string(known_hostport)), pssi, topic_));
 					if (name) {} // Just to prevent unused warning
 				}
 			} else {
@@ -471,8 +476,8 @@ namespace pubsub {
 		/**
 		 * \brief removes list of given topics
 		 */
-		void removeTopics(const std::set<unsigned int> & topics) {
-			for (unsigned int ttr : topics) {
+		void removeTopics(const std::set<uint16_t> & topics) {
+			for (uint16_t ttr : topics) {
 				for (size_t j = 0; j < trees_.size(); ++j) {
 					if (trees_[j]->getTopic() == ttr) {
 						ChannelType::PartitionStrategy::removePartition(j);
@@ -504,6 +509,10 @@ namespace pubsub {
 
 } /* namespace pubsub */
 } /* namespace m2etis */
+
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+	#pragma warning(pop)
+#endif
 
 #endif /* __M2ETIS_PUBSUB_CHANNEL_H__ */
 

@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,6 +39,11 @@
 
 #include "boost/bind.hpp"
 
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+	#pragma warning(push)
+	#pragma warning(disable : 4127)
+#endif
+
 namespace m2etis {
 namespace pubsub {
 
@@ -55,7 +60,7 @@ namespace pubsub {
 	class Tree : public ChannelType::RoutingStrategy, public ChannelType::FilterStrategy, public ChannelType::OrderStrategy, public ChannelType::DeliverStrategy, public ChannelType::PersistenceStrategy, public ChannelType::ValidityStrategy, public ChannelType::SecurityStrategy {
 		typedef message::InternalMessage<NetworkType, ChannelType, EventType> IMessage;
 		message::MessageFactory<ChannelType, NetworkType> factory_;
-		unsigned short topic_;
+		uint16_t topic_;
 		BasicDeliverCallbackInterface<EventType> * deliver_f;
 		net::NetworkController<NetworkType> * controller_;
 		typename NetworkType::Key self_;
@@ -71,7 +76,7 @@ namespace pubsub {
 		/**
 		 * \brief Constructor
 		 */
-		Tree(unsigned short tree_name, const typename NetworkType::Key & self, const typename NetworkType::Key & rendezvous, const typename NetworkType::Key & root, PubSubSystemEnvironment * pssi, int cI) : ChannelType::RoutingStrategy(tree_name, pssi, root), ChannelType::OrderStrategy(pssi, false), ChannelType::DeliverStrategy(pssi, self), ChannelType::ValidityStrategy(pssi), factory_(message::MessageFactory<ChannelType, NetworkType>()), topic_(tree_name), deliver_f(), controller_(pssi->_factory->createNetworkController(NetworkType())), self_(self), _rendezvous(rendezvous), _root(root), pssi_(pssi), subscribed_(false), buffer_(), channelID_(cI), resubscribeID_(UINT64_MAX) {
+		Tree(uint16_t tree_name, const typename NetworkType::Key & self, const typename NetworkType::Key & rendezvous, const typename NetworkType::Key & root, PubSubSystemEnvironment * pssi, int cI) : ChannelType::RoutingStrategy(tree_name, pssi, root), ChannelType::OrderStrategy(pssi, false), ChannelType::DeliverStrategy(pssi, self), ChannelType::ValidityStrategy(pssi), factory_(message::MessageFactory<ChannelType, NetworkType>()), topic_(tree_name), deliver_f(), controller_(pssi->_factory->createNetworkController(NetworkType())), self_(self), _rendezvous(rendezvous), _root(root), pssi_(pssi), subscribed_(false), buffer_(), channelID_(cI), resubscribeID_(UINT64_MAX) {
 			ChannelType::RoutingStrategy::setSelf(self_);
 			ChannelType::FilterStrategy::setSelf(self_);
 			ChannelType::OrderStrategy::setRoot(self_ == _rendezvous); // if this node is the RP, then set true flag to make this node sequenzer
@@ -109,7 +114,7 @@ namespace pubsub {
 			return channelID_;
 		}
 
-		inline unsigned int getTopic() const {
+		inline uint16_t getTopic() const {
 			return topic_;
 		}
 
@@ -594,6 +599,10 @@ namespace pubsub {
 
 } /* namespace pubsub */
 } /* namespace m2etis */
+
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+	#pragma warning(pop)
+#endif
 
 #endif /* __M2ETIS_PUBSUB_TREE_H__ */
 

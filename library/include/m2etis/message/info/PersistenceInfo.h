@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,10 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup message
+ * @ {
+ */
 
 #ifndef __M2ETIS_MESSAGE_INFO_PERSISTENCEINFO_H__
 #define __M2ETIS_MESSAGE_INFO_PERSISTENCEINFO_H__
@@ -28,7 +32,8 @@ namespace message {
 
 		PersistenceInfo() {}
 
-		template <typename Archive> void serialize(Archive & ar, const unsigned int version) {
+		template<typename Archive>
+		void serialize(Archive &, const unsigned int) {
 		}
 	};
 
@@ -36,3 +41,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_INFO_PERSISTENCEINFO_H__ */
+
+/**
+ *  @}
+ */

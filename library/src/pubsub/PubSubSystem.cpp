@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,16 @@
 
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 
+/*
+* This file generates the explicit type instantiations for the derived message types. These are used by boost serialization to work on the messages polymorphic.
+* It uses the channel configuration in order to derive the types for messages.
+*/
+
+#include "m2etis/message/MessageSerialization.h"
+#include "m2etis/pubsub/config/Strategies.h"
+
+#include "m2etis/config/GeneratedMessageConfiguration.h"
+
 #include "boost/asio/error.hpp"
 
 namespace m2etis {
@@ -26,18 +36,19 @@ namespace pubsub {
 	PubSubSystem::PubSubSystem(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort, const std::vector<std::string> & rootList) : _pssi(new PubSubSystemEnvironment(listenIP, listenPort, connectIP, connectPort)), channels_(new ChannelConfiguration(listenIP, listenPort, connectIP, connectPort, _pssi, rootList)), initialized(true), _exceptionCallbacks(5, std::vector<boost::function<void(const std::string &)>>()), _running(true) {
 		exceptionID_ = _pssi->scheduler_.runRepeated(500000, boost::bind(&PubSubSystem::exceptionLoop, this), 4);
 #ifdef WITH_LOGGING
-        util::log::initializeLogging();
+		util::log::initializeLogging();
 #endif
 	}
 
 	PubSubSystem::~PubSubSystem() {
 		_running = false;
 		_pssi->scheduler_.stop(exceptionID_);
+		_pssi->scheduler_.Stop();
 		delete channels_;
 		delete _pssi;
 		_exceptionCallbacks.clear();
 #ifdef WITH_LOGGING
-        util::log::shutdownLogging();
+		util::log::shutdownLogging();
 #endif
 	}
 
@@ -46,7 +57,7 @@ namespace pubsub {
 	}
 
 	bool PubSubSystem::exceptionLoop() {
-		while(!util::ExceptionQueue::isEmpty() && _running) {
+		while (!util::ExceptionQueue::isEmpty() && _running) {
 			util::loginfo info = util::ExceptionQueue::dequeue();
 			util::SystemFailureException e(info.module, info.message, info.file, info.line, info.errorcode);
 			e.writeLog();

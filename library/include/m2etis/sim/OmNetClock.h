@@ -65,11 +65,11 @@ namespace sim {
 		void Stop() {}
 
 	private:
-		OmNetClock & operator=(const OmNetClock & o);
-		OmNetClock(const OmNetClock & o);
-
 		const long startTime_;
 		OmNetCallbackInterface * _sim;
+
+		OmNetClock & operator=(const OmNetClock & o);
+		OmNetClock(const OmNetClock & o);
 	};
 
 } /* namespace sim */

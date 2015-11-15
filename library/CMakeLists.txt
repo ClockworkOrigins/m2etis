@@ -9,7 +9,7 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 # Global Build Configuration
 #---
 
-OPTION(I6MC_BUILD_SHARED "Build i6m2etis_shared" ON)
+OPTION(M2ETIS_BUILD_SHARED "Build m2etis shared" ON)
 OPTION(WITH_LOGGING "enables Logging" ON)
 OPTION(WITH_SIM "builds with simulator" OFF)
 OPTION(WITH_TESTING "builds with testing code" ON)
@@ -21,10 +21,7 @@ set(DEP_DIR "${CMAKE_SOURCE_DIR}/../dependencies" CACHE STRING "path to dependen
 set(ADDITIONAL_INCLUDE_DIRECTORIES "" CACHE STRING "Path to yourlib includes")
 
 IF(ADDITIONAL_INCLUDE_DIRECTORIES)
-	MESSAGE("${ADDITIONAL_INCLUDE_DIRECTORIES}")
-	INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${ADDITIONAL_INCLUDE_DIRECTORIES}")
-
-	MESSAGE("${INCLUDE_DIRECTORIES}")
+	INCLUDE_DIRECTORIES(${ADDITIONAL_INCLUDE_DIRECTORIES})
 ENDIF(ADDITIONAL_INCLUDE_DIRECTORIES)
 
 project(m2etis)
@@ -39,6 +36,16 @@ IF(NOT CMAKE_BUILD_TYPE)
 			"Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
 		FORCE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
+
+# Setting last version
+SET(LAST_VERSION_MAJOR 0)
+SET(LAST_VERSION_MINOR 3)
+SET(LAST_VERSION_PATCH 0)
+
+# Setting current version
+SET(VERSION_MAJOR 0)
+SET(VERSION_MINOR 4)
+SET(VERSION_PATCH 0)
 
 #---
 # Global Macros and Definitions
@@ -74,25 +81,13 @@ ELSEIF(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
 	SET (CMAKE_CXX_FLAGS_RELEASE		"${CXX_FLAGS} -O3 -DNDEBUG")
 	SET (CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${CXX_FLAGS} -O2 -g")
 ELSEIF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
-	set (CMAKE_CXX_FLAGS_DEBUG		"${CMAKE_CXX_FLAGS_DEBUG} /bigobj")
-	set (CMAKE_CXX_FLAGS_MINSIZEREL		"${CMAKE_CXX_FLAGS_MINSIZEREL} /bigobj")
-	set (CMAKE_CXX_FLAGS_RELEASE		"${CMAKE_CXX_FLAGS_RELEASE} /MP /bigobj")
-	set (CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /MP /bigobj")
+	set (CMAKE_CXX_FLAGS_DEBUG		"${CMAKE_CXX_FLAGS_DEBUG} /MP /bigobj /W4")
+	set (CMAKE_CXX_FLAGS_MINSIZEREL		"${CMAKE_CXX_FLAGS_MINSIZEREL} /MP /bigobj /W4")
+	set (CMAKE_CXX_FLAGS_RELEASE		"${CMAKE_CXX_FLAGS_RELEASE} /MP /bigobj /W4")
+	set (CMAKE_CXX_FLAGS_RELWITHDEBINFO	"${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /MP /bigobj /W4")
 ELSE()
-	message (SEND_INFO "Unknown C++ compiler \"${CMAKE_CXX_COMPILER_ID}\". Only GNU and Clang are completely supported.")
+	message (SEND_INFO "Unknown C++ compiler \"${CMAKE_CXX_COMPILER_ID}\". Only GNU, Clang and MSVC are completely supported.")
 ENDIF()
-
-#Exports Compilerflag for platform independency (used for declspec macro)
-IF(WIN32)
-	IF(I6MC_BUILD_SHARED)
-		SET(I6MC_DLL 1)
-	ENDIF(I6MC_BUILD_SHARED)
-ENDIF(WIN32)
-
-IF(I6MC_DLL)
-	ADD_DEFINITIONS(-DI6MC_EXPORTS)
-	ADD_DEFINITIONS(-DISIXE_BUILD_SHARED)
-ENDIF(I6MC_DLL)
 
 #Directory definitions
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/" ${CMAKE_MODULE_PATH})
@@ -140,7 +135,6 @@ ENDIF(WITH_MESSAGECOMPRESSION)
 # Dependencies
 #
 #----------------------------------------------------
-
 
 #Boost
 #---------------------------------------------------
@@ -211,10 +205,6 @@ IF(WITH_LOGGING)
 	include_directories(SYSTEM ${GLOG_INCLUDE_DIR})
 ENDIF(WITH_LOGGING)
 
-#SSL CRYPTO
-#----------------------------------------------------
-#FIND_PACKAGE(SSL REQUIRED)
-
 IF(WITH_PROFILING)
 	SET(LIBNAME "GPerfTools")
 	SET(LIBHEADER "gperftools/tcmalloc.h")
@@ -226,10 +216,10 @@ IF(WITH_PROFILING)
 	ENDIF(WIN32)
 	include_directories(SYSTEM ${GPerfTools_INCLUDE_DIR})
 
-	IF(NOT WIN32)
+	IF(APPLE)
 		SET(CMAKE_CXX_FLAGS_DEBUG "-isystem ${GPerfTools_INCLUDE_DIR} ${CMAKE_CXX_FLAGS}")
 		SET(CMAKE_CXX_FLAGS_RELEASE "-isystem ${GPerfTools_INCLUDE_DIR} ${CMAKE_CXX_FLAGS}")
-	ENDIF(NOT WIN32)
+	ENDIF(APPLE)
 ENDIF(WITH_PROFILING)
 
 # clockUtils
@@ -243,6 +233,10 @@ include_directories(SYSTEM ${CLOCKUTILS_INCLUDE_DIR})
 #------
 #Build m2etis libs
 #------
+
+configure_file(${CMAKE_SOURCE_DIR}/../config/Config.h.in ${CMAKE_BINARY_DIR}/include/m2etis/Config.h @ONLY)
+INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
+
 file(GLOB_RECURSE utils ${I6MC_SRC_DIR}/util/*.cpp)
 file(GLOB_RECURSE utils_header ${I6MC_INC_DIR}/util/*.h)
 
@@ -292,16 +286,6 @@ SOURCE_GROUP(wrapper\\self FILES ${m2etis_self_wrapper_header} ${m2etis_self_wra
 SOURCE_GROUP(wrapper\\udp FILES ${m2etis_udp_wrapper_header} ${m2etis_udp_wrapper})
 SOURCE_GROUP(wrapper\\chimera FILES ${m2etis_chimera_wrapper_header} ${m2etis_chimera_wrapper})
 
-#Defines an Option to build i6m2etis_net as shared lib
-IF(WIN32)
-	IF(I6MC_BUILD_SHARED)
-		SET(I6MC_DLL 1)
-	ENDIF(I6MC_BUILD_SHARED)
-ENDIF(WIN32)
-IF(I6MC_DLL)
-	ADD_DEFINITIONS(-DI6EC_EXPORTS)
-ENDIF(I6MC_DLL)
-
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${I6MC_INC_DIR}")
 
 SET(m2etis_source ${utils_header} ${utils} ${net_header} ${net} ${message_header} ${message} ${m2etis_pubsub_header} ${m2etis_pubsub} ${m2etis_config_header} ${m2etis_config} ${m2etis_tcp_wrapper_header} ${m2etis_tcp_wrapper} ${m2etis_clocktcp_wrapper_header} ${m2etis_clocktcp_wrapper} ${m2etis_udp_wrapper_header} ${m2etis_udp_wrapper})
@@ -336,9 +320,9 @@ IF(WITH_PROFILING)
 	target_link_libraries(m2etis ${GPerfTools_LIBRARIES})
 ENDIF(WITH_PROFILING)
 
-IF(WIN32)
-	add_custom_command(TARGET m2etis POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/dist/${CMAKE_BUILD_TYPE}/$<CONFIGURATION>/m2etis.dll ${CMAKE_BINARY_DIR}/dist)
-ENDIF(WIN32)
+IF(WIN32 AND M2ETIS_BUILD_SHARED)
+	add_custom_command(TARGET m2etis POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/dist/${CMAKE_BUILD_TYPE}/$<CONFIGURATION>/m2etis.dll ${CMAKE_BINARY_DIR}/dist/)
+ENDIF(WIN32 AND M2ETIS_BUILD_SHARED)
 
 # TESTING
 IF(WITH_TESTING)
@@ -346,15 +330,22 @@ IF(WITH_TESTING)
 ENDIF(WITH_TESTING)
 
 IF(WIN32)
+	file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/dist)
+
 	file(GLOB_RECURSE files "${DEP_DIR}/*.dll")
 	foreach(filename ${files})
 		execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different ${filename} ${CMAKE_BINARY_DIR}/dist)
 	endforeach()
-ENDIF(WIN32)
 
+	configure_file(${CMAKE_SOURCE_DIR}/../config/build-archive.bat.in ${CMAKE_BINARY_DIR}/build-archive.bat @ONLY)
+	
+	add_custom_target(BuildReleaseSourceArchive COMMAND build-archive.bat WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	add_custom_target(BuildRevisionSourceArchive COMMAND build-archive.bat packageRevision WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+ENDIF(WIN32)
 
 # INSTALL
 install(DIRECTORY include DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY ${CMAKE_BINARY_DIR}/include DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 install(TARGETS m2etis
 	RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin

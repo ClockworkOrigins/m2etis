@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,9 +17,9 @@
 // TODO: (Daniel) namespace?
 
 /**
- * \addtogroup net
- * @ {
- */
+* \addtogroup message
+* @ {
+*/
 
 #ifndef __KEYFACTORY_H__
 #define __KEYFACTORY_H__
@@ -71,5 +71,6 @@ public:
 
 #endif /* __KEYFACTORY_H__ */
 
-/** @}
+/**
+ *  @}
  */

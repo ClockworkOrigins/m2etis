@@ -14,6 +14,11 @@ Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
+
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_PREDICATE_H__
 #define __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_PREDICATE_H__
 
@@ -23,11 +28,11 @@ namespace m2etis {
 namespace pubsub {
 namespace filter {
 
-	template <typename EventType, typename NetworkType> class AttributeTypeInformation;
-	template <typename EventType, typename NetworkType> class DecisionTreeFilter;
-	template <typename EventType, typename NetworkType> class GeneralBooleanExpressionsFilter;
+	template<typename EventType, typename NetworkType> class AttributeTypeInformation;
+	template<typename EventType, typename NetworkType> class DecisionTreeFilter;
+	template<typename EventType, typename NetworkType> class GeneralBooleanExpressionsFilter;
 
-	template <typename EventType>
+	template<typename EventType>
 	class Predicate : public FilterExp<EventType> {
 	public:
 		virtual ~Predicate() {}
@@ -38,14 +43,14 @@ namespace filter {
 
 		virtual void getAttributeType(FilterVisitor<EventType> & visitor) const = 0;
 
-		virtual bool match(const EventType & event) const = 0; // TODO: (Roland) make abstract
-		virtual bool overlaps(const Predicate<EventType> * other_predicate) const { return true; } // implemented for serialization= 0;
+		virtual bool match(const EventType &) const = 0; // TODO: (Roland) make abstract
+		virtual bool overlaps(const Predicate<EventType> *) const { return true; } // implemented for serialization= 0;
 
 	private:
 		friend class boost::serialization::access;
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<FilterExp<EventType> >(*this);
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<FilterExp<EventType>>(*this);
 		}
 	}; // class Predicate
 
@@ -54,3 +59,7 @@ namespace filter {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_PREDICATE_H__ */
+
+/**
+ *  @}
+ */

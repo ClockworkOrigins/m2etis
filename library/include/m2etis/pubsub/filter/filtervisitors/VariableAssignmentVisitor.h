@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,10 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_VARIABLEASSIGNMENTVISITOR_H__
 #define __M2ETIS_PUBSUB_FILTER_VARIABLEASSIGNMENTVISITOR_H__
@@ -52,7 +56,7 @@ namespace filter {
 		}
 
 		virtual void Visit(const Predicate<EventType> * current_predicate) override {
-			operand_stack_.push(static_cast<bool>(predicate_assignment_ & (1UL << predicate_number_)));
+			operand_stack_.push((predicate_assignment_ & (1UL << predicate_number_)) != 0);
 			predicate_index_[predicate_number_] = current_predicate;
 			++predicate_number_;
 		}
@@ -95,3 +99,7 @@ namespace filter {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_FILTER_VARIABLEASSIGNMENTVISITOR_H__ */
+
+/**
+ *  @}
+ */

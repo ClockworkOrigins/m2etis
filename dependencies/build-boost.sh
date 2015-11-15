@@ -46,7 +46,7 @@ tar xfj "${ARCHIVE}" >/dev/null
 status "Bootstrapping Boost"
 cd "${BUILD_DIR}"
 
-./bootstrap.sh --prefix="${PREFIX}" --with-libraries=filesystem,thread,date_time,system,serialization,iostreams
+./bootstrap.sh --prefix="${PREFIX}" --with-libraries=chrono,filesystem,thread,date_time,regex,system,serialization,iostreams > /dev/null
 
 status "Building & Installing Boost"
 
@@ -61,7 +61,7 @@ if [[ $OSTYPE =~ "darwin" ]]; then
         architecture=x86\
         address-model=32_64\
 	toolset=$COMPILER cxxflags="-std=c++11 $STDLIB" linkflags="$STDLIB"\
-        install #>/dev/null
+        install >/dev/null
 else
   ./bjam \
         ${PARALLEL_FLAG}\
@@ -70,7 +70,7 @@ else
         --layout=system\
         link=shared\
 	toolset=$COMPILER cxxflags="-std=c++11"\
-        install #>/dev/null
+        install >/dev/null
 fi
 
 status "Cleaning up"
@@ -97,3 +97,4 @@ fi
 
 
 touch "${PREFIX}"
+rm -rf ${BUILD_ROOT}

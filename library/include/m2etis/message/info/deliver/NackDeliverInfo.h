@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup message
+ * @ {
  */
 
 #ifndef __M2ETIS_MESSAGE_NACKDELIVERINFO_H__
@@ -30,7 +35,7 @@ namespace message {
 
 		virtual ~NackDeliverInfo() {}
 
-		static bool doSerialize(const message::ActionType mtype) {
+		static bool doSerialize(const ActionType) {
 			return true;
 		}
 
@@ -38,7 +43,7 @@ namespace message {
 
 		std::vector<unsigned int> dropped;
 
-		template <typename Archive>
+		template<typename Archive>
 		void serialize(Archive & ar, const unsigned int version) {
 			ar & nr;
 			ar & dropped;
@@ -49,3 +54,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_NACKDELIVERINFO_H__ */
+
+/**
+ *  @}
+ */

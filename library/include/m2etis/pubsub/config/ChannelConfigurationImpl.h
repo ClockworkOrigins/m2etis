@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +14,10 @@
  limitations under the License.
  */
 
-//
-//  ChannelConfigurationImpl.h
-//  m2etis
-//
-//  Created by Thomas Fischer on 06.03.13.
-//
-//
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
 
 #ifndef m2etis_ChannelConfigurationImpl_h
 #define m2etis_ChannelConfigurationImpl_h
@@ -82,3 +79,7 @@ namespace m2etis {
     } /* namespace pubsub */
 } /* namespace m2etis */
 #endif
+
+/**
+*  @}
+*/

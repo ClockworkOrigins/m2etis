@@ -33,23 +33,23 @@ enum attribute_names {
 	  POSITION_X, POSITION_Y, POSITION_REGION, BOOK_TITLE, BOOK_PRICE, BOOK_CONDITION
   };
 
-M2ETIS_API std::map<AttributeName, std::shared_ptr<AttributeAccessor_Basic> > attributes_accessor_map = {
-		{POSITION_Y, std::make_shared<AttributeAccessor<Position, int> > (
+M2ETIS_API std::map<AttributeName, std::shared_ptr<AttributeAccessor_Basic>> attributes_accessor_map = {
+		{POSITION_Y, std::make_shared<AttributeAccessor<Position, int>> (
 				[] (const Position& position)->int {return position.get_y();} )
 		},
-		{POSITION_X, std::make_shared<AttributeAccessor<Position, int> > (
+		{POSITION_X, std::make_shared<AttributeAccessor<Position, int>> (
 				[] (const Position& position)->int {return position.get_x();} )
 		},
-		{POSITION_REGION, std::make_shared<AttributeAccessor<Position, std::string> > (
+		{POSITION_REGION, std::make_shared<AttributeAccessor<Position, std::string>> (
 				[] (const Position& position)->std::string {return position.get_region();} )
 		},
-		{BOOK_TITLE, std::make_shared<AttributeAccessor<Book, std::string> > (
+		{BOOK_TITLE, std::make_shared<AttributeAccessor<Book, std::string>> (
 				[] (const Book& book)->std::string {return book.title_;} )
 		},
-		{BOOK_CONDITION, std::make_shared<AttributeAccessor<Book, std::string> > (
+		{BOOK_CONDITION, std::make_shared<AttributeAccessor<Book, std::string>> (
 						[] (const Book& book)->std::string {return book.condition_;} )
 		},
-		{BOOK_PRICE, std::make_shared<AttributeAccessor<Book, double> > (
+		{BOOK_PRICE, std::make_shared<AttributeAccessor<Book, double>> (
 						[] (const Book& book)->double {return book.price_;} )
 		}
 };
@@ -61,8 +61,8 @@ M2ETIS_API std::map<AttributeName, std::shared_ptr<AttributeAccessor_Basic> > at
 // SIM_Spreadit_Null_OMNET
 typedef Channel<
 ChannelType<
-SpreaditRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+SpreaditRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , NullOrder<net::NetworkType<net::OMNET>>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -85,8 +85,8 @@ struct ChannelT<SIM_Spreadit_Null_OMNET_Null_Null_Simulation> {
 // SIM_Spreadit_DetMerge_OMNET
 typedef Channel<
 ChannelType<
-SpreaditRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+SpreaditRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , DetMergeOrder<net::NetworkType<net::OMNET>, m2etis::pubsub::order::DetMergeConfig>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -109,8 +109,8 @@ struct ChannelT<SIM_Spreadit_DetMerge_OMNET_Null_Null_Simulation> {
 // SIM_Spreadit_MTP_OMNET
 typedef Channel<
 ChannelType<
-SpreaditRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+SpreaditRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , MTPOrder<net::NetworkType<net::OMNET>, 1000000, LateDeliver::DROP>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -133,8 +133,8 @@ struct ChannelT<SIM_Spreadit_MTP_OMNET_Null_Null_Simulation> {
 // SIM_Spreadit_GMS_OMNET
 typedef Channel<
 ChannelType<
-SpreaditRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+SpreaditRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , GMSOrder<net::NetworkType<net::OMNET>, 1000000>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -157,8 +157,8 @@ struct ChannelT<SIM_Spreadit_GMS_OMNET_Null_Null_Simulation> {
 // SIM_Direct_Null_OMNET
 typedef Channel<
 ChannelType<
-DirectRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , NullOrder<net::NetworkType<net::OMNET>>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -181,8 +181,8 @@ struct ChannelT<SIM_Direct_Null_OMNET_Null_Null_Simulation> {
 // SIM_Direct_MTP_OMNET
 typedef Channel<
 ChannelType<
-DirectRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , MTPOrder<net::NetworkType<net::OMNET>, 1000000, LateDeliver::DROP>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -205,8 +205,8 @@ struct ChannelT<SIM_Direct_MTP_OMNET_Null_Null_Simulation> {
 // SIM_Direct_DetMerge_OMNET
 typedef Channel<
 ChannelType<
-DirectRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , DetMergeOrder<net::NetworkType<net::OMNET>, DetMergeConfig>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -229,8 +229,8 @@ struct ChannelT<SIM_Direct_DetMerge_OMNET_Null_Null_Simulation> {
 // SIM_Direct_GMS_OMNET
 typedef Channel<
 ChannelType<
-DirectRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , GMSOrder<net::NetworkType<net::OMNET>, 1000000>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -253,8 +253,8 @@ struct ChannelT<SIM_Direct_GMS_OMNET_Null_Null_Simulation> {
 // SIM_DirectBroadcast_Null_OMNET
 typedef Channel<
 ChannelType<
-DirectBroadcastRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectBroadcastRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , NullOrder<net::NetworkType<net::OMNET>>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -277,8 +277,8 @@ struct ChannelT<SIM_DirectBroadcast_Null_OMNET_Null_Null_Simulation> {
 // SIM_DirectBroadcast_MTP_OMNET
 typedef Channel<
 ChannelType<
-DirectBroadcastRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectBroadcastRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , MTPOrder<net::NetworkType<net::OMNET>, 1000000, LateDeliver::DROP>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -301,8 +301,8 @@ struct ChannelT<SIM_DirectBroadcast_MTP_OMNET_Null_Null_Simulation> {
 // SIM_DirectBroadcast_DetMerge_OMNET
 typedef Channel<
 ChannelType<
-DirectBroadcastRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectBroadcastRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , DetMergeOrder<net::NetworkType<net::OMNET>, DetMergeConfig>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -325,8 +325,8 @@ struct ChannelT<SIM_DirectBroadcast_DetMerge_OMNET_Null_Null_Simulation> {
 // SIM_DirectBroadcast_GMS_OMNET
 typedef Channel<
 ChannelType<
-DirectBroadcastRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectBroadcastRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , GMSOrder<net::NetworkType<net::OMNET>, 1000000>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -349,8 +349,8 @@ struct ChannelT<SIM_DirectBroadcast_GMS_OMNET_Null_Null_Simulation> {
 // SIM_Scribe_Null_OMNET
 typedef Channel<
 ChannelType<
-ScribeRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+ScribeRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , MTPOrder<net::NetworkType<net::OMNET>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , AckDeliver<net::NetworkType<net::OMNET>, 5, m2etis::pubsub::deliver::Amount::EXACTLY_ONCE>
 , NullPersistence
@@ -373,8 +373,8 @@ struct ChannelT<SIM_Scribe_Null_OMNET_Null_Null_Simulation> {
 // SIM_Direct_Null_OMNET_Ack_Null
 typedef Channel<
 ChannelType<
-DirectRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , NullOrder<net::NetworkType<net::OMNET>>
 , AckDeliver<net::NetworkType<net::OMNET>, 5, m2etis::pubsub::deliver::Amount::EXACTLY_ONCE>
 , NullPersistence
@@ -396,8 +396,8 @@ struct ChannelT<SIM_Direct_Null_OMNET_Ack_Null_Simulation> {
 // SIM_Spreadit_Null_OMNET
 typedef Channel<
 ChannelType<
-SpreaditRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+SpreaditRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , NullOrder<net::NetworkType<net::OMNET>>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -419,8 +419,8 @@ struct ChannelT<SIM_Spreadit_Null_OMNET_Null_Time_Simulation> {
 
 typedef Channel<
 ChannelType<
-DirectRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , NullOrder<net::NetworkType<net::OMNET>>
 , NullDeliver<net::NetworkType<net::OMNET>>
 , NullPersistence
@@ -444,8 +444,8 @@ struct ChannelT<SIM_Direct_Null_OMNET_Null_Null_DirectBroadcast_Simulation> {
 
 typedef Channel<
 ChannelType<
-DirectRouting<net::NetworkType<net::OMNET> >
-, NullFilter<SimulationEventType, net::NetworkType<net::OMNET> >
+DirectRouting<net::NetworkType<net::OMNET>>
+, NullFilter<SimulationEventType, net::NetworkType<net::OMNET>>
 , NullOrder<net::NetworkType<net::OMNET>>
 , NackDeliver<net::NetworkType<net::OMNET>, 5, m2etis::pubsub::deliver::Amount::EXACTLY_ONCE>
 , NullPersistence
@@ -468,10 +468,10 @@ struct ChannelT<SIM_Direct_Null_OMNET_Nack_Null_Simulation> {
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
-        , NullOrder<net::NetworkType<net::TCP> >
-        , NullDeliver<net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
+        , NullOrder<net::NetworkType<net::TCP>>
+        , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
         , NullValidity
         , NullPartition<net::NetworkType<net::TCP>, CharVectorEventType>
@@ -491,8 +491,8 @@ struct ChannelT<TEST_Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP>{
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -514,10 +514,10 @@ struct ChannelT<TEST_Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_UDP>{
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
-        , NullOrder<net::NetworkType<net::TCP> >
-        , NullDeliver<net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
+        , NullOrder<net::NetworkType<net::TCP>>
+        , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
         , NullValidity
         , BruteForcePartition<net::NetworkType<net::TCP>, CharVectorEventType>
@@ -537,8 +537,8 @@ struct ChannelT<TEST_Direct_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -560,8 +560,8 @@ struct ChannelT<TEST_Direct_Null_Null_Null_Null_Null_BruteForce_Null_CharVector_
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -583,8 +583,8 @@ struct ChannelT<TEST_Direct_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_TC
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -606,8 +606,8 @@ struct ChannelT<TEST_Direct_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_UD
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -629,8 +629,8 @@ struct ChannelT<TEST_Direct_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVec
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -652,8 +652,8 @@ struct ChannelT<TEST_Direct_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharVec
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -675,8 +675,8 @@ struct ChannelT<TEST_Direct_Null_MTP_Null_Null_Null_Null_Null_CharVector_TCP>{
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -698,8 +698,8 @@ struct ChannelT<TEST_Direct_Null_MTP_Null_Null_Null_Null_Null_CharVector_UDP>{
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -721,8 +721,8 @@ struct ChannelT<TEST_Direct_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_T
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -744,8 +744,8 @@ struct ChannelT<TEST_Direct_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector_U
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -767,8 +767,8 @@ struct ChannelT<TEST_Direct_Null_GMS_Null_Null_Null_Null_Null_CharVector_TCP>{
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -790,8 +790,8 @@ struct ChannelT<TEST_Direct_Null_GMS_Null_Null_Null_Null_Null_CharVector_UDP>{
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -813,8 +813,8 @@ struct ChannelT<TEST_Direct_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_T
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -836,8 +836,8 @@ struct ChannelT<TEST_Direct_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector_U
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -859,8 +859,8 @@ struct ChannelT<TEST_Direct_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -882,8 +882,8 @@ struct ChannelT<TEST_Direct_BruteForce_Null_Null_Null_Null_Null_Null_CharVector_
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -905,8 +905,8 @@ struct ChannelT<TEST_Direct_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharV
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -928,8 +928,8 @@ struct ChannelT<TEST_Direct_BruteForce_Null_Null_Null_Null_BruteForce_Null_CharV
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -951,8 +951,8 @@ struct ChannelT<TEST_Direct_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVec
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -974,8 +974,8 @@ struct ChannelT<TEST_Direct_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharVec
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -997,8 +997,8 @@ struct ChannelT<TEST_Direct_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_C
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1020,8 +1020,8 @@ struct ChannelT<TEST_Direct_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null_C
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1043,8 +1043,8 @@ struct ChannelT<TEST_Direct_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_T
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1066,8 +1066,8 @@ struct ChannelT<TEST_Direct_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector_U
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1089,8 +1089,8 @@ struct ChannelT<TEST_Direct_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVe
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1112,8 +1112,8 @@ struct ChannelT<TEST_Direct_BruteForce_MTP_Null_Null_Null_BruteForce_Null_CharVe
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1135,8 +1135,8 @@ struct ChannelT<TEST_Direct_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_T
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1158,8 +1158,8 @@ struct ChannelT<TEST_Direct_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector_U
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1181,8 +1181,8 @@ struct ChannelT<TEST_Direct_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVe
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1204,8 +1204,8 @@ struct ChannelT<TEST_Direct_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVe
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1227,8 +1227,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_Null_Null_Null_Null_Null_Null_CharVect
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1250,8 +1250,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_Null_Null_Null_Null_Null_Null_CharVect
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1273,8 +1273,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_Null_Null_Null_Null_BruteForce_Null_Ch
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1296,8 +1296,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_Null_Null_Null_Null_BruteForce_Null_Ch
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1319,8 +1319,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_Null_Null_Char
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1342,8 +1342,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_Null_Null_Char
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1365,8 +1365,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_BruteForce_Nul
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1388,8 +1388,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_DetMerge_Null_Null_Null_BruteForce_Nul
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1411,8 +1411,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_MTP_Null_Null_Null_Null_Null_CharVecto
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1434,8 +1434,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_MTP_Null_Null_Null_Null_Null_CharVecto
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1457,8 +1457,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_MTP_Null_Null_Null_BruteForce_Null_Cha
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1480,8 +1480,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_MTP_Null_Null_Null_BruteForce_Null_Cha
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1503,8 +1503,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_GMS_Null_Null_Null_Null_Null_CharVecto
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1526,8 +1526,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_GMS_Null_Null_Null_Null_Null_CharVecto
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1549,8 +1549,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_GMS_Null_Null_Null_BruteForce_Null_Cha
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1572,8 +1572,8 @@ struct ChannelT<TEST_DirectBroadcast_Null_GMS_Null_Null_Null_BruteForce_Null_Cha
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1595,8 +1595,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_Null_Null_Ch
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1618,8 +1618,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_Null_Null_Ch
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1641,8 +1641,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_BruteForce_N
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1664,8 +1664,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_Null_Null_Null_Null_BruteForce_N
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1687,8 +1687,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Null_Nul
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1710,8 +1710,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Null_Nul
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1733,8 +1733,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_BruteFor
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1756,8 +1756,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_BruteFor
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1779,8 +1779,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_Null_Null_Cha
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1802,8 +1802,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_Null_Null_Cha
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1825,8 +1825,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_BruteForce_Nu
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1848,8 +1848,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_MTP_Null_Null_Null_BruteForce_Nu
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1871,8 +1871,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_Null_Null_Cha
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1894,8 +1894,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_Null_Null_Cha
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        DirectBroadcastRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1917,8 +1917,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_BruteForce_Nu
 
 typedef Channel<
     ChannelType<
-        DirectBroadcastRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        DirectBroadcastRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1940,8 +1940,8 @@ struct ChannelT<TEST_DirectBroadcast_BruteForce_GMS_Null_Null_Null_BruteForce_Nu
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -1963,8 +1963,8 @@ struct ChannelT<TEST_Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP>
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -1986,8 +1986,8 @@ struct ChannelT<TEST_Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDP>
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2009,8 +2009,8 @@ struct ChannelT<TEST_Spreadit_Null_Null_Null_Null_Null_BruteForce_Null_CharVecto
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2032,8 +2032,8 @@ struct ChannelT<TEST_Spreadit_Null_Null_Null_Null_Null_BruteForce_Null_CharVecto
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2055,8 +2055,8 @@ struct ChannelT<TEST_Spreadit_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2078,8 +2078,8 @@ struct ChannelT<TEST_Spreadit_Null_DetMerge_Null_Null_Null_Null_Null_CharVector_
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2101,8 +2101,8 @@ struct ChannelT<TEST_Spreadit_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharV
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2124,8 +2124,8 @@ struct ChannelT<TEST_Spreadit_Null_DetMerge_Null_Null_Null_BruteForce_Null_CharV
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2147,8 +2147,8 @@ struct ChannelT<TEST_Spreadit_Null_MTP_Null_Null_Null_Null_Null_CharVector_TCP>{
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2170,8 +2170,8 @@ struct ChannelT<TEST_Spreadit_Null_MTP_Null_Null_Null_Null_Null_CharVector_UDP>{
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2193,8 +2193,8 @@ struct ChannelT<TEST_Spreadit_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2216,8 +2216,8 @@ struct ChannelT<TEST_Spreadit_Null_MTP_Null_Null_Null_BruteForce_Null_CharVector
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2239,8 +2239,8 @@ struct ChannelT<TEST_Spreadit_Null_GMS_Null_Null_Null_Null_Null_CharVector_TCP>{
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2262,8 +2262,8 @@ struct ChannelT<TEST_Spreadit_Null_GMS_Null_Null_Null_Null_Null_CharVector_UDP>{
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2285,8 +2285,8 @@ struct ChannelT<TEST_Spreadit_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , NullFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2308,8 +2308,8 @@ struct ChannelT<TEST_Spreadit_Null_GMS_Null_Null_Null_BruteForce_Null_CharVector
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2331,8 +2331,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_Null_Null_Null_Null_Null_Null_CharVecto
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2354,8 +2354,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_Null_Null_Null_Null_Null_Null_CharVecto
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , NullOrder<net::NetworkType<net::TCP>>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2377,8 +2377,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_Null_Null_Null_Null_BruteForce_Null_Cha
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2400,8 +2400,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_Null_Null_Null_Null_BruteForce_Null_Cha
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2423,8 +2423,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharV
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2446,8 +2446,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_Null_Null_CharV
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , DetMergeOrder<net::NetworkType<net::TCP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2469,8 +2469,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , DetMergeOrder<net::NetworkType<net::UDP>, m2etis::config::order::DetMergeConfigTest>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2492,8 +2492,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_DetMerge_Null_Null_Null_BruteForce_Null
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2515,8 +2515,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2538,8 +2538,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_MTP_Null_Null_Null_Null_Null_CharVector
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , MTPOrder<net::NetworkType<net::TCP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2561,8 +2561,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_MTP_Null_Null_Null_BruteForce_Null_Char
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , MTPOrder<net::NetworkType<net::UDP>, 1000000, LateDeliver::DROP>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2584,8 +2584,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_MTP_Null_Null_Null_BruteForce_Null_Char
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2607,8 +2607,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2630,8 +2630,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_GMS_Null_Null_Null_Null_Null_CharVector
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::TCP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP> >
+        SpreaditRouting<net::NetworkType<net::TCP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::TCP>>
         , GMSOrder<net::NetworkType<net::TCP>, 1000000>
         , NullDeliver<net::NetworkType<net::TCP>>
         , NullPersistence
@@ -2653,8 +2653,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_Char
 
 typedef Channel<
     ChannelType<
-        SpreaditRouting<net::NetworkType<net::UDP> >
-        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP> >
+        SpreaditRouting<net::NetworkType<net::UDP>>
+        , BruteForceFilter<CharVectorEventType, net::NetworkType<net::UDP>>
         , GMSOrder<net::NetworkType<net::UDP>, 1000000>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence
@@ -2676,8 +2676,8 @@ struct ChannelT<TEST_Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_Char
 
 typedef Channel<
     ChannelType<
-        DirectRouting<net::NetworkType<net::UDP> >
-        , NullFilter<IntegrationTestEventType, net::NetworkType<net::UDP> >
+        DirectRouting<net::NetworkType<net::UDP>>
+        , NullFilter<IntegrationTestEventType, net::NetworkType<net::UDP>>
         , NullOrder<net::NetworkType<net::UDP>>
         , NullDeliver<net::NetworkType<net::UDP>>
         , NullPersistence

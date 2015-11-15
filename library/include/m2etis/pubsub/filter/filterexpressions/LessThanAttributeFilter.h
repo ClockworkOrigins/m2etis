@@ -14,6 +14,11 @@ Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
+
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_LESSTHANATTRIBUTEFILTER_H__
 #define __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_LESSTHANATTRIBUTEFILTER_H__
 
@@ -23,11 +28,11 @@ namespace m2etis {
 namespace pubsub {
 namespace filter {
 
-	template <typename EventType, typename AttributeType> class EqualsAttributeFilter;
-	template <typename EventType, typename AttributeType> class NotEqualsAttributeFilter;
-	template <typename EventType, typename AttributeType> class GreaterThanAttributeFilter;
+	template<typename EventType, typename AttributeType> class EqualsAttributeFilter;
+	template<typename EventType, typename AttributeType> class NotEqualsAttributeFilter;
+	template<typename EventType, typename AttributeType> class GreaterThanAttributeFilter;
 
-	template <typename EventType, typename AttributeType>
+	template<typename EventType, typename AttributeType>
 	class LessThanAttributeFilter : public AttributeFilter<EventType, AttributeType> {
 	public:
 		typedef EventType schema; // needed for operator overloading
@@ -69,9 +74,9 @@ namespace filter {
 
 	 private:
 		friend class boost::serialization::access;
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
-			ar & boost::serialization::base_object<AttributeFilter<EventType, AttributeType> >(*this);
+		template<typename Archive>
+		void serialize(Archive & ar, const unsigned int) {
+			ar & boost::serialization::base_object<AttributeFilter<EventType, AttributeType>>(*this);
 		}
 	}; // LessThanAttributeFilter
 
@@ -80,3 +85,7 @@ namespace filter {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_LESSTHANATTRIBUTEFILTER_H__ */
+
+/**
+ *  @}
+ */

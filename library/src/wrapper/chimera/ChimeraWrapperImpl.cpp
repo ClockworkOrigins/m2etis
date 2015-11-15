@@ -160,7 +160,7 @@ namespace chimera {
 			mp->type = static_cast<int>(msg.getType());
 			free(mp->payload);
 			mp->size =  msg.getPayloadLength();
-			mp->payload = (char *) malloc(sizeof(char) * boost::lexical_cast<unsigned int>(mp->size));
+			mp->payload = (char *) malloc(sizeof(char) * size_t(mp->size));
 			std::copy(msg.getPayloadRef().begin(), msg.getPayloadRef().end(), mp->payload);
 
 			// FIXME What's about the host?

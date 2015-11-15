@@ -40,7 +40,7 @@ unzip "${ARCHIVE}" #>/dev/null
 status "Configuring Google Flags"
 cd "${BUILD_DIR}"
 
-cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -DCMAKE_CXX_COMPILER=${COMPILER} .
+cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=${PREFIX} -DCMAKE_CXX_COMPILER=${COMPILER} .
 
 status "Building Google Flags"
 make ${PARALLEL_FLAG} #>/dev/null

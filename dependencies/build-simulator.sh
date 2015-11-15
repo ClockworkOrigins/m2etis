@@ -53,7 +53,7 @@ title "Compile OMNET++ & Oversim"
 status "Extracting OMNET++"
 mkdir -p "${PREFIX}"
 cd "${PREFIX}"
-tar zxvf "${OPP_ARCHIVE}" >& /dev/null
+tar zxvf "${BUILD_ROOT}/${OPP_ARCHIVE}" > /dev/null
 
 status "Set up build environment for OMNET++"
 cd ${OPPBUILD}
@@ -96,7 +96,7 @@ make install-desktop-icon > /dev/null
 
 status "Extracting INET-Oversim"
 cd ${PREFIX}
-tar xzvf "${IOVER_ARCHIVE}" >& /dev/null
+tar xzvf "${BUILD_ROOT}/${IOVER_ARCHIVE}" > /dev/null
 
 status "Compiling INET-Oversim"
 cd ${IOVERBUILD}
@@ -105,7 +105,7 @@ make #> /dev/null
 
 status "Extracting Oversim"
 cd ${PREFIX}
-tar xzvf "${OVER_ARCHIVE}" >& /dev/null
+tar xzvf "${BUILD_ROOT}/${OVER_ARCHIVE}" > /dev/null
 
 status "Compiling Oversim"
 cd ${OVERBUILD}

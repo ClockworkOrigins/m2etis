@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup pubsub
+ * @ {
  */
 
 #ifndef __M2ETIS_PUBSUB_PARTITION_DIRECTBROADCASTPARTITION_H__
@@ -96,7 +101,7 @@ namespace partition {
 			return true;
 		}
 
-		void addPartition(boost::shared_ptr<filter::FilterExp<EventType> > predicate, const typename NetworkType::Key & root) {
+		void addPartition(boost::shared_ptr<filter::FilterExp<EventType>> predicate, const typename NetworkType::Key & root) {
 			partition_filter_vector_.push_back(std::make_pair(predicate, root));
 		}
 
@@ -104,7 +109,7 @@ namespace partition {
 			partition_filter_vector_.erase(partition_filter_vector_.begin() + id);
 		}
 
-		void changePredicate(unsigned int id, boost::shared_ptr<filter::FilterExp<EventType> > predicates) {
+		void changePredicate(unsigned int, boost::shared_ptr<filter::FilterExp<EventType>>) {
 		}
 		
 		void changeRoot(unsigned int id, typename NetworkType::Key & root) {
@@ -130,3 +135,7 @@ namespace partition {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_PARTITION_DIRECTBROADCASTPARTITION_H__ */
+
+/**
+ *  @}
+ */

@@ -14,12 +14,18 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup util
+ * @ {
+ */
+
 #ifndef __M2ETIS_UTIL_PREDICATE_H__
 #define __M2ETIS_UTIL_PREDICATE_H__
 
 namespace m2etis {
 namespace util {
 
+	// TODO: (Daniel) what's this for? filtering?
 	template<typename EventType>
 	class Predicate : std::unary_function<type, bool> {
 		std::function<bool(M2etisMessage<EventType>)> expr;
@@ -44,3 +50,7 @@ namespace util {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_UTIL_PREDICATE_H__ */
+
+/**
+ * @}
+ */

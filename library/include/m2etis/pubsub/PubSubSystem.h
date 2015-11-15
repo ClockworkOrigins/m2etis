@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,7 @@
 namespace m2etis {
 namespace pubsub {
 
-	template <class EventType> class BasicDeliverCallbackInterface;
+	template<class EventType> class BasicDeliverCallbackInterface;
 	class PubSubSystemEnvironment;
 
 	enum exceptionEvents {
@@ -71,7 +71,7 @@ namespace pubsub {
 		 * \param[in, out] callback callback method, which the publisher can call
 		 * \return Returns a Handle to interact with the requested channel
 		 */
-		template <class EventType> BasicChannelInterface<EventType> & subscribe(const ChannelName channel, BasicDeliverCallbackInterface<EventType> & callback);
+		template<class EventType> BasicChannelInterface<EventType> & subscribe(const ChannelName channel, BasicDeliverCallbackInterface<EventType> & callback);
 
 		// FIXME create predicate interface
 		/**
@@ -81,14 +81,14 @@ namespace pubsub {
 		 * \param[in] predicate filter
 		 * \return Returns a Handle to interact with the requested channel
 		 */
-		template <class EventType> BasicChannelInterface<EventType> & subscribe(const ChannelName channel, BasicDeliverCallbackInterface<EventType> & callback, boost::shared_ptr<filter::FilterExp<EventType> > predicate);
+		template<class EventType> BasicChannelInterface<EventType> & subscribe(const ChannelName channel, BasicDeliverCallbackInterface<EventType> & callback, boost::shared_ptr<filter::FilterExp<EventType> > predicate);
 
 		/**
 		 * \brief User unsubscribes to the requested channel
 		 * \param[in] channel channel
 		 * \return Returns a pointer to the PubSubSystem
 		 */
-		template <class EventType> const PubSubSystem & unsubscribe(const ChannelName channel) const;
+		template<class EventType> const PubSubSystem & unsubscribe(const ChannelName channel) const;
 
 		/**
 		 * \brief User deregisters single filter from the requested channel
@@ -96,7 +96,7 @@ namespace pubsub {
 		 * \param[in] predicate filter
 		 * \return Returns a pointer to the PubSubSystem
 		 */
-		template <class EventType> const PubSubSystem & unsubscribe(const ChannelName channel, const boost::shared_ptr<filter::FilterExp<EventType> > predicate) const;
+		template<class EventType> const PubSubSystem & unsubscribe(const ChannelName channel, const boost::shared_ptr<filter::FilterExp<EventType> > predicate) const;
 
 		/**
 		 * \brief Publishes a message to a channel
@@ -104,21 +104,21 @@ namespace pubsub {
 		 * \param[in] publish_message published message
 		 * \return Returns a pointer to the PubSubSystem
 		 */
-		template <class EventType> const PubSubSystem & publish(const ChannelName channel, const typename message::M2Message<EventType>::Ptr publish_message) const;
+		template<class EventType> const PubSubSystem & publish(const ChannelName channel, const typename message::M2Message<EventType>::Ptr publish_message) const;
 
 		/**
 		 * \brief returns a M2Message for the given EventType and Payload
 		 */
 		// FIXME: (Daniel) if we kick M2Message, we can kick also these to methods and publish Payload directly
-		template <class EventType> typename message::M2Message<EventType>::Ptr createMessage(const ChannelName channel, const EventType & payload);
-		template <class EventType> typename message::M2Message<EventType>::Ptr createMessage(const ChannelName channel);
+		template<class EventType> typename message::M2Message<EventType>::Ptr createMessage(const ChannelName channel, const EventType & payload);
+		template<class EventType> typename message::M2Message<EventType>::Ptr createMessage(const ChannelName channel);
 
 		/**
 		 * \brief Returns a string representation of the requested channel
 		 * \param[in] channel channel
 		 * \return string representation of the requested channel
 		 */
-		template <class EventType> std::string getSelf(const ChannelName channel) const;
+		template<class EventType> std::string getSelf(const ChannelName channel) const;
 
 		/**
 		 * \brief sets callback for disconnect
@@ -159,16 +159,16 @@ namespace pubsub {
 		template<class EventType> BasicChannelInterface<EventType> * getChannelHandle(const ChannelName channel) const;
 	};
 
-	template <class EventType> std::string PubSubSystem::getSelf(ChannelName channel) const {
+	template<class EventType> std::string PubSubSystem::getSelf(ChannelName channel) const {
 		return "";
 	}
 
-	template <class EventType> BasicChannelInterface<EventType> * PubSubSystem::getChannelHandle(ChannelName channel) const {
+	template<class EventType> BasicChannelInterface<EventType> * PubSubSystem::getChannelHandle(ChannelName channel) const {
 		if (!initialized) {
 			M2ETIS_THROW_API("PubSubSystem", "Invalid call, initialize PubSubSystem first.");
 		}
 		if (channel >= channels_->count) {
-			M2ETIS_THROW_API("PubSubSystem", std::string("Invalid channel, enum exceeds CHANNEL_COUNT: ") + boost::lexical_cast<std::string>(channel));
+			M2ETIS_THROW_API("PubSubSystem", std::string("Invalid channel, enum exceeds CHANNEL_COUNT: ") + std::to_string(channel));
 		}
 		BasicChannelInterface<EventType> * const ret = dynamic_cast<BasicChannelInterface<EventType> * const>(channels_->channels()[channel]);
 		if (ret == NULL) {
@@ -177,20 +177,20 @@ namespace pubsub {
 		return ret;
 	}
 
-	template <class EventType> BasicChannelInterface<EventType> & PubSubSystem::subscribe(ChannelName channel, BasicDeliverCallbackInterface<EventType> & callback) {
+	template<class EventType> BasicChannelInterface<EventType> & PubSubSystem::subscribe(ChannelName channel, BasicDeliverCallbackInterface<EventType> & callback) {
 		const boost::shared_ptr<filter::FilterExp<EventType> > pred = boost::make_shared<filter::TruePredicate<EventType> >();
 
 		return subscribe(channel, callback, pred);
 	}
 
-	template <class EventType> BasicChannelInterface<EventType> & PubSubSystem::subscribe(const ChannelName channel, BasicDeliverCallbackInterface<EventType> & callback, const boost::shared_ptr<filter::FilterExp<EventType> > predicate) {
+	template<class EventType> BasicChannelInterface<EventType> & PubSubSystem::subscribe(const ChannelName channel, BasicDeliverCallbackInterface<EventType> & callback, const boost::shared_ptr<filter::FilterExp<EventType> > predicate) {
 		BasicChannelInterface<EventType> * const ret = getChannelHandle<EventType>(channel);
 
 		ret->subscribe(callback, predicate);
 		return *ret;
 	}
 
-	template <class EventType> const PubSubSystem & PubSubSystem::unsubscribe(ChannelName channel) const {
+	template<class EventType> const PubSubSystem & PubSubSystem::unsubscribe(ChannelName channel) const {
 		BasicChannelInterface<EventType> * const ret = getChannelHandle<EventType>(channel);
 		ret->unsubscribe();
 		return *this;
@@ -198,31 +198,31 @@ namespace pubsub {
 
 
 	// for filter strategies: deregistering single filter:
-	template <class EventType> const PubSubSystem & PubSubSystem::unsubscribe(const ChannelName channel, const boost::shared_ptr<filter::FilterExp<EventType> > predicate) const {
+	template<class EventType> const PubSubSystem & PubSubSystem::unsubscribe(const ChannelName channel, const boost::shared_ptr<filter::FilterExp<EventType> > predicate) const {
 		BasicChannelInterface<EventType> * const ret = getChannelHandle<EventType>(channel);
 		ret->unsubscribe(predicate);
 		return *this;
 	}
 
-	template <class EventType> const PubSubSystem & PubSubSystem::publish(const ChannelName channel, const typename message::M2Message<EventType>::Ptr publish_message) const {
+	template<class EventType> const PubSubSystem & PubSubSystem::publish(const ChannelName channel, const typename message::M2Message<EventType>::Ptr publish_message) const {
 		BasicChannelInterface<EventType> * const ret = getChannelHandle<EventType>(channel);
 		ret->publish(publish_message);
 		return *this;
 	}
 
-	template <class EventType> typename message::M2Message<EventType>::Ptr PubSubSystem::createMessage(const ChannelName channel, const EventType & payload) {
+	template<class EventType> typename message::M2Message<EventType>::Ptr PubSubSystem::createMessage(const ChannelName channel, const EventType & payload) {
 		return getChannelHandle<EventType>(channel)->createMessage(payload);
 	}
 
-	template <class EventType> typename message::M2Message<EventType>::Ptr PubSubSystem::createMessage(const ChannelName channel) {
+	template<class EventType> typename message::M2Message<EventType>::Ptr PubSubSystem::createMessage(const ChannelName channel) {
 		return createMessage<EventType>(channel, EventType());
 	}
 
 } /* namespace pubsub */
 } /* namespace m2etis */
 
+#endif /* __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__ */
+
 /**
  *  @}
  */
-
-#endif /* __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__ */

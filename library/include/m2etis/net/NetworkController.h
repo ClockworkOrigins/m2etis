@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +49,6 @@ namespace net {
 	 * \brief NetworkController
 	 *
 	 * Long Desc
-	 *
 	 */
 	template<class NetworkType>
 	class NetworkController : public NetworkCallbackInterface<NetworkType> {
@@ -57,72 +56,39 @@ namespace net {
 		typedef boost::function<void(typename message::NetworkMessage<NetworkType>::Ptr message)> net_deliver_func;
 		typedef boost::function<pubsub::FIPtr(typename message::NetworkMessage<NetworkType>::Ptr message)> net_forward_func;
 
-	private:
-		// Subject to refactor:
+		// TODO: (Daniel) this can be removed, use NetworkMessage directly instead
 		struct DeliverInfo {
-			explicit DeliverInfo(typename message::NetworkMessage<NetworkType>::Ptr ms) : msg_type(*ms->typePtr), message(ms) {}
+			explicit DeliverInfo(typename message::NetworkMessage<NetworkType>::Ptr ms) : msg_type(*ms->typePtr), message(ms) {
+			}
 			message::MessageType msg_type;
 			typename message::NetworkMessage<NetworkType>::Ptr message;
 		};
 
-		typedef std::map<message::MessageType, net_deliver_func> DMapType;
-		DMapType deliver_map_;
-		typedef std::map<message::MessageType, net_forward_func> FMapType;
-		FMapType forward_map_;
-		typedef util::DoubleBufferQueue<DeliverInfo> DIQueueType;
-		DIQueueType msgQueue_;
-
-		pubsub::PubSubSystemEnvironment * pssi_;
-
-		bool _running;
-
-		uint64_t processingID_;
-
-		bool processDeliverQueue() {
-			/* Was will ich hier:
-			 * Später darf sich ein Threadpool um die Einträge in der Queue kümmern.
-			 * Beim Rausnehmen sollen die sich natürlich nicht in die Quere kommen.
-			 */
-			if (!_running) {
-				return false;
-			}
-			while (!msgQueue_.empty()) {
-				DeliverInfo di = msgQueue_.poll();
-
-				typename DMapType::iterator it = deliver_map_.find(di.msg_type);
-
-				if (it != deliver_map_.end()) {
-					it->second(di.message);
-				}
-			}
-			return true;
-		}
-
-		// make non-copyable
-
-		NetworkController & operator=(const NetworkController & rhs) = delete;
-
-		NetworkController(const NetworkController & rhs) = delete;
-
-	public:
+		// TODO: (Daniel) public access to pointer isn't what we normally do, so refactor to be conform with our normal coding style
 		NetworkInterface<NetworkType> * network_;
 
-		NetworkController(NetworkInterface<NetworkType> * network, pubsub::PubSubSystemEnvironment * pssi) :
-			deliver_map_(),
-			forward_map_(),
-			msgQueue_(),
-			pssi_(pssi), _running(true), network_(network) {
+		/**
+		 * \brief creates new interface for communication with a wrapper
+		 * adds a polling job for incoming messages
+		 */
+		NetworkController(NetworkInterface<NetworkType> * network, pubsub::PubSubSystemEnvironment * pssi) : network_(network), deliver_map_(), forward_map_(), msgQueue_(), pssi_(pssi), _running(true) {
 			processingID_ = pssi->scheduler_.runRepeated(parameters::PULL_DELIVERQUEUE, boost::bind(&NetworkController::processDeliverQueue, this), 3);
 			network_->setCallback(this);
 		}
 
-		virtual ~NetworkController() {
+		/**
+		 * \brief stops polling job and cleans up wrapper
+		 */
+		~NetworkController() {
 			pssi_->scheduler_.stop(processingID_);
 			_running = false;
+			delete network_;
 			network_ = nullptr;
 		}
 
-		// methods inherited from NetworkCallback
+		/**
+		 * \todo
+		 */
 		bool forward(typename message::NetworkMessage<NetworkType>::Ptr message, const typename NodeHandle<NetworkType>::Ptr hint) {
 			typename FMapType::const_iterator iter = forward_map_.find(*message->typePtr);
 			if (iter != forward_map_.end()) {
@@ -135,6 +101,11 @@ namespace net {
 			return false;
 		}
 
+		/**
+		 * \brief called from wrapper for every arriving message
+		 * because of this method call can be done from different threads,
+		 * messages are pushed into a queue being worked on in the m2etis thread
+		 */
 		void deliver(typename message::NetworkMessage<NetworkType>::Ptr message) {
 			if (*message->typePtr == 0) {
 				M2ETIS_THROW_FAILURE("NetworkController - deliver", "invalid message type", -1);
@@ -143,9 +114,17 @@ namespace net {
 			msgQueue_.push(DeliverInfo(message));
 		}
 
-		void update(const typename NetworkType::Key & key, const typename NodeHandle<NetworkType>::Ptr_const handle, bool joined) {}
+		/**
+		 * \todo
+		 */
+		void update(const typename NetworkType::Key &, const typename NodeHandle<NetworkType>::Ptr_const, bool) {
+		}
 
-		// methods provided for Topics
+		/**
+		 * \brief sends a message to the receiver defined within the message
+		 * if the sender is the receiver, message is put into deliver method directly to remove overhead by serializing and trying to send message
+		 * otherwise the message is forwarded to the corresponding wrapper
+		 */
 		void send(typename message::NetworkMessage<NetworkType>::Ptr msg) {
 			// don't send message from me to me over network, can be delivered directly
 			if (msg->receiver == msg->sender) {
@@ -178,6 +157,45 @@ namespace net {
 		inline typename NetworkType::Key getSelf() const {
 			return network_->getSelfNodeHandle()->key_;
 		}
+
+	private:
+		typedef std::map<message::MessageType, net_deliver_func> DMapType;
+		DMapType deliver_map_;
+		typedef std::map<message::MessageType, net_forward_func> FMapType;
+		FMapType forward_map_;
+		typedef util::DoubleBufferQueue<DeliverInfo> DIQueueType;
+		DIQueueType msgQueue_;
+
+		pubsub::PubSubSystemEnvironment * pssi_;
+
+		bool _running;
+
+		uint64_t processingID_;
+
+		bool processDeliverQueue() {
+			/* Was will ich hier:
+			 * Später darf sich ein Threadpool um die Einträge in der Queue kümmern.
+			 * Beim Rausnehmen sollen die sich natürlich nicht in die Quere kommen.
+			 */
+			if (!_running) {
+				return false;
+			}
+			while (!msgQueue_.empty()) {
+				DeliverInfo di = msgQueue_.poll();
+
+				typename DMapType::iterator it = deliver_map_.find(di.msg_type);
+
+				if (it != deliver_map_.end()) {
+					it->second(di.message);
+				}
+			}
+			return _running;
+		}
+
+		// make non-copyable
+		NetworkController & operator=(const NetworkController & rhs) = delete;
+
+		NetworkController(const NetworkController & rhs) = delete;
 	};
 
 } /* namespace net */

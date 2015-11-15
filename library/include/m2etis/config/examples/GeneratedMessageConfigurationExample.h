@@ -50,7 +50,7 @@ BOOST_CLASS_EXPORT(m2etis::message::TimeValidityInfo)
 // Spreadit / Null for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -63,7 +63,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_OMNETMessage, boost::serialization::obj
 // Spreadit / DetMerge for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::order::DetMergeConfig>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -76,7 +76,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_DetMerge_OMNETMessage, boost::serialization:
 // Spreadit / MTP for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -89,7 +89,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_MTP_OMNETMessage, boost::serialization::obje
 // Spreadit / GMS for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -102,7 +102,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_GMS_OMNETMessage, boost::serialization::obje
 // Direct / Null for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -115,7 +115,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_OMNETMessage, boost::serialization::objec
 // Direct / MTP for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -128,7 +128,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_MTP_OMNETMessage, boost::serialization::object
 // Direct / DetMerge for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::order::DetMergeConfig>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -141,7 +141,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_DetMerge_OMNETMessage, boost::serialization::o
 // Direct / GMS for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -154,7 +154,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_GMS_OMNETMessage, boost::serialization::object
 // DirectBroadcast / Null for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -167,7 +167,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_OMNETMessage, boost::serializati
 // DirectBroadcast / MTP for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -180,7 +180,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_MTP_OMNETMessage, boost::serializatio
 // DirectBroadcast / DetMerge for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::order::DetMergeConfig>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -193,7 +193,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_DetMerge_OMNETMessage, boost::seriali
 // DirectBroadcast / GMS for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -206,7 +206,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_GMS_OMNETMessage, boost::serializatio
 // Scribe / Null for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::ScribeRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::OMNET>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::AckDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>, 5, m2etis::pubsub::deliver::Amount::EXACTLY_ONCE>
 , m2etis::pubsub::persistence::NullPersistence
@@ -219,7 +219,7 @@ BOOST_CLASS_IMPLEMENTATION(Scribe_Null_OMNETMessage, boost::serialization::objec
 // Direct / Null / Ack for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::deliver::AckDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>, 5, m2etis::pubsub::deliver::Amount::EXACTLY_ONCE>
 , m2etis::pubsub::persistence::NullPersistence
@@ -232,7 +232,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_Ack_OMNETMessage, boost::serialization::o
 // Spreadit / Null for OMNET
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -244,7 +244,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Time_OMNETMessage, boost::serialization
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -256,7 +256,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_DirectBroadcastPartition_OMNETMessage, boost::
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::OMNET>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::OMNET>>
-, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET> >
+, m2etis::pubsub::filter::NullFilter<SimulationEventType, m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::OMNET>>
 , m2etis::pubsub::deliver::NackDeliver<m2etis::net::NetworkType<m2etis::net::OMNET>, 5, m2etis::pubsub::deliver::Amount::EXACTLY_ONCE>
 , m2etis::pubsub::persistence::NullPersistence
@@ -285,7 +285,6 @@ BOOST_CLASS_IMPLEMENTATION(m2etis::message::NullFilterInfo<CharVectorEventType>,
 BOOST_CLASS_EXPORT(m2etis::message::BruteForceFilterInfo<CharVectorEventType>) // TODO: (Roland) check if necessary
 BOOST_CLASS_IMPLEMENTATION(m2etis::message::BruteForceFilterInfo<CharVectorEventType>, boost::serialization::object_serializable)
 
-
 BOOST_CLASS_EXPORT(m2etis::message::NullOrderInfo)
 BOOST_CLASS_IMPLEMENTATION(m2etis::message::NullOrderInfo, boost::serialization::object_serializable)
 BOOST_CLASS_EXPORT(m2etis::message::DetMergeOrderInfo<m2etis::config::order::DetMergeConfigTest>)
@@ -297,11 +296,7 @@ BOOST_CLASS_IMPLEMENTATION(m2etis::message::GMSOrderInfo<m2etis::net::NetworkTyp
 BOOST_CLASS_EXPORT(m2etis::message::GMSOrderInfo<m2etis::net::NetworkType<m2etis::net::UDP>>)
 BOOST_CLASS_IMPLEMENTATION(m2etis::message::GMSOrderInfo<m2etis::net::NetworkType<m2etis::net::UDP>>, boost::serialization::object_serializable)
 
-
-//with char vector instead of position:
-
-
-//necessary exports to serialize filters
+// necessary exports to serialize filters
 BOOST_CLASS_EXPORT(m2etis::pubsub::filter::TruePredicate<CharVectorEventType>)
 BOOST_CLASS_EXPORT(m2etis::pubsub::filter::Predicate<CharVectorEventType>)
 typedef m2etis::pubsub::filter::EqualsAttributeFilter<CharVectorEventType, int> EQUALSCharVectorEventTypeINT;
@@ -325,7 +320,7 @@ BOOST_CLASS_EXPORT(m2etis::pubsub::filter::AndExp<CharVectorEventType>)
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -337,7 +332,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -349,7 +344,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -361,7 +356,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_Null_Null_Null_Null_BruteForce_Null_CharV
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -373,7 +368,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_Null_Null_Null_Null_BruteForce_Null_CharV
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -385,7 +380,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_DetMerge_Null_Null_Null_Null_Null_CharVec
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -397,7 +392,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_DetMerge_Null_Null_Null_Null_Null_CharVec
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -409,7 +404,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_DetMerge_Null_Null_Null_BruteForce_Null_C
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -421,7 +416,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_DetMerge_Null_Null_Null_BruteForce_Null_C
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -433,7 +428,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_MTP_Null_Null_Null_Null_Null_CharVector_T
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -445,7 +440,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_MTP_Null_Null_Null_Null_Null_CharVector_U
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -457,7 +452,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_MTP_Null_Null_Null_BruteForce_Null_CharVe
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -469,7 +464,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_MTP_Null_Null_Null_BruteForce_Null_CharVe
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -481,7 +476,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_GMS_Null_Null_Null_Null_Null_CharVector_T
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -493,7 +488,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_GMS_Null_Null_Null_Null_Null_CharVector_U
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -505,7 +500,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_GMS_Null_Null_Null_BruteForce_Null_CharVe
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -517,7 +512,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_Null_GMS_Null_Null_Null_BruteForce_Null_CharVe
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -529,7 +524,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_Null_Null_Null_Null_Null_Null_CharV
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -541,7 +536,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_Null_Null_Null_Null_Null_Null_CharV
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -553,7 +548,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_Null_Null_Null_Null_BruteForce_Null
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -565,7 +560,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_Null_Null_Null_Null_BruteForce_Null
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -577,7 +572,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_DetMerge_Null_Null_Null_Null_Null_C
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -589,7 +584,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_DetMerge_Null_Null_Null_Null_Null_C
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -601,7 +596,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_DetMerge_Null_Null_Null_BruteForce_
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -613,7 +608,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_DetMerge_Null_Null_Null_BruteForce_
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -625,7 +620,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_MTP_Null_Null_Null_Null_Null_CharVe
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -637,7 +632,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_MTP_Null_Null_Null_Null_Null_CharVe
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -649,7 +644,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_MTP_Null_Null_Null_BruteForce_Null_
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -661,7 +656,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_MTP_Null_Null_Null_BruteForce_Null_
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -673,7 +668,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_GMS_Null_Null_Null_Null_Null_CharVe
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -685,7 +680,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_GMS_Null_Null_Null_Null_Null_CharVe
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -697,7 +692,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_GMS_Null_Null_Null_BruteForce_Null_
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -709,7 +704,7 @@ BOOST_CLASS_IMPLEMENTATION(Direct_BruteForce_GMS_Null_Null_Null_BruteForce_Null_
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -721,7 +716,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_Null_Null_Null_Null_Null_Null_Ch
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -733,7 +728,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_Null_Null_Null_Null_Null_Null_Ch
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -745,7 +740,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_Null_Null_Null_Null_BruteForce_N
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -757,7 +752,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_Null_Null_Null_Null_BruteForce_N
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -769,7 +764,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_DetMerge_Null_Null_Null_Null_Nul
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -781,7 +776,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_DetMerge_Null_Null_Null_Null_Nul
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -793,7 +788,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_DetMerge_Null_Null_Null_BruteFor
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -805,7 +800,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_DetMerge_Null_Null_Null_BruteFor
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -817,7 +812,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_MTP_Null_Null_Null_Null_Null_Cha
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -829,7 +824,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_MTP_Null_Null_Null_Null_Null_Cha
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -841,7 +836,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_MTP_Null_Null_Null_BruteForce_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -853,7 +848,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_MTP_Null_Null_Null_BruteForce_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -865,7 +860,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_GMS_Null_Null_Null_Null_Null_Cha
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -877,7 +872,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_GMS_Null_Null_Null_Null_Null_Cha
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -889,7 +884,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_GMS_Null_Null_Null_BruteForce_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -901,7 +896,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_Null_GMS_Null_Null_Null_BruteForce_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -913,7 +908,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_Null_Null_Null_Null_Null_N
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -925,7 +920,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_Null_Null_Null_Null_Null_N
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -937,7 +932,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_Null_Null_Null_Null_BruteF
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -949,7 +944,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_Null_Null_Null_Null_BruteF
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -961,7 +956,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -973,7 +968,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -985,7 +980,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Br
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -997,7 +992,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_DetMerge_Null_Null_Null_Br
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1009,7 +1004,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_MTP_Null_Null_Null_Null_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1021,7 +1016,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_MTP_Null_Null_Null_Null_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1033,7 +1028,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_MTP_Null_Null_Null_BruteFo
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1045,7 +1040,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_MTP_Null_Null_Null_BruteFo
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1057,7 +1052,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_GMS_Null_Null_Null_Null_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1069,7 +1064,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_GMS_Null_Null_Null_Null_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1081,7 +1076,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_GMS_Null_Null_Null_BruteFo
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectBroadcastRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1093,7 +1088,7 @@ BOOST_CLASS_IMPLEMENTATION(DirectBroadcast_BruteForce_GMS_Null_Null_Null_BruteFo
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1105,7 +1100,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVecto
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1117,7 +1112,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVecto
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1129,7 +1124,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Null_Null_Null_Null_BruteForce_Null_Cha
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1141,7 +1136,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Null_Null_Null_Null_BruteForce_Null_Cha
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1153,7 +1148,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_DetMerge_Null_Null_Null_Null_Null_CharV
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1165,7 +1160,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_DetMerge_Null_Null_Null_Null_Null_CharV
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1177,7 +1172,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_DetMerge_Null_Null_Null_BruteForce_Null
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1189,7 +1184,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_DetMerge_Null_Null_Null_BruteForce_Null
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1201,7 +1196,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_MTP_Null_Null_Null_Null_Null_CharVector
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1213,7 +1208,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_MTP_Null_Null_Null_Null_Null_CharVector
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1225,7 +1220,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_MTP_Null_Null_Null_BruteForce_Null_Char
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1237,7 +1232,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_MTP_Null_Null_Null_BruteForce_Null_Char
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1249,7 +1244,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_GMS_Null_Null_Null_Null_Null_CharVector
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1261,7 +1256,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_GMS_Null_Null_Null_Null_Null_CharVector
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1273,7 +1268,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_GMS_Null_Null_Null_BruteForce_Null_Char
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1285,7 +1280,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_GMS_Null_Null_Null_BruteForce_Null_Char
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1297,7 +1292,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_Null_Null_Null_Null_Null_Null_Cha
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1309,7 +1304,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_Null_Null_Null_Null_Null_Null_Cha
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1321,7 +1316,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_Null_Null_Null_Null_BruteForce_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1333,7 +1328,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_Null_Null_Null_Null_BruteForce_Nu
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1345,7 +1340,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_DetMerge_Null_Null_Null_Null_Null
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1357,7 +1352,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_DetMerge_Null_Null_Null_Null_Null
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1369,7 +1364,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_DetMerge_Null_Null_Null_BruteForc
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::DetMergeOrder<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::config::order::DetMergeConfigTest>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1381,7 +1376,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_DetMerge_Null_Null_Null_BruteForc
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1393,7 +1388,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_MTP_Null_Null_Null_Null_Null_Char
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1405,7 +1400,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_MTP_Null_Null_Null_Null_Null_Char
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1417,7 +1412,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_MTP_Null_Null_Null_BruteForce_Nul
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::MTPOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000, m2etis::pubsub::order::LateDeliver::DROP>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1429,7 +1424,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_MTP_Null_Null_Null_BruteForce_Nul
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1441,7 +1436,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_GMS_Null_Null_Null_Null_Null_Char
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1453,7 +1448,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_GMS_Null_Null_Null_Null_Null_Char
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::TCP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1465,7 +1460,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Nul
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::BruteForceFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::GMSOrder<m2etis::net::NetworkType<m2etis::net::UDP>, 1000000>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence
@@ -1477,7 +1472,7 @@ BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Nul
 
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
 m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<IntegrationTestEventType, m2etis::net::NetworkType<m2etis::net::UDP> >
+, m2etis::pubsub::filter::NullFilter<IntegrationTestEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
 , m2etis::pubsub::persistence::NullPersistence

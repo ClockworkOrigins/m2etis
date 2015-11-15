@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup message
+ * @ {
  */
 
 #ifndef __M2ETIS_MESSAGE_DECISIONTREEFILTERINFO_H__
@@ -29,7 +34,7 @@ namespace message {
 	template<class EventType, class NetworkType>
 	class DecisionTreeFilterInfo : public FilterInfo {
 	public:
-		typedef boost::shared_ptr<DecisionTreeFilterInfo<EventType, NetworkType> > Ptr;
+		typedef boost::shared_ptr<DecisionTreeFilterInfo<EventType, NetworkType>> Ptr;
 
         static bool doSerialize(ActionType t) {
         	if (t == NOTIFY || t == PUBLISH || t == JOIN || t == STATE || t == LEAVE) {
@@ -39,8 +44,8 @@ namespace message {
         	return true;
         }
 
-		boost::shared_ptr<pubsub::filter::DecisionTreeNode<EventType, NetworkType> > dynamic_filter_;
-		boost::shared_ptr<pubsub::filter::FilterExp<EventType> > unsubscribe_filter_;
+		boost::shared_ptr<pubsub::filter::DecisionTreeNode<EventType, NetworkType>> dynamic_filter_;
+		boost::shared_ptr<pubsub::filter::FilterExp<EventType>> unsubscribe_filter_;
 
 	private:
 		friend class boost::serialization::access;
@@ -56,3 +61,7 @@ namespace message {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_MESSAGE_DECISIONTREEFILTERINFO_H__ */
+
+/**
+ *  @}
+ */

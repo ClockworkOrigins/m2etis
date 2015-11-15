@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup pubsub
+ * @ {
  */
 
 #ifndef __M2ETIS_PUBSUB_PARTITION_BRUTEFORCEPARTITION_H__
@@ -42,7 +47,7 @@ namespace partition {
 
 		virtual ~BruteForcePartition() {}
 
-		void createRendezvousPartition(const typename NetworkType::Key & rendezvous) {
+		void createRendezvousPartition(const typename NetworkType::Key &) {
 		}
 
 		// returns vector of all tree indexes of channel
@@ -59,7 +64,7 @@ namespace partition {
 		}
 
 		// returns tree on which the given message should be published (matching algorithm)
-		std::vector<int>::size_type getPublishTree(const PayloadPtr message, const typename NetworkType::Key & self) {
+		std::vector<int>::size_type getPublishTree(const PayloadPtr message, const typename NetworkType::Key &) {
 			if (partition_filter_vector_.empty()) {
 				return 0;
 			}
@@ -96,31 +101,31 @@ namespace partition {
 			return overlapping_trees;
 		} // getSubscribeTrees
 
-		boost::shared_ptr<filter::FilterExp<EventType> > getPredicate(unsigned int id) {
+		boost::shared_ptr<filter::FilterExp<EventType>> getPredicate(unsigned int id) {
 			assert(id < partition_filter_vector_.size());
 			return partition_filter_vector_[id];
 		}
 
-		bool createPartition(const typename NetworkType::Key & root) {
+		bool createPartition(const typename NetworkType::Key &) {
 			return false;
 		}
 
-		void addPartition(boost::shared_ptr<filter::FilterExp<EventType> > predicate, const typename NetworkType::Key & root) {
+		void addPartition(boost::shared_ptr<filter::FilterExp<EventType>>, const typename NetworkType::Key &) {
 		}
 
-		void removePartition(unsigned int id) {
+		void removePartition(unsigned int) {
 		}
 
-		void changePredicate(unsigned int id, boost::shared_ptr<filter::FilterExp<EventType> > predicates) {
+		void changePredicate(unsigned int, boost::shared_ptr<filter::FilterExp<EventType>>) {
 		}
 
-		void changeRoot(unsigned int id, typename NetworkType::Key & root) {
+		void changeRoot(unsigned int, typename NetworkType::Key &) {
 		}
 
 	private:
-		bool isOverlap(const boost::shared_ptr<filter::FilterExp<EventType> > static_filter, const boost::shared_ptr<filter::FilterExp<EventType> > dynamic_filter) {
+		bool isOverlap(const boost::shared_ptr<filter::FilterExp<EventType>> static_filter, const boost::shared_ptr<filter::FilterExp<EventType>> dynamic_filter) {
 			// step 1: test expression for satisfiability and determine predicate assignment candidates:
-			auto intersection_filter = std::make_shared<filter::AndExp<EventType> >(static_filter, dynamic_filter);
+			auto intersection_filter = std::make_shared<filter::AndExp<EventType>>(static_filter, dynamic_filter);
 
 			filter::VariableAssignmentVisitor<EventType> variable_assignment_filter_visitor;
 			intersection_filter->Accept(variable_assignment_filter_visitor); // determining number of predicates
@@ -145,10 +150,10 @@ namespace partition {
 
 				// loop over bits in predicate assignment, check for 1 bits (predicates (indexes), that have to be true):
 				for (int current_predicate_number = 0; current_predicate_number != variable_assignment_filter_visitor.get_predicate_number() && !disjoint_predicates_found; ++current_predicate_number) {
-					if (bool(fulfilling_predicate_assignment & (1UL << current_predicate_number))) {
+					if ((fulfilling_predicate_assignment & (1UL << current_predicate_number)) != 0) {
 						// predicate has to be true in order to fulfill variable assignment, compare with all following predicates
 						for (int other_predicate_number = current_predicate_number + 1; other_predicate_number != variable_assignment_filter_visitor.get_predicate_number() && !disjoint_predicates_found; ++other_predicate_number) {
-							if (bool(fulfilling_predicate_assignment & (1UL << other_predicate_number))) {
+							if ((fulfilling_predicate_assignment & (1UL << other_predicate_number)) != 0) {
 								// predicate has to be true in order to fulfill variable assignment, compare with current predicate
 								if (!((variable_assignment_filter_visitor.get_predicate_index())[current_predicate_number])->overlaps((variable_assignment_filter_visitor.get_predicate_index())[other_predicate_number])) {
 									disjoint_predicates_found = true; // try next predicate assignment (exit loops for performance reasons in for conditions)
@@ -175,3 +180,7 @@ namespace partition {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_PARTITION_BRUTEFORCEPARTITION_H__ */
+
+/**
+ *  @}
+ */

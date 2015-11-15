@@ -1,5 +1,4 @@
-
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +14,11 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
+
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXP_H__
 #define __M2ETIS_PUBSUB_FILTER_FILTEREXP_H__
 
@@ -24,10 +28,10 @@ namespace m2etis {
 namespace pubsub {
 namespace filter {
 
-	template <typename EventType>
+	template<typename EventType>
 	class FilterExp {
 	public:
-		typedef boost::shared_ptr<FilterExp<EventType> > FilterExpPtr;
+		typedef boost::shared_ptr<FilterExp<EventType>> FilterExpPtr;
 		FilterExp() {}
 		virtual ~FilterExp() {}
 
@@ -60,13 +64,13 @@ namespace filter {
 		}
 
 	private:
-		virtual bool doCompare(const FilterExp & other_filter) const { return false; } // TODO: (Roland) make abstract
+		virtual bool doCompare(const FilterExp &) const { return false; } // TODO: (Roland) make abstract
 
 		virtual size_t doHash() const { return 0; } // TODO: (Roland) make abstract
 
 		friend class boost::serialization::access;
-		template <typename Archive>
-		void serialize(Archive & ar, const unsigned int version) {
+		template<typename Archive>
+		void serialize(Archive &, const unsigned int) {
 		}
 	};
 
@@ -77,7 +81,7 @@ namespace filter {
 namespace std {
 
     template<typename EventType>
-    struct hash<m2etis::pubsub::filter::FilterExp<EventType> > : public unary_function<m2etis::pubsub::filter::FilterExp<EventType>, size_t> {
+    struct hash<m2etis::pubsub::filter::FilterExp<EventType>> : public unary_function<m2etis::pubsub::filter::FilterExp<EventType>, size_t> {
         size_t operator()(const m2etis::pubsub::filter::FilterExp<EventType> & filter) const {
             return filter.hash();
         }
@@ -86,3 +90,7 @@ namespace std {
 } /* namespace std */
 
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXP_H_ */
+
+/**
+ *  @}
+ */

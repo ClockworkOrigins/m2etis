@@ -33,9 +33,9 @@ namespace m2etis {
 namespace wrapper {
 namespace clocktcp {
 
-	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) :
+	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string &, const uint16_t) :
 		_initialized(true),
-		_local(listenIP + ":" + boost::lexical_cast<std::string>(listenPort)),
+		_local(listenIP + ":" + std::to_string(listenPort)),
 		_lock(),
 		_sockets(),
 		_mapping_metis_real(),
@@ -63,7 +63,7 @@ namespace clocktcp {
 		try {
 			clockUtils::sockets::TcpSocket * newSocket = new clockUtils::sockets::TcpSocket();
 			newSocket->listen(_local.getPort(), 100, true, [this](clockUtils::sockets::TcpSocket * socket) {
-					message::Key<message::IPv4KeyProvider> k(socket->getRemoteIP() + ":" + boost::lexical_cast<std::string>(socket->getRemotePort()));
+					message::Key<message::IPv4KeyProvider> k(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
 
 					{
 						boost::mutex::scoped_lock l(_lock);
@@ -74,7 +74,7 @@ namespace clocktcp {
 				});
 			boost::mutex::scoped_lock l(_lock);
 			_sockets[_local] = newSocket;
-		} catch(util::SystemFailureException & e) {
+		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 		}
@@ -114,7 +114,7 @@ namespace clocktcp {
 				return;
 			}
 			_sockets.find(realKey)->second->writePacketAsync(std::vector<uint8_t>(ser.begin(), ser.end()));
-		} catch(util::SystemFailureException & e) {
+		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 
@@ -134,14 +134,14 @@ namespace clocktcp {
 		}
 	}
 
-	void clockTcpWrapper::registerMessageType(const message::MessageType type, const bool ack) const {
+	void clockTcpWrapper::registerMessageType(const message::MessageType, const bool) const {
 		if (!_initialized) {
 			M2ETIS_THROW_FAILURE("clockTcpWrapper - clockTcpWrapper not initialized", "Call init first!", -1);
 		}
 	}
 
 	void clockTcpWrapper::readFromSocket(clockUtils::sockets::TcpSocket * socket) {
-		net::NetworkType<net::clockTCP>::Key realKey(socket->getRemoteIP() + ":" + boost::lexical_cast<std::string>(socket->getRemotePort()));
+		net::NetworkType<net::clockTCP>::Key realKey(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
 		net::NetworkType<net::clockTCP>::Key metisKey = real2metis(realKey);
 		try {
 			while(_initialized) {

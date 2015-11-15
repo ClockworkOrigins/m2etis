@@ -92,7 +92,7 @@ fi
 
 # shared variables
 DEP_DIR="${PWD}"
-BUILD_ROOT="/tmp/`whoami`/i6engine"
+BUILD_ROOT="/tmp/`whoami`/"
 
 mkdir -p "${BUILD_ROOT}"
 

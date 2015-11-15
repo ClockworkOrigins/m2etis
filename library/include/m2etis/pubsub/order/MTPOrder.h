@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,11 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup pubsub
+ * @ {
+ */
+
 #ifndef __M2ETIS_PUBSUB_ORDER_MTPORDER_H__
 #define __M2ETIS_PUBSUB_ORDER_MTPORDER_H__
 
@@ -25,6 +30,11 @@
 #include "m2etis/pubsub/order/RemoveHelper.h"
 
 #include "boost/thread.hpp"
+
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+	#pragma warning(push)
+	#pragma warning(disable : 4127)
+#endif
 
 namespace m2etis {
 namespace pubsub {
@@ -122,19 +132,19 @@ namespace order {
 		/**
 		 * \brief processes a subscribe message
 		 */
-		void processSubscribePayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processSubscribePayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
 		 * \brief processes a subscribe message
 		 */
-		void processPublishPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processPublishPayload(typename message::OrderInfo::Ptr, const typename NetworkType::Key &) {
 		}
 
 		/**
 		 * \brief called for every NotifyMsg that arrived
 		 */
-		void processNotifyPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void processNotifyPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key &) {
 			message::MTPOrderInfo::Ptr info = boost::static_pointer_cast<message::MTPOrderInfo>(ptr);
 
 			for (uint64_t i : info->missing_) {
@@ -147,14 +157,14 @@ namespace order {
 		/**
 		 * \brief processes a subscribe message
 		 */
-		void otherOrders(const std::vector<MTPOrder *> & others) {
+		void otherOrders(const std::vector<MTPOrder *> &) {
 		}
 
 		/**
 		 * \brief receives a message
 		 * stores the message in the queue and wait for it's deliver
 		 */
-		void receive(uint64_t id, typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
+		void receive(uint64_t id, typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key &) {
 			message::MTPOrderInfo::Ptr info = boost::static_pointer_cast<message::MTPOrderInfo>(ptr);
 			
 			if (info->seqNr == nextRec_) {
@@ -270,4 +280,12 @@ namespace order {
 } /* namespace pubsub */
 } /* namespace m2etis */
 
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+	#pragma warning(pop)
+#endif
+
 #endif /* __M2ETIS_PUBSUB_ORDER_MTPORDER_H__ */
+
+/**
+ *  @}
+ */

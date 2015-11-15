@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup pubsub
+ * @ {
  */
 
 #ifndef __M2ETIS_PUBSUB_ROUTING_DIRECTBROADCASTROUTING_H__
@@ -76,22 +81,12 @@ namespace routing {
 
 		uint64_t purgeID_;
 
-		DirectBroadcastRouting(const unsigned short topic_name, PubSubSystemEnvironment * pssi, const typename NetworkType::Key & root) : BaseRouting<NetworkType>(topic_name, pssi), periodic_(directbroadcast::RESUBSCRIPTION_INTERVAL), purge_distance_(directbroadcast::PURGE_DISTANCE), _pssi(pssi), _removed_subscribereventlistener(), topic_name_(topic_name), self_(), selfSubscribed_(false), _subscriber(), _purging(true), _newSubs(), _nodes(), _root(root) {
+		uint64_t registerID_;
+
+		DirectBroadcastRouting(const unsigned short topic_name, PubSubSystemEnvironment * pssi, const typename NetworkType::Key & root) : BaseRouting<NetworkType>(topic_name, pssi), periodic_(directbroadcast::RESUBSCRIPTION_INTERVAL), purge_distance_(directbroadcast::PURGE_DISTANCE), _pssi(pssi), _removed_subscribereventlistener(), purgeID_(), registerID_(), topic_name_(topic_name), self_(), selfSubscribed_(false), _subscriber(), _purging(true), _newSubs(), _nodes(), _root(root) {
 			purgeID_ = pssi->scheduler_.runRepeated(purge_distance_, boost::bind(&DirectBroadcastRouting::purgeList, this), 6);
-			pssi->scheduler_.runOnce(1, [this]() {
-				if (self_ != _root) {
-#if I6E_PLATFORM == I6E_PLATFORM_WIN32
-					RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
-#elif I6E_PLATFORM == I6E_PLATFORM_LINUX
-					typename RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
-#endif
-					newInfo->action = RoutingInfoType::RoutingType::REDIRECT;
-#if I6E_PLATFORM == I6E_PLATFORM_WIN32
-					sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
-#elif I6E_PLATFORM == I6E_PLATFORM_LINUX
-					BaseRouting<NetworkType>::sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
-#endif
-				}
+			registerID_ = pssi->scheduler_.runOnce(1, [this]() {
+				registerOnRoot();
 				return false;
 			}, 1);
 		}
@@ -99,6 +94,23 @@ namespace routing {
 		virtual ~DirectBroadcastRouting() {
 			_purging = false;
 			_pssi->scheduler_.stop(purgeID_);
+			_pssi->scheduler_.stop(registerID_);
+		}
+
+		void registerOnRoot() {
+			if (self_ != _root) {
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+				RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
+#elif I6E_PLATFORM == I6E_PLATFORM_LINUX
+				typename RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
+#endif
+				newInfo->action = RoutingInfoType::RoutingType::REDIRECT;
+#if I6E_PLATFORM == I6E_PLATFORM_WIN32
+				sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
+#elif I6E_PLATFORM == I6E_PLATFORM_LINUX
+				BaseRouting<NetworkType>::sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
+#endif
+			}
 		}
 
 		void setSelf(const typename NetworkType::Key & self) {
@@ -122,7 +134,7 @@ namespace routing {
 			return selfSubscribed_;
 		}
 
-		void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) {
+		void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key &) {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 			switch (msgType) {
 				case message::SUBSCRIBE: {
@@ -158,7 +170,7 @@ namespace routing {
 		 * @param mtype the type of the message (SUBSCRIBE, UNSUBSCIBE, or PUBLISH)
 		 * @param algoinfo only contains info if mytpe == PUBLISH
 		 */
-		KeyList getTargetNodes(const message::ActionType mtype, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) const {
+		KeyList getTargetNodes(const message::ActionType mtype, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key &) const {
 			/*
 			 * All messages must be sent to root.
 			 * Even if it's a publishmessage and root is subscribed, too.
@@ -224,7 +236,7 @@ namespace routing {
 		 * @param algoinfo the payload created by this algorithm at the subscriber's node
 		 * @return an information unit, whether the message should be stopped or needs to be changed
 		 */
-		bool processSubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
+		bool processSubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key &, message::ActionType &) override {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 			bool found = false;
 			typename TimeList::iterator iter;
@@ -252,7 +264,7 @@ namespace routing {
 		 * @param algoinfo the payload created by this algorithm at the unsubscriber's node
 		 * @return an information unit, whether the message should be stopped or needs to be changed
 		 */
-		void processUnsubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processUnsubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key &, message::ActionType &) {
 			struct T {
 				static bool test(const typename NetworkType::Key & send, const TimePair & paar) {
 					return paar.second == send;
@@ -272,7 +284,7 @@ namespace routing {
 		 * @return an information unit, whether the message should be spread out to subscribers ond if the
 		 * current node is the root-node for that topic.
 		 */
-		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key &, typename NetworkType::Key &, message::ActionType &) {
 			assert(false); // there musn't be publish messages
 		}
 
@@ -284,12 +296,12 @@ namespace routing {
 		 * @return an information unit, whether the message should be spread out to subscribers ond if the
 		 * current node is the root-node for that topic.
 		 */
-		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key &, typename NetworkType::Key &, message::ActionType &) {
 			routingInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 			return;
 		}
 
-		void processControlPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processControlPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key &, message::ActionType & msgType) {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 			// message returned from RP
 			if (rInfo->action == message::RoutingInfo<NetworkType>::RoutingType::REDIRECT) {
@@ -392,6 +404,8 @@ namespace routing {
 
 			return _purging;
 		}
+
+		DirectBroadcastRouting & operator=(const DirectBroadcastRouting &);
 	};
 
 } /* namespace routing */
@@ -399,3 +413,7 @@ namespace routing {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_ROUTING_DIRECTBROADCASTROUTING_H__ */
+
+/**
+ *  @}
+ */

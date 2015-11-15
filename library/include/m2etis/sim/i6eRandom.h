@@ -12,7 +12,11 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ */
+
+/**
+ * \addtogroup simulator
+ * @ {
  */
 
 #ifndef __M2ETIS_UTILS_RANDOM_H__
@@ -49,8 +53,7 @@ namespace util {
 			if (max == 0) {
 				M2ETIS_THROW_API("i6eRandom", "max value has to be grater than zero")
 			}
-			boost::mutex::scoped_lock l(lock);
-			return random.getRand() % max;
+			return rand() % max;
 		}
 
 		/**
@@ -60,8 +63,7 @@ namespace util {
 			if (min >= max) {
 				M2ETIS_THROW_API("i6eRandom", "max value has to be greater than min value")
 			}
-			boost::mutex::scoped_lock l(lock);
-			return (random.getRand() % (max - min)) + min;
+			return (rand() % (max - min)) + min;
 		}
 
 	private:
@@ -103,3 +105,7 @@ namespace util {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_UTILS_RANDOM_H__ */
+
+/**
+ *  @}
+ */

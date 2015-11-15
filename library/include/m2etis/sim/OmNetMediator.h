@@ -51,7 +51,7 @@ namespace sim {
 		 * \param[in] known_hostname IP of the root node
 		 * \param[in] known_hostport port of the root node
 		 */
-		OmNetMediator(const std::string & ip, const int port, const std::string & known_hostname, const int known_hostport) : _nodeHandle(new net::NodeHandle<net::NetworkType<net::OMNET> >), _callback(NULL), _ocallback(NULL), _name(ip), _hostName(known_hostname), _listenPort(port), _hostPort(known_hostport), _root(_hostName + std::string(":") + boost::lexical_cast<std::string>(_hostPort)), _pubsub() {
+		OmNetMediator(const std::string & ip, const int port, const std::string & known_hostname, const int known_hostport) : _nodeHandle(new net::NodeHandle<net::NetworkType<net::OMNET>>), _callback(NULL), _ocallback(NULL), _name(ip), _hostName(known_hostname), _listenPort(port), _hostPort(known_hostport), _root(_hostName + std::string(":") + std::to_string(_hostPort)), _pubsub() {
 		}
 
 		/**
@@ -71,7 +71,7 @@ namespace sim {
 		 *
 		 * \param[in] cb pointer to the NetworkController
 		 */
-		void setCallback(net::NetworkCallbackInterface<net::NetworkType<net::OMNET> > * cb);
+		void setCallback(net::NetworkCallbackInterface<net::NetworkType<net::OMNET>> * cb);
 
 		/**
 		 * \brief method to send the given message into the M2etisAdapter
@@ -82,7 +82,7 @@ namespace sim {
 		 * \param[in] hint NodeHandle
 		 * \param[in] size the size of the serialized message, needed for metric in M2etisAdapter
 		 */
-		void send(const message::ActionType type, const std::string & to, const message::M2Message<SimulationEventType>::Ptr payload, net::NodeHandle<net::NetworkType<net::OMNET> >::Ptr_const hint, unsigned int size);
+		void send(const message::ActionType type, const std::string & to, const message::M2Message<SimulationEventType>::Ptr payload, net::NodeHandle<net::NetworkType<net::OMNET>>::Ptr_const hint, unsigned int size);
 
 		/**
 		 * \brief method called by NetworkController to send message into the network
@@ -90,7 +90,7 @@ namespace sim {
 		 * \param[in] msg message to be sent
 		 * \param[in] hint NodeHandle
 		 */
-		void send(const net::NetworkType<net::OMNET>::Message::Ptr msg, net::NodeHandle<net::NetworkType<net::OMNET> >::Ptr_const hint);
+		void send(const net::NetworkType<net::OMNET>::Message::Ptr msg, net::NodeHandle<net::NetworkType<net::OMNET>>::Ptr_const hint);
 
 		/**
 		 * \brief method called by NetworkController to send message into the network
@@ -121,14 +121,14 @@ namespace sim {
 		 * \params[in] msg message being forwarded
 		 * \params[in] hint NodeHandle
 		 */
-		bool forward(std::string & key, message::M2Message<SimulationEventType>::Ptr msg, const net::NodeHandle<net::NetworkType<net::OMNET> >::Ptr hint);
+		bool forward(std::string & key, message::M2Message<SimulationEventType>::Ptr msg, const net::NodeHandle<net::NetworkType<net::OMNET>>::Ptr hint);
 
 		/**
 		 * \brief method to deliver messages from M2etisAdapter
 		 *
 		 * \param[in] msg message received by M2etisAdapter
 		 */
-		void deliver(message::NetworkMessage<net::NetworkType<net::OMNET> >::Ptr msg);
+		void deliver(message::NetworkMessage<net::NetworkType<net::OMNET>>::Ptr msg);
 
 		/**
 		 * \brief method called by M2etisAdapter to validate status in overlay
@@ -137,7 +137,7 @@ namespace sim {
 		 * \param[in] handle NodeHandle
 		 * \param[in] joined flag whether the node joined or leaved
 		 */
-		void update(const std::string & key, const net::NodeHandle<net::NetworkType<net::OMNET> >::Ptr_const handle, bool joined);
+		void update(const std::string & key, const net::NodeHandle<net::NetworkType<net::OMNET>>::Ptr_const handle, bool joined);
 
 		/**
 		 * \brief method to get SHA1 key out of channel name
@@ -169,8 +169,8 @@ namespace sim {
 		}
 
 	private:
-		net::NodeHandle<net::NetworkType<net::OMNET> >::Ptr _nodeHandle;
-		net::NetworkCallbackInterface<net::NetworkType<net::OMNET> > * _callback;
+		net::NodeHandle<net::NetworkType<net::OMNET>>::Ptr _nodeHandle;
+		net::NetworkCallbackInterface<net::NetworkType<net::OMNET>> * _callback;
 		OmNetCallbackInterface * _ocallback;
 		std::string _name;
 		std::string _hostName;

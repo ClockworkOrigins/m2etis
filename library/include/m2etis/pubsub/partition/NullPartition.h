@@ -1,4 +1,4 @@
-/**
+/*
  Copyright 2012 FAU (Friedrich Alexander University of Erlangen-Nuremberg)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,11 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ */
+
+/**
+ * \addtogroup pubsub
+ * @ {
  */
 
 #ifndef __M2ETIS_PUBSUB_PARTITION_NULLPARTITION_H__
@@ -41,7 +46,7 @@ namespace partition {
 
 		virtual ~NullPartition() {}
 
-		void createRendezvousPartition(const typename NetworkType::Key & rendezvous) {
+		void createRendezvousPartition(const typename NetworkType::Key &) {
 		}
 
 		std::vector<int> getTreeNames() {
@@ -49,34 +54,34 @@ namespace partition {
 			return ret;
 		}
 
-		std::vector<int>::size_type getPublishTree(const PayloadPtr message, const typename NetworkType::Key & self) {
+		std::vector<int>::size_type getPublishTree(const PayloadPtr, const typename NetworkType::Key &) {
 			return ALL;
 		}
 
-		std::vector<unsigned int> getSubscribeTrees(boost::shared_ptr<filter::FilterExp<EventType> > dynamic_filter) {
+		std::vector<unsigned int> getSubscribeTrees(boost::shared_ptr<filter::FilterExp<EventType>>) {
 			std::vector<unsigned int> overlapping_trees;
 			overlapping_trees.push_back(ALL);
 			return overlapping_trees;
 		}
 
-		boost::shared_ptr<filter::FilterExp<EventType> > getPredicate(unsigned int id) {
-			return boost::shared_ptr<filter::FilterExp<EventType> >();
+		boost::shared_ptr<filter::FilterExp<EventType>> getPredicate(unsigned int) {
+			return boost::shared_ptr<filter::FilterExp<EventType>>();
 		}
 
-		bool createPartition(const typename NetworkType::Key & root) {
+		bool createPartition(const typename NetworkType::Key &) {
 			return false;
 		}
 
-		void addPartition(boost::shared_ptr<filter::FilterExp<EventType> > predicate, const typename NetworkType::Key & root) {
+		void addPartition(boost::shared_ptr<filter::FilterExp<EventType>>, const typename NetworkType::Key &) {
 		}
 
-		void removePartition(unsigned int id) {
+		void removePartition(unsigned int) {
 		}
 
-		void changePredicate(unsigned int id, boost::shared_ptr<filter::FilterExp<EventType> > predicates) {
+		void changePredicate(unsigned int, boost::shared_ptr<filter::FilterExp<EventType>>) {
 		}
 
-		void changeRoot(unsigned int id, typename NetworkType::Key & root) {
+		void changeRoot(unsigned int, typename NetworkType::Key &) {
 		}
 	};
 
@@ -85,3 +90,7 @@ namespace partition {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_PARTITION_NULLPARTITION_H__ */
+
+/**
+ *  @}
+ */

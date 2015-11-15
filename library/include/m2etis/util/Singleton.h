@@ -14,6 +14,10 @@
  limitations under the License.
  */
 
+/**
+ * \addtogroup util
+ * @ {
+ */
 
 #ifndef __M2ETIS_UTIL_SINGLETON_H__
 #define __M2ETIS_UTIL_SINGLETON_H__
@@ -27,11 +31,11 @@ namespace m2etis {
 namespace util {
 
 	/**
-	* \class Singleton
-	* \brief Derive from this templated class to make a class a singleton.
-	*		 Refer to the Singleton Design Pattern if it is not clear what a singleton is.
-	*		 Declare the ctor private.
-	*/
+	 * \class Singleton
+	 * \brief Derive from this templated class to make a class a singleton.
+	 *		 Refer to the Singleton Design Pattern if it is not clear what a singleton is.
+	 *		 Declare the ctor private.
+	 */
 	template<typename T>
 	class Singleton {
 	public:
@@ -75,10 +79,14 @@ namespace util {
 		const Singleton& operator=(const Singleton &) { return *this; }
 	};
 
-	template<typename T> T * Singleton<T>::_ptrSingleton = 0;
+	template<typename T> T * Singleton<T>::_ptrSingleton = nullptr;
     template<typename T> boost::mutex  Singleton<T>::_objMutex;
 
 } /* namespace util */
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_UTIL_SINGLETON_H__ */
+
+/**
+ * @}
+ */
