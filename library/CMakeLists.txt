@@ -250,12 +250,12 @@ SET(CLOCKUTILS_ROOT ${DEP_DIR}/clockUtils)
 find_package(EasyFind REQUIRED COMPONENTS clock_sockets)
 include_directories(SYSTEM ${CLOCKUTILS_INCLUDE_DIR})
 
-IF(WITH_DOCU)
-	find_package(Doxygen)
-	IF(DOXYGEN_FOUND)
-		add_subdirectory(../docs)
-	ENDIF(DOXYGEN_FOUND)
-ENDIF(WITH_DOCU)
+#IF(WITH_DOCU)
+#	find_package(Doxygen)
+#	IF(DOXYGEN_FOUND)
+#		add_subdirectory(../docs)
+#	ENDIF(DOXYGEN_FOUND)
+#ENDIF(WITH_DOCU)
 
 #------
 #Build m2etis libs
