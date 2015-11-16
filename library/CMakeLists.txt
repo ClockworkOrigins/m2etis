@@ -10,12 +10,13 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 #---
 
 OPTION(M2ETIS_BUILD_SHARED "Build m2etis shared" ON)
-OPTION(WITH_LOGGING "enables Logging" ON)
+OPTION(WITH_LOGGING "enables Logging" OFF)
 OPTION(WITH_SIM "builds with simulator" OFF)
-OPTION(WITH_TESTING "builds with testing code" ON)
+OPTION(WITH_TESTING "builds with testing code" OFF)
 OPTION(WITH_CHIMERA "builds system with Chimera network backend" OFF)
 OPTION(WITH_PROFILING "builds system with Chimera network backend" OFF)
-OPTION(WITH_MESSAGECOMPRESSION "enables compression of messages with zlib" ON)
+OPTION(WITH_MESSAGECOMPRESSION "enables compression of messages with zlib" OFF)
+OPTION(WITH_DOCU "enables docu build" OFF)
 
 IF(WIN32)
 	IF(CMAKE_GENERATOR MATCHES "Visual Studio 12")
@@ -248,6 +249,13 @@ SET(LIBHEADER "clockUtils/errors.h")
 SET(CLOCKUTILS_ROOT ${DEP_DIR}/clockUtils)
 find_package(EasyFind REQUIRED COMPONENTS clock_sockets)
 include_directories(SYSTEM ${CLOCKUTILS_INCLUDE_DIR})
+
+IF(WITH_DOCU)
+	find_package(Doxygen)
+	IF(DOXYGEN_FOUND)
+		add_subdirectory(../docs)
+	ENDIF(DOXYGEN_FOUND)
+ENDIF(WITH_DOCU)
 
 #------
 #Build m2etis libs
