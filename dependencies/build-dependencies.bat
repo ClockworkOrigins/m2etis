@@ -1,17 +1,7 @@
-SET ARCH=32
+call build-common.bat %1 %2
 
-IF [%1] == [64] (
-	SET ARCH=64
-)
-IF [%1] == [] (
-	SET ARCH=32
-)
-
-call build-common.bat
-
-call build-boost.bat %ARCH%
-call build-clockUtils.bat %ARCH%
-call build-gflags.bat %ARCH%
-call build-glog.bat %ARCH%
-call build-gmock.bat %ARCH%
-call build-gperftools.bat %ARCH%
+call build-boost.bat %1 %2
+call build-clockUtils.bat %1 %2
+call build-gflags.bat %1 %2
+call build-glog.bat %1 %2
+call build-gmock.bat %1 %2

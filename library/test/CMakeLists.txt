@@ -17,7 +17,7 @@ ENDIF(WITH_SIM)
 
 #GoogleTest
 #-----------------------------------------------------
-SET (GTest_ROOT "${CMAKE_SOURCE_DIR}/../dependencies/gmock")
+SET (GTest_ROOT "${DEP_DIR}/gmock")
 FIND_PACKAGE(GTest REQUIRED)
 
 INCLUDE_DIRECTORIES(SYSTEM ${GTest_INCLUDE_DIR})
@@ -29,7 +29,7 @@ LINK_DIRECTORIES(${GTest_LIB_DIR})
 
 	SET(LIBNAME "GFLAGS")
 	SET(LIBHEADER "gflags/gflags.h")
-	SET(GFLAGS_ROOT ${CMAKE_SOURCE_DIR}/../dependencies/gflags)
+	SET(GFLAGS_ROOT ${DEP_DIR}/gflags)
 	find_package(EasyFind REQUIRED COMPONENTS gflags)
 	include_directories(SYSTEM ${GFLAGS_INCLUDE_DIR})
 

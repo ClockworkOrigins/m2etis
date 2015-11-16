@@ -16,7 +16,26 @@ OPTION(WITH_TESTING "builds with testing code" ON)
 OPTION(WITH_CHIMERA "builds system with Chimera network backend" OFF)
 OPTION(WITH_PROFILING "builds system with Chimera network backend" OFF)
 OPTION(WITH_MESSAGECOMPRESSION "enables compression of messages with zlib" ON)
-set(DEP_DIR "${CMAKE_SOURCE_DIR}/../dependencies" CACHE STRING "path to dependencies for m2etis")
+
+IF(WIN32)
+	IF(CMAKE_GENERATOR MATCHES "Visual Studio 12")
+		SET(DEP_DIR_BUILD "msvc12_")
+	ELSEIF(CMAKE_GENERATOR MATCHES "Visual Studio 14")
+		SET(DEP_DIR_BUILD "msvc14_")
+	ELSE()
+		MESSAGE([WARNING] "Toolchain not supported yet!")
+	ENDIF()
+
+	IF(CMAKE_GENERATOR MATCHES "Win64")
+		SET(DEP_DIR_BUILD "${DEP_DIR_BUILD}x64")
+	ELSEIF(CMAKE_GENERATOR MATCHES "ARM")
+		SET(DEP_DIR_BUILD "${DEP_DIR_BUILD}arm")
+	ELSE()
+		SET(DEP_DIR_BUILD "${DEP_DIR_BUILD}x86")
+	ENDIF()
+ENDIF(WIN32)
+
+set(DEP_DIR "${CMAKE_SOURCE_DIR}/../dependencies/${DEP_DIR_BUILD}" CACHE STRING "path to dependencies for m2etis")
 
 set(ADDITIONAL_INCLUDE_DIRECTORIES "" CACHE STRING "Path to yourlib includes")
 
@@ -51,10 +70,10 @@ SET(VERSION_PATCH 0)
 # Global Macros and Definitions
 #---
 
-#set standard library
+# set standard library
 SET(STDLIB "")
 
-#Apple specific stuff
+# Apple specific stuff
 if(APPLE)
 	#crappy xcode hack
 	set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11")
@@ -106,7 +125,7 @@ IF(CMAKE_GENERATOR STREQUAL "Xcode")
 ENDIF(CMAKE_GENERATOR STREQUAL "Xcode")
 
 #Setting global m2etis directories
-SET(I6MC_DEP_DIR "${CMAKE_SOURCE_DIR}/../dependencies/")
+SET(I6MC_DEP_DIR "${DEP_DIR}")
 SET(I6MC_SRC_DIR "${CMAKE_SOURCE_DIR}/src/")
 SET(I6MC_INC_DIR "${CMAKE_SOURCE_DIR}/include/")
 SET(I6MC_TEST_DIR "${CMAKE_SOURCE_DIR}/test/")

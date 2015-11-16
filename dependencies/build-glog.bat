@@ -1,16 +1,8 @@
-SET ARCH=Visual Studio 12
-IF [%1] == [64] (
-	SET ARCH=Visual Studio 12 Win64
-)
-IF [%1] == [32] (
-	SET ARCH=Visual Studio 12
-)
-
-call build-common.bat
+call build-common.bat %1 %2
 
 Set ARCHIVE=glog-rev188.zip
 Set BUILD_DIR=%TMP_DIR%/glog-master
-Set PREFIX=%DEP_DIR%/glog
+Set PREFIX=%DEP_DIR%/%ARCH_DIR%/glog
 
 echo "Compile GLog"
 
@@ -21,7 +13,7 @@ if not exist %BUILD_DIR% exit /b
 echo "Building GLog"
 cd %BUILD_DIR%
 
-"%CMake3%"\cmake -DCMAKE_INSTALL_PREFIX=%PREFIX% -DBUILD_SHARED_LIBS=ON -G "%ARCH%" .
+"%CMake3%"\cmake -DCMAKE_INSTALL_PREFIX=%PREFIX% -DBUILD_SHARED_LIBS=ON -G "%VSCOMPILER%%VSARCH%" .
 
 MSBuild.exe google-glog.sln /p:Configuration=Release > NUL
 

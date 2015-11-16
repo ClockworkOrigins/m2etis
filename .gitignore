@@ -4,6 +4,7 @@
 /dependencies/glog
 /dependencies/gmock
 /dependencies/gperftools
+dependencies/msvc*
 /library/dist
 CMakeCache.txt
 Makefile

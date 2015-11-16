@@ -1,16 +1,8 @@
-SET ARCH=Visual Studio 12
-IF [%1] == [64] (
-	SET ARCH=Visual Studio 12 Win64
-)
-IF [%1] == [32] (
-	SET ARCH=Visual Studio 12
-)
-
-call build-common.bat
+call build-common.bat %1 %2
 
 Set ARCHIVE=gflags-2.1.2.zip
 Set BUILD_DIR=%TMP_DIR%/gflags-2.1.2
-Set PREFIX=%DEP_DIR%/gflags
+Set PREFIX=%DEP_DIR%/%ARCH_DIR%/gflags
 
 echo "Compile GFlags"
 
@@ -19,7 +11,7 @@ call build-common.bat downloadAndUnpack %ARCHIVE% %BUILD_DIR%
 echo "Building GFlags"
 cd %BUILD_DIR%
 
-cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%ARCH%" .
+cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%VSCOMPILER%%VSARCH%" .
 
 MSBuild.exe gflags.sln /p:Configuration=Release > NUL
 
