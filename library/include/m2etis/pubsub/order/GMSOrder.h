@@ -35,7 +35,8 @@ namespace order {
 
 	/**
 	 * \brief implements the Order Strategy from Garcia-Molina and Spauster
-	 * The Strategy ensures synchronisastion along multiple trees.
+	 * The Strategy ensures synchronisation along multiple trees.
+	 * Doesn't work with RoutingStrategies sending directly Notify messages instead of Published to root, e.g. DirectBroadcastRouting
 	 */
 	template<class NetworkType, unsigned int Timeout>
 	class GMSOrder : public BaseOrder<NetworkType> {
@@ -73,12 +74,8 @@ namespace order {
 	public:
 		typedef message::GMSOrderInfo<NetworkType> OrderInfoType;
 
-		GMSOrder(PubSubSystemEnvironment * pssi, bool isRoot) :
-			BaseOrder<NetworkType>(pssi, isRoot),
-			pssi_(pssi),
-			nextFertig(0),
-			nextSend(0) {
-			// if rootnode, set variables that wouldn't be set because we donÄt get a subscribe msg
+		GMSOrder(PubSubSystemEnvironment * pssi, bool isRoot) : BaseOrder<NetworkType>(pssi, isRoot), pssi_(pssi), nextFinished(0), nextSend(0) {
+			// if rootnode, set variables that wouldn't be set because we don't get a subscribe msg
 			if (isRoot) {
 				for (size_t i = 0; i < others_.size(); ++i) {
 					others_[i]->setMasterTree(myTree_);
@@ -128,7 +125,7 @@ namespace order {
 		/**
 		 * \brief next ID to be expected
 		 */
-		uint64_t nextFertig;
+		uint64_t nextFinished;
 
 		/**
 		 * \brief tree on which Control Msgs are expected. Default: None
@@ -191,7 +188,7 @@ namespace order {
 
 			if (mtype == message::SUBSCRIBE) {
 				info->realTree = myTree_;
-				if (masterTree == UINT64_MAX) { // not yet subscibed on any tree
+				if (masterTree == UINT64_MAX) { // not yet subscribed on any tree
 					info->mT = myTree_;
 					for (size_t i = 0; i < others_.size(); ++i) {
 						others_[i]->setMasterTree(myTree_);
@@ -335,12 +332,12 @@ namespace order {
 		 */
 		void updateQueue() {
 			bool b = true;
-			while(b && !ctrlQueue_.empty()) { // process multiple messages
+			while (b && !ctrlQueue_.empty()) { // process multiple messages
 				b = false; // stop unless we remove the first element
 				MsgInfo head = std::get<0>(ctrlQueue_.top());
-				if (ctrlQueue_.size() > 0 && head.seqNr == nextFertig) { // next message to be processed
+				if (ctrlQueue_.size() > 0 && head.seqNr == nextFinished) { // next message to be processed
 					if (head.msgId == UINT64_MAX) { // this message doesn't need to be synchronised
-						nextFertig++;
+						nextFinished++;
 						ctrlQueue_.pop();
 						b = true;
 					} else {
@@ -351,13 +348,13 @@ namespace order {
 							others_[uint32_t(pubQueue_[bid].first)]->deliver(pubQueue_[bid].second);
 							pubQueue_.erase(bid);
 							ctrlQueue_.pop();
-							nextFertig++;
+							nextFinished++;
 							b = true;
 						}
 					}
 				} else if (std::get<1>(ctrlQueue_.top()) + Timeout > BaseOrder<NetworkType>::pssi_->scheduler_.getTime()) {
 					// Timeout
-					nextFertig = std::get<0>(ctrlQueue_.top()).seqNr;
+					nextFinished = std::get<0>(ctrlQueue_.top()).seqNr;
 					b = true;
 				}
 			}

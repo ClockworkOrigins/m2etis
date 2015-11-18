@@ -40,7 +40,11 @@ namespace m2etis {
 namespace pubsub {
 namespace routing {
 
-	template <class NetworkType>
+	/**
+	 * \brief creates connections between every single node and sends messages directly, so every node is a root node for its connections
+	 * doesn't work with GMSOrder because it doesn't use publish messages but notifies directly
+	 */
+	template<class NetworkType>
 	class DirectBroadcastRouting : public BaseRouting<NetworkType> {
 	public:
 		typedef message::DirectBroadcastRoutingInfo<NetworkType> RoutingInfoType;
