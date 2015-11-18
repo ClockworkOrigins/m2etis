@@ -192,9 +192,17 @@ namespace routing {
 					m.resize(_nodes.size());
 					std::copy(_nodes.begin(), _nodes.end(), m.begin());
 				}
+
+				m.erase(std::remove_if(m.begin(), m.end(), [this](const typename NetworkType::Key & other) {
+					return self_ == other;
+				}), m.end());
 			} else if (mtype == message::UNSUBSCRIBE) {
 				m.resize(_nodes.size());
 				std::copy(_nodes.begin(), _nodes.end(), m.begin());
+
+				m.erase(std::remove_if(m.begin(), m.end(), [this](const typename NetworkType::Key & other) {
+					return self_ == other;
+				}), m.end());
 			} else if (mtype == message::PUBLISH) {
 				assert(false); // there aren't publish messages sent in DirectBroadcast
 			} else if (mtype == message::CONTROL) {
