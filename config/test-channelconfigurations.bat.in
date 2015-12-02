@@ -19,37 +19,6 @@ cd %testDir%
 
 cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF @CMAKE_SOURCE_DIR@
 
-REM Generating GeneratedChannelName.h
-
-echo #ifndef m2etis_GeneratedChannelName_h > %GENERATEDCHANNELNAME%
-echo #define m2etis_GeneratedChannelName_h >> %GENERATEDCHANNELNAME%
-echo. >> %GENERATEDCHANNELNAME%
-echo namespace m2etis { >> %GENERATEDCHANNELNAME%
-echo namespace pubsub { >> %GENERATEDCHANNELNAME%
-echo. >> %GENERATEDCHANNELNAME%
-echo 	const static uint16_t CHANNEL_COUNT = 1; >> %GENERATEDCHANNELNAME%
-echo #define M2ETIS_CHANNELLIST GENERATED_TEST_CHANNEL >> %GENERATEDCHANNELNAME%
-echo 	enum ChannelName : uint16_t { >> %GENERATEDCHANNELNAME%
-echo 		GENERATED_TEST_CHANNEL >> %GENERATEDCHANNELNAME%
-echo 	}; >> %GENERATEDCHANNELNAME%
-echo. >> %GENERATEDCHANNELNAME%
-echo } >> %GENERATEDCHANNELNAME%
-echo } >> %GENERATEDCHANNELNAME%
-echo. >> %GENERATEDCHANNELNAME%
-echo #endif /* m2etis_GeneratedChannelName_h */ >> %GENERATEDCHANNELNAME%
-
-REM Generating GeneratedEventTypes.h
-
-echo #ifndef m2etis_GeneratedEventTypes_h > %GENERATEDEVENTTYPES%
-echo #define m2etis_GeneratedEventTypes_h >> %GENERATEDEVENTTYPES%
-echo. >> %GENERATEDEVENTTYPES%
-echo #include "boost/date_time/posix_time/posix_time.hpp" >> %GENERATEDEVENTTYPES%
-echo #include "boost/date_time/posix_time/time_serialize.hpp" >> %GENERATEDEVENTTYPES%
-echo. >> %GENERATEDEVENTTYPES%
-echo typedef std::vector^<unsigned char^> %EventType%; >> %GENERATEDEVENTTYPES%
-echo. >> %GENERATEDEVENTTYPES%
-echo #endif /* m2etis_GeneratedEventTypes_h */ >> %GENERATEDEVENTTYPES%
-
 SET "DeliverStrategies=m2etis::pubsub::deliver::NullDeliver^<NETWORKTYPE^> m2etis::pubsub::deliver::AckDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::EXACTLY_ONCE^> m2etis::pubsub::deliver::NackDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::EXACTLY_ONCE^>"
 SET "FilterStrategies=m2etis::pubsub::filter::NullFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::BruteForceFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::DecisionTreeFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::GeneralBooleanExpressionsFilter^<%EventType%/NETWORKTYPE^>"
 SET "OrderStrategies=m2etis::pubsub::order::NullOrder^<NETWORKTYPE^> m2etis::pubsub::order::DetMergeOrder^<NETWORKTYPE/m2etis::pubsub::order::DetMergeConfig^> m2etis::pubsub::order::MTPOrder^<NETWORKTYPE/1000000/m2etis::pubsub::order::LateDeliver::DELIVER^> m2etis::pubsub::order::GMSOrder^<NETWORKTYPE/1000000^>"
@@ -58,7 +27,7 @@ SET "PersistenceStrategies=m2etis::pubsub::persistence::NullPersistence"
 SET "RendezvousStrategies=m2etis::pubsub::rendezvous::NullRendezvous"
 SET "RoutingStrategies=m2etis::pubsub::routing::DirectRouting^<NETWORKTYPE^> m2etis::pubsub::routing::DirectBroadcastRouting^<NETWORKTYPE^> m2etis::pubsub::routing::SpreaditRouting^<NETWORKTYPE^> m2etis::pubsub::routing::HierarchicalSpreaditRouting^<NETWORKTYPE/2^>"
 SET "SecurityStrategies=m2etis::pubsub::security::NullSecurity"
-SET "ValidityStrategies=m2etis::pubsub::validity::NullValidity m2etis::pubsub::validity::TimeValidity^<0/5000000^>"
+SET "ValidityStrategies=m2etis::pubsub::validity::NullValidity m2etis::pubsub::validity::TimeValidity^<0/50000000^>"
 
 SET NetworkTypes=m2etis::net::TCP m2etis::net::UDP m2etis::net::clockTCP
 
@@ -96,6 +65,37 @@ FOR %%a IN (%DeliverStrategies%) DO (
 										)
 										IF !allowed! == 1 (
 											SET /a i=!i! + 1
+
+											REM Generating GeneratedChannelName.h
+
+											echo #ifndef m2etis_GeneratedChannelName_h > %GENERATEDCHANNELNAME%
+											echo #define m2etis_GeneratedChannelName_h >> %GENERATEDCHANNELNAME%
+											echo. >> %GENERATEDCHANNELNAME%
+											echo namespace m2etis { >> %GENERATEDCHANNELNAME%
+											echo namespace pubsub { >> %GENERATEDCHANNELNAME%
+											echo. >> %GENERATEDCHANNELNAME%
+											echo 	const static uint16_t CHANNEL_COUNT = 1; >> %GENERATEDCHANNELNAME%
+											echo #define M2ETIS_CHANNELLIST GENERATED_TEST_CHANNEL >> %GENERATEDCHANNELNAME%
+											echo 	enum ChannelName : uint16_t { >> %GENERATEDCHANNELNAME%
+											echo 		GENERATED_TEST_CHANNEL >> %GENERATEDCHANNELNAME%
+											echo 	}; >> %GENERATEDCHANNELNAME%
+											echo. >> %GENERATEDCHANNELNAME%
+											echo } >> %GENERATEDCHANNELNAME%
+											echo } >> %GENERATEDCHANNELNAME%
+											echo. >> %GENERATEDCHANNELNAME%
+											echo #endif /* m2etis_GeneratedChannelName_h */ >> %GENERATEDCHANNELNAME%
+
+											REM Generating GeneratedEventTypes.h
+
+											echo #ifndef m2etis_GeneratedEventTypes_h > %GENERATEDEVENTTYPES%
+											echo #define m2etis_GeneratedEventTypes_h >> %GENERATEDEVENTTYPES%
+											echo. >> %GENERATEDEVENTTYPES%
+											echo #include "boost/date_time/posix_time/posix_time.hpp" >> %GENERATEDEVENTTYPES%
+											echo #include "boost/date_time/posix_time/time_serialize.hpp" >> %GENERATEDEVENTTYPES%
+											echo. >> %GENERATEDEVENTTYPES%
+											echo typedef std::vector^<unsigned char^> %EventType%; >> %GENERATEDEVENTTYPES%
+											echo. >> %GENERATEDEVENTTYPES%
+											echo #endif /* m2etis_GeneratedEventTypes_h */ >> %GENERATEDEVENTTYPES%
 
 											REM Generating GeneratedChannelConfiguration.h
 

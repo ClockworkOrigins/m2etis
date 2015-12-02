@@ -60,7 +60,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 		}
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(500 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(1000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		ASSERT_EQ(100 * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << cn << " of Node " << i << " has not correct amount of messages!";
@@ -110,7 +110,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		}
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(500 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(1000 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->unsubscribe<CharVectorEventType>(cn);
