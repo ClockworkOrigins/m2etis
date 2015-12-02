@@ -33,20 +33,20 @@ namespace m2etis {
 namespace wrapper {
 namespace clocktcp {
 
-	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string &, const uint16_t) :
-		_initialized(true),
-		_local(listenIP + ":" + std::to_string(listenPort)),
-		_lock(),
-		_sockets(),
-		_mapping_metis_real(),
-		_mapping_real_metis(),
-		_mapLock() {
+	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string &, const uint16_t) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _lock(), _sockets(), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threads() {
 		boost::thread(boost::bind(&clockTcpWrapper::workerFunc, this));
 		boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 	}
 
 	clockTcpWrapper::~clockTcpWrapper() {
 		_initialized = false;
+		for (std::pair<uint16_t, boost::thread *> p : _threads) {
+			p.second->interrupt();
+			p.second->join();
+		}
+		for (std::pair<uint16_t, boost::thread *> p : _threads) {
+			delete p.second;
+		}
 		_lock.lock();
 		for (std::map<message::Key<message::IPv4KeyProvider>, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 			if (it->second != nullptr) {

@@ -43,7 +43,7 @@ namespace m2etis {
 namespace pubsub {
 namespace routing {
 
-	template <class NetworkType, unsigned int ChildAmount>
+	template<class NetworkType, unsigned int ChildAmount>
 	class HierarchicalSpreaditRouting : public BaseRouting<NetworkType> {
 	public:
 		typedef message::HierarchicalSpreadItRoutingInfo<NetworkType> RoutingInfoType;

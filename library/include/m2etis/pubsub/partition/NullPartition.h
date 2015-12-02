@@ -30,7 +30,7 @@ namespace m2etis {
 namespace pubsub {
 namespace partition {
 
-	template <typename NetworkType, typename EventType>
+	template<typename NetworkType, typename EventType>
 	class NullPartition : public BasePartition<NetworkType, EventType> {
 	public:
 		typedef boost::shared_ptr<EventType> PayloadPtr;

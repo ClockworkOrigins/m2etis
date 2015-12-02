@@ -14,8 +14,8 @@
  limitations under the License.
  */
 
-#ifndef m2etis_MessageConfigurationExample_h
-#define m2etis_MessageConfigurationExample_h
+#ifndef m2etis_MessageConfiguration_h
+#define m2etis_MessageConfiguration_h
 
 #include "m2etis/config/GeneratedEventTypes.h"
 #include "m2etis/config/DetMergeConfigTest.h"

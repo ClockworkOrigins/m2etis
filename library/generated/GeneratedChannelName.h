@@ -13,8 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-#ifndef m2etis_GeneratedChannelNameExample_h
-#define m2etis_GeneratedChannelNameExample_h
+
+#ifndef m2etis_GeneratedChannelName_h
+#define m2etis_GeneratedChannelName_h
 
 namespace m2etis {
     namespace pubsub {

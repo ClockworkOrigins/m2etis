@@ -1,0 +1,267 @@
+@echo ON
+
+setlocal EnableDelayedExpansion
+
+SET testDir=%TEMP%\m2etisTest
+SET currentDir=%cd%
+SET GENERATEDCHANNELNAME=%testDir%\include\m2etis\config\GeneratedChannelName.h
+SET GENERATEDEVENTTYPES=%testDir%\include\m2etis\config\GeneratedEventTypes.h
+SET GENERATEDCHANNELCONFIGURATION=%testDir%\include\m2etis\config\GeneratedChannelConfiguration.h
+SET GENERATEDMESSAGECONFIGURATION=%testDir%\include\m2etis\config\GeneratedMessageConfiguration.h
+SET RESULTS=@CMAKE_BINARY_DIR@\ChannelTestResults.txt
+
+SET EventType=CharVectorEventType
+
+%testDir:~0,2%
+mkdir %testDir%
+
+cd %testDir%
+
+cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF @CMAKE_SOURCE_DIR@
+
+REM Generating GeneratedChannelName.h
+
+echo #ifndef m2etis_GeneratedChannelName_h > %GENERATEDCHANNELNAME%
+echo #define m2etis_GeneratedChannelName_h >> %GENERATEDCHANNELNAME%
+echo. >> %GENERATEDCHANNELNAME%
+echo namespace m2etis { >> %GENERATEDCHANNELNAME%
+echo namespace pubsub { >> %GENERATEDCHANNELNAME%
+echo. >> %GENERATEDCHANNELNAME%
+echo 	const static uint16_t CHANNEL_COUNT = 1; >> %GENERATEDCHANNELNAME%
+echo #define M2ETIS_CHANNELLIST GENERATED_TEST_CHANNEL >> %GENERATEDCHANNELNAME%
+echo 	enum ChannelName : uint16_t { >> %GENERATEDCHANNELNAME%
+echo 		GENERATED_TEST_CHANNEL >> %GENERATEDCHANNELNAME%
+echo 	}; >> %GENERATEDCHANNELNAME%
+echo. >> %GENERATEDCHANNELNAME%
+echo } >> %GENERATEDCHANNELNAME%
+echo } >> %GENERATEDCHANNELNAME%
+echo. >> %GENERATEDCHANNELNAME%
+echo #endif /* m2etis_GeneratedChannelName_h */ >> %GENERATEDCHANNELNAME%
+
+REM Generating GeneratedEventTypes.h
+
+echo #ifndef m2etis_GeneratedEventTypes_h > %GENERATEDEVENTTYPES%
+echo #define m2etis_GeneratedEventTypes_h >> %GENERATEDEVENTTYPES%
+echo. >> %GENERATEDEVENTTYPES%
+echo #include "boost/date_time/posix_time/posix_time.hpp" >> %GENERATEDEVENTTYPES%
+echo #include "boost/date_time/posix_time/time_serialize.hpp" >> %GENERATEDEVENTTYPES%
+echo. >> %GENERATEDEVENTTYPES%
+echo typedef std::vector^<unsigned char^> %EventType%; >> %GENERATEDEVENTTYPES%
+echo. >> %GENERATEDEVENTTYPES%
+echo #endif /* m2etis_GeneratedEventTypes_h */ >> %GENERATEDEVENTTYPES%
+
+SET "DeliverStrategies=m2etis::pubsub::deliver::NullDeliver^<NETWORKTYPE^> m2etis::pubsub::deliver::AckDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::EXACTLY_ONCE^> m2etis::pubsub::deliver::NackDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::EXACTLY_ONCE^>"
+SET "FilterStrategies=m2etis::pubsub::filter::NullFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::BruteForceFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::DecisionTreeFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::GeneralBooleanExpressionsFilter^<%EventType%/NETWORKTYPE^>"
+SET "OrderStrategies=m2etis::pubsub::order::NullOrder^<NETWORKTYPE^> m2etis::pubsub::order::DetMergeOrder^<NETWORKTYPE/m2etis::pubsub::order::DetMergeConfig^> m2etis::pubsub::order::MTPOrder^<NETWORKTYPE/1000000/m2etis::pubsub::order::LateDeliver::DELIVER^> m2etis::pubsub::order::GMSOrder^<NETWORKTYPE/1000000^>"
+SET "PartitionStrategies=m2etis::pubsub::partition::NullPartition^<NETWORKTYPE/%EventType%^> m2etis::pubsub::partition::BruteForcePartition^<NETWORKTYPE/%EventType%^> m2etis::pubsub::partition::DirectBroadcastPartition^<NETWORKTYPE/%EventType%^>"
+SET "PersistenceStrategies=m2etis::pubsub::persistence::NullPersistence"
+SET "RendezvousStrategies=m2etis::pubsub::rendezvous::NullRendezvous"
+SET "RoutingStrategies=m2etis::pubsub::routing::DirectRouting^<NETWORKTYPE^> m2etis::pubsub::routing::DirectBroadcastRouting^<NETWORKTYPE^> m2etis::pubsub::routing::SpreaditRouting^<NETWORKTYPE^> m2etis::pubsub::routing::HierarchicalSpreaditRouting^<NETWORKTYPE/2^>"
+SET "SecurityStrategies=m2etis::pubsub::security::NullSecurity"
+SET "ValidityStrategies=m2etis::pubsub::validity::NullValidity m2etis::pubsub::validity::TimeValidity^<0/5000000^>"
+
+SET NetworkTypes=m2etis::net::TCP m2etis::net::UDP m2etis::net::clockTCP
+
+SET i=0
+SET completedSuccessful=0
+
+FOR %%a IN (%DeliverStrategies%) DO (
+	FOR %%b IN (%FilterStrategies%) DO (
+		FOR %%c IN (%OrderStrategies%) DO (
+			FOR %%d IN (%PartitionStrategies%) DO (
+				FOR %%e IN (%PersistenceStrategies%) DO (
+					FOR %%f IN (%RendezvousStrategies%) DO (
+						FOR %%g IN (%RoutingStrategies%) DO (
+							FOR %%h IN (%SecurityStrategies%) DO (
+								FOR %%i IN (%ValidityStrategies%) DO (
+									FOR %%j IN (%NetworkTypes%) DO (
+										SET allowed=1
+										SET tmpStr=%%g
+										SET cn=!tmpStr:DirectBroadcastRouting=!
+										IF "!cn!" NEQ "!tmpStr!" (
+											SET tmpStr=%%c
+											SET cn=!tmpStr:GMSOrder=!
+											IF "!cn!" NEQ "!tmpStr!" (
+												SET allowed=0
+											)
+										)
+										SET tmpStr=%%g
+										SET cn=!tmpStr:HierarchicalSpreaditRouting=!
+										IF "!cn!" NEQ "!tmpStr!" (
+											SET tmpStr=%%c
+											SET cn=!tmpStr:GMSOrder=!
+											IF "!cn!" NEQ "!tmpStr!" (
+												SET allowed=0
+											)
+										)
+										IF !allowed! == 1 (
+											SET /a i=!i! + 1
+
+											REM Generating GeneratedChannelConfiguration.h
+
+											SET ChannelConfigurationString=typedef Channel^<ChannelType^<%%g, %%b, %%c, %%a, %%e, %%i, %%d, %%h, %%f^>, NETWORKTYPE, %EventType%^> GENEREATED_TEST_CHANNEL_EVENTTYPE;
+											SET ChannelConfigurationString=!ChannelConfigurationString:/=,!
+											SET ChannelConfigurationString=!ChannelConfigurationString:NETWORKTYPE=m2etis::net::NetworkType^<%%j^>!
+
+											echo #ifndef M2ETIS_GENERATEDCHANNELCONFIGURATION_H > %GENERATEDCHANNELCONFIGURATION%
+											echo #define M2ETIS_GENERATEDCHANNELCONFIGURATION_H >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo }} >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo #include "m2etis/config/GeneratedEventTypes.h" >> %GENERATEDCHANNELCONFIGURATION%
+											echo #include "m2etis/config/DetMergeConfigTest.h" >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo #include ^<map^> >> %GENERATEDCHANNELCONFIGURATION%
+											echo #include ^<vector^> >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo #include "m2etis/pubsub/filter/AttributeTypeInformation.h" >> %GENERATEDCHANNELCONFIGURATION%
+											echo #include "m2etis/pubsub/filter/AttributeAccessorBasic.h" >> %GENERATEDCHANNELCONFIGURATION%
+											echo #include "m2etis/pubsub/filter/AttributeAccessor.h" >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo using m2etis::pubsub::filter::AttributeName; >> %GENERATEDCHANNELCONFIGURATION%
+											echo using m2etis::pubsub::filter::AttributeAccessor_Basic; >> %GENERATEDCHANNELCONFIGURATION%
+											echo using m2etis::pubsub::filter::AttributeAccessor; >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo namespace m2etis { >> %GENERATEDCHANNELCONFIGURATION%
+											echo namespace pubsub { >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo !ChannelConfigurationString! >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo template^<^> >> %GENERATEDCHANNELCONFIGURATION%
+											echo struct ChannelT^<GENERATED_TEST_CHANNEL^> { >> %GENERATEDCHANNELCONFIGURATION%
+											echo 	ChannelT^(const std::string ^& ip, const unsigned short port, const std::string ^& known_hostname, const unsigned short known_hostport, PubSubSystemEnvironment * pssi, std::vector^<ChannelEventInterface *^> ^& map, const std::vector^<std::string^> ^& rootList^) >> %GENERATEDCHANNELCONFIGURATION%
+											echo 	{ >> %GENERATEDCHANNELCONFIGURATION%
+											echo 		map.push_back(new GENEREATED_TEST_CHANNEL_EVENTTYPE(GENERATED_TEST_CHANNEL, ip, port, known_hostname, known_hostport, pssi, rootList^)^); >> %GENERATEDCHANNELCONFIGURATION%
+											echo 	} >> %GENERATEDCHANNELCONFIGURATION%
+											echo }; >> %GENERATEDCHANNELCONFIGURATION%
+											echo. >> %GENERATEDCHANNELCONFIGURATION%
+											echo #endif /* M2ETIS_GENERATEDCHANNELCONFIGURATION_H */ >> %GENERATEDCHANNELCONFIGURATION%
+
+											REM Generating GeneratedChannelConfiguration.h
+
+											SET MessageConfigurationString=typedef m2etis::message::InternalMessage^<NETWORKTYPE, m2etis::pubsub::ChannelType^<%%g, %%b, %%c, %%a, %%e, %%i, %%d, %%h, %%f^>, %EventType%^> GENERATED_TEST_CHANNEL_MESSAGE;
+											SET MessageConfigurationString=!MessageConfigurationString:/=,!
+											SET MessageConfigurationString=!MessageConfigurationString:NETWORKTYPE=m2etis::net::NetworkType^<%%j^>!
+
+											echo #ifndef m2etis_MessageConfiguration_h > %GENERATEDMESSAGECONFIGURATION%
+											echo #define m2etis_MessageConfiguration_h >> %GENERATEDMESSAGECONFIGURATION%
+											echo. >> %GENERATEDMESSAGECONFIGURATION%
+											echo #include "m2etis/config/GeneratedEventTypes.h" >> %GENERATEDMESSAGECONFIGURATION%
+											echo #include "m2etis/config/DetMergeConfigTest.h" >> %GENERATEDMESSAGECONFIGURATION%
+											echo #include "boost/serialization/serialization.hpp" >> %GENERATEDMESSAGECONFIGURATION%
+											echo #include "boost/serialization/level.hpp" >> %GENERATEDMESSAGECONFIGURATION%
+											echo #include "boost/serialization/tracking.hpp" >> %GENERATEDMESSAGECONFIGURATION%
+											echo. >> %GENERATEDMESSAGECONFIGURATION%
+
+											echo BOOST_CLASS_EXPORT^(m2etis::message::DirectRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::UDP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DirectRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::UDP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::DirectRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::TCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DirectRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::TCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::DirectRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DirectRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::DirectBroadcastRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::UDP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DirectBroadcastRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::UDP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::DirectBroadcastRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::TCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DirectBroadcastRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::TCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::DirectBroadcastRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DirectBroadcastRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::HierarchicalSpreadItRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::UDP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::HierarchicalSpreadItRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::UDP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::HierarchicalSpreadItRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::TCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::HierarchicalSpreadItRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::TCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::HierarchicalSpreadItRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::HierarchicalSpreadItRoutingInfo^<m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+
+											echo BOOST_CLASS_EXPORT^(m2etis::message::NullFilterInfo^<%EventType%^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::NullFilterInfo^<%EventType%^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::BruteForceFilterInfo^<%EventType%^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::BruteForceFilterInfo^<%EventType%^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											REM echo BOOST_CLASS_EXPORT^(m2etis::message::DecisionTreeFilterInfo^<%EventType%^, m2etis::net::NetworkType^<m2etis::net::TCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											REM echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DecisionTreeFilterInfo^<%EventType%^, m2etis::net::NetworkType^<m2etis::net::TCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											REM echo BOOST_CLASS_EXPORT^(m2etis::message::DecisionTreeFilterInfo^<%EventType%^, m2etis::net::NetworkType^<m2etis::net::UDP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											REM echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DecisionTreeFilterInfo^<%EventType%^, m2etis::net::NetworkType^<m2etis::net::UDP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											REM echo BOOST_CLASS_EXPORT^(m2etis::message::DecisionTreeFilterInfo^<%EventType%^, m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											REM echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DecisionTreeFilterInfo^<%EventType%^, m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::GeneralBooleanExpressionsFilterInfo^<%EventType%^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::GeneralBooleanExpressionsFilterInfo^<%EventType%^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+
+											echo BOOST_CLASS_EXPORT^(m2etis::message::NullOrderInfo^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::NullOrderInfo, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::DetMergeOrderInfo^<m2etis::config::order::DetMergeConfigTest^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::DetMergeOrderInfo^<m2etis::config::order::DetMergeConfigTest^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::MTPOrderInfo^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::MTPOrderInfo, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::GMSOrderInfo^<m2etis::net::NetworkType^<m2etis::net::TCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::GMSOrderInfo^<m2etis::net::NetworkType^<m2etis::net::TCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::GMSOrderInfo^<m2etis::net::NetworkType^<m2etis::net::UDP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::GMSOrderInfo^<m2etis::net::NetworkType^<m2etis::net::UDP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT^(m2etis::message::GMSOrderInfo^<m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(m2etis::message::GMSOrderInfo^<m2etis::net::NetworkType^<m2etis::net::clockTCP^>^>, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+
+											echo. >> %GENERATEDMESSAGECONFIGURATION%
+											echo !MessageConfigurationString! >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_EXPORT_GUID^(GENERATED_TEST_CHANNEL_MESSAGE, "0"^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo BOOST_CLASS_IMPLEMENTATION^(GENERATED_TEST_CHANNEL_MESSAGE, boost::serialization::object_serializable^) >> %GENERATEDMESSAGECONFIGURATION%
+											echo. >> %GENERATEDMESSAGECONFIGURATION%
+											echo #endif /* m2etis_MessageConfiguration_h */ >> %GENERATEDMESSAGECONFIGURATION%
+
+											MSBuild m2etis.sln /t:Clean /p:Configuration="Release" > compileOutput
+											MSBuild m2etis.sln /t:m2etis_channel_tester /p:Configuration="Release" > compileOutput
+
+											SET ERROR=!ERRORLEVEL!
+											IF NOT [!ERROR!] == [0] (
+												echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile
+												type compileOutput
+												echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile >> %RESULTS%
+												type compileOutput >> %RESULTS%
+												echo. >> %RESULTS%
+											)
+											IF [!ERROR!] == [0] (
+												CD dist
+
+												m2etis_channel_tester.exe > testOutput
+
+												SET ERROR=!ERRORLEVEL!
+												IF NOT [!ERROR!] == [0] (
+													echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests
+													type testOutput
+													echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests >> %RESULTS%
+													type testOutput >> %RESULTS%
+													echo. >> %RESULTS%
+												)
+												IF [!ERROR!] == [0] (
+													echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j works
+													SET /a completedSuccessful=!completedSuccessful! + 1
+												)
+
+												CD ..
+											)
+										)
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+)
+
+:end
+
+echo Tested combinations: !i!
+
+CD ..
+
+RD /S /Q %testDir%
+
+%currentDir:~0,2%
+cd %currentDir%
+
+echo. >> %RESULTS%
+echo Successfully completed !completedSuccessful! of !i! configurations >> %RESULTS%
+
+IF NOT !i! == !completedSuccessful! (
+	SET ERRORLEVEL=1
+)
