@@ -56,7 +56,7 @@ namespace partition {
 				return ret;
 			}
 			for (std::vector<int>::size_type i = 0; i < partition_filter_vector_.size(); ++i) {
-				ret.push_back(i);
+				ret.push_back(int(i));
 			}
 			return ret;
 		}
@@ -91,7 +91,7 @@ namespace partition {
 			return overlapping_trees;
 		}
 
-		boost::shared_ptr<filter::FilterExp<EventType> > getPredicate(unsigned int id) {
+		boost::shared_ptr<filter::FilterExp<EventType>> getPredicate(size_t id) {
 			assert(id < partition_filter_vector_.size());
 			return partition_filter_vector_[id].first;
 		}
@@ -105,14 +105,14 @@ namespace partition {
 			partition_filter_vector_.push_back(std::make_pair(predicate, root));
 		}
 
-		void removePartition(unsigned int id) {
+		void removePartition(size_t id) {
 			partition_filter_vector_.erase(partition_filter_vector_.begin() + id);
 		}
 
-		void changePredicate(unsigned int, boost::shared_ptr<filter::FilterExp<EventType>>) {
+		void changePredicate(size_t, boost::shared_ptr<filter::FilterExp<EventType>>) {
 		}
 		
-		void changeRoot(unsigned int id, typename NetworkType::Key & root) {
+		void changeRoot(size_t id, typename NetworkType::Key & root) {
 			partition_filter_vector_[id].second = root;
 		}
 

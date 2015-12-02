@@ -56,12 +56,12 @@ namespace partition {
 		/**
 		 * \brief returns the tree indices of all trees matching the predicate to subscribe on (static & dynamic)
 		 */
-		virtual std::vector<unsigned int> getSubscribeTrees(boost::shared_ptr<filter::FilterExp<EventType> > dynamic_filter) = 0;
+		virtual std::vector<unsigned int> getSubscribeTrees(boost::shared_ptr<filter::FilterExp<EventType>> dynamic_filter) = 0;
 
 		/**
 		 * \brief returns the predicate for the given partition id (dynamic)
 		 */
-		virtual boost::shared_ptr<filter::FilterExp<EventType> > getPredicate(unsigned int id) = 0;
+		virtual boost::shared_ptr<filter::FilterExp<EventType>> getPredicate(size_t id) = 0;
 
 		/**
 		 * \brief can create a new partition for this channel if a new node (root) joins, return true, if a new partition was created, otherwise false (dynamic)
@@ -76,14 +76,14 @@ namespace partition {
 		/**
 		 * \brief removes the partition with the given id (dynamic)
 		 */
-		virtual void removePartition(unsigned int id) = 0;
+		virtual void removePartition(size_t id) = 0;
 
 		/**
 		 * \brief changes the filter predicate for the partition with the given id (dynamic)
 		 */
-		virtual void changePredicate(unsigned int id, boost::shared_ptr<filter::FilterExp<EventType> > predicates) = 0;
+		virtual void changePredicate(size_t id, boost::shared_ptr<filter::FilterExp<EventType>> predicates) = 0;
 		
-		virtual void changeRoot(unsigned int id, typename NetworkType::Key & root) = 0;
+		virtual void changeRoot(size_t id, typename NetworkType::Key & root) = 0;
 
 		virtual std::string toString() {
 			return "BasePartition";

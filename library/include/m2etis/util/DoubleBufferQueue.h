@@ -110,7 +110,7 @@ namespace util {
 		/**
 		 * \brief returns size of the queue
 		 */
-		unsigned int size() const {
+		size_t size() const {
 			return _queueRead->size() + _queueWrite->size();
 		}
 

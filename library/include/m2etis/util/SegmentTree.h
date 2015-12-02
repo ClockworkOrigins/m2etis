@@ -112,18 +112,18 @@ namespace util {
 		/**
 		 * \brief returns the amount of segments, is always <= count()
 		 */
-		unsigned int size() const {
+		size_t size() const {
 			return _elements.size();
 		}
 
 		/**
 		 * \brief returns the amount of stored elements
 		 */
-		unsigned int count() const {
-			unsigned int counter = 0;
+		size_t count() const {
+			size_t counter = 0;
 
-			for (unsigned int i = 0; i < _elements.size(); ++i) {
-				counter += static_cast<unsigned int>(_elements[i].second - _elements[i].first + 1);
+			for (size_t i = 0; i < _elements.size(); ++i) {
+				counter += size_t(_elements[i].second - _elements[i].first + 1);
 			}
 
 			return counter;

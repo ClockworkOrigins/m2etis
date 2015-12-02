@@ -64,7 +64,7 @@ namespace partition {
 			return overlapping_trees;
 		}
 
-		boost::shared_ptr<filter::FilterExp<EventType>> getPredicate(unsigned int) {
+		boost::shared_ptr<filter::FilterExp<EventType>> getPredicate(size_t) {
 			return boost::shared_ptr<filter::FilterExp<EventType>>();
 		}
 
@@ -75,13 +75,13 @@ namespace partition {
 		void addPartition(boost::shared_ptr<filter::FilterExp<EventType>>, const typename NetworkType::Key &) {
 		}
 
-		void removePartition(unsigned int) {
+		void removePartition(size_t) {
 		}
 
-		void changePredicate(unsigned int, boost::shared_ptr<filter::FilterExp<EventType>>) {
+		void changePredicate(size_t, boost::shared_ptr<filter::FilterExp<EventType>>) {
 		}
 
-		void changeRoot(unsigned int, typename NetworkType::Key &) {
+		void changeRoot(size_t, typename NetworkType::Key &) {
 		}
 	};
 
