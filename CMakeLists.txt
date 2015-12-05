@@ -183,6 +183,11 @@ IF(WIN32)
 	configure_file(${CMAKE_SOURCE_DIR}/config/test-channelconfigurations.bat.in ${CMAKE_BINARY_DIR}/test-channelconfigurations.bat @ONLY)
 	
 	add_custom_target(TestChannelConfigurations COMMAND test-channelconfigurations.bat WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+ELSEIF(UNIX)
+	# Script testing all channel configurations
+	configure_file(${CMAKE_SOURCE_DIR}/config/test-channelconfigurations.sh.in ${CMAKE_BINARY_DIR}/test-channelconfigurations.sh @ONLY)
+	
+	add_custom_target(TestChannelConfigurations COMMAND ./test-channelconfigurations.sh WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 ENDIF(WIN32)
 
 # INSTALL
