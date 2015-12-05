@@ -187,7 +187,8 @@ ELSEIF(UNIX)
 	# Script testing all channel configurations
 	configure_file(${CMAKE_SOURCE_DIR}/config/test-channelconfigurations.sh.in ${CMAKE_BINARY_DIR}/test-channelconfigurations.sh @ONLY)
 	
-	add_custom_target(TestChannelConfigurations COMMAND ./test-channelconfigurations.sh WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	add_custom_target(TestChannelConfigurations COMMAND ./test-channelconfigurations.sh Release WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	add_custom_target(TestChannelConfigurationsWithValgrind COMMAND ./test-channelconfigurations.sh RelWithDebInfo valgrind WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 ENDIF(WIN32)
 
 # INSTALL

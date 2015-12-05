@@ -1,5 +1,8 @@
 #!/bin/bash
 
+configuration=${1}
+valgrind=${2}
+
 testDir="/tmp/`whoami`/m2etisTest"
 currentDir="${PWD}"
 
@@ -32,7 +35,7 @@ mkdir -p ${testDir}
 
 cd ${testDir}
 
-cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF -DCMAKE_BUILD_TYPE=Release @CMAKE_SOURCE_DIR@
+cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF -DCMAKE_BUILD_TYPE=${configuration} @CMAKE_SOURCE_DIR@
 
 for a in ${DeliverStrategies[*]}
 do
@@ -234,9 +237,14 @@ do
 											fi
 											if [ ${ERRORCODE} -eq 0 ]
 											then
-												cd dist/Release
+												cd dist/${configuration}
 
-												./m2etis_channel_tester &> testOutput
+												if [ $valgrind == "valgrind" ]
+												then
+													valgrind --leak-check=full ./m2etis_channel_tester &> testOutput
+												else
+													./m2etis_channel_tester &> testOutput
+												fi
 
 												ERRORCODE=$?
 												if [ ${ERRORCODE} -ne 0 ]
