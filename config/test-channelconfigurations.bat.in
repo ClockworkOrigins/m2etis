@@ -8,7 +8,10 @@ SET GENERATEDCHANNELNAME=%testDir%\include\m2etis\config\GeneratedChannelName.h
 SET GENERATEDEVENTTYPES=%testDir%\include\m2etis\config\GeneratedEventTypes.h
 SET GENERATEDCHANNELCONFIGURATION=%testDir%\include\m2etis\config\GeneratedChannelConfiguration.h
 SET GENERATEDMESSAGECONFIGURATION=%testDir%\include\m2etis\config\GeneratedMessageConfiguration.h
-SET RESULTS=@CMAKE_BINARY_DIR@\ChannelTestResults.txt
+SET RESULTSDIR=@CMAKE_BINARY_DIR@\ChannelTestResults
+SET RESULTS=%RESULTSDIR%\ChannelTestResults.txt
+
+mkdir %RESULTSDIR%
 
 SET EventType=CharVectorEventType
 
@@ -19,7 +22,7 @@ cd %testDir%
 
 cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF @CMAKE_SOURCE_DIR@
 
-SET "DeliverStrategies=m2etis::pubsub::deliver::NullDeliver^<NETWORKTYPE^> m2etis::pubsub::deliver::AckDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::EXACTLY_ONCE^> m2etis::pubsub::deliver::NackDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::EXACTLY_ONCE^>"
+SET "DeliverStrategies=m2etis::pubsub::deliver::NullDeliver^<NETWORKTYPE^> m2etis::pubsub::deliver::AckDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::Amount::EXACTLY_ONCE^> m2etis::pubsub::deliver::NackDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::Amount::EXACTLY_ONCE^>"
 SET "FilterStrategies=m2etis::pubsub::filter::NullFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::BruteForceFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::DecisionTreeFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::GeneralBooleanExpressionsFilter^<%EventType%/NETWORKTYPE^>"
 SET "OrderStrategies=m2etis::pubsub::order::NullOrder^<NETWORKTYPE^> m2etis::pubsub::order::DetMergeOrder^<NETWORKTYPE/m2etis::pubsub::order::DetMergeConfig^> m2etis::pubsub::order::MTPOrder^<NETWORKTYPE/1000000/m2etis::pubsub::order::LateDeliver::DELIVER^> m2etis::pubsub::order::GMSOrder^<NETWORKTYPE/1000000^>"
 SET "PartitionStrategies=m2etis::pubsub::partition::NullPartition^<NETWORKTYPE/%EventType%^> m2etis::pubsub::partition::BruteForcePartition^<NETWORKTYPE/%EventType%^> m2etis::pubsub::partition::DirectBroadcastPartition^<NETWORKTYPE/%EventType%^>"
@@ -210,11 +213,16 @@ FOR %%a IN (%DeliverStrategies%) DO (
 
 											SET ERROR=!ERRORLEVEL!
 											IF NOT [!ERROR!] == [0] (
-												echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile
+												echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile
 												type compileOutput
-												echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile >> %RESULTS%
+												echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile >> %RESULTS%
 												type compileOutput >> %RESULTS%
 												echo. >> %RESULTS%
+												mkdir %RESULTSDIR%\!i!
+												xcopy /F %GENERATEDCHANNELNAME% %RESULTSDIR%\!i!\GeneratedChannelName.h
+												xcopy /F %GENERATEDEVENTTYPES% %RESULTSDIR%\!i!\GeneratedEventTypes.h
+												xcopy /F %GENERATEDCHANNELCONFIGURATION% %RESULTSDIR%\!i!\GeneratedChannelConfiguration.h
+												xcopy /F %GENERATEDMESSAGECONFIGURATION% %RESULTSDIR%\!i!\GeneratedMessageConfiguration.h
 											)
 											IF [!ERROR!] == [0] (
 												CD dist
@@ -223,14 +231,19 @@ FOR %%a IN (%DeliverStrategies%) DO (
 
 												SET ERROR=!ERRORLEVEL!
 												IF NOT [!ERROR!] == [0] (
-													echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests
+													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests
 													type testOutput
-													echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests >> %RESULTS%
+													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests >> %RESULTS%
 													type testOutput >> %RESULTS%
 													echo. >> %RESULTS%
+													mkdir %RESULTSDIR%\!i!
+													xcopy /F %GENERATEDCHANNELNAME% %RESULTSDIR%\!i!\GeneratedChannelName.h
+													xcopy /F %GENERATEDEVENTTYPES% %RESULTSDIR%\!i!\GeneratedEventTypes.h
+													xcopy /F %GENERATEDCHANNELCONFIGURATION% %RESULTSDIR%\!i!\GeneratedChannelConfiguration.h
+													xcopy /F %GENERATEDMESSAGECONFIGURATION% %RESULTSDIR%\!i!\GeneratedMessageConfiguration.h
 												)
 												IF [!ERROR!] == [0] (
-													echo Configuration %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j works
+													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j works
 													SET /a completedSuccessful=!completedSuccessful! + 1
 												)
 

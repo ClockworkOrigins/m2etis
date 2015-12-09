@@ -12,11 +12,14 @@ GENERATEDCHANNELNAME=${testDir}/include/m2etis/config/GeneratedChannelName.h
 GENERATEDEVENTTYPES=${testDir}/include/m2etis/config/GeneratedEventTypes.h
 GENERATEDCHANNELCONFIGURATION=${testDir}/include/m2etis/config/GeneratedChannelConfiguration.h
 GENERATEDMESSAGECONFIGURATION=${testDir}/include/m2etis/config/GeneratedMessageConfiguration.h
-RESULTS=@CMAKE_BINARY_DIR@/ChannelTestResults.txt
+RESULTSDIR=@CMAKE_BINARY_DIR@/ChannelTestResults
+RESULTS=${RESULTSDIR}/ChannelTestResults.txt
+
+mkdir ${RESULTSDIR}
 
 EventType=CharVectorEventType
 
-DeliverStrategies=(m2etis::pubsub::deliver::NullDeliver\<NETWORKTYPE\> m2etis::pubsub::deliver::AckDeliver\<NETWORKTYPE,3,m2etis::pubsub::deliver::EXACTLY_ONCE\> m2etis::pubsub::deliver::NackDeliver\<NETWORKTYPE,3,m2etis::pubsub::deliver::EXACTLY_ONCE\>)
+DeliverStrategies=(m2etis::pubsub::deliver::NullDeliver\<NETWORKTYPE\> m2etis::pubsub::deliver::AckDeliver\<NETWORKTYPE,3,m2etis::pubsub::deliver::Amount::EXACTLY_ONCE\> m2etis::pubsub::deliver::NackDeliver\<NETWORKTYPE,3,m2etis::pubsub::deliver::Amount::EXACTLY_ONCE\>)
 FilterStrategies=(m2etis::pubsub::filter::NullFilter\<${EventType},NETWORKTYPE\> m2etis::pubsub::filter::BruteForceFilter\<${EventType},NETWORKTYPE\> m2etis::pubsub::filter::DecisionTreeFilter\<${EventType},NETWORKTYPE\> m2etis::pubsub::filter::GeneralBooleanExpressionsFilter\<${EventType},NETWORKTYPE\>)
 OrderStrategies=(m2etis::pubsub::order::NullOrder\<NETWORKTYPE\> m2etis::pubsub::order::DetMergeOrder\<NETWORKTYPE,m2etis::pubsub::order::DetMergeConfig\> m2etis::pubsub::order::MTPOrder\<NETWORKTYPE,1000000,m2etis::pubsub::order::LateDeliver::DELIVER\> m2etis::pubsub::order::GMSOrder\<NETWORKTYPE,1000000\>)
 PartitionStrategies=(m2etis::pubsub::partition::NullPartition\<NETWORKTYPE,${EventType}\> m2etis::pubsub::partition::BruteForcePartition\<NETWORKTYPE,${EventType}\> m2etis::pubsub::partition::DirectBroadcastPartition\<NETWORKTYPE,${EventType}\>)
@@ -229,11 +232,16 @@ do
 
 											if [ $ERRORCODE -ne 0 ]
 											then
-												echo "Configuration ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn't compile"
+												echo "Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn't compile"
 												cat compileOutput
-												echo Configuration ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t compile >> ${RESULTS}
+												echo Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t compile >> ${RESULTS}
 												cat compileOutput >> ${RESULTS}
 												echo >> ${RESULTS}
+												mkdir ${RESULTSDIR}/${counter}
+												cp ${GENERATEDCHANNELNAME} ${RESULTSDIR}/${counter}/
+												cp ${GENERATEDEVENTTYPES} ${RESULTSDIR}/${counter}/
+												cp ${GENERATEDCHANNELCONFIGURATION} ${RESULTSDIR}/${counter}/
+												cp ${GENERATEDMESSAGECONFIGURATION} ${RESULTSDIR}/${counter}/
 											fi
 											if [ ${ERRORCODE} -eq 0 ]
 											then
@@ -249,15 +257,20 @@ do
 												ERRORCODE=$?
 												if [ ${ERRORCODE} -ne 0 ]
 												then
-													echo Configuration ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t finish tests
+													echo Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t finish tests
 													cat testOutput
-													echo Configuration ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t finish tests >> ${RESULTS}
+													echo Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t finish tests >> ${RESULTS}
 													cat testOutput >> ${RESULTS}
 													echo >> ${RESULTS}
+													mkdir ${RESULTSDIR}/${counter}
+													cp ${GENERATEDCHANNELNAME} ${RESULTSDIR}/${counter}/
+													cp ${GENERATEDEVENTTYPES} ${RESULTSDIR}/${counter}/
+													cp ${GENERATEDCHANNELCONFIGURATION} ${RESULTSDIR}/${counter}/
+													cp ${GENERATEDMESSAGECONFIGURATION} ${RESULTSDIR}/${counter}/
 												fi
 												if [ ${ERRORCODE} -eq 0 ]
 												then
-													echo Configuration ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} works
+													echo Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} works
 													completedSuccessful=$(($completedSuccessful + 1))
 												fi
 
