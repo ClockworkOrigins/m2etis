@@ -90,7 +90,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		_pubSubs[i]->subscribe<CharVectorEventType>(cn, *_callbacks[i]);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(50 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(150 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);
@@ -116,7 +116,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		_pubSubs[i]->unsubscribe<CharVectorEventType>(cn);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(100 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(150 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < 50; ++i) {
 		for (unsigned short j = 0; j < NODE_AMOUNT; ++j) {
