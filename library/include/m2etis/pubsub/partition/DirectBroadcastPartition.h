@@ -62,10 +62,6 @@ namespace partition {
 		}
 
 		std::vector<int>::size_type getPublishTree(const PayloadPtr message, const typename NetworkType::Key & self) {
-			if (partition_filter_vector_.empty()) {
-				return 0;
-			}
-
 			std::vector<int>::size_type i = 0;
 			for (std::pair<boost::shared_ptr<filter::FilterExp<EventType>>, typename NetworkType::Key> current_filter : partition_filter_vector_) {
 				if (self == current_filter.second) {
@@ -73,7 +69,7 @@ namespace partition {
 				}
 				++i;
 			}
-			return INT_MAX;
+			return i;
 		}
 
 		std::vector<unsigned int> getSubscribeTrees(boost::shared_ptr<filter::FilterExp<EventType> > dynamic_filter) {
