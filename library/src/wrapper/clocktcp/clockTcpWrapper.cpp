@@ -34,12 +34,30 @@ namespace wrapper {
 namespace clocktcp {
 
 	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string &, const uint16_t) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _lock(), _sockets(), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threads() {
-		boost::thread(boost::bind(&clockTcpWrapper::workerFunc, this));
-		boost::this_thread::sleep(boost::posix_time::milliseconds(10));
+		clockUtils::sockets::TcpSocket * newSocket = new clockUtils::sockets::TcpSocket();
+		newSocket->listen(_local.getPort(), 100, true, [this](clockUtils::sockets::TcpSocket * socket) {
+				message::Key<message::IPv4KeyProvider> k(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
+
+				{
+					boost::mutex::scoped_lock l(_lock);
+					_sockets[k] = socket;
+				}
+				_threads.insert(std::make_pair(1, new boost::thread(boost::bind(&clockTcpWrapper::readFromSocket, this, socket))));
+			});
+		boost::mutex::scoped_lock l(_lock);
+		_sockets[_local] = newSocket;
 	}
 
 	clockTcpWrapper::~clockTcpWrapper() {
 		_initialized = false;
+		_lock.lock();
+		for (std::map<message::Key<message::IPv4KeyProvider>, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+			if (it->second != nullptr) {
+				clockUtils::sockets::TcpSocket * tmp = it->second;
+				tmp->close();
+			}
+		}
+		_lock.unlock();
 		for (std::pair<uint16_t, boost::thread *> p : _threads) {
 			p.second->interrupt();
 			p.second->join();
@@ -52,32 +70,10 @@ namespace clocktcp {
 			if (it->second != nullptr) {
 				clockUtils::sockets::TcpSocket * tmp = it->second;
 				it->second = nullptr;
-				tmp->close();
 				delete tmp;
 			}
 		}
 		_lock.unlock();
-	}
-
-	void clockTcpWrapper::workerFunc() {
-		try {
-			clockUtils::sockets::TcpSocket * newSocket = new clockUtils::sockets::TcpSocket();
-			newSocket->listen(_local.getPort(), 100, true, [this](clockUtils::sockets::TcpSocket * socket) {
-					message::Key<message::IPv4KeyProvider> k(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
-
-					{
-						boost::mutex::scoped_lock l(_lock);
-						_sockets[k] = socket;
-					}
-
-					readFromSocket(socket);
-				});
-			boost::mutex::scoped_lock l(_lock);
-			_sockets[_local] = newSocket;
-		} catch (util::SystemFailureException & e) {
-			e.writeLog();
-			e.PassToMain();
-		}
 	}
 
 	void clockTcpWrapper::send(const message::NetworkMessage<net::NetworkType<net::clockTCP>>::Ptr msg, net::NodeHandle<net::NetworkType<net::clockTCP>>::Ptr_const /* hint */) {
@@ -144,7 +140,7 @@ namespace clocktcp {
 		net::NetworkType<net::clockTCP>::Key realKey(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
 		net::NetworkType<net::clockTCP>::Key metisKey = real2metis(realKey);
 		try {
-			while(_initialized) {
+			while (_initialized) {
 				boost::this_thread::interruption_point();
 
 				std::string message;
@@ -166,7 +162,7 @@ namespace clocktcp {
 				}
 				_callback->deliver(msg);
 			}
-		} catch(util::SystemFailureException & e) {
+		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 

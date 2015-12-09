@@ -104,8 +104,6 @@ namespace clocktcp {
 		boost::mutex _lock; // used to lock _sockets
 		std::map<net::NetworkType<net::clockTCP>::Key, clockUtils::sockets::TcpSocket *> _sockets;
 
-		void workerFunc();
-
 		/**
 		 * \brief called after incoming connection. New thread
 		 */
