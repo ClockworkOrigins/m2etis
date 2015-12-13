@@ -149,6 +149,8 @@ do
 											echo namespace m2etis { >> ${GENERATEDCHANNELCONFIGURATION}
 											echo namespace pubsub { >> ${GENERATEDCHANNELCONFIGURATION}
 											echo >> ${GENERATEDCHANNELCONFIGURATION}
+											echo M2ETIS_API std::map\<AttributeName, std::shared_ptr\<AttributeAccessor_Basic\>\> attributes_accessor_map = {}\; >> ${GENERATEDCHANNELCONFIGURATION}
+											echo >> ${GENERATEDCHANNELCONFIGURATION}
 											echo ${ChannelConfigurationString} >> ${GENERATEDCHANNELCONFIGURATION}
 											echo >> ${GENERATEDCHANNELCONFIGURATION}
 											echo template\<\> >> ${GENERATEDCHANNELCONFIGURATION}
