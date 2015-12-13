@@ -214,6 +214,19 @@ do
 											echo BOOST_CLASS_EXPORT\(m2etis::message::GeneralBooleanExpressionsFilterInfo\<${EventType}\>\) >> ${GENERATEDMESSAGECONFIGURATION}
 											echo BOOST_CLASS_IMPLEMENTATION\(m2etis::message::GeneralBooleanExpressionsFilterInfo\<${EventType}\>, boost::serialization::object_serializable\) >> ${GENERATEDMESSAGECONFIGURATION}
 
+											echo BOOST_CLASS_EXPORT\(m2etis::pubsub::filter::AndExp\<${EventType}\>\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_IMPLEMENTATION\(m2etis::pubsub::filter::AndExp\<${EventType}\>, boost::serialization::object_serializable\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_EXPORT\(m2etis::pubsub::filter::OrExp\<${EventType}\>\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_IMPLEMENTATION\(m2etis::pubsub::filter::OrExp\<${EventType}\>, boost::serialization::object_serializable\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_EXPORT\(m2etis::pubsub::filter::FilterExp\<${EventType}\>\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_IMPLEMENTATION\(m2etis::pubsub::filter::FilterExp\<${EventType}\>, boost::serialization::object_serializable\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_EXPORT\(m2etis::pubsub::filter::TruePredicate\<${EventType}\>\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_IMPLEMENTATION\(m2etis::pubsub::filter::TruePredicate\<${EventType}\>, boost::serialization::object_serializable\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_EXPORT\(m2etis::pubsub::filter::Predicate\<${EventType}\>\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_IMPLEMENTATION\(m2etis::pubsub::filter::Predicate\<${EventType}\>, boost::serialization::object_serializable\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_EXPORT\(m2etis::pubsub::filter::FalsePredicate\<${EventType}\>\) >> ${GENERATEDMESSAGECONFIGURATION}
+											echo BOOST_CLASS_IMPLEMENTATION\(m2etis::pubsub::filter::FalsePredicate\<${EventType}\>, boost::serialization::object_serializable\) >> ${GENERATEDMESSAGECONFIGURATION}
+
 											echo BOOST_CLASS_EXPORT\(m2etis::message::NullOrderInfo\) >> ${GENERATEDMESSAGECONFIGURATION}
 											echo BOOST_CLASS_IMPLEMENTATION\(m2etis::message::NullOrderInfo, boost::serialization::object_serializable\) >> ${GENERATEDMESSAGECONFIGURATION}
 											echo BOOST_CLASS_EXPORT\(m2etis::message::DetMergeOrderInfo\<m2etis::config::order::DetMergeConfigTest\>\) >> ${GENERATEDMESSAGECONFIGURATION}
