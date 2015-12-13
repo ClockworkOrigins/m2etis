@@ -66,6 +66,15 @@ FOR %%a IN (%DeliverStrategies%) DO (
 												SET allowed=0
 											)
 										)
+										SET tmpStr=%%c
+										SET cn=!tmpStr:GMSOrder=!
+										IF "!cn!" NEQ "!tmpStr!" (
+											SET tmpStr=%%d
+											SET cn=!tmpStr:DirectBroadcastPartition=!
+											IF "!cn!" NEQ "!tmpStr!" (
+												SET allowed=0
+											)
+										)
 										IF !allowed! == 1 (
 											SET /a i=!i! + 1
 

@@ -75,6 +75,13 @@ do
 												allowed=0
 											fi
 										fi
+										if [[ $c == *"GMSOrder"* ]]
+										then
+											if [[ $d == *"DirectBroadcastPartition"* ]]
+											then
+												allowed=0
+											fi
+										fi
 										if [[ $allowed == 1 ]]
 										then
 											counter=$(($counter + 1))
