@@ -11,7 +11,7 @@ SET GENERATEDMESSAGECONFIGURATION=%testDir%\include\m2etis\config\GeneratedMessa
 SET RESULTSDIR=@CMAKE_BINARY_DIR@\ChannelTestResults
 SET RESULTS=%RESULTSDIR%\ChannelTestResults.txt
 
-mkdir %RESULTSDIR%
+mkdir "%RESULTSDIR%"
 
 SET EventType=CharVectorEventType
 
@@ -218,11 +218,11 @@ FOR %%a IN (%DeliverStrategies%) DO (
 												echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile >> %RESULTS%
 												type compileOutput >> %RESULTS%
 												echo. >> %RESULTS%
-												mkdir %RESULTSDIR%\!i!
-												xcopy /F %GENERATEDCHANNELNAME% %RESULTSDIR%\!i!\GeneratedChannelName.h
-												xcopy /F %GENERATEDEVENTTYPES% %RESULTSDIR%\!i!\GeneratedEventTypes.h
-												xcopy /F %GENERATEDCHANNELCONFIGURATION% %RESULTSDIR%\!i!\GeneratedChannelConfiguration.h
-												xcopy /F %GENERATEDMESSAGECONFIGURATION% %RESULTSDIR%\!i!\GeneratedMessageConfiguration.h
+												mkdir "%RESULTSDIR%\!i!"
+												xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
+												xcopy /F "%GENERATEDEVENTTYPES%" "%RESULTSDIR%\!i!\GeneratedEventTypes.h*"
+												xcopy /F "%GENERATEDCHANNELCONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedChannelConfiguration.h*"
+												xcopy /F "%GENERATEDMESSAGECONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedMessageConfiguration.h*"
 											)
 											IF [!ERROR!] == [0] (
 												CD dist
@@ -236,11 +236,11 @@ FOR %%a IN (%DeliverStrategies%) DO (
 													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests >> %RESULTS%
 													type testOutput >> %RESULTS%
 													echo. >> %RESULTS%
-													mkdir %RESULTSDIR%\!i!
-													xcopy /F %GENERATEDCHANNELNAME% %RESULTSDIR%\!i!\GeneratedChannelName.h
-													xcopy /F %GENERATEDEVENTTYPES% %RESULTSDIR%\!i!\GeneratedEventTypes.h
-													xcopy /F %GENERATEDCHANNELCONFIGURATION% %RESULTSDIR%\!i!\GeneratedChannelConfiguration.h
-													xcopy /F %GENERATEDMESSAGECONFIGURATION% %RESULTSDIR%\!i!\GeneratedMessageConfiguration.h
+													mkdir "%RESULTSDIR%\!i!"
+													xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
+													xcopy /F "%GENERATEDEVENTTYPES%" "%RESULTSDIR%\!i!\GeneratedEventTypes.h*"
+													xcopy /F "%GENERATEDCHANNELCONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedChannelConfiguration.h*"
+													xcopy /F "%GENERATEDMESSAGECONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedMessageConfiguration.h*"
 												)
 												IF [!ERROR!] == [0] (
 													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j works
