@@ -101,6 +101,13 @@ SET(CLOCKUTILS_ROOT ${DEP_DIR}/clockUtils)
 find_package(EasyFind REQUIRED COMPONENTS clock_sockets)
 include_directories(SYSTEM ${CLOCKUTILS_INCLUDE_DIR})
 
+# Generated Channels
+configure_file(${CMAKE_SOURCE_DIR}/library/generated/GeneratedChannelConfiguration.h ${CMAKE_BINARY_DIR}/include/m2etis/config/GeneratedChannelConfiguration.h COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/library/generated/GeneratedChannelName.h ${CMAKE_BINARY_DIR}/include/m2etis/config/GeneratedChannelName.h COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/library/generated/GeneratedEventTypes.h ${CMAKE_BINARY_DIR}/include/m2etis/config/GeneratedEventTypes.h COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/library/generated/GeneratedMessageConfiguration.h ${CMAKE_BINARY_DIR}/include/m2etis/config/GeneratedMessageConfiguration.h COPYONLY)
+
+
 file(GLOB_RECURSE utils ${I6MC_SRC_DIR}/util/*.cpp)
 file(GLOB_RECURSE utils_header ${I6MC_INC_DIR}/util/*.h)
 

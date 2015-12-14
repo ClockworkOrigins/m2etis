@@ -39,9 +39,9 @@ namespace message {
 			return true;
 		}
 
-		unsigned int nr;
+		uint64_t nr;
 
-		std::vector<unsigned int> dropped;
+		std::vector<uint64_t> dropped;
 
 		template<typename Archive>
 		void serialize(Archive & ar, const unsigned int version) {

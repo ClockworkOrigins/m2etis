@@ -228,10 +228,16 @@ namespace pubsub {
 			}
 
 			uint32_t msgPublished = 0; // pause publishing after some messages to allow other task running
-			while (msgPublished < parameters::PUBLISH_MESSAGECOUNT_MAX && !msgQueue_.empty()) {
-				typename message::M2Message<EventType>::Ptr msg = msgQueue_.poll();
-				trees_[ChannelType::PartitionStrategy::getPublishTree(msg->payload, _self)]->publish(msg);
-				++msgPublished;
+			while (msgPublished < parameters::PUBLISH_MESSAGECOUNT_MAX && !msgQueue_.empty() && !trees_.empty()) {
+				typename message::M2Message<EventType>::Ptr msg = msgQueue_.front();
+				std::vector<int>::size_type i = ChannelType::PartitionStrategy::getPublishTree(msg->payload, _self);
+				if (i < trees_.size()) {
+					msgQueue_.pop();
+					trees_[ChannelType::PartitionStrategy::getPublishTree(msg->payload, _self)]->publish(msg);
+					++msgPublished;
+				} else {
+					break;
+				}
 			}
 			return true;
 		}

@@ -1,13 +1,15 @@
 //
-//  GeneratedEventTypesExample.h
+//  GeneratedEventTypes.h
 //  m2etis
 //
 //  Created by Thomas Fischer on 03.05.13.
 //
 //
 
-#ifndef m2etis_GeneratedEventTypesExample_h
-#define m2etis_GeneratedEventTypesExample_h
+#ifndef m2etis_GeneratedEventTypes_h
+#define m2etis_GeneratedEventTypes_h
+
+#include "m2etis/pubsub/filter/events/Position.h"
 
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/date_time/posix_time/time_serialize.hpp"

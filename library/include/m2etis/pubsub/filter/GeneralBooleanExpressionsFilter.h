@@ -70,12 +70,12 @@ namespace filter {
 		virtual ~GeneralBooleanExpressionsFilter() {
 		}
 
-		virtual void getSubscribePayload(boost::shared_ptr<FilterExp<EventType> > filter, bool is_periodic_resubscribe, typename message::FilterInfo::Ptr filterInfo) override {
+		virtual void getSubscribePayload(boost::shared_ptr<FilterExp<EventType>> filter, bool, typename message::FilterInfo::Ptr filterInfo) override {
 			// insert into index data structures:
 			addSubscription(self_, filter);
 
 			// copy own filters and filters of subscribers into set and forward the set:
-			auto filters = std::set<boost::shared_ptr<FilterExp<EventType> > >();
+			auto filters = std::set<boost::shared_ptr<FilterExp<EventType>>>();
 
 			for (auto subscription : subscriptions_) {
 				filters.insert(boost::get<1>(subscription.second));
@@ -105,10 +105,10 @@ namespace filter {
 			predicate_indexes_.clear();
 
 			typename FilterInfoType::Ptr fInfo = cast(filterInfo);
-			fInfo->dynamic_filter_ = std::set<boost::shared_ptr<FilterExp<EventType> > >();
+			fInfo->dynamic_filter_ = std::set<boost::shared_ptr<FilterExp<EventType>>>();
 		}
 
-		virtual typename BaseFilter<EventType, NetworkType>::FilterUnsubscribeInformation getUnsubscribePayload(typename message::FilterInfo::Ptr filterInfo, boost::shared_ptr<FilterExp<EventType> > filter) override {
+		virtual typename BaseFilter<EventType, NetworkType>::FilterUnsubscribeInformation getUnsubscribePayload(typename message::FilterInfo::Ptr filterInfo, boost::shared_ptr<FilterExp<EventType>> filter) override {
 			bool hasMoreSubscribers;
 			bool hasMoreSubscriptions;
 
@@ -117,7 +117,7 @@ namespace filter {
 			if (!hasMoreSubscriptions) {
 				// if last filter has been deregistered, unsubscribe from the tree
 				typename FilterInfoType::Ptr fInfo = cast(filterInfo);
-				fInfo->dynamic_filter_ = std::set<boost::shared_ptr<FilterExp<EventType> > >();
+				fInfo->dynamic_filter_ = std::set<boost::shared_ptr<FilterExp<EventType>>>();
 
 				return BaseFilter<EventType, NetworkType>::UNSUBSCRIBEFROMTREE;
 			}
@@ -127,7 +127,7 @@ namespace filter {
 				return BaseFilter<EventType, NetworkType>::CANCELUNSUBSCRIBE;
 			} else {
 				typename FilterInfoType::Ptr fInfo = cast(filterInfo);
-				fInfo->dynamic_filter_ = std::set<boost::shared_ptr<FilterExp<EventType> > >({filter});
+				fInfo->dynamic_filter_ = std::set<boost::shared_ptr<FilterExp<EventType>>>({filter});
 				fInfo->isUnsubscribe_ = true;
 				return BaseFilter<EventType, NetworkType>::FORWARDUNSUBSCRIBE;
 			}
@@ -157,7 +157,7 @@ namespace filter {
 			// remove all filters not contained in the filterinfo, but in the indexes:
 
 			bool is_filter_found = false;
-			auto erasable_subscriptions = std::vector<boost::shared_ptr<FilterExp<EventType> > >();
+			auto erasable_subscriptions = std::vector<boost::shared_ptr<FilterExp<EventType>>>();
 
 			for (auto filter_filterID_pair : subscription_subscriptionID_association_table) {
 				for (auto filter_ptr : fInfo->dynamic_filter_) {
@@ -279,7 +279,7 @@ namespace filter {
 	private:
 		// adds the subscription to the data structures
 		// called from getSubscribePayload and processSubscribePayload
-		void addSubscription(const typename NetworkType::Key & subscriber_key, boost::shared_ptr<FilterExp<EventType> > filter) {
+		void addSubscription(const typename NetworkType::Key & subscriber_key, boost::shared_ptr<FilterExp<EventType>> filter) {
 			// test, if subscription is already registered:
 			for (auto filter_filterID_pair : subscription_subscriptionID_association_table) {
 				if (*(filter_filterID_pair.first) == *filter) {
@@ -309,7 +309,7 @@ namespace filter {
 			// subscription id(key), minimum predicate count vector, hit vector, shared pointer to subscription tree
 			// filled in getSubscrbie payload, with the exception of hit vector, which is filled in match
 
-			boost::tuple<int, boost::shared_ptr<FilterExp<EventType> > > subscription_data = {0, filter};
+			boost::tuple<int, boost::shared_ptr<FilterExp<EventType>>> subscription_data = {0, filter};
 			// initialize minimum predicate count vector (Algorithm GetMinPredicates in Bittner)
 
 			GetMinPredicatesVisitor<EventType> get_min_predicates_visitor;
@@ -327,7 +327,7 @@ namespace filter {
 
 		// removes the subscription from the data structures
 		// called from getUnsubscribePayload and processUnsubscribePayload
-		void removeSubscription(const typename NetworkType::Key & subscriber_key, boost::shared_ptr<FilterExp<EventType> > filter, bool * hasMoreSubscribers, bool * hasMoreSubscriptions) {
+		void removeSubscription(const typename NetworkType::Key & subscriber_key, boost::shared_ptr<FilterExp<EventType>> filter, bool * hasMoreSubscribers, bool * hasMoreSubscriptions) {
 			*hasMoreSubscriptions = true; // subscriptions to the node!
 			*hasMoreSubscribers = true; // further subscribers having registered the predicate to be removed
 
@@ -427,7 +427,7 @@ namespace filter {
 		}
 
 		// list of predicate indexes: (each of which has to be evaluated for every incoming message)
-		std::vector<std::shared_ptr<PredicateIndex<EventType> > > predicate_indexes_;
+		std::vector<std::shared_ptr<PredicateIndex<EventType>>> predicate_indexes_;
 
 		// predicate_id corresponds to position in fulfilled_predicate_vector_
 		std::vector<bool> fulfilled_predicate_vector_;
@@ -435,7 +435,7 @@ namespace filter {
 		// if predicate is matched, determine subcriptions containing predicate for candidate subscription checking
 		// via the following data structure
 		// (multi)set because of unsubscriptions
-		std::map<PredicateIdentifierFactory::PredicateID, std::multiset<SubscriptionIdentifierFactory::SubscriptionID> > predicate_subscription_association_table_;
+		std::map<PredicateIdentifierFactory::PredicateID, std::multiset<SubscriptionIdentifierFactory::SubscriptionID>> predicate_subscription_association_table_;
 
 		SubscriptionIdentifierFactory subscription_identifier_factory_;
 		PredicateIdentifierFactory predicate_identifier_factory_;
@@ -444,9 +444,9 @@ namespace filter {
 		// subscription id(key), minimum predicate count, shared pointer to subscription tree
 		// filled in getSubscrbie payload
 		// hit vector is filled in match
-		std::map<SubscriptionIdentifierFactory::SubscriptionID, boost::tuple<int, boost::shared_ptr<FilterExp<EventType> > > > subscriptions_;
+		std::map<SubscriptionIdentifierFactory::SubscriptionID, boost::tuple<int, boost::shared_ptr<FilterExp<EventType>>>> subscriptions_;
 
-		std::map<SubscriptionIdentifierFactory::SubscriptionID, std::set<typename NetworkType::Key> > subscription_subscriber_association_table;
+		std::map<SubscriptionIdentifierFactory::SubscriptionID, std::set<typename NetworkType::Key>> subscription_subscriber_association_table;
 
 		// needed to determine if indexes have to be evaluated again or if previous result can be used:
 		bool has_new_subscription_;
@@ -454,7 +454,7 @@ namespace filter {
 
 		// mapping filters (which are sent via network) to (local) IDs for deregistrations:
 		// maybe introduce hash (unordered_)map to fasten access to filters with identical hashes and their SubscriptionIDs
-		std::vector<std::pair<boost::shared_ptr<FilterExp<EventType> >, SubscriptionIdentifierFactory::SubscriptionID> > subscription_subscriptionID_association_table;
+		std::vector<std::pair<boost::shared_ptr<FilterExp<EventType>>, SubscriptionIdentifierFactory::SubscriptionID>> subscription_subscriptionID_association_table;
 	};
 
 } /* namespace filter */

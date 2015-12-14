@@ -42,7 +42,7 @@ namespace m2etis {
 namespace pubsub {
 namespace routing {
 
-	template <class NetworkType>
+	template<class NetworkType>
 	class DirectRouting : public BaseRouting<NetworkType> {
 	public:
 		typedef message::DirectRoutingInfo<NetworkType> RoutingInfoType;

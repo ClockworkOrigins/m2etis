@@ -41,7 +41,6 @@ namespace validity {
 
 		void configureValidityInfo(typename message::ValidityInfo::Ptr vInfo) {
 			message::TimeValidityInfo::Ptr info = boost::static_pointer_cast<message::TimeValidityInfo>(vInfo);
-
 			if (info->_timeStamp == UINT64_MAX) {
 				info->_timeStamp = _pssi->clock_.getTime();
 			}
@@ -53,11 +52,10 @@ namespace validity {
 
 		bool isValid(typename message::ValidityInfo::Ptr vInfo) {
 			message::TimeValidityInfo::Ptr info = boost::static_pointer_cast<message::TimeValidityInfo>(vInfo);
-
-			if (_pssi->clock_.getTime() - info->_timeStamp > MAX || _pssi->clock_.getTime() - info->_timeStamp < MIN) {
+			uint64_t cT = _pssi->clock_.getTime();
+			if (cT - info->_timeStamp > MAX || cT - info->_timeStamp < MIN) {
 				return false;
 			}
-
 			return true;
 		}
 

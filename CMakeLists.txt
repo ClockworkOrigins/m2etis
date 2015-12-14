@@ -178,6 +178,17 @@ IF(WIN32)
 	
 	add_custom_target(BuildReleaseSourceArchive COMMAND build-archive.bat WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 	add_custom_target(BuildRevisionSourceArchive COMMAND build-archive.bat packageRevision WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+	# Script testing all channel configurations
+	configure_file(${CMAKE_SOURCE_DIR}/config/test-channelconfigurations.bat.in ${CMAKE_BINARY_DIR}/test-channelconfigurations.bat @ONLY)
+	
+	add_custom_target(TestChannelConfigurations COMMAND test-channelconfigurations.bat WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+ELSEIF(UNIX)
+	# Script testing all channel configurations
+	configure_file(${CMAKE_SOURCE_DIR}/config/test-channelconfigurations.sh.in ${CMAKE_BINARY_DIR}/test-channelconfigurations.sh @ONLY)
+	
+	add_custom_target(TestChannelConfigurations COMMAND ./test-channelconfigurations.sh Release WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	add_custom_target(TestChannelConfigurationsWithValgrind COMMAND ./test-channelconfigurations.sh RelWithDebInfo valgrind WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 ENDIF(WIN32)
 
 # INSTALL
