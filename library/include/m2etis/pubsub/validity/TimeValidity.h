@@ -54,9 +54,6 @@ namespace validity {
 			message::TimeValidityInfo::Ptr info = boost::static_pointer_cast<message::TimeValidityInfo>(vInfo);
 			uint64_t cT = _pssi->clock_.getTime();
 			if (info->_timeStamp < cT && (cT - info->_timeStamp > MAX || cT - info->_timeStamp < MIN)) {
-				std::cout << "Dropping message" << std::endl;
-				std::cout << "\tcT: " << cT << std::endl;
-				std::cout << "\tinfo->_timeStamp: " << info->_timeStamp << std::endl;
 				return false;
 			}
 			return true;
