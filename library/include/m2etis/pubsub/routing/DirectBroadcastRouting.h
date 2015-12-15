@@ -49,6 +49,7 @@ namespace routing {
 	public:
 		typedef message::DirectBroadcastRoutingInfo<NetworkType> RoutingInfoType;
 		typedef std::vector<typename NetworkType::Key> KeyList;
+		typedef std::set<typename NetworkType::Key> KeySet;
 		typedef std::pair<uint64_t, typename NetworkType::Key> TimePair;
 		typedef std::vector<TimePair> TimeList;
 
@@ -120,7 +121,7 @@ namespace routing {
 		void setSelf(const typename NetworkType::Key & self) {
 			self_ = self;
 			if (self_ == _root) {
-				_nodes.push_back(self_);
+				_nodes.insert(self_);
 			}
 		}
 
@@ -231,7 +232,7 @@ namespace routing {
 				std::transform(_subscriber.begin(), _subscriber.end(), m.begin(), T::get_from_pair);
 
 				// I have to "send" me the message to, but only if I'm subscribed on this Tree
-				if (selfSubscribed()) {
+				if (selfSubscribed() && std::find(m.begin(), m.end(), self_) == m.end()) {
 					m.push_back(self_);
 				}
 			} else {
@@ -319,19 +320,19 @@ namespace routing {
 			if (rInfo->action == message::RoutingInfo<NetworkType>::RoutingType::REDIRECT) {
 				if (self_ == _root) {
 					// new node created, notify existing nodes with list of all existing nodes
-					_nodes.push_back(sender);
-
-					if (selfSubscribed_) {
-						msgType = message::SUBSCRIBE;
-						rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::REDIRECT;
-						_newSubs.push_back(sender);
-					} else {
-						rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
+					if (_nodes.insert(sender).second) {
+						if (selfSubscribed_) {
+							msgType = message::SUBSCRIBE;
+							rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::REDIRECT;
+							_newSubs.push_back(sender);
+						} else {
+							rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
+						}
+						typename RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
+						newInfo->action = RoutingInfoType::RoutingType::REDIRECT;
+						newInfo->_nodes = _nodes;
+						BaseRouting<NetworkType>::sendCtrlMsg_(newInfo, _root, ControlTarget::ALL);
 					}
-					typename RoutingInfoType::Ptr newInfo = boost::make_shared<RoutingInfoType>();
-					newInfo->action = RoutingInfoType::RoutingType::REDIRECT;
-					newInfo->_nodes = _nodes;
-					BaseRouting<NetworkType>::sendCtrlMsg_(newInfo, _root, ControlTarget::ALL);
 				} else {
 					_nodes = rInfo->_nodes;
 					if (selfSubscribed_) {
@@ -354,6 +355,7 @@ namespace routing {
 						rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 					}
 				}
+				
 			} else { // nothing to do, stop the workflow
 				rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 			}
@@ -374,7 +376,7 @@ namespace routing {
 		// Control variables for the purging thread
 		volatile bool _purging;
 		std::vector<typename NetworkType::Key> _newSubs;
-		KeyList _nodes;
+		KeySet _nodes;
 
 		typename NetworkType::Key _root;
 

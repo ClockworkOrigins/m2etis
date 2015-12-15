@@ -47,7 +47,9 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 		_pubSubs[i]->publish<CharVectorEventType>(cn, m);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(250 * NODE_AMOUNT));
+	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
+		_callbacks[i]->waitUntil(NODE_AMOUNT, 1000000);
+	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		ASSERT_EQ(NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << cn << " of Node " << i << " has not correct amount of messages!";
@@ -60,7 +62,9 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 		}
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(1500 * NODE_AMOUNT));
+	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
+		_callbacks[i]->waitUntil(100 * NODE_AMOUNT + NODE_AMOUNT, 10000000);
+	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		ASSERT_EQ(100 * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << cn << " of Node " << i << " has not correct amount of messages!";
@@ -97,7 +101,9 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		_pubSubs[i]->publish<CharVectorEventType>(cn, m);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(250 * NODE_AMOUNT));
+	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
+		_callbacks[i]->waitUntil(NODE_AMOUNT, 10000000);
+	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		ASSERT_EQ(NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << cn << " of Node " << i << " has not correct amount of messages!";
@@ -110,7 +116,9 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		}
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(1500 * NODE_AMOUNT));
+	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
+		_callbacks[i]->waitUntil(50 * NODE_AMOUNT + NODE_AMOUNT, 10000000);
+	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->unsubscribe<CharVectorEventType>(cn);

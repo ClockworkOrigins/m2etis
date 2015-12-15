@@ -41,12 +41,12 @@ namespace filter {
 		}
 
 		// v is a leaf node of Tree: output(v)
-		virtual void visit(const EventType & event, std::set<typename NetworkType::Key> & matching_subscribers) override {
+		virtual void visit(const EventType &, std::set<typename NetworkType::Key> & matching_subscribers) override {
 			matching_subscribers.insert(subscribers_.begin(), subscribers_.end());
 		}
 
 		// merges another subscription tree into the existing one
-		virtual void merge(boost::shared_ptr<DecisionTreeNode<EventType, NetworkType> > & other_tree, typename NetworkType::Key subscriber) override {
+		virtual void merge(boost::shared_ptr<DecisionTreeNode<EventType, NetworkType>> &, typename NetworkType::Key subscriber) override {
 			changeSubscriber(subscriber);
 		} // merge
 

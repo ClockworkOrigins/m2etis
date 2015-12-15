@@ -45,12 +45,12 @@ namespace filter {
 		virtual void changeSubscriber(typename NetworkType::Key subscriber) = 0;
 
 		// adds subscriber
-		virtual void addSubscriber(const typename NetworkType::Key & subscriber) {
+		virtual void addSubscriber(const typename NetworkType::Key &) {
 			M2ETIS_THROW_API("DecisionTreeNode", "addSubscriber called for non-leaf node.");
 		}
 
 		// Removes the node from the tree;
-		virtual void removeSubscriber(const typename NetworkType::Key & subscriber) {
+		virtual void removeSubscriber(const typename NetworkType::Key &) {
 			M2ETIS_THROW_API("DecisionTreeNode", "removeSubscriber called for non-leaf node.");
 		}
 

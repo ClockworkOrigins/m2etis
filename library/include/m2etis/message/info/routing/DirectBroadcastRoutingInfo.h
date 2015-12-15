@@ -25,7 +25,7 @@
 #include "m2etis/message/info/RoutingInfo.h"
 
 #include "boost/serialization/base_object.hpp"
-#include "boost/serialization/vector.hpp"
+#include "boost/serialization/set.hpp"
 
 namespace m2etis {
 namespace message {
@@ -44,7 +44,7 @@ namespace message {
         }
 
 		/* serialized variables */
-		std::vector<typename NetworkType::Key> _nodes;
+		std::set<typename NetworkType::Key> _nodes;
 
 	private:
 		friend class boost::serialization::access;

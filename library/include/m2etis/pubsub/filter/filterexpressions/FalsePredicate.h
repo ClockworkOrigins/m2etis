@@ -39,9 +39,9 @@ namespace filter {
 			filter_visitor.Visit(this);
 		}
 
-		virtual bool match(const EventType& event) const { return false; }
+		virtual bool match(const EventType &) const { return false; }
 
-		virtual bool overlaps(const Predicate<EventType> * other_predicate) const { return false; }
+		virtual bool overlaps(const Predicate<EventType> *) const { return false; }
 
 		virtual ~FalsePredicate() {}
 

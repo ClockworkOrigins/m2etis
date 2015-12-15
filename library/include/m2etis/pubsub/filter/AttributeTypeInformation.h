@@ -113,7 +113,7 @@ namespace filter {
 			}
 		}
 
-		template<typename AttributeType> void operator()(const AttributeFilter<EventType, AttributeType> * equals_predicate, DecisionTreeFilter<EventType, NetworkType> *, int i) {
+		template<typename AttributeType> void operator()(const AttributeFilter<EventType, AttributeType> * equals_predicate, DecisionTreeFilter<EventType, NetworkType> *, int) {
 			// walks through the decision tree
 			// DecisionTreeFilter and int parameter  for overloading purposes
 

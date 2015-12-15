@@ -17,16 +17,34 @@
 #ifndef __DCB_H__
 #define __DCB_H__
 
+#include <thread>
+
 #include "m2etis/pubsub/DeliverCallbackInterface.h"
 
 class DCB : public m2etis::pubsub::DeliverCallbackInterface {
 public:
-	DCB() : _counter(0) {}
+	DCB() : _counter(0), _amount(), _timeOut(), _thread() {
+	}
 	void deliverCallback(const m2etis::message::M2etisMessage::Ptr m) {
 		_counter++;
 	}
 
+	void waitUntil(unsigned int messageAmount, uint64_t timeout) {
+		_amount = messageAmount;
+		_timeOut = timeout;
+		_thread = std::thread([this]() {
+			auto startTime = std::chrono::high_resolution_clock::now();
+			do {
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			} while (_counter < _amount && _timeOut > uint64_t(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - startTime).count()));
+		});
+		_thread.join();
+	}
+
 	unsigned int _counter;
+	unsigned int _amount;
+	uint64_t _timeOut;
+	std::thread _thread;
 };
 
 #endif /* __DCB_H__ */

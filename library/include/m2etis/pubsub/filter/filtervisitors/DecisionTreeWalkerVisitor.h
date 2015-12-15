@@ -45,7 +45,7 @@ namespace filter {
 		virtual void Visit(const AndExp<EventType> *) override {
 		}
 
-		virtual void Visit(const OrExp<EventType> * orexp) override {
+		virtual void Visit(const OrExp<EventType> *) override {
 			M2ETIS_THROW_API("DecisionTreeRemoveSubscriberVisitor", "OrExp not allowed in decision tree filter strategy.");
 		}
 
