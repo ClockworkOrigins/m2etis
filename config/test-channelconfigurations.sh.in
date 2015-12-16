@@ -20,8 +20,8 @@ mkdir ${RESULTSDIR}
 EventType=CharVectorEventType
 
 DeliverStrategies=(m2etis::pubsub::deliver::NullDeliver\<NETWORKTYPE\> m2etis::pubsub::deliver::AckDeliver\<NETWORKTYPE,3,m2etis::pubsub::deliver::Amount::EXACTLY_ONCE\> m2etis::pubsub::deliver::NackDeliver\<NETWORKTYPE,3,m2etis::pubsub::deliver::Amount::EXACTLY_ONCE\>)
-FilterStrategies=(m2etis::pubsub::filter::NullFilter\<${EventType},NETWORKTYPE\> m2etis::pubsub::filter::BruteForceFilter\<${EventType},NETWORKTYPE\> )
-# m2etis::pubsub::filter::DecisionTreeFilter\<${EventType},NETWORKTYPE\> m2etis::pubsub::filter::GeneralBooleanExpressionsFilter\<${EventType},NETWORKTYPE\> have to be added again as FilterStrategies
+FilterStrategies=(m2etis::pubsub::filter::NullFilter\<${EventType},NETWORKTYPE\>)
+# m2etis::pubsub::filter::BruteForceFilter\<${EventType},NETWORKTYPE\> m2etis::pubsub::filter::DecisionTreeFilter\<${EventType},NETWORKTYPE\> m2etis::pubsub::filter::GeneralBooleanExpressionsFilter\<${EventType},NETWORKTYPE\> have to be added again as FilterStrategies
 OrderStrategies=(m2etis::pubsub::order::NullOrder\<NETWORKTYPE\> m2etis::pubsub::order::DetMergeOrder\<NETWORKTYPE,m2etis::pubsub::order::DetMergeConfig\> m2etis::pubsub::order::MTPOrder\<NETWORKTYPE,1000000,m2etis::pubsub::order::LateDeliver::DELIVER\> m2etis::pubsub::order::GMSOrder\<NETWORKTYPE,1000000\>)
 PartitionStrategies=(m2etis::pubsub::partition::NullPartition\<NETWORKTYPE,${EventType}\> m2etis::pubsub::partition::BruteForcePartition\<NETWORKTYPE,${EventType}\> m2etis::pubsub::partition::DirectBroadcastPartition\<NETWORKTYPE,${EventType}\>)
 PersistenceStrategies=(m2etis::pubsub::persistence::NullPersistence)
