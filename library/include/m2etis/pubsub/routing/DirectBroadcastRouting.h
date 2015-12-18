@@ -111,10 +111,12 @@ namespace routing {
 #endif
 				newInfo->action = RoutingInfoType::RoutingType::REDIRECT;
 #if I6E_PLATFORM == I6E_PLATFORM_WIN32
-				sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
+				sendCtrlMsg_(newInfo, _root, ControlTarget::ROOT);
 #elif I6E_PLATFORM == I6E_PLATFORM_LINUX
-				BaseRouting<NetworkType>::sendCtrlMsg_(newInfo, _root, ControlTarget::SINGLE);
+				BaseRouting<NetworkType>::sendCtrlMsg_(newInfo, _root, ControlTarget::ROOT);
 #endif
+			} else {
+				_nodes.insert(self_);
 			}
 		}
 
@@ -278,6 +280,7 @@ namespace routing {
 		 * @return an information unit, whether the message should be stopped or needs to be changed
 		 */
 		void processUnsubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key &, message::ActionType &) {
+			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 			struct T {
 				static bool test(const typename NetworkType::Key & send, const TimePair & paar) {
 					return paar.second == send;
@@ -285,8 +288,7 @@ namespace routing {
 			};
 
 			_subscriber.erase(std::remove_if(_subscriber.begin(), _subscriber.end(), boost::bind(T::test, sender, _1)), _subscriber.end());
-
-			return;
+			rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 		}
 
 		/**

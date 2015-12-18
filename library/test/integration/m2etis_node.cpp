@@ -46,9 +46,9 @@ using m2etis::pubsub::filter::LessThan;
 using m2etis::pubsub::filter::GreaterThan;
 
 DEFINE_string(dip, "127.0.0.1", "Destination IP, to connect to for bootstrapping. Defaults to 127.0.0.1");
-DEFINE_uint64(dport, 7000, "Destination port to use for bootstrapping");
+DEFINE_VARIABLE(uint16_t, U16, dport, 7000, "Destination port to use for bootstrapping");
 DEFINE_string(lip, "127.0.0.1", "Listening IP for this node. Defaults to 127.0.0.1");
-DEFINE_uint64(lport, 7000, "Listening port for this node. Defaults to 7000.");
+DEFINE_VARIABLE(uint16_t, U16, lport, 7000, "Listening port for this node. Defaults to 7000.");
 
 DEFINE_bool(sub, false, "Flag for automatic subscription.");
 DEFINE_string(net, "tcp", "Define which network backend to use. Currently supported: tcp, udp. Defaults to tcp.");
