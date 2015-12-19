@@ -73,8 +73,6 @@ namespace tcp {
 			if (p.second->joinable()) {
 				p.second->join();
 			}
-		}
-		for (std::pair<uint16_t, boost::thread *> p : threads_) {
 			delete p.second;
 		}
 		_threadLock.unlock();
@@ -240,9 +238,6 @@ namespace tcp {
 	}
 
 	void TcpWrapper::readFromSocket(boost::asio::ip::tcp::socket * socket) {
-		megaLock.lock();
-		std::cout << "Starting Thread readFromSocket " << this << " " << std::this_thread::get_id() << std::endl;
-		megaLock.unlock();
 		net::NetworkType<net::TCP>::Key realKey(socket->remote_endpoint().address().to_string() + ":" + std::to_string(socket->remote_endpoint().port()));
 		net::NetworkType<net::TCP>::Key metisKey = real2metis(realKey);
 		try {
