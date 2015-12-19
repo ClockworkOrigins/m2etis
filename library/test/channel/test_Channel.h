@@ -21,7 +21,7 @@
 
 #include "boost/thread.hpp"
 
-const unsigned short NODE_AMOUNT = 5;
+const unsigned short NODE_AMOUNT = 4;
 const uint16_t MESSAGE_AMOUNT = 50;
 const unsigned int FIRSTCHANNEL = 0;
 const unsigned int CHANNELAMOUNT = m2etis::pubsub::CHANNEL_COUNT;
@@ -35,13 +35,13 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 		_callbacks.push_back(boost::make_shared<DCB>());
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(500 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(250 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->subscribe<CharVectorEventType>(cn, *_callbacks[i]);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(500 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(100 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);
@@ -83,13 +83,13 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		_callbacks.push_back(boost::make_shared<DCB>());
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(500 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(250 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->subscribe<CharVectorEventType>(cn, *_callbacks[i]);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(500 * NODE_AMOUNT));
+	boost::this_thread::sleep(boost::posix_time::milliseconds(100 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);

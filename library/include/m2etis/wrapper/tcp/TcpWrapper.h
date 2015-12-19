@@ -25,6 +25,7 @@
 #include "boost/asio.hpp"
 
 #include <deque>
+#include <mutex>
 
 #include "m2etis/net/NetworkCallbackInterface.h"
 #include "m2etis/net/NetworkInterface.h"
@@ -114,6 +115,7 @@ namespace tcp {
 
 		boost::mutex _mapLock;
 
+		std::mutex _threadLock;
 		std::multimap<uint16_t, boost::thread *> threads_;
 
 		void eraseSocket(net::NetworkType<net::TCP>::Key realKey);

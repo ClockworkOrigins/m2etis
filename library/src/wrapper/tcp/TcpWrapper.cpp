@@ -44,7 +44,8 @@ namespace tcp {
 		_work(new boost::asio::io_service::work(_io_service)),
 		_mapping_metis_real(),
 		_mapping_real_metis(),
-		_mapLock() {
+		_mapLock(),
+		_threadLock(), threads_() {
 		threads_.insert(std::make_pair(0, new boost::thread(boost::bind(&boost::asio::io_service::run, &_strand__.get_io_service()))));
 		boost::thread(boost::bind(&TcpWrapper::workerFunc, this));
 		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
@@ -55,19 +56,28 @@ namespace tcp {
 		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 		_io_service.stop();
 		delete _work;
+		_acceptor->close();
 		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+		lock_.lock();
+		for (std::map<message::Key<message::IPv4KeyProvider>, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+			if (it->second != nullptr) {
+				it->second->close();
+				delete it->second;
+			}
+		}
+		_sockets.clear();
+		lock_.unlock();
+		_threadLock.lock();
 		for (std::pair<uint16_t, boost::thread *> p : threads_) {
 			p.second->interrupt();
-
-			// TODO: (Daniel) why are readFromSocket threads not joined? joining them seems to have no negative effect
-			//if (p.first == 1) {
+			if (p.second->joinable()) {
 				p.second->join();
-			//}
+			}
 		}
 		for (std::pair<uint16_t, boost::thread *> p : threads_) {
 			delete p.second;
 		}
-		_acceptor->close();
+		_threadLock.unlock();
 		lock_.lock();
 		for (std::map<message::Key<message::IPv4KeyProvider>, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 			if (it->second != nullptr) {
@@ -125,6 +135,7 @@ namespace tcp {
 		{
 			boost::mutex::scoped_lock l(lock_);
 			_sockets[k] = socket;
+			std::lock_guard<std::mutex> lg(_threadLock);
 			threads_.insert(std::make_pair(0, new boost::thread(boost::bind(&TcpWrapper::readFromSocket, this, socket))));
 		}
 
@@ -193,6 +204,7 @@ namespace tcp {
 				}
 
 				_sockets[realKey] = socket;
+				std::lock_guard<std::mutex> lg(_threadLock);
 				threads_.insert(std::make_pair(0, new boost::thread(boost::bind(&TcpWrapper::readFromSocket, this, socket))));
 			}
 			if (_sockets.find(realKey)->second == nullptr) {
@@ -213,6 +225,7 @@ namespace tcp {
 				_sockets[realKey]->close();
 				delete _sockets[realKey];
 				_sockets[realKey] = nullptr;
+				std::lock_guard<std::mutex> lg(_threadLock);
 				threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, realKey))));
 			}
 		} catch (boost::archive::archive_exception & e) {
@@ -227,22 +240,24 @@ namespace tcp {
 	}
 
 	void TcpWrapper::readFromSocket(boost::asio::ip::tcp::socket * socket) {
+		megaLock.lock();
+		std::cout << "Starting Thread readFromSocket " << this << " " << std::this_thread::get_id() << std::endl;
+		megaLock.unlock();
 		net::NetworkType<net::TCP>::Key realKey(socket->remote_endpoint().address().to_string() + ":" + std::to_string(socket->remote_endpoint().port()));
 		net::NetworkType<net::TCP>::Key metisKey = real2metis(realKey);
 		try {
 			boost::asio::streambuf buf;
 			boost::system::error_code error;
 
-			while(_initialized) {
+			while (_initialized) {
 				boost::this_thread::interruption_point();
 				// read until message delemiter appears
-				char delim[6] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x00};
+				char delim[6] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x00 };
 				size_t len = boost::asio::read_until(*socket, buf, delim, error);
 				boost::this_thread::interruption_point();
 				if (error) {
 					M2ETIS_THROW_FAILURE("TcpWrapper - An error receiving a message occured", metisKey.toStr(), error.value());
 				} else {
-
 					const char * m = boost::asio::buffer_cast<const char *>(buf.data());
 					std::string message(m, m + len);
 					buf.consume(len);
@@ -261,7 +276,7 @@ namespace tcp {
 					_callback->deliver(msg);
 				}
 			}
-		} catch(util::SystemFailureException & e) {
+		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 
@@ -272,6 +287,7 @@ namespace tcp {
 					socket->close();
 					delete socket;
 					it->second = nullptr;
+					std::lock_guard<std::mutex> lg(_threadLock);
 					threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, it->first))));
 					break;
 				}
