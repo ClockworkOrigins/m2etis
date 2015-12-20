@@ -12,7 +12,7 @@
  * \section sec_disabledChannels_NotTested Strategies not tested right now
  *
  * Strategy | Description
- * ---------|------------|-----------
+ * ---------|------------
  * All FilterStrategies | Implementation wasn't ever fully tested and former developer isn't available, so we have to check it on our own which means we need to read the thesis for this topic
  *
  */
