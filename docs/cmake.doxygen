@@ -1,0 +1,24 @@
+/**
+ * \addtogroup cmake
+ * @{
+ */
+ 
+/**
+ * \page page_cmake All CMake variables
+ *
+ * Variable | Default | Description
+ * ---------|------------|-----------
+ * M2ETIS_BUILD_SHARED | ON | Builds m2etis as a shared library
+ * WITH_LOGGING | OFF | Enables building with logging, requires glog
+ * WITH_SIM | OFF | Enables build of the simulator configuration, requires Oversim, Omnet++ and Inet (not well supported right now)
+ * WITH_TESTING | OFF | Enables build of tests, required gtest
+ * WITH_CHIMERA | OFF | Enables build of ChimeraWrapper, required chimera
+ * WITH_PROFILING | OFF | Enables build of profiling using gperftools
+ * WITH_MESSAGECOMPRESSION | OFF | Enables compression of messages using boost::iostreams
+ * WITH_DOCU | OFF | Enables building of the doxygen documentation
+ *
+ */
+ 
+/**
+ * @}
+ */

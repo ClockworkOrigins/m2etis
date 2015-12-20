@@ -1,0 +1,18 @@
+/**
+ * \page page_disabledChannels List of channels not working together or that aren't tested yet
+ *
+ * \section sec_disabledChannels_NotWorking Strategies not working together
+ *
+ * Strategy 1 | Strategy 2 | Description
+ * ---------|------------|-----------
+ * DirectBroadcastRouting | GMSOrder | GMSOrder requires nodes to send messages as publish messages to a dedicated root node where messages are ordered, but DirectBroadcastRouting sends every message directly to its subscribers and every node is a root itself
+ * HierarchicalSpreaditRouting | GMSOrder | GMSOrder requires one dedicated root node to send notify messages down the tree, but in HierarchicalSpreditRouting the message is propagated upwards the tree and every node notifies its childs without going over a root node
+ * DirectBroadcastPartition | GMSOrder | Not sure whether its because of the dynamic partitioning or because of every node being root on a tree
+ *
+ * \section sec_disabledChannels_NotTested Strategies not tested right now
+ *
+ * Strategy | Description
+ * ---------|------------|-----------
+ * All FilterStrategies | Implementation wasn't ever fully tested and former developer isn't available, so we have to check it on our own which means we need to read the thesis for this topic
+ *
+ */

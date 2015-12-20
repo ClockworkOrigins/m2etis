@@ -36,4 +36,9 @@
  *
  * \ref m2etis::net::NetworkController implements the \ref m2etis::net::NetworkCallbackInterface and represents the connection between the PubSub-Component and the P2P-Network. It has the needed functionality for \ref m2etis::pubsub::Channel for sending messages to the network
  *
+ * \section sec_main_links Links
+ *
+ * - \ref page_disabledChannels
+ * - \ref page_cmake
+ *
  */
