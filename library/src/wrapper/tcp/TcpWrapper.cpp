@@ -53,11 +53,9 @@ namespace tcp {
 
 	TcpWrapper::~TcpWrapper() {
 		_initialized = false;
-		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 		_io_service.stop();
 		delete _work;
 		_acceptor->close();
-		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 		lock_.lock();
 		for (std::map<message::Key<message::IPv4KeyProvider>, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 			if (it->second != nullptr) {
@@ -80,15 +78,6 @@ namespace tcp {
 			delete p.second;
 		}
 		_threadLock.unlock();
-		lock_.lock();
-		for (std::map<message::Key<message::IPv4KeyProvider>, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-			if (it->second != nullptr) {
-				it->second->close();
-				delete it->second;
-			}
-		}
-		_sockets.clear();
-		lock_.unlock();
 		delete _acceptor;
 	}
 
