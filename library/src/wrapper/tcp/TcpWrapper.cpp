@@ -61,6 +61,10 @@ namespace tcp {
 		lock_.lock();
 		for (std::map<message::Key<message::IPv4KeyProvider>, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 			if (it->second != nullptr) {
+				if (it->second->is_open()) {
+					it->second->cancel();
+					it->second->shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+				}
 				it->second->close();
 				delete it->second;
 			}
