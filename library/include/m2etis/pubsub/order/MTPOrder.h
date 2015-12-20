@@ -103,12 +103,12 @@ namespace order {
 			sendQueue_.push(std::make_pair(id, info)); // store the current message buffer id along with the header struct
 			OrderInfoType::Ptr p = boost::make_shared<OrderInfoType>();
 			p->type_ = message::MTPOrderInfo::TYPE_TOKEN_REQUEST;
-			BaseOrder<NetworkType>::sendMsg_(p, typename NetworkType::Key(), ControlTarget::ROOT); // send a new control message to the root node of this tree  (sequencer) to get a sequence number
+			BaseOrder<NetworkType>::sendMsg_(p, typename NetworkType::Key(), ControlTarget::ROOT); // send a new control message to the root node of this tree (sequencer) to get a sequence number
 			return true;
 		}
 
 		/**
-		 * \brief processes a controll message
+		 * \brief processes a control message
 		 */
 		bool processControlPayload(typename message::OrderInfo::Ptr ptr, const typename NetworkType::Key & sender) {
 			message::MTPOrderInfo::Ptr info = boost::static_pointer_cast<message::MTPOrderInfo>(ptr);

@@ -77,8 +77,7 @@ namespace deliver {
 		}
 
 		bool processOtherControlPayload(typename message::DeliverInfo::Ptr ptr, const typename NetworkType::Key & sender) {
-			processPublishAndNotify(ptr, sender);
-			return true; // FIXME: (Daniel) think of this, may be stupid because we only want every Control Message once
+			return processPublishAndNotify(ptr, sender);
 		}
 
 		/**

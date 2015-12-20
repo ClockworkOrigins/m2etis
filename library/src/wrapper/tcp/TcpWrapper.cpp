@@ -14,17 +14,13 @@
  limitations under the License.
  */
 
-/**
- * look header for docu
- */
-
 #include "m2etis/wrapper/tcp/TcpWrapper.h"
 
 #include "m2etis/util/Logger.h"
 
 #include "m2etis/message/MessageSerialization.h"
 
-#include "boost/array.hpp"      // nur fuer array buff anstatt streambuf
+#include "boost/array.hpp"
 #include "boost/bind.hpp"
 #include "boost/thread.hpp"
 
