@@ -14,10 +14,6 @@
  limitations under the License.
  */
 
-/**
- * look header for docu
- */
-
 #include "m2etis/wrapper/clocktcp/clockTcpWrapper.h"
 
 #include "m2etis/util/Logger.h"
@@ -204,6 +200,7 @@ namespace clocktcp {
 		boost::mutex::scoped_lock sl(_mapLock);
 		_mapping_metis_real.erase(real2metis(realKey));
 		_mapping_real_metis.erase(realKey);
+		boost::mutex::scoped_lock l(_lock);
 		_sockets.erase(realKey);
 	}
 

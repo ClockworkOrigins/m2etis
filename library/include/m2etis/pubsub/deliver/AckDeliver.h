@@ -143,7 +143,7 @@ namespace deliver {
 		 * \brief checks the queue for un-acked messages
 		 */
 		bool periodicCheck() {
-			long cT = BaseDeliver<NetworkType>::pssi_->scheduler_.getTime();
+			uint64_t cT = BaseDeliver<NetworkType>::pssi_->scheduler_.getTime();
 			while (!queue_.empty() && queue_.top().first < cT) {
 				// message wasn't acked
 				std::set<uint64_t>::iterator it = acked_.find(queue_.top().second.first);
