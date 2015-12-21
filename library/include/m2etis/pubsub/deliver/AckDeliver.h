@@ -146,7 +146,7 @@ namespace deliver {
 			uint64_t cT = BaseDeliver<NetworkType>::pssi_->scheduler_.getTime();
 			while (!queue_.empty() && queue_.top().first < cT) {
 				// message wasn't acked
-				std::set<uint64_t>::iterator it = acked_.find(queue_.top().second.first);
+				std::set<uint64_t>::const_iterator it = acked_.find(queue_.top().second.first);
 				if (it != acked_.end()) {
 					acked_.erase(it);
 					BaseDeliver<NetworkType>::process_(queue_.top().second.first, msgProcess::MSG_DELETE);
@@ -165,7 +165,7 @@ namespace deliver {
 
 	private:
 		/**
-		 * \brief stores all ids which has not been acked yet
+		 * \brief stores all ids which have not been acked yet
 		 */
 		std::priority_queue<std::pair<uint64_t, std::pair<uint64_t, int>>, std::vector<std::pair<uint64_t, std::pair<uint64_t, int>>>, Comp> queue_;
 
