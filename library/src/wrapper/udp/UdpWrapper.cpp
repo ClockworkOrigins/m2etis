@@ -14,10 +14,6 @@
  limitations under the License.
  */
 
-/**
- * look header for docu
- */
-
 #include "m2etis/wrapper/udp/UdpWrapper.h"
 
 #include "m2etis/message/MessageSerialization.h"
@@ -26,7 +22,7 @@
 #include "m2etis/parameters/WrapperParameters.h"
 #include "m2etis/util/Logger.h"
 
-#include "boost/array.hpp"      // nur fuer array buff anstatt streambuf
+#include "boost/array.hpp"
 #include "boost/bind.hpp"
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/enable_shared_from_this.hpp"
@@ -37,22 +33,19 @@ namespace wrapper {
 namespace udp {
 
 	UdpWrapper::UdpWrapper(const std::string & ownIP, uint16_t listenPort, const std::string & hostIP, uint16_t hostPort) : _initialized(false), _name(ownIP), _hostName(hostIP), _listenPort(listenPort), _hostPort(hostPort), _io_service(), _socket(), _root(), _strand__(_io_service), _outbox(), _work(_io_service), _endpoint(), _remote_endpoint() {
-			std::stringstream ss;
-			ss << _hostName << ":" << _hostPort;
-			_root = net::NetworkType<net::UDP>::Key(ss.str());
+		std::stringstream ss;
+		ss << _hostName << ":" << _hostPort;
+		_root = net::NetworkType<net::UDP>::Key(ss.str());
 
-			threads_.push_back(new boost::thread(boost::bind(&boost::asio::io_service::run, &_strand__.get_io_service())));
-			boost::this_thread::sleep(boost::posix_time::milliseconds(100));
-			threads_.push_back(new boost::thread(boost::bind(&UdpWrapper::workerFunc, this)));
-			boost::this_thread::sleep(boost::posix_time::milliseconds(100));
-			_initialized = true;
+		threads_.push_back(new boost::thread(boost::bind(&boost::asio::io_service::run, &_strand__.get_io_service())));
+		boost::thread(boost::bind(&UdpWrapper::workerFunc, this)).join();
+		_initialized = true;
 	}
 
 	UdpWrapper::~UdpWrapper() {
 		_initialized = false;
 		_io_service.stop();
 		for (size_t i = 0; i < threads_.size(); ++i) {
-			//threads_[i]->interrupt();
 			threads_[i]->join();
 			delete threads_[i];
 		}
