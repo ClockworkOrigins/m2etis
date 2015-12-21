@@ -28,23 +28,9 @@ namespace m2etis {
 namespace wrapper {
 namespace tcp {
 
-	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) :
-		_initialized(true),
-		_local(listenIP + ":" + std::to_string(listenPort)),
-		_rendezvouz(connectIP + ":" + std::to_string(connectPort)),
-		_io_service(),
-		_acceptor(),
-		_sockets(),
-		_strand__(_io_service),
-		_outbox(),
-		_work(new boost::asio::io_service::work(_io_service)),
-		_mapping_metis_real(),
-		_mapping_real_metis(),
-		_mapLock(),
-		_threadLock(), threads_() {
+	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _rendezvouz(connectIP + ":" + std::to_string(connectPort)), _io_service(), _acceptor(), _sockets(), _strand__(_io_service), _outbox(), _work(new boost::asio::io_service::work(_io_service)), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threadLock(), threads_() {
 		threads_.insert(std::make_pair(0, new boost::thread(boost::bind(&boost::asio::io_service::run, &_strand__.get_io_service()))));
-		boost::thread(boost::bind(&TcpWrapper::workerFunc, this));
-		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+		boost::thread(boost::bind(&TcpWrapper::workerFunc, this)).join();
 	}
 
 	TcpWrapper::~TcpWrapper() {
