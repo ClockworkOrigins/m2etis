@@ -14,7 +14,6 @@
  limitations under the License.
  */
 
-#include "m2etis/message/MessageSerialization.h"
 #include "m2etis/pubsub/PubSubSystem.h"
 
 #include "DCB.h"

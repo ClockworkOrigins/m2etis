@@ -19,12 +19,15 @@
  * 
  * \subsection subsec_example Code-Example
  *
- * \image html anwendersicht_code.png
+ * \includelineno usage.cpp
  *
- * - line 15: inits a node on port 7000 which publishes messages
- * - line 16: gets the instance of the channel "ANY_ALL" (every kind of message)
- * - line 18-22: inits two nodes on port 7001 and 7002 and subscribes them at the channel "ANY_ALL"
- * - line 27: publishes a message
+ * - line 7-12: declares class being able to receive messages deriving from m2etis::pubsub::DeliverCallbackInterface
+ * - line 9-11: is the actual deliverCallback where messages arrive
+ * - line 16: inits a node with own port 12345 and root port 12345 (so this node will be the root node)
+ * - line 17: inits a node with own port 12346 and root port 12345 (so this node will not be root node)
+ * - line 19-20: both nodes subscribe on one of the predefined topics
+ * - line 22/25: creates a publish message for each of the nodes
+ * - line 23/26: publishes the message on the chosen topic
  * 
  * \section sec_kbr_api Key based routing(KBR) API
  *
