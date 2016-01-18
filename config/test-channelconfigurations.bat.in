@@ -38,6 +38,17 @@ SET NetworkTypes=m2etis::net::TCP m2etis::net::UDP m2etis::net::clockTCP
 SET i=0
 SET completedSuccessful=0
 
+REM Count all possible combinations (product of all lengths of the arrays)
+SET /A countAll=!DeliverStrategies.length! * !FilterStrategies.length! * !OrderStrategies.length! * !PartitionStrategies.length! * !PersistenceStrategies.length! * !RendezvousStrategies.length! * !RoutingStrategies.length! * !SecurityStrategies.length! * !ValidityStrategies.length! * !NetworkTypes.length!
+
+REM subtract all invalid pairs
+SET /A countValid=!countAll! - !countAll! / (!RoutingStrategies.length! * !OrderStrategies.length!) - !countAll! / (!RoutingStrategies.length! * !OrderStrategies.length!) - !countAll! / (!PartitionStrategies.length! * !OrderStrategies.length!)
+# add all invalid triples that were subtracted too much
+SET /A countValid=!countValid! + 2 * !countAll! / (!PartitionStrategies.length! * !OrderStrategies.length! * !RoutingStrategies.length!)
+
+SET STARTTIME=%TIME%
+SET /A STARTTIME=(1%STARTTIME:~0,2%-100) * 360000 + (1%STARTTIME:~3,2%-100) * 6000 + (1%STARTTIME:~6,2%-100) * 100 + (1%STARTTIME:~9,2%-100)
+
 FOR %%a IN (%DeliverStrategies%) DO (
 	FOR %%b IN (%FilterStrategies%) DO (
 		FOR %%c IN (%OrderStrategies%) DO (
@@ -273,6 +284,33 @@ FOR %%a IN (%DeliverStrategies%) DO (
 
 												CD ..
 											)
+											SET DURATION=%TIME%
+											SET /A DURATION=(1!DURATION:~0,2!-100) * 360000 + (1!DURATION:~3,2!-100) * 6000 + (1!DURATION:~6,2!-100) * 100 + (1!DURATION:~9,2!-100)
+											SET /A DURATION=!DURATION! - !STARTTIME!
+
+											SET /A DURATIONH=!DURATION! / 360000
+											SET /A DURATIONM=(!DURATION! - !DURATIONH! * 360000) / 6000
+											SET /A DURATIONS=(!DURATION! - !DURATIONH! * 360000 - !DURATIONM! * 6000) / 100
+
+											rem some formatting
+											if !DURATIONH! LSS 10 SET DURATIONH=0!DURATIONH!
+											if !DURATIONM! LSS 10 SET DURATIONM=0!DURATIONM!
+											if !DURATIONS! LSS 10 SET DURATIONS=0!DURATIONS!
+
+											echo Tests runs for !DURATIONH!:!DURATIONM!:!DURATIONS!
+
+											SET /A MISSINGTIME=!DURATION! / !i! * !countValid!
+											SET /A MISSINGTIME=!MISSINGTIME! - !DURATION!
+
+											SET /A MISSINGH=!MISSING! / 360000
+											SET /A MISSINGM=(!MISSING! - !MISSINGH! * 360000) / 6000
+											SET /A MISSINGS=(!MISSING! - !MISSINGH! * 360000 - !MISSINGM! * 6000) / 100
+
+											rem some formatting
+											if !MISSINGH! LSS 10 SET MISSINGH=0!MISSINGH!
+											if !MISSINGM! LSS 10 SET MISSINGM=0!MISSINGM!
+											if !MISSINGS! LSS 10 SET MISSINGS=0!MISSINGS!
+											echo Finished in !MISSINGH!:!MISSINGM!:!MISSINGS!
 										)
 									)
 								)
