@@ -41,6 +41,20 @@ cd ${testDir}
 
 cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF -DCMAKE_BUILD_TYPE=${configuration} @CMAKE_SOURCE_DIR@
 
+# Count all possible combinations (product of all lengths of the arrays)
+countAll=$((${#DeliverStrategies[@]} * ${#FilterStrategies[@]} * ${#OrderStrategies[@]} * ${#PartitionStrategies[@]} * ${#PersistenceStrategies[@]} * ${#RendezvousStrategies[@]} * ${#RoutingStrategies[@]} * ${#SecurityStrategies[@]} * ${#ValidityStrategies[@]} * ${#NetworkTypes[@]}))
+
+# subtract all invalid pairs
+countValid=$(($countAll
+	- $countAll / (${#RoutingStrategies[@]} * ${#OrderStrategies[@]})
+	- $countAll / (${#RoutingStrategies[@]} * ${#OrderStrategies[@]})
+	- $countAll / (${#PartitionStrategies[@]} * ${#OrderStrategies[@]})
+	))
+# add all invalid triples that were subtracted too much
+countValid=$(($countValid + 2 * $countAll / (${#PartitionStrategies[@]} * ${#OrderStrategies[@]} * ${#RoutingStrategies[@]})))
+
+echo "Running $countValid valid Configurations from $countAll possible Combinations"
+
 for a in ${DeliverStrategies[*]}
 do
 	for b in ${FilterStrategies[*]}
@@ -62,30 +76,19 @@ do
 									for j in ${NetworkTypes[*]}
 									do
 										allowed=1
-										if [[ $g == *"DirectBroadcastRouting"* ]]
-										then
-											if [[ $c == *"GMSOrder"* ]]
-											then
-												allowed=0
-											fi
+										if [[ $g == *"DirectBroadcastRouting"* ]] && [[ $c == *"GMSOrder"* ]] ; then
+											allowed=0
 										fi
-										if [[ $g == *"HierarchicalSpreaditRouting"* ]]
-										then
-											if [[ $c == *"GMSOrder"* ]]
-											then
-												allowed=0
-											fi
+										if [[ $g == *"HierarchicalSpreaditRouting"* ]] && [[ $c == *"GMSOrder"* ]] ; then
+											allowed=0
 										fi
-										if [[ $c == *"GMSOrder"* ]]
-										then
-											if [[ $d == *"DirectBroadcastPartition"* ]]
-											then
-												allowed=0
-											fi
+										if [[ $c == *"GMSOrder"* ]] && [[ $d == *"DirectBroadcastPartition"* ]] ; then
+											allowed=0
 										fi
-										if [[ $allowed == 1 ]]
-										then
+										if [[ $allowed == 1 ]] ; then
 											counter=$(($counter + 1))
+
+											echo -e "Running Configuration [ ${counter} / ${countValid} ] ...\nwith ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j}"
 
 											# Generating GeneratedChannelName.h
 
@@ -123,8 +126,7 @@ do
 											ChannelConfigurationString=typedef\ Channel\<ChannelType\<${g}\,\ ${b}\,\ ${c}\,\ ${a}\,\ ${e}\,\ ${i}\,\ ${d}\,\ ${h}\,\ ${f}\>\,\ NETWORKTYPE\,\ ${EventType}\>\ GENEREATED_TEST_CHANNEL_EVENTTYPE\;
 											ChannelConfigurationString="${ChannelConfigurationString}"
 
-											while [[ $ChannelConfigurationString == *"NETWORKTYPE"* ]]
-											do
+											while [[ $ChannelConfigurationString == *"NETWORKTYPE"* ]] ; do
 												ChannelConfigurationString="${ChannelConfigurationString/NETWORKTYPE/m2etis::net::NetworkType\<${j}\>}"
 											done
 
@@ -168,8 +170,7 @@ do
 
 											MessageConfigurationString=typedef\ m2etis::message::InternalMessage\<NETWORKTYPE,\ m2etis::pubsub::ChannelType\<${g},\ ${b},\ ${c},\ ${a},\ ${e},\ ${i},\ ${d},\ ${h},\ ${f}\>,\ ${EventType}\>\ GENERATED_TEST_CHANNEL_MESSAGE\;
 											MessageConfigurationString="${MessageConfigurationString}"
-											while [[ $MessageConfigurationString == *"NETWORKTYPE"* ]]
-											do
+											while [[ $MessageConfigurationString == *"NETWORKTYPE"* ]] ; do
 												MessageConfigurationString="${MessageConfigurationString/NETWORKTYPE/m2etis::net::NetworkType\<${j}\>}"
 											done
 
@@ -253,11 +254,10 @@ do
 
 											ERRORCODE=$?
 
-											if [ $ERRORCODE -ne 0 ]
-											then
-												echo "Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn't compile"
+											if [ $ERRORCODE -ne 0 ] ; then
+												echo "Configuration ${counter} doesn't compile"
 												cat compileOutput
-												echo Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t compile >> ${RESULTS}
+												echo "Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t compile" >> ${RESULTS}
 												cat compileOutput >> ${RESULTS}
 												echo >> ${RESULTS}
 												mkdir ${RESULTSDIR}/${counter}
@@ -266,23 +266,20 @@ do
 												cp ${GENERATEDCHANNELCONFIGURATION} ${RESULTSDIR}/${counter}/
 												cp ${GENERATEDMESSAGECONFIGURATION} ${RESULTSDIR}/${counter}/
 											fi
-											if [ ${ERRORCODE} -eq 0 ]
-											then
+											if [ ${ERRORCODE} -eq 0 ] ; then
 												cd dist/${configuration}
 
-												if [ $valgrind == "valgrind" ]
-												then
+												if [ "$valgrind" = "valgrind" ] ; then
 													valgrind --leak-check=full ./m2etis_channel_tester &> testOutput
 												else
 													./m2etis_channel_tester &> testOutput
 												fi
 
 												ERRORCODE=$?
-												if [ ${ERRORCODE} -ne 0 ]
-												then
-													echo Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t finish tests
+												if [ ${ERRORCODE} -ne 0 ] ; then
+													echo "Configuration ${counter} doesn\'t finish tests"
 													cat testOutput
-													echo Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t finish tests >> ${RESULTS}
+													echo "Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} doesn\'t finish tests" >> ${RESULTS}
 													cat testOutput >> ${RESULTS}
 													echo >> ${RESULTS}
 													mkdir ${RESULTSDIR}/${counter}
@@ -291,9 +288,8 @@ do
 													cp ${GENERATEDCHANNELCONFIGURATION} ${RESULTSDIR}/${counter}/
 													cp ${GENERATEDMESSAGECONFIGURATION} ${RESULTSDIR}/${counter}/
 												fi
-												if [ ${ERRORCODE} -eq 0 ]
-												then
-													echo Configuration ${counter} with ${a}, ${b}, ${c}, ${d}, ${e}, ${f}, ${g}, ${h}, ${i}, ${j} works
+												if [ ${ERRORCODE} -eq 0 ] ; then
+													echo "Configuration ${counter} works"
 													completedSuccessful=$(($completedSuccessful + 1))
 												fi
 
@@ -322,7 +318,6 @@ rm -rf ${testDir}
 echo >> ${RESULTS}
 echo Successfully completed ${completedSuccessful} of ${counter} configurations >> ${RESULTS}
 
-if [[ $counter != $completedSuccessful ]]
-then
+if [[ $counter != $completedSuccessful ]] ; then
 	exit 1
 fi
