@@ -55,6 +55,8 @@ countValid=$(($countValid + 2 * $countAll / (${#PartitionStrategies[@]} * ${#Ord
 
 echo "Running $countValid valid Configurations from $countAll possible Combinations"
 
+SECONDS=0
+
 for a in ${DeliverStrategies[*]}
 do
 	for b in ${FilterStrategies[*]}
@@ -295,6 +297,13 @@ do
 
 												cd ../..
 											fi
+
+											duration=$SECONDS
+											echo "Tests runs for $(($duration / 3600)):$((($duration - ($duration / 3600) * 3600) / 60)):$(($duration % 60))"
+											missingTime=$(($duration / $counter))
+											missingTime=$(($missingTime * $countValid))
+											missingTime=$(($missingTime - $duration))
+											echo "Finished in $(($missingTime / 3600)):$((($missingTime - ($missingTime / 3600) * 3600) / 60)):$(($missingTime % 60))"
 										fi
 									done
 								done

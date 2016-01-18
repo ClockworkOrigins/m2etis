@@ -42,34 +42,36 @@ namespace clocktcp {
 			});
 		boost::mutex::scoped_lock l(_lock);
 		_sockets[_local] = newSocket;
+		std::cout << "Creating socket: " << newSocket << std::endl;
 	}
 
 	clockTcpWrapper::~clockTcpWrapper() {
 		_initialized = false;
+		std::cout << "clockTcpWrapper 1 " << this << std::endl;
 		_lock.lock();
+		std::cout << "clockTcpWrapper 2" << std::endl;
 		for (std::map<message::Key<message::IPv4KeyProvider>, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 			if (it->second != nullptr) {
+				std::cout << "Deleting socket: " << it->second << std::endl;
 				clockUtils::sockets::TcpSocket * tmp = it->second;
 				tmp->close();
+				std::cout << "Closed socket: " << it->second << std::endl;
+				delete tmp;
+				std::cout << "Deleted socket: " << it->second << std::endl;
 			}
 		}
+		std::cout << "clockTcpWrapper 3" << std::endl;
+		_sockets.clear();
 		_lock.unlock();
+		std::cout << "clockTcpWrapper 4" << std::endl;
 		for (std::pair<uint16_t, boost::thread *> p : _threads) {
 			p.second->interrupt();
-			p.second->join();
-		}
-		for (std::pair<uint16_t, boost::thread *> p : _threads) {
+			if (p.second->joinable()) {
+				p.second->join();
+			}
 			delete p.second;
 		}
-		_lock.lock();
-		for (std::map<message::Key<message::IPv4KeyProvider>, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-			if (it->second != nullptr) {
-				clockUtils::sockets::TcpSocket * tmp = it->second;
-				it->second = nullptr;
-				delete tmp;
-			}
-		}
-		_lock.unlock();
+		std::cout << "clockTcpWrapper 5" << std::endl;
 	}
 
 	void clockTcpWrapper::send(const message::NetworkMessage<net::NetworkType<net::clockTCP>>::Ptr msg, net::NodeHandle<net::NetworkType<net::clockTCP>>::Ptr_const /* hint */) {
@@ -143,6 +145,7 @@ namespace clocktcp {
 				clockUtils::ClockError error = socket->receivePacket(message);
 
 				if (error != clockUtils::ClockError::SUCCESS) {
+					std::cout << "error" << std::endl;
 					M2ETIS_THROW_FAILURE("clockTcpWrapper - readFromSocket", "error receiving a message", int(error));
 				}
 				message::NetworkMessage<net::NetworkType<net::clockTCP>>::Ptr msg = message::NetworkMessage<net::NetworkType<net::clockTCP>>::Ptr(message::serialization::deserializeNetworkMsg<net::NetworkType<net::clockTCP>>(message));
@@ -159,18 +162,21 @@ namespace clocktcp {
 				_callback->deliver(msg);
 			}
 		} catch (util::SystemFailureException & e) {
-			e.writeLog();
-			e.PassToMain();
+			if (_initialized) {
+					std::cout << "in here: " << this << std::endl;
+				e.writeLog();
+				e.PassToMain();
 
-			boost::mutex::scoped_lock l(_lock);
-			// TODO simplify
-			for (std::map<net::NetworkType<net::clockTCP>::Key, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-				if (it->second == socket) {
-					socket->close();
-					delete socket;
-					it->second = nullptr;
-					_threads.insert(std::make_pair(1, new boost::thread(boost::bind(&clockTcpWrapper::eraseSocket, this, realKey))));
-					break;
+				boost::mutex::scoped_lock l(_lock);
+				// TODO simplify
+				for (std::map<net::NetworkType<net::clockTCP>::Key, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+					if (it->second == socket) {
+						socket->close();
+						delete socket;
+						it->second = nullptr;
+						_threads.insert(std::make_pair(1, new boost::thread(boost::bind(&clockTcpWrapper::eraseSocket, this, realKey))));
+						break;
+					}
 				}
 			}
 		} catch (boost::archive::archive_exception & e) {
