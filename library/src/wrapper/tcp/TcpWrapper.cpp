@@ -28,7 +28,7 @@ namespace m2etis {
 namespace wrapper {
 namespace tcp {
 
-	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _rendezvouz(connectIP + ":" + std::to_string(connectPort)), _io_service(), _acceptor(), _sockets(), _strand__(_io_service), _outbox(), _work(new boost::asio::io_service::work(_io_service)), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threadLock(), threads_() {
+	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _rendezvouz(connectIP + ":" + std::to_string(connectPort)), _io_service(), _acceptor(), _sockets(), _strand__(_io_service), _outbox(), _work(new boost::asio::io_service::work(_io_service)), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threadLock(), threads_(), _deleteSocketsLock(), _deleteSockets() {
 		threads_.insert(std::make_pair(0, new boost::thread(boost::bind(&boost::asio::io_service::run, &_strand__.get_io_service()))));
 		boost::thread(boost::bind(&TcpWrapper::workerFunc, this)).join();
 	}
@@ -38,6 +38,13 @@ namespace tcp {
 		_io_service.stop();
 		delete _work;
 		_acceptor->close();
+		{
+			std::lock_guard<std::mutex> lg(_deleteSocketsLock);
+			for (boost::asio::ip::tcp::socket * sock : _deleteSockets) {
+				delete sock;
+			}
+			_deleteSockets.clear();
+		}
 		lock_.lock();
 		for (std::map<message::Key<message::IPv4KeyProvider>, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 			if (it->second != nullptr) {
@@ -250,18 +257,7 @@ namespace tcp {
 			e.writeLog();
 			e.PassToMain();
 
-			boost::mutex::scoped_lock l(lock_);
-			// TODO simplify
-			for (std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-				if (it->second == socket) {
-					socket->close();
-					delete socket;
-					it->second = nullptr;
-					std::lock_guard<std::mutex> lg(_threadLock);
-					threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, it->first))));
-					break;
-				}
-			}
+			removeSocket(socket);
 		} catch (boost::archive::archive_exception & e) {
 			std::cout << e.what() << std::endl;
 		}
@@ -322,15 +318,7 @@ namespace tcp {
 			_outbox.pop_front();
 
 			if (error) {
-				boost::mutex::scoped_lock l(lock_);
-				for(std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-					if (it->second == sock) {
-						sock->close();
-						delete sock;
-						it->second = nullptr;
-						break;
-					}
-				}
+				removeSocket(sock);
 			}
 
 			if (!_outbox.empty()) {
@@ -349,6 +337,31 @@ namespace tcp {
 		_mapping_real_metis.erase(realKey);
 		boost::mutex::scoped_lock l(lock_);
 		_sockets.erase(realKey);
+		{
+			std::lock_guard<std::mutex> lg(_deleteSocketsLock);
+			for (boost::asio::ip::tcp::socket * sock : _deleteSockets) {
+				delete sock;
+			}
+			_deleteSockets.clear();
+		}
+	}
+
+	void TcpWrapper::removeSocket(boost::asio::ip::tcp::socket * sock) {
+		boost::mutex::scoped_lock l(lock_);
+		// TODO simplify
+		for (std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+			if (it->second == sock) {
+				sock->close();
+				it->second = nullptr;
+				std::lock_guard<std::mutex> lg(_threadLock);
+				threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, it->first))));
+				break;
+			}
+		}
+		{
+			std::lock_guard<std::mutex> lg(_deleteSocketsLock);
+			_deleteSockets.insert(sock);
+		}
 	}
 
 } /* namespace tcp */

@@ -26,6 +26,7 @@
 
 #include <deque>
 #include <mutex>
+#include <set>
 
 #include "m2etis/net/NetworkCallbackInterface.h"
 #include "m2etis/net/NetworkInterface.h"
@@ -118,6 +119,9 @@ namespace tcp {
 		std::mutex _threadLock;
 		std::multimap<uint16_t, boost::thread *> threads_;
 
+		std::mutex _deleteSocketsLock;
+		std::set<boost::asio::ip::tcp::socket *> _deleteSockets;
+
 		void eraseSocket(net::NetworkType<net::TCP>::Key realKey);
 		void workerFunc();
 
@@ -151,6 +155,8 @@ namespace tcp {
 			}
 			return it->second;
 		}
+
+		void removeSocket(boost::asio::ip::tcp::socket * sock);
 
 		TcpWrapper(const TcpWrapper &) = delete;
 		TcpWrapper & operator=(const TcpWrapper & rhs) = delete;
