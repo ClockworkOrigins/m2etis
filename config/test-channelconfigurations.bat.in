@@ -1,4 +1,4 @@
-@echo ON
+@echo OFF
 
 setlocal EnableDelayedExpansion
 
@@ -23,17 +23,27 @@ cd %testDir%
 cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF @CMAKE_SOURCE_DIR@
 
 SET "DeliverStrategies=m2etis::pubsub::deliver::NullDeliver^<NETWORKTYPE^> m2etis::pubsub::deliver::AckDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::Amount::EXACTLY_ONCE^> m2etis::pubsub::deliver::NackDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::Amount::EXACTLY_ONCE^>"
+SET DeliverStrategies.length=3
 SET "FilterStrategies=m2etis::pubsub::filter::NullFilter^<%EventType%/NETWORKTYPE^>"
+SET FilterStrategies.length=1
 REM m2etis::pubsub::filter::BruteForceFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::DecisionTreeFilter^<%EventType%/NETWORKTYPE^> m2etis::pubsub::filter::GeneralBooleanExpressionsFilter^<%EventType%/NETWORKTYPE^> have to be inserted again as FilterStrategies
 SET "OrderStrategies=m2etis::pubsub::order::NullOrder^<NETWORKTYPE^> m2etis::pubsub::order::DetMergeOrder^<NETWORKTYPE/m2etis::pubsub::order::DetMergeConfig^> m2etis::pubsub::order::MTPOrder^<NETWORKTYPE/1000000/m2etis::pubsub::order::LateDeliver::DELIVER^> m2etis::pubsub::order::GMSOrder^<NETWORKTYPE/1000000^>"
+SET OrderStrategies.length=4
 SET "PartitionStrategies=m2etis::pubsub::partition::NullPartition^<NETWORKTYPE/%EventType%^> m2etis::pubsub::partition::BruteForcePartition^<NETWORKTYPE/%EventType%^> m2etis::pubsub::partition::DirectBroadcastPartition^<NETWORKTYPE/%EventType%^>"
+SET PartitionStrategies.length=3
 SET "PersistenceStrategies=m2etis::pubsub::persistence::NullPersistence"
+SET PersistenceStrategies.length=1
 SET "RendezvousStrategies=m2etis::pubsub::rendezvous::NullRendezvous"
+SET RendezvousStrategies.length=1
 SET "RoutingStrategies=m2etis::pubsub::routing::DirectRouting^<NETWORKTYPE^> m2etis::pubsub::routing::DirectBroadcastRouting^<NETWORKTYPE^> m2etis::pubsub::routing::SpreaditRouting^<NETWORKTYPE^> m2etis::pubsub::routing::HierarchicalSpreaditRouting^<NETWORKTYPE/2^>"
+SET RoutingStrategies.length=4
 SET "SecurityStrategies=m2etis::pubsub::security::NullSecurity"
+SET SecurityStrategies.length=1
 SET "ValidityStrategies=m2etis::pubsub::validity::NullValidity m2etis::pubsub::validity::TimeValidity^<0/50000000^>"
+SET ValidityStrategies.length=2
 
 SET NetworkTypes=m2etis::net::TCP m2etis::net::UDP m2etis::net::clockTCP
+SET NetworkTypes.length=3
 
 SET i=0
 SET completedSuccessful=0
@@ -43,11 +53,10 @@ SET /A countAll=!DeliverStrategies.length! * !FilterStrategies.length! * !OrderS
 
 REM subtract all invalid pairs
 SET /A countValid=!countAll! - !countAll! / (!RoutingStrategies.length! * !OrderStrategies.length!) - !countAll! / (!RoutingStrategies.length! * !OrderStrategies.length!) - !countAll! / (!PartitionStrategies.length! * !OrderStrategies.length!)
-# add all invalid triples that were subtracted too much
+REM add all invalid triples that were subtracted too much
 SET /A countValid=!countValid! + 2 * !countAll! / (!PartitionStrategies.length! * !OrderStrategies.length! * !RoutingStrategies.length!)
 
-SET STARTTIME=%TIME%
-SET /A STARTTIME=(1%STARTTIME:~0,2%-100) * 360000 + (1%STARTTIME:~3,2%-100) * 6000 + (1%STARTTIME:~6,2%-100) * 100 + (1%STARTTIME:~9,2%-100)
+echo Running !countValid! valid Configurations from !countAll! possible Combinations
 
 FOR %%a IN (%DeliverStrategies%) DO (
 	FOR %%b IN (%FilterStrategies%) DO (
@@ -89,6 +98,9 @@ FOR %%a IN (%DeliverStrategies%) DO (
 										)
 										IF !allowed! == 1 (
 											SET /a i=!i! + 1
+
+											echo Running Configuration [ !i! / !countValid! ] ...
+											echo with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j
 
 											REM Generating GeneratedChannelName.h
 
@@ -248,7 +260,7 @@ FOR %%a IN (%DeliverStrategies%) DO (
 
 											SET ERROR=!ERRORLEVEL!
 											IF NOT [!ERROR!] == [0] (
-												echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile
+												echo Configuration !i! doesn't compile
 												type compileOutput
 												echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile >> %RESULTS%
 												type compileOutput >> %RESULTS%
@@ -266,7 +278,7 @@ FOR %%a IN (%DeliverStrategies%) DO (
 
 												SET ERROR=!ERRORLEVEL!
 												IF NOT [!ERROR!] == [0] (
-													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests
+													echo Configuration !i! doesn't finish tests
 													type testOutput
 													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests >> %RESULTS%
 													type testOutput >> %RESULTS%
@@ -278,39 +290,12 @@ FOR %%a IN (%DeliverStrategies%) DO (
 													xcopy /F "%GENERATEDMESSAGECONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedMessageConfiguration.h*"
 												)
 												IF [!ERROR!] == [0] (
-													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j works
+													echo Configuration !i! works
 													SET /a completedSuccessful=!completedSuccessful! + 1
 												)
 
 												CD ..
 											)
-											SET DURATION=%TIME%
-											SET /A DURATION=(1!DURATION:~0,2!-100) * 360000 + (1!DURATION:~3,2!-100) * 6000 + (1!DURATION:~6,2!-100) * 100 + (1!DURATION:~9,2!-100)
-											SET /A DURATION=!DURATION! - !STARTTIME!
-
-											SET /A DURATIONH=!DURATION! / 360000
-											SET /A DURATIONM=(!DURATION! - !DURATIONH! * 360000) / 6000
-											SET /A DURATIONS=(!DURATION! - !DURATIONH! * 360000 - !DURATIONM! * 6000) / 100
-
-											rem some formatting
-											if !DURATIONH! LSS 10 SET DURATIONH=0!DURATIONH!
-											if !DURATIONM! LSS 10 SET DURATIONM=0!DURATIONM!
-											if !DURATIONS! LSS 10 SET DURATIONS=0!DURATIONS!
-
-											echo Tests runs for !DURATIONH!:!DURATIONM!:!DURATIONS!
-
-											SET /A MISSINGTIME=!DURATION! / !i! * !countValid!
-											SET /A MISSINGTIME=!MISSINGTIME! - !DURATION!
-
-											SET /A MISSINGH=!MISSING! / 360000
-											SET /A MISSINGM=(!MISSING! - !MISSINGH! * 360000) / 6000
-											SET /A MISSINGS=(!MISSING! - !MISSINGH! * 360000 - !MISSINGM! * 6000) / 100
-
-											rem some formatting
-											if !MISSINGH! LSS 10 SET MISSINGH=0!MISSINGH!
-											if !MISSINGM! LSS 10 SET MISSINGM=0!MISSINGM!
-											if !MISSINGS! LSS 10 SET MISSINGS=0!MISSINGS!
-											echo Finished in !MISSINGH!:!MISSINGM!:!MISSINGS!
 										)
 									)
 								)
