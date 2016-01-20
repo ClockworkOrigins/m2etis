@@ -49,6 +49,7 @@ countValid=$(($countAll
 	- $countAll / (${#RoutingStrategies[@]} * ${#OrderStrategies[@]})
 	- $countAll / (${#RoutingStrategies[@]} * ${#OrderStrategies[@]})
 	- $countAll / (${#PartitionStrategies[@]} * ${#OrderStrategies[@]})
+	- $countAll / (${#PartitionStrategies[@]} * ${#RoutingStrategies[@]})
 	))
 # add all invalid triples that were subtracted too much
 countValid=$(($countValid + 2 * $countAll / (${#PartitionStrategies[@]} * ${#OrderStrategies[@]} * ${#RoutingStrategies[@]})))
@@ -85,6 +86,9 @@ do
 											allowed=0
 										fi
 										if [[ $c == *"GMSOrder"* ]] && [[ $d == *"DirectBroadcastPartition"* ]] ; then
+											allowed=0
+										fi
+										if [[ $g == *"DirectBroadcastRouting"* ]] && [[ $d == *"DirectBroadcastPartition"* ]] ; then
 											allowed=0
 										fi
 										if [[ $allowed == 1 ]] ; then

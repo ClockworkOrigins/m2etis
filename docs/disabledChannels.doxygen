@@ -8,6 +8,7 @@
  * DirectBroadcastRouting | GMSOrder | GMSOrder requires nodes to send messages as publish messages to a dedicated root node where messages are ordered, but DirectBroadcastRouting sends every message directly to its subscribers and every node is a root itself
  * HierarchicalSpreaditRouting | GMSOrder | GMSOrder requires one dedicated root node to send notify messages down the tree, but in HierarchicalSpreditRouting the message is propagated upwards the tree and every node notifies its childs without going over a root node
  * DirectBroadcastPartition | GMSOrder | Not sure whether its because of the dynamic partitioning or because of every node being root on a tree
+ * DirectBroadcastPartition | DirectBroadcastRouting | It's not an invalid combination, but it produces a lot overhead compared to strategies with the same routing behaviour. If you need something like that choose DirectBroadcastPartition with DirectRouting or NullPartition with DirectBroadcastRouting. Both combinations will send messages directly from node to node without any overhead through a root node while using n subscriptions where n is the amount of nodes, while this combination would take n^2 subscriptions.
  *
  * \section sec_disabledChannels_NotTested Strategies not tested right now
  *

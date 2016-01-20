@@ -5,8 +5,8 @@ cd "$(readlink -f "$(dirname "${0}")")"
 . ./build-common.sh
 
 # boost
-ARCHIVE="boost_1_58_0.tar.bz2"
-BUILD_DIR="${BUILD_ROOT}/boost_1_58_0"
+ARCHIVE="boost_1_60_0.tar.bz2"
+BUILD_DIR="${BUILD_ROOT}/boost_1_60_0"
 
 PREFIX="${DEP_DIR}/boost/"
 DEBUG_FLAG="variant=debug"

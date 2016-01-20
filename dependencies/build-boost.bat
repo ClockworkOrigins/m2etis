@@ -1,7 +1,7 @@
 call build-common.bat %1 %2
 
-Set ARCHIVE=boost_1_58_0.tar.bz2
-Set BUILD_DIR=%TMP_DIR%/boost_1_58_0
+Set ARCHIVE=boost_1_60_0.tar.bz2
+Set BUILD_DIR=%TMP_DIR%/boost_1_60_0
 
 Set PREFIX=%DEP_DIR%/%ARCH_DIR%/boost/
 Set DEBUG_FLAG="variant=debug"
