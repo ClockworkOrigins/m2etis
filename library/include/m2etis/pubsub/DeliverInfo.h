@@ -32,8 +32,8 @@ namespace pubsub {
 	struct DeliverInfo {
 		DeliverInfo() : send(false), to(), deliver_info() {}
 		bool send;
-		const std::string to;
-		const std::string deliver_info;
+		std::string to;
+		std::string deliver_info;
 	};
 
 	typedef boost::shared_ptr<DeliverInfo> DIPtr;
