@@ -102,7 +102,7 @@ namespace partition {
 		}
 
 		void removePartition(size_t id) {
-			partition_filter_vector_.erase(partition_filter_vector_.begin() + id);
+			partition_filter_vector_.erase(partition_filter_vector_.begin() + int64_t(id));
 		}
 
 		void changePredicate(size_t, boost::shared_ptr<filter::FilterExp<EventType>>) {

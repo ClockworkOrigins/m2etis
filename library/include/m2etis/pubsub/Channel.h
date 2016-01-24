@@ -300,7 +300,10 @@ namespace pubsub {
 					_nodeList[node] = 0;
 				}
 
-				pssi_->clock_.setOffset(int64_t(msg2->_time) - int64_t(pssi_->clock_.getRealTime()) + int64_t(parameters::EXPECTED_LATENCY)); // difference between the two clocks + network delay
+				uint64_t rT = pssi_->clock_.getRealTime();
+//				assert(msg2->_time + parameters::EXPECTED_LATENCY >= rT);
+				uint64_t offset = msg2->_time - rT + parameters::EXPECTED_LATENCY;
+				pssi_->clock_.setOffset(offset); // difference between the two clocks + network delay
 
 				if (ChannelType::PartitionStrategy::DYNAMIC_PARTITION) {
 					bool newTree = false;

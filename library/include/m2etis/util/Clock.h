@@ -66,7 +66,7 @@ namespace util {
 		 * \return Current time in microseconds
 		 */
 		uint64_t getTime() const {
-			return uint64_t(int64_t(systemTime_) + offset_);
+			return systemTime_ + offset_;
 		}
 
 		/**
@@ -138,7 +138,7 @@ namespace util {
 		/**
 		 * \brief sets offset of this Clock to adjust times over network
 		 */
-		void setOffset(int64_t offset) {
+		void setOffset(uint64_t offset) {
 			offset_ = offset;
 		}
 
@@ -154,7 +154,7 @@ namespace util {
 
 		volatile bool running_;
 
-		volatile int64_t offset_;
+		volatile uint64_t offset_;
 
 		void Update() {
 			if (!running_) {

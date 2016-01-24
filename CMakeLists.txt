@@ -100,7 +100,7 @@ if(APPLE)
 	SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 endif(APPLE)
 
-SET (CXX_FLAGS "-pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor -Wformat=2 -Winit-self -Wswitch-default -Wfloat-equal -Wshadow -Wredundant-decls -Wctor-dtor-privacy -Wold-style-cast -Wsign-conversion -Wno-unused-parameter -Wno-long-long -std=c++11 ${STDLIB}")
+SET (CXX_FLAGS "-pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor -Wformat=2 -Winit-self -Wswitch-default -Wfloat-equal -Wshadow -Wredundant-decls -Wctor-dtor-privacy -Wold-style-cast -Wsign-conversion -Wno-unused-parameter -Wno-long-long -std=c++11 ${STDLIB} -fsanitize=address")
 
 IF(${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
 	SET (CMAKE_CXX_FLAGS			"${CXX_FLAGS} -O0")

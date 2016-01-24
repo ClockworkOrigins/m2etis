@@ -72,26 +72,16 @@ echo "Running $countValid valid Configurations from $countAll possible Combinati
 
 SECONDS=0
 
-for a in ${DeliverStrategies[*]}
-do
-	for b in ${FilterStrategies[*]}
-	do
-		for c in ${OrderStrategies[*]}
-		do
-			for d in ${PartitionStrategies[*]}
-			do
-				for e in ${PersistenceStrategies[*]}
-				do
-					for f in ${RendezvousStrategies[*]}
-					do
-						for g in ${RoutingStrategies[*]}
-						do
-							for h in ${SecurityStrategies[*]}
-							do
-								for i in ${ValidityStrategies[*]}
-								do
-									for j in ${NetworkTypes[*]}
-									do
+for a in ${DeliverStrategies[*]} ; do
+	for b in ${FilterStrategies[*]} ; do
+		for c in ${OrderStrategies[*]} ; do
+			for d in ${PartitionStrategies[*]} ; do
+				for e in ${PersistenceStrategies[*]} ; do
+					for f in ${RendezvousStrategies[*]} ; do
+						for g in ${RoutingStrategies[*]} ; do
+							for h in ${SecurityStrategies[*]} ; do
+								for i in ${ValidityStrategies[*]} ; do
+									for j in ${NetworkTypes[*]} ; do
 										allowed=1
 										if [[ $g == *"DirectBroadcastRouting"* ]] && [[ $c == *"GMSOrder"* ]] ; then
 											allowed=0

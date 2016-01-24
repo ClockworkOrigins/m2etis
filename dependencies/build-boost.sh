@@ -63,7 +63,7 @@ cd "${BUILD_DIR}"
 ./bootstrap.sh --prefix="${PREFIX}" --with-libraries=chrono,filesystem,thread,date_time,regex,system,serialization,iostreams > /dev/null
 
 status "Building & Installing Boost"
-
+echo "Using $COMPILER"
 if [[ $OSTYPE =~ "darwin" ]]; then
   status "Compiling Boost for OS X"
 ./bjam \
