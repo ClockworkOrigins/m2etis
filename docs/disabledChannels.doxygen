@@ -16,4 +16,8 @@
  * ---------|------------
  * All FilterStrategies | Implementation wasn't ever fully tested and former developer isn't available, so we have to check it on our own which means we need to read the thesis for this topic
  *
+ * \section sec_disabledChannels_notes Notes
+ *
+ * Actually using multiple channels can cause some synchronisation problems and a message overhead during channel synchronisation in startup of m2etis. It's recommended to use just a few channels for now. This problem will be addressed in version 0.5. 
+ *
  */

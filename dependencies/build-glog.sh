@@ -19,8 +19,8 @@ cd "$(readlink "$(dirname "${0}")")"
 . ./build-common.sh
 
 # googletest
-ARCHIVE="glog-rev188.zip"
-BUILD_DIR="${BUILD_ROOT}/glog-master"
+ARCHIVE="glog-0.3.3.tar.gz"
+BUILD_DIR="${BUILD_ROOT}/glog-0.3.3"
 
 PREFIX="${DEP_DIR}/glog/"
 DEBUG_FLAG=""
@@ -51,12 +51,18 @@ status "Extracting Google Logger"
 
 cd "${BUILD_ROOT}"
 rm -rf "${BUILD_DIR}" >/dev/null
-unzip "${ARCHIVE}" #>/dev/null
+tar xfvz "${ARCHIVE}" #>/dev/null
 
 status "Configuring Google Logger"
 cd "${BUILD_DIR}"
 
-cmake -DWITH_GFLAGS=OFF -DCMAKE_INSTALL_PREFIX=${PREFIX} .
+if [[ "$COMPILER" == "clang" ]]; then
+	CXXFLAGS="-std=c++11 -Wno-reserved-user-defined-literal $STDLIB" CC=clang CXX=clang++ ./configure --prefix=${PREFIX}
+else
+	CXXFLAGS="-std=c++11" ./configure --prefix=${PREFIX}
+fi
+
+#cmake -DWITH_GFLAGS=OFF -DCMAKE_INSTALL_PREFIX=${PREFIX} .
 status "Building Google Logger"
 make ${PARALLEL_FLAG} &> ${DEP_DIR}/out #>/dev/null
 

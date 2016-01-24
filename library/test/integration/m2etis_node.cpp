@@ -184,6 +184,10 @@ struct Command {
 
 protected:
 	Node & node;
+
+	Command & operator=(const Command & other) {
+		node = other.node;
+	}
 };
 
 struct HelpCommand : Command {
