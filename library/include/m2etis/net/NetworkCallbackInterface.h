@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup net
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_NET_NETWORKCALLBACKINTERFACE_H__
@@ -31,8 +31,6 @@ namespace m2etis {
 namespace net {
 
 	/**
-	 * \ingroup net
-	 *
 	 * \class NetworkCallbackInterface
 	 * \brief Generic interface for the callback-class used for the network
 	 *
@@ -85,5 +83,5 @@ namespace net {
 #endif /* __M2ETIS_NET_NETWORKCALLBACKINTERFACE_H__ */
 
 /**
- *  @}
+ * @}
  */

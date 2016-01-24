@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_MESSAGE_SCRIBEROUTINGINFO_H__
@@ -57,5 +57,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_SCRIBEROUTINGINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -758,7 +758,7 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = @CMAKE_SOURCE_DIR@/library @CMAKE_SOURCE_DIR@/docs
+INPUT                  = @CMAKE_SOURCE_DIR@/library/include @CMAKE_SOURCE_DIR@/docs
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -821,11 +821,7 @@ EXCLUDE_PATTERNS       = */test/*
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS        = bt* \
-                         CEGUI \
-                         OIS \
-                         Ogre \
-                         m2etis
+EXCLUDE_SYMBOLS        = 
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include
@@ -2088,7 +2084,7 @@ PERL_PATH              = /usr/bin/perl
 # powerful graphs.
 # The default value is: YES.
 
-CLASS_DIAGRAMS         = NO
+CLASS_DIAGRAMS         = YES
 
 # You can define message sequence charts within doxygen comments using the \msc
 # command. Doxygen will then run the mscgen tool (see:
@@ -2110,7 +2106,7 @@ DIA_PATH               =
 # and usage relations if the target is undocumented or is not a class.
 # The default value is: YES.
 
-HIDE_UNDOC_RELATIONS   = NO
+HIDE_UNDOC_RELATIONS   = YES
 
 # If you set the HAVE_DOT tag to YES then doxygen will assume the dot tool is
 # available from the path. This tool is part of Graphviz (see:
@@ -2161,7 +2157,7 @@ DOT_FONTPATH           =
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-CLASS_GRAPH            = NO
+CLASS_GRAPH            = YES
 
 # If the COLLABORATION_GRAPH tag is set to YES then doxygen will generate a
 # graph for each documented class showing the direct and indirect implementation
@@ -2177,7 +2173,7 @@ COLLABORATION_GRAPH    = NO
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-GROUP_GRAPHS           = YES
+GROUP_GRAPHS           = NO
 
 # If the UML_LOOK tag is set to YES, doxygen will generate inheritance and
 # collaboration diagrams in a style similar to the OMG's Unified Modeling
@@ -2215,7 +2211,7 @@ TEMPLATE_RELATIONS     = YES
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-INCLUDE_GRAPH          = NO
+INCLUDE_GRAPH          = YES
 
 # If the INCLUDED_BY_GRAPH, ENABLE_PREPROCESSING and SEARCH_INCLUDES tags are
 # set to YES then doxygen will generate a graph for each documented file showing
@@ -2235,7 +2231,7 @@ INCLUDED_BY_GRAPH      = YES
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-CALL_GRAPH             = NO
+CALL_GRAPH             = YES
 
 # If the CALLER_GRAPH tag is set to YES then doxygen will generate a caller
 # dependency graph for every global function or class method.
@@ -2246,14 +2242,14 @@ CALL_GRAPH             = NO
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-CALLER_GRAPH           = NO
+CALLER_GRAPH           = YES
 
 # If the GRAPHICAL_HIERARCHY tag is set to YES then doxygen will graphical
 # hierarchy of all classes instead of a textual one.
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-GRAPHICAL_HIERARCHY    = NO
+GRAPHICAL_HIERARCHY    = YES
 
 # If the DIRECTORY_GRAPH tag is set to YES then doxygen will show the
 # dependencies a directory has on other directories in a graphical way. The

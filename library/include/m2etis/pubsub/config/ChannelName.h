@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_CHANNELNAME_H__
@@ -29,5 +29,5 @@
 #endif /* __M2ETIS_PUBSUB_CHANNELNAME_H__ */
 
 /**
- *  @}
+ * @}
  */

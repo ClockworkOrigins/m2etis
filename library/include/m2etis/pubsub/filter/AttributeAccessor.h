@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_ATTRIBUTEACCESSOR_H__
@@ -55,5 +55,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_ATTRIBUTEACCESSOR_H__ */
 
 /**
- *  @}
+ * @}
  */

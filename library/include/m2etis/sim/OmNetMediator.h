@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup simulator
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_SIM_OMNETMEDIATOR_H__
@@ -189,5 +189,5 @@ namespace sim {
 #endif /* __M2ETIS_SIM_OMNETMEDIATOR_H__ */
 
 /**
- *  @}
+ * @}
  */

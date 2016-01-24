@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__
@@ -51,8 +51,6 @@ namespace pubsub {
 	};
 
 	/**
-	 * \ingroup pubsub
-	 *
 	 * \class PubSubSystem
 	 * \brief class for accessing the m2etis pub/sub system. It is the main entry point for the usage of the m2etis networking library.
 	 *
@@ -224,5 +222,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__ */
 
 /**
- *  @}
+ * @}
  */

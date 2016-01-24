@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_MESSAGE_DETMERGEORDERINFO_H__
@@ -140,5 +140,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_DETMERGEORDERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

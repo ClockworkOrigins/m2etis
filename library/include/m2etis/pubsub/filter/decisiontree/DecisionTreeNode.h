@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_DECISIONTREE_DECISIONTREENODE_H__
@@ -78,5 +78,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_DECISIONTREE_DECISIONTREENODE_H__ */
 
 /**
- *  @}
+ * @}
  */

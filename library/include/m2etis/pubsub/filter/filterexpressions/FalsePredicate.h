@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_FALSEPREDICATE_H__
@@ -60,5 +60,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_FALSEPREDICATE_H__ */
 
 /**
- *  @}
+ * @}
  */

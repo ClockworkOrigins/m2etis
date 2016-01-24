@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 // The sequence of following statements is important. Do not reorder!!!
@@ -51,5 +51,5 @@ namespace m2etis {
 #endif /* __M2ETIS_PUBSUB_CHANNELCONFIGURATION_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_VALIDITY_NULLVALIDITY_H__
@@ -54,5 +54,5 @@ namespace validity {
 #endif /* __M2ETIS_PUBSUB_VALIDITY_NULLVALIDITY_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_VARIABLEASSIGNMENTVISITOR_H__
@@ -101,5 +101,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_VARIABLEASSIGNMENTVISITOR_H__ */
 
 /**
- *  @}
+ * @}
  */

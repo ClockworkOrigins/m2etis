@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_DELIVERCALLBACKINTERFACE_H__
@@ -30,8 +30,6 @@ namespace m2etis {
 namespace pubsub {
 
 	/**
-	 * \ingroup pubsub
-	 *
 	 * \class DeliverCallbackInterface
 	 * \brief DeliverCallbackInterface
 	 *
@@ -61,6 +59,6 @@ namespace pubsub {
 
 #endif /* __M2ETIS_PUBSUB_DELIVERCALLBACKINTERFACE_H__ */
 
-/*
+/**
  * @}
  */

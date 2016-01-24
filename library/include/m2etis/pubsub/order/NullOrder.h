@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_ORDER_NULLORDER_H__
@@ -111,5 +111,5 @@ namespace order {
 #endif /* __M2ETIS_PUBSUB_ORDER_NULLORDER_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup net
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_NET_NETWORKCONTROLLER_H__
@@ -43,8 +43,6 @@ namespace m2etis {
 namespace net {
 
 	/**
-	 * \ingroup net
-	 *
 	 * \class NetworkController
 	 * \brief NetworkController
 	 *
@@ -204,5 +202,5 @@ namespace net {
 #endif /* __M2ETIS_NET_NETWORKCONTROLLER_H__ */
 
 /**
- *  @}
+ * @}
  */

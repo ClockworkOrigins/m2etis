@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_MESSAGE_MESSAGEFACTORY_H__
@@ -28,8 +28,6 @@ namespace m2etis {
 namespace message {
 
 	/**
-	 * \ingroup message
-	 *
 	 * \class MessageFactory
 	 * \brief Message Factory to create messages
 	 *

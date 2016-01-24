@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_MESSAGE_GENERALBOOLEANEXPRESSIONSFILTERINFO_H__
@@ -62,5 +62,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_GENERALBOOLEANEXPRESSIONSFILTERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

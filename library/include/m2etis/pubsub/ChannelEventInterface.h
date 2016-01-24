@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_CHANNELEVENTINTERFACE_H__
@@ -26,13 +26,10 @@ namespace m2etis {
 namespace pubsub {
 
 	/**
-	 * \ingroup pubsub
-	 *
 	 * \class ChannelEventInterface
 	 * \brief ChannelEventInterface
 	 *
 	 * Long Desc
-	 *
 	 */
 	struct ChannelEventInterface {
 		/**

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_DELIVERINFO_H__
@@ -44,5 +44,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_DELIVERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_CHANNELTYPEDEFINITIONS_H__
@@ -52,5 +52,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_CHANNELTYPEDEFINITIONS_H__ */
 
 /**
- *  @}
+ * @}
  */

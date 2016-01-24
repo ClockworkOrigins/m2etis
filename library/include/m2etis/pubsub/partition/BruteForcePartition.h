@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_PARTITION_BRUTEFORCEPARTITION_H__
@@ -182,5 +182,5 @@ namespace partition {
 #endif /* __M2ETIS_PUBSUB_PARTITION_BRUTEFORCEPARTITION_H__ */
 
 /**
- *  @}
+ * @}
  */

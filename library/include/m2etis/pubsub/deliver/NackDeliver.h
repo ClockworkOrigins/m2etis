@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_DELIVER_NACKDELIVER_H__
@@ -233,5 +233,5 @@ namespace deliver {
 #endif /* __M2ETIS_PUBSUB_DELIVER_NACKDELIVER_H__ */
 
 /**
- *  @}
+ * @}
  */

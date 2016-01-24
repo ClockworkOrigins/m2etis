@@ -16,16 +16,11 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_ROUTING_SPREADITROUTING_H__
 #define __M2ETIS_PUBSUB_ROUTING_SPREADITROUTING_H__
-
-/**
- * @class SpreaditRouting
- * @author Hristiyan Pehlivanov
- */
 
 #include <algorithm>
 #include <string>
@@ -390,5 +385,5 @@ namespace routing {
 #endif /* __M2ETIS_PUBSUB_ROUTING_SPREADITROUTING_H__ */
 
 /**
- *  @}
+ * @}
  */

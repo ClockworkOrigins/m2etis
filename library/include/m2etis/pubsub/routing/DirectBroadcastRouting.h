@@ -16,16 +16,11 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_ROUTING_DIRECTBROADCASTROUTING_H__
 #define __M2ETIS_PUBSUB_ROUTING_DIRECTBROADCASTROUTING_H__
-
-/**
- * @class DirectBroadcastRouting
- * @author Daniel Bonrath
- */
 
 #include <algorithm>
 #include <string>
@@ -174,8 +169,8 @@ namespace routing {
 		 * Returns a list of target nodes for the specified message type and algoinfo in regard to the node's
 		 * position in the logic distribution tree.
 		 *
-		 * @param mtype the type of the message (SUBSCRIBE, UNSUBSCIBE, or PUBLISH)
-		 * @param algoinfo only contains info if mytpe == PUBLISH
+		 * \param mtype the type of the message (SUBSCRIBE, UNSUBSCIBE, or PUBLISH)
+		 * \param algoinfo only contains info if mytpe == PUBLISH
 		 */
 		KeyList getTargetNodes(const message::ActionType mtype, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key &) const {
 			/*
@@ -247,9 +242,9 @@ namespace routing {
 		/**
 		 * Handle a subscribe message
 		 *
-		 * @param sender the subscriber's key
-		 * @param algoinfo the payload created by this algorithm at the subscriber's node
-		 * @return an information unit, whether the message should be stopped or needs to be changed
+		 * \param sender the subscriber's key
+		 * \param algoinfo the payload created by this algorithm at the subscriber's node
+		 * \return an information unit, whether the message should be stopped or needs to be changed
 		 */
 		bool processSubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key &, message::ActionType &) override {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
@@ -275,9 +270,9 @@ namespace routing {
 		/**
 		 * Handle a unsubscribe message
 		 *
-		 * @param sender the unsubscriber's key
-		 * @param algoinfo the payload created by this algorithm at the unsubscriber's node
-		 * @return an information unit, whether the message should be stopped or needs to be changed
+		 * \param sender the unsubscriber's key
+		 * \param algoinfo the payload created by this algorithm at the unsubscriber's node
+		 * \return an information unit, whether the message should be stopped or needs to be changed
 		 */
 		void processUnsubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key &, message::ActionType &) {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
@@ -294,9 +289,9 @@ namespace routing {
 		/**
 		 * Handle a publish message
 		 *
-		 * @param sender the publisher's key
-		 * @param algoinfo the payload created by this algorithm at the publisher's node
-		 * @return an information unit, whether the message should be spread out to subscribers ond if the
+		 * \param sender the publisher's key
+		 * \param algoinfo the payload created by this algorithm at the publisher's node
+		 * \return an information unit, whether the message should be spread out to subscribers ond if the
 		 * current node is the root-node for that topic.
 		 */
 		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key &, typename NetworkType::Key &, message::ActionType &) {
@@ -306,9 +301,9 @@ namespace routing {
 		/**
 		 * Handle a notify message
 		 *
-		 * @param sender the notifier's key
-		 * @param algoinfo the payload created by this algorithm at the notify's node
-		 * @return an information unit, whether the message should be spread out to subscribers ond if the
+		 * \param sender the notifier's key
+		 * \param algoinfo the payload created by this algorithm at the notify's node
+		 * \return an information unit, whether the message should be spread out to subscribers ond if the
 		 * current node is the root-node for that topic.
 		 */
 		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key &, typename NetworkType::Key &, message::ActionType &) {
@@ -431,5 +426,5 @@ namespace routing {
 #endif /* __M2ETIS_PUBSUB_ROUTING_DIRECTBROADCASTROUTING_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_CHANNELINTERFACE_H__
@@ -37,8 +37,6 @@ namespace filter {
 	class BasicDeliverCallbackInterface;
 
 	/**
-	 * \ingroup pubsub
-	 *
 	 * \class ChannelInterface
 	 * \brief ChannelInterface
 	 *
@@ -104,5 +102,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_CHANNELINTERFACE_H__ */
 
 /**
- *  @}
+ * @}
  */

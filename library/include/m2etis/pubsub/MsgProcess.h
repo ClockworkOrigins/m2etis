@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_MSGPROCESS_H__
@@ -38,5 +38,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_MSGPROCESS_H__ */
 
 /**
- *  @}
+ * @}
  */

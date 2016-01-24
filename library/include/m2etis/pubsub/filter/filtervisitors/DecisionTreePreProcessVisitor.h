@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_DECISIONTREEPREPROCESSVISITOR_H__
@@ -26,7 +26,7 @@
 #include "m2etis/pubsub/filter/FilterPredicate.h"
 
 /**
- * @class DecisionTreePreProcesssVisitor
+ * \class DecisionTreePreProcesssVisitor
  *
  * This class is used to build the decision tree from scratch
  */
@@ -100,5 +100,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_DECISIONTREEPREPROCESSVISITOR_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_NET_IPV4FACTORYPROVIDER_H__
@@ -44,5 +44,5 @@ namespace net {
 #endif /* __M2ETIS_NET_IPV4FACTORYPROVIDER_H__ */
 
 /**
- *  @}
+ * @}
  */

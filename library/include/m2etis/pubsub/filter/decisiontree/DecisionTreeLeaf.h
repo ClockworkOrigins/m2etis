@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_DECISIONTREE_DECISIONTREELEAF_H__
@@ -105,5 +105,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_DECISIONTREE_DECISIONTREELEAF_H__ */
 
 /**
- *  @}
+ * @}
  */

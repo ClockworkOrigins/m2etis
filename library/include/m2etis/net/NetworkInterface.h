@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup net
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_NET_NETWORKINTERFACE_H__
@@ -35,8 +35,6 @@ namespace net {
 	class NetworkCallbackInterface;
 
 	/**
-	 * \ingroup net
-	 *
 	 * \class NetworkInterface
 	 * \brief NetworkInterface
 	 *
@@ -82,8 +80,8 @@ namespace net {
 		// virtual typename NetworkType::Message::Ptr deserializeMessage(const std::vector<unsigned char>& serialized_message) = 0;
 
 		/**
-		 * @brief returns an array of count neighbor nodes with priority to closer nodes.
-		 * @param num the count
+		 * \brief returns an array of count neighbor nodes with priority to closer nodes.
+		 * \param num the count
 		 */
 		// virtual NodeHandleList neighborSet(const int num) const = 0;
 
@@ -100,5 +98,6 @@ namespace net {
 
 #endif /* __M2ETIS_NET_NETWORKINTERFACE_H__ */
 
-/** @}
+/**
+ * @}
  */

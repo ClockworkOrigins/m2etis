@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup util
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_UTIL_PREDICATE_H__
@@ -37,8 +37,8 @@ namespace util {
 		/**
 		 <#description#>
 
-		 @param <#parameter#>
-		 @returns <#retval#>
+		 \param <#parameter#>
+		 \returns <#retval#>
 		 @exception <#throws#>
 		 */
 		bool operator()(M2etisMessage<EventType> arg) {

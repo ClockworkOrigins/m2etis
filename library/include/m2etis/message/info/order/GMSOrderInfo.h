@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_MESSAGE_GMSORDERINFO_H__
@@ -98,5 +98,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_GMSORDERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

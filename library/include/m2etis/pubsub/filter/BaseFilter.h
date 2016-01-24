@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_BASEFILTER_H__
@@ -30,7 +30,7 @@
 #include "boost/shared_ptr.hpp"
 
 /**
- * @class BaseFilter
+ * \class BaseFilter
  *
  * This abstract class defines the functions which have to be implemented by every filter strategy. This way Channel can use all filter  strategies with the same interface.
  *
@@ -125,5 +125,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_BASEFILTER_H__ */
 
 /**
- *  @}
+ * @}
  */

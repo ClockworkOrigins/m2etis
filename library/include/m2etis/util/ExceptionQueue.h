@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup util
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_UTILS_EXCEPTIONQUEUE_H__

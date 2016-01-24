@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup net
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_NET_NODEHANDLE_H__
@@ -35,8 +35,6 @@ namespace m2etis {
 namespace net {
 
 	/**
-	 * \ingroup net
-	 *
 	 * \class NodeHandle
 	 * \brief NodeHandle in different structured p2p-systems.
 	 *
@@ -69,3 +67,7 @@ namespace net {
 } /* namespace m2etis */
 
 #endif /* __M2ETIS_NET_NODEHANDLE_H__ */
+
+/**
+ * @}
+ */

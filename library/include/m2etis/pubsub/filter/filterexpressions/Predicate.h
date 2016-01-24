@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_PREDICATE_H__
@@ -61,5 +61,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_PREDICATE_H__ */
 
 /**
- *  @}
+ * @}
  */

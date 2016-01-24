@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_STRATEGIES_H__
@@ -68,5 +68,5 @@
 #endif /* __M2ETIS_STRATEGIES_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -15,13 +15,8 @@
  */
 
 /**
- * @author Johannes Held, Thomas Fischer
- * @detail Handlerclass for one tree
- */
-
-/**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_TREE_H__
@@ -48,8 +43,6 @@ namespace m2etis {
 namespace pubsub {
 
 	/**
-	 * \ingroup pubsub
-	 *
 	 * \class Tree
 	 * \brief Tree
 	 *
@@ -607,5 +600,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_TREE_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 // necessary filter type exports. Each new constraint type (filter attribute) has to be addded here.
@@ -57,5 +57,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_INFO_FILTERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_GENERALBOOLEANALGEBRA_LESSTHANPREDICATEINDEX_H__
@@ -91,5 +91,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_GENERALBOOLEANALGEBRA_LESSTHANPREDICATEINDEX_H__ */
 
 /**
- *  @}
+ * @}
  */

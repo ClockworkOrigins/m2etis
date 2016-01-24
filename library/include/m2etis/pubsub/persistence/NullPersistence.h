@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_PERSISTENCE_NULLPERSISTENCE_H__
@@ -47,5 +47,5 @@ namespace persistence {
 #endif /* __M2ETIS_PUBSUB_PERSISTENCE_NULLPERSISTENCE_H__ */
 
 /**
- *  @}
+ * @}
  */

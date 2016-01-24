@@ -15,13 +15,8 @@
  */
 
 /**
- * @author Johannes Held
- * @detail Handlerclass for one Channel
- */
-
-/**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_CHANNEL_H__
@@ -62,13 +57,10 @@ namespace m2etis {
 namespace pubsub {
 
 	/**
-	 * \ingroup pubsub
-	 *
 	 * \class Channel
 	 * \brief Channel
 	 *
 	 * Long Desc
-	 *
 	 */
 	template<class ChannelType, class NetworkType, class EventType>
 	class Channel : public BasicChannelInterface<EventType>, public ChannelEventInterface, public ChannelType::PartitionStrategy, public ChannelType::RendezvousStrategy {
@@ -525,6 +517,6 @@ namespace pubsub {
 
 #endif /* __M2ETIS_PUBSUB_CHANNEL_H__ */
 
-/*
+/**
  * @}
  */

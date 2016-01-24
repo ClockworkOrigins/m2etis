@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_MESSAGE_HIERARCHICALSPREADITROUTINGINFO_H__
@@ -59,5 +59,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_HIERARCHICALSPREADITROUTINGINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

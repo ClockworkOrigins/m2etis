@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_DECISIONTREEFILTER_H__
@@ -35,7 +35,7 @@
 #include "boost/shared_ptr.hpp"
 
 /**
- * @class DecisionTreeFilter
+ * \class DecisionTreeFilter
  *
  * This class filters events by matching with Aguilera´s algorithm
  *
@@ -232,5 +232,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_DECISIONTREEFILTER_H__ */
 
 /**
- *  @}
+ * @}
  */

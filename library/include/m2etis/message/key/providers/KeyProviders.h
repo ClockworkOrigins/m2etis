@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_KEYPROVIDERS_H__
@@ -32,5 +32,5 @@
 #endif /* __M2ETIS_KEYPROVIDERS_H__ */
 
 /**
- *  @}
+ * @}
  */
