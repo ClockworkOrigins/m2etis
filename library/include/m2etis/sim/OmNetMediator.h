@@ -189,5 +189,5 @@ namespace sim {
 #endif /* __M2ETIS_SIM_OMNETMEDIATOR_H__ */
 
 /**
- *  @}
+ * @}
  */

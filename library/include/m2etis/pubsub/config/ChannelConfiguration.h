@@ -51,5 +51,5 @@ namespace m2etis {
 #endif /* __M2ETIS_PUBSUB_CHANNELCONFIGURATION_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -34,7 +34,7 @@
 #include "boost/shared_ptr.hpp"
 
 /**
- * @class BaseFilter
+ * \class BaseFilter
  *
  * This class filters events without optimizations
  * Filter Algorithm used: Brute Force (sequentially comparing all filters to the given event to be published)
@@ -204,5 +204,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_BRUTEFORCEFILTER_H__ */
 
 /**
- *  @}
+ * @}
  */

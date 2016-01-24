@@ -222,5 +222,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__ */
 
 /**
- *  @}
+ * @}
  */

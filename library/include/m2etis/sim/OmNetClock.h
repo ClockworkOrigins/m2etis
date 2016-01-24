@@ -78,5 +78,5 @@ namespace sim {
 #endif /* __M2ETIS_SIM_OMNETCLOCK_H__ */
 
 /**
- *  @}
+ * @}
  */

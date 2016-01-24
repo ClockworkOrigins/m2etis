@@ -98,5 +98,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_GMSORDERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

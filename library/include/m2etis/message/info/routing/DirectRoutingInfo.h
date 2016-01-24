@@ -52,5 +52,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_DIRECTROUTINGINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

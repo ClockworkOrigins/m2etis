@@ -202,5 +202,5 @@ namespace net {
 #endif /* __M2ETIS_NET_NETWORKCONTROLLER_H__ */
 
 /**
- *  @}
+ * @}
  */

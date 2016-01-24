@@ -70,5 +70,5 @@ namespace validity {
 #endif /* __M2ETIS_PUBSUB_VALIDITY_TIMEVALIDITY_H__ */
 
 /**
- *  @}
+ * @}
  */

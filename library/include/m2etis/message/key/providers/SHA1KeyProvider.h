@@ -34,5 +34,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_SHA1KEYGENERATOR_H__ */
 
 /**
- *  @}
+ * @}
  */

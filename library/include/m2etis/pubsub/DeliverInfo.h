@@ -44,5 +44,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_DELIVERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

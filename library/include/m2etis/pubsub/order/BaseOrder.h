@@ -153,5 +153,5 @@ namespace order {
 #endif /* __M2ETIS_PUBSUB_ORDER_BASEORDER_H__ */
 
 /**
- *  @}
+ * @}
  */

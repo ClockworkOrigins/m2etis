@@ -37,7 +37,7 @@
 #include "boost/tuple/tuple.hpp"
 
 /**
- * @class GeneralBooleanExpressionsFilter
+ * \class GeneralBooleanExpressionsFilter
  *
  * This class filters events by matching with arbitrary boolean expressions based on Bittner´s algorithm
  *
@@ -464,5 +464,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_GENERALBOOLEANEXPRESSIONSFILTER_H__ */
 
 /**
- *  @}
+ * @}
  */

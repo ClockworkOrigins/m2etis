@@ -39,7 +39,7 @@
 #include "boost/make_shared.hpp"
 
 /**
- * @class AttributeTypeInformation
+ * \class AttributeTypeInformation
  *
  * This class is intended to simplify the implementation of filter strategies
  *
@@ -306,5 +306,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_ATTRIBUTETYPEINFORMATION_H__ */
 
 /**
- *  @}
+ * @}
  */

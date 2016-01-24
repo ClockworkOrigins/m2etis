@@ -63,5 +63,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_DECISIONTREEFILTERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

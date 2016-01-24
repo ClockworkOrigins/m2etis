@@ -77,5 +77,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_GETMINPREDICATESVISITOR_H__ */
 
 /**
- *  @}
+ * @}
  */

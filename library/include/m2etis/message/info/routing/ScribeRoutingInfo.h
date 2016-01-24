@@ -57,5 +57,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_SCRIBEROUTINGINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

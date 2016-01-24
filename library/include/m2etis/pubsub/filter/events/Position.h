@@ -96,5 +96,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_POSITIONEVENT_H__ */
 
 /**
- *  @}
+ * @}
  */

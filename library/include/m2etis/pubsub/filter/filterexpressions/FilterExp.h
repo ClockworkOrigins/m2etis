@@ -92,5 +92,5 @@ namespace std {
 #endif /* __M2ETIS_PUBSUB_FILTER_FILTEREXP_H_ */
 
 /**
- *  @}
+ * @}
  */

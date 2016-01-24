@@ -267,5 +267,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_INTERNALMESSAGE_H__ */
 
 /**
- *  @}
+ * @}
  */

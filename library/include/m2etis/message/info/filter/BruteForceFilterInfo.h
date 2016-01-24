@@ -63,5 +63,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_BRUTEFORCEFILTERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

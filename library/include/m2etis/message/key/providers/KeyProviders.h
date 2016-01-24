@@ -32,5 +32,5 @@
 #endif /* __M2ETIS_KEYPROVIDERS_H__ */
 
 /**
- *  @}
+ * @}
  */

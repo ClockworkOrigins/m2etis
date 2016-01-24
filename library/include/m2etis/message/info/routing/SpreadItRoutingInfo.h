@@ -61,5 +61,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_SPREADITROUTINGINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

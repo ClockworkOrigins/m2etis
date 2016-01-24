@@ -87,5 +87,5 @@ namespace serialization {
 #endif /* __M2ETIS_MESSAGE_SERIALIZATION_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -26,13 +26,10 @@ namespace m2etis {
 namespace pubsub {
 
 	/**
-	 * \ingroup pubsub
-	 *
 	 * \class ChannelEventInterface
 	 * \brief ChannelEventInterface
 	 *
 	 * Long Desc
-	 *
 	 */
 	struct ChannelEventInterface {
 		/**

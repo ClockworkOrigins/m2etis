@@ -178,5 +178,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_DECISIONTREE_ATTRIBUTEDECISIONTREENODE_H__ */
 
 /**
- *  @}
+ * @}
  */

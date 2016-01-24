@@ -70,5 +70,5 @@ public:
 #endif /* __KEYFACTORY_H__ */
 
 /**
- *  @}
+ * @}
  */

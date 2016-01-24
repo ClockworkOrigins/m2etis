@@ -50,5 +50,5 @@ namespace rendezvous {
 #endif /* __M2ETIS_PUBSUB_RENDEZVOUS_NULLRENDEZVOUS_H__ */
 
 /**
- *  @}
+ * @}
  */

@@ -37,5 +37,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_CONTROLTARGETS_H__ */
 
 /**
- *  @}
+ * @}
  */

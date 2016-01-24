@@ -52,5 +52,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_MESSAGETYPE_H__ */
 
 /**
- *  @}
+ * @}
  */

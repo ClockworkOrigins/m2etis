@@ -120,5 +120,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER__FILTEREXPRESSIONS_ATTRIBUTEFILTER_H__ */
 
 /**
- *  @}
+ * @}
  */

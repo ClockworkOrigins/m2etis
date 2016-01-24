@@ -22,11 +22,6 @@
 #ifndef __M2ETIS_PUBSUB_ROUTING_HIERARCHICALSPREADITROUTING_H__
 #define __M2ETIS_PUBSUB_ROUTING_HIERARCHICALSPREADITROUTING_H__
 
-/**
- * @class HierarchicalSpreaditRouting
- * @author Daniel Bonrath
- */
-
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -397,5 +392,5 @@ namespace routing {
 #endif /* __M2ETIS_PUBSUB_ROUTING_HIERARCHICALSPREADITROUTING_H__ */
 
 /**
- *  @}
+ * @}
  */

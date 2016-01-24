@@ -39,5 +39,5 @@ namespace net {
 #endif /* __M2ETIS_NET_NETWORKNAME_H__ */
 
 /**
- *  @}
+ * @}
  */

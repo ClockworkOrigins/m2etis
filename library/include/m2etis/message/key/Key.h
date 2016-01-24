@@ -31,8 +31,6 @@ namespace m2etis {
 namespace message {
 
 	/**
-	 * \ingroup message
-	 *
 	 * \class Key
 	 * \brief Key
 	 *
@@ -117,5 +115,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_KEY_H__ */
 
 /**
- *  @}
+ * @}
  */

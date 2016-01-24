@@ -69,5 +69,5 @@ namespace net {
 #endif /* __M2ETIS_NET_NODEHANDLE_H__ */
 
 /**
- *  @}
+ * @}
  */

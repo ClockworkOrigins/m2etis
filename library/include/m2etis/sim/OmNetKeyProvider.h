@@ -152,5 +152,5 @@ namespace sim {
 #endif /* __M2ETIS_SIM_OMNETKEYPROVIDER_H__ */
 
 /**
- *  @}
+ * @}
  */

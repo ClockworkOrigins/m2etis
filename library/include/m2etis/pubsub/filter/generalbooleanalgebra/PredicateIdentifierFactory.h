@@ -68,5 +68,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_GENERALBOOLEANALGEBRA_PREDICATEIDENTIFIERFACTORY_H__ */
 
 /**
- *  @}
+ * @}
  */

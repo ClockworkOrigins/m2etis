@@ -83,5 +83,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_MTPORDERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

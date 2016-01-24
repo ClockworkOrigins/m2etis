@@ -56,27 +56,27 @@ template <typename EventType>
 class PartitionFiltersChannel3 : public m2etis::pubsub::partition::BruteForcePartition<EventType> {
 public:
     PartitionFiltersChannel3() : m2etis::pubsub::partition::BruteForcePartition<EventType>( {
-    		// filter partition 0: x < 1 and y < 1 and (x > 0 or y > 0 or x = 0 or y = 0))
-    		// (short notation with operator overloading and conversion operator to shared_ptr of AndExpr)
-    	    LessThan<Position, int>(POSITION_X, 1) && LessThan<Position, int>(POSITION_Y, 1) && (GreaterThan<Position, int>(POSITION_X, 0) || Equals<Position, int>(POSITION_X, 0) || GreaterThan<Position, int>(POSITION_Y, 0) || Equals<Position, int>(POSITION_Y, 0)),
+    	// filter partition 0: x < 1 and y < 1 and (x > 0 or y > 0 or x = 0 or y = 0))
+    	// (short notation with operator overloading and conversion operator to shared_ptr of AndExpr)
+    	LessThan<Position, int>(POSITION_X, 1) && LessThan<Position, int>(POSITION_Y, 1) && (GreaterThan<Position, int>(POSITION_X, 0) || Equals<Position, int>(POSITION_X, 0) || GreaterThan<Position, int>(POSITION_Y, 0) || Equals<Position, int>(POSITION_Y, 0)),
 
-			// partition 1:
-			// x = 1 or y = 1
-			// (extended notation)
-			boost::make_shared<OrExp<Position> >(boost::make_shared<EqualsAttributeFilter<Position, int> >(POSITION_X, 1), boost::make_shared<EqualsAttributeFilter<Position, int> >(POSITION_Y, 1)),
+		// partition 1:
+		// x = 1 or y = 1
+		// (extended notation)
+		boost::make_shared<OrExp<Position> >(boost::make_shared<EqualsAttributeFilter<Position, int> >(POSITION_X, 1), boost::make_shared<EqualsAttributeFilter<Position, int> >(POSITION_Y, 1)),
 
-			// partition 2:
-			// x > 1 or y > 1
-			boost::make_shared<OrExp<Position> >(boost::make_shared<GreaterThanAttributeFilter<Position, int> >(POSITION_X, 1), boost::make_shared<GreaterThanAttributeFilter<Position, int> >(POSITION_Y, 1)),
+		// partition 2:
+		// x > 1 or y > 1
+		boost::make_shared<OrExp<Position> >(boost::make_shared<GreaterThanAttributeFilter<Position, int> >(POSITION_X, 1), boost::make_shared<GreaterThanAttributeFilter<Position, int> >(POSITION_Y, 1)),
 
-			// partition3:
-			// (x < 0 and y < 0)
-			boost::make_shared<AndExp<Position> >(boost::make_shared<LessThanAttributeFilter<Position, int> >(POSITION_X, 0), boost::make_shared<LessThanAttributeFilter<Position, int> >(POSITION_Y, 0))
+		// partition3:
+		// (x < 0 and y < 0)
+		boost::make_shared<AndExp<Position> >(boost::make_shared<LessThanAttributeFilter<Position, int> >(POSITION_X, 0), boost::make_shared<LessThanAttributeFilter<Position, int> >(POSITION_Y, 0))
     } ) {}
 };
 
 #endif // m2etis_PartitionFiltersChannel3_h
 
 /**
-*  @}
-*/
+ * @}
+ */

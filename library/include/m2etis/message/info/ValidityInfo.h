@@ -43,5 +43,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_INFO_VALIDITYINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

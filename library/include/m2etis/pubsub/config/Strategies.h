@@ -68,5 +68,5 @@
 #endif /* __M2ETIS_STRATEGIES_H__ */
 
 /**
- *  @}
+ * @}
  */

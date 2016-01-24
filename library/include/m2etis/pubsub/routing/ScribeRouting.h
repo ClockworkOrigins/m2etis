@@ -22,11 +22,6 @@
 #ifndef __M2ETIS_PUBSUB_ROUTING_SCRIBEROUTING_H__
 #define __M2ETIS_PUBSUB_ROUTING_SCRIBEROUTING_H__
 
-/**
- * @class ScribeRouting
- * @author Hristiyan Pehlivanov
- */
-
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -292,5 +287,5 @@ namespace routing {
 #endif /* __M2ETIS_PUBSUB_ROUTING_SCRIBEROUTING_H__ */
 
 /**
- *  @}
+ * @}
  */

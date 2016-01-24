@@ -93,5 +93,6 @@ namespace net {
 
 #endif /* __M2ETIS_NET_NETWORKFACTORY_H__ */
 
-/** @}
+/**
+ * @}
  */

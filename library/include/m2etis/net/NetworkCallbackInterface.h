@@ -83,5 +83,5 @@ namespace net {
 #endif /* __M2ETIS_NET_NETWORKCALLBACKINTERFACE_H__ */
 
 /**
- *  @}
+ * @}
  */

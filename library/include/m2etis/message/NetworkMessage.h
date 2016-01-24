@@ -86,5 +86,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_NETWORKMESSAGE_H__ */
 
 /**
- *  @}
+ * @}
  */

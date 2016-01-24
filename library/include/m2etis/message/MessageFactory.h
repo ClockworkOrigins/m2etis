@@ -28,8 +28,6 @@ namespace m2etis {
 namespace message {
 
 	/**
-	 * \ingroup message
-	 *
 	 * \class MessageFactory
 	 * \brief Message Factory to create messages
 	 *

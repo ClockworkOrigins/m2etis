@@ -63,5 +63,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_GENERALBOOLEANALGEBRA_SUBSCRIPTIONIDENTIFIERFACTORY_H__ */
 
 /**
- *  @}
+ * @}
  */

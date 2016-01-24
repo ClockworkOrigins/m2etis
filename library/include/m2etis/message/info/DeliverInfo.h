@@ -44,5 +44,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_INFO_DELIVERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

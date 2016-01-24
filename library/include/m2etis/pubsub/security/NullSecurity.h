@@ -48,5 +48,5 @@ namespace security {
 #endif /* __M2ETIS_PUBSUB_SECURITY_NULLSECURITY_H__ */
 
 /**
- *  @}
+ * @}
  */

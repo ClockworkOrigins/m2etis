@@ -45,5 +45,5 @@ namespace m2etis {
 #endif  /* __M2ETIS_EVENTTRAITS_H__ */
 
 /**
- *  @}
+ * @}
  */

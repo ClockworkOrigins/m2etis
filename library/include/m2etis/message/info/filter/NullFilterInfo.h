@@ -57,5 +57,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_NULLFILTERINFO_H__ */
 
 /**
- *  @}
+ * @}
  */

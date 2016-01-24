@@ -29,5 +29,5 @@
 #endif /* __M2ETIS_PUBSUB_CHANNELNAME_H__ */
 
 /**
- *  @}
+ * @}
  */

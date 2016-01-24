@@ -29,8 +29,6 @@ namespace m2etis {
 namespace pubsub {
 
 	/**
-	 * \ingroup pubsub
-	 *
 	 * \class TreeFactory
 	 * \brief TreeFactory builds trees with a unique MessageType.
 	 *
@@ -60,5 +58,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_TREEFACTORY_H__ */
 
 /**
- *  @}
+ * @}
  */

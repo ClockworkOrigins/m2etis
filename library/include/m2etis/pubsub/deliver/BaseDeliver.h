@@ -124,5 +124,5 @@ namespace deliver {
 #endif /* __M2ETIS_PUBSUB_DELIVER_BASEDELIVER_H__ */
 
 /**
- *  @}
+ * @}
  */

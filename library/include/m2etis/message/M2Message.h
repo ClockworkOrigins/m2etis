@@ -95,5 +95,5 @@ namespace message {
 #endif /* __M2ETIS_MESSAGE_M2MESSAGE_H__ */
 
 /**
- *  @}
+ * @}
  */

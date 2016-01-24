@@ -61,5 +61,5 @@ namespace validity {
 #endif /* __M2ETIS_PUBSUB_VALIDITY_BASEVALIDITY_H__ */
 
 /**
- *  @}
+ * @}
  */

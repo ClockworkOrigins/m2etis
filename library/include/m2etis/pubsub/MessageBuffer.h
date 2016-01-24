@@ -62,5 +62,5 @@ namespace pubsub {
 #endif /* __M2ETIS_PUBSUB_MESSAGEBUFFER_H__ */
 
 /**
- *  @}
+ * @}
  */

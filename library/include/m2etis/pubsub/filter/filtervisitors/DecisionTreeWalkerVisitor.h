@@ -92,5 +92,5 @@ namespace filter {
 #endif /* __M2ETIS_PUBSUB_FILTER_DECISIONTREEWALKERVISITOR_H__ */
 
 /**
- *  @}
+ * @}
  */
