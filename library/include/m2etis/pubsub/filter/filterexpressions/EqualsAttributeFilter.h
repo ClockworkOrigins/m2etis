@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_FILTER_FILTEREXPRESSIONS_EQUALSATTRIBUTEFILTER_H__

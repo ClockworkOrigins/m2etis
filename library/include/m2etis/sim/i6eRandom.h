@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup simulator
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_UTILS_RANDOM_H__

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup simulator
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_SIM_OMNETCALLBACKINTERFACE_H__

@@ -15,13 +15,8 @@
  */
 
 /**
- * @author Johannes Held, Thomas Fischer
- * @detail Handlerclass for one tree
- */
-
-/**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_TREE_H__

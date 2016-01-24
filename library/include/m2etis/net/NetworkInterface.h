@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup net
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_NET_NETWORKINTERFACE_H__
@@ -35,8 +35,6 @@ namespace net {
 	class NetworkCallbackInterface;
 
 	/**
-	 * \ingroup net
-	 *
 	 * \class NetworkInterface
 	 * \brief NetworkInterface
 	 *

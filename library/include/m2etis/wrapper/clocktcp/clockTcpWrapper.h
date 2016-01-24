@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup wrapper
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_WRAPPER_CLOCKTCPWRAPPER_H__

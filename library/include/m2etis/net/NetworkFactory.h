@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup net
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_NET_NETWORKFACTORY_H__
@@ -36,8 +36,6 @@ namespace pubsub {
 namespace net {
 
 	/**
-	 * \ingroup net
-	 *
 	 * \class NetworkFactory
 	 * \brief NetworkFactory
 	 *

@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup simulator
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_SIM_PUBSUBWRAPPER_H__

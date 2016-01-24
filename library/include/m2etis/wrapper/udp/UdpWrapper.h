@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup wrapper
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_WRAPPER_UDP_UDPWRAPPER_H__

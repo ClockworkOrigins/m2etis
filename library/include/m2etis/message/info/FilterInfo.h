@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup message
- * @ {
+ * @{
  */
 
 // necessary filter type exports. Each new constraint type (filter attribute) has to be addded here.

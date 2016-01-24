@@ -18,7 +18,7 @@
 
 /**
 * \addtogroup message
-* @ {
+* @{
 */
 
 #ifndef __KEYFACTORY_H__
@@ -27,8 +27,6 @@
 #include "m2etis/net/key/Key.h"
 
 /**
- * \ingroup net
- *
  * \class KeyFactory
  * \brief KeyFactory
  *

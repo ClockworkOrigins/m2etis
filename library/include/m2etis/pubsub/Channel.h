@@ -15,13 +15,8 @@
  */
 
 /**
- * @author Johannes Held
- * @detail Handlerclass for one Channel
- */
-
-/**
  * \addtogroup pubsub
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_PUBSUB_CHANNEL_H__

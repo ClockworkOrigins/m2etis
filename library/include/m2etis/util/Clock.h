@@ -16,7 +16,7 @@
 
 /**
  * \addtogroup util
- * @ {
+ * @{
  */
 
 #ifndef __M2ETIS_UTIL_CLOCK_H__
