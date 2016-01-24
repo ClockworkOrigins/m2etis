@@ -52,7 +52,6 @@ namespace net {
 		 * If you want to stop routing simply set hint to 0. Or you can change the key and the message.
 		 * Like in scribe, when building a multicast tree. It's like NAT, change the Key and the Message :-)
 		 *
-		 * \param[in] key the key
 		 * \param[in] message the message
 		 * \param[in] hint the next routing hop
 		 * \return true if the routing must be stopped
@@ -62,7 +61,6 @@ namespace net {
 		/**
 		 * \brief called if a message is delivered to your node.
 		 *
-		 * \param[in] key the key of this message
 		 * \param[in] message the message
 		 */
 		virtual void deliver(typename message::NetworkMessage<NetworkType>::Ptr message) = 0;
