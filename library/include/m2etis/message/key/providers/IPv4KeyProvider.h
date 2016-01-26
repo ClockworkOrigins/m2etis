@@ -23,6 +23,7 @@
 #define __M2ETIS_MESSAGE_IPV4KEYPROVIDER_H__
 
 #include <cstring>
+#include <sstream>
 
 #include "m2etis/message/key/Key.h"
 
