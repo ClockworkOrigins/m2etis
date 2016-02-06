@@ -16,6 +16,11 @@ REM limitations under the License.
 
 setlocal EnableDelayedExpansion
 
+SET buildConfig=%1
+SET mode=%2
+
+SET PerformanceToolsPath="@VSPATH@\..\..\Team Tools\Performance Tools"
+
 SET testDir=%TEMP%\m2etisTest
 SET currentDir=%cd%
 SET GENERATEDCHANNELNAME=%testDir%\include\m2etis\config\GeneratedChannelName.h
@@ -34,7 +39,7 @@ mkdir %testDir%
 
 cd %testDir%
 
-cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF @CMAKE_SOURCE_DIR@
+cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF @CMAKE_SOURCE_DIR@
 
 SET "DeliverStrategies=m2etis::pubsub::deliver::NullDeliver^<NETWORKTYPE^> m2etis::pubsub::deliver::AckDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::Amount::EXACTLY_ONCE^> m2etis::pubsub::deliver::NackDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::Amount::EXACTLY_ONCE^>"
 SET DeliverStrategies.length=3
@@ -278,33 +283,16 @@ FOR %%a IN (%DeliverStrategies%) DO (
 											echo. >> %GENERATEDMESSAGECONFIGURATION%
 											echo #endif /* m2etis_MessageConfiguration_h */ >> %GENERATEDMESSAGECONFIGURATION%
 
-											MSBuild m2etis.sln /t:Clean /p:Configuration="Release" > compileOutput
-											MSBuild m2etis.sln /t:m2etis_channel_tester /p:Configuration="Release" > compileOutput
-
-											SET ERROR=!ERRORLEVEL!
-											IF NOT [!ERROR!] == [0] (
-												echo Configuration !i! doesn't compile
-												type compileOutput
-												echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile >> %RESULTS%
-												type compileOutput >> %RESULTS%
-												echo. >> %RESULTS%
-												mkdir "%RESULTSDIR%\!i!"
-												xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
-												xcopy /F "%GENERATEDEVENTTYPES%" "%RESULTSDIR%\!i!\GeneratedEventTypes.h*"
-												xcopy /F "%GENERATEDCHANNELCONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedChannelConfiguration.h*"
-												xcopy /F "%GENERATEDMESSAGECONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedMessageConfiguration.h*"
-											)
-											IF [!ERROR!] == [0] (
-												CD dist
-
-												m2etis_channel_tester.exe > testOutput
+											IF [%mode%] == [profiler] (
+												MSBuild m2etis.sln /t:Clean /p:Configuration="%buildConfig%" > compileOutput
+												MSBuild m2etis.sln /t:m2etis_channel_tester /p:Configuration="%buildConfig%" > compileOutput
 
 												SET ERROR=!ERRORLEVEL!
 												IF NOT [!ERROR!] == [0] (
-													echo Configuration !i! doesn't finish tests
-													type testOutput
-													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests >> %RESULTS%
-													type testOutput >> %RESULTS%
+													echo Configuration !i! doesn't compile
+													type compileOutput
+													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile >> %RESULTS%
+													type compileOutput >> %RESULTS%
 													echo. >> %RESULTS%
 													mkdir "%RESULTSDIR%\!i!"
 													xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
@@ -313,11 +301,74 @@ FOR %%a IN (%DeliverStrategies%) DO (
 													xcopy /F "%GENERATEDMESSAGECONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedMessageConfiguration.h*"
 												)
 												IF [!ERROR!] == [0] (
-													echo Configuration !i! works
-													SET /a completedSuccessful=!completedSuccessful! + 1
-												)
+													CD dist
 
-												CD ..
+													%PerformanceToolsPath%\vsperf.exe /launch:m2etis_channel_tester.exe /file:%RESULTSDIR%\Config_!i!_Measurement.vspx
+													
+													:loop
+													tasklist /fi "imagename eq VSPerf.exe" |find ":" > nul
+													if errorlevel 1 goto loop
+													
+													%PerformanceToolsPath%\vsperfreport %RESULTSDIR%\Config_!i!_Measurement.vspx /Summary:Function /SymbolPath:%buildConfig% /PackSymbols
+													
+													pause
+													
+													xcopy /F "Config_!i!_Measurement_FunctionSummary.csv" "%RESULTSDIR%\Config_!i!_Measurement_FunctionSummary.csv*"
+
+													mkdir "%RESULTSDIR%\!i!"
+													xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
+													xcopy /F "%GENERATEDEVENTTYPES%" "%RESULTSDIR%\!i!\GeneratedEventTypes.h*"
+													xcopy /F "%GENERATEDCHANNELCONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedChannelConfiguration.h*"
+													xcopy /F "%GENERATEDMESSAGECONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedMessageConfiguration.h*"
+													
+													echo Configuration !i! finished
+													SET /a completedSuccessful=!completedSuccessful! + 1
+
+													CD ..
+												)
+											)
+											IF [%mode%] == [] (
+												MSBuild m2etis.sln /t:Clean /p:Configuration="%buildConfig%" > compileOutput
+												MSBuild m2etis.sln /t:m2etis_channel_tester /p:Configuration="%buildConfig%" > compileOutput
+
+												SET ERROR=!ERRORLEVEL!
+												IF NOT [!ERROR!] == [0] (
+													echo Configuration !i! doesn't compile
+													type compileOutput
+													echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't compile >> %RESULTS%
+													type compileOutput >> %RESULTS%
+													echo. >> %RESULTS%
+													mkdir "%RESULTSDIR%\!i!"
+													xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
+													xcopy /F "%GENERATEDEVENTTYPES%" "%RESULTSDIR%\!i!\GeneratedEventTypes.h*"
+													xcopy /F "%GENERATEDCHANNELCONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedChannelConfiguration.h*"
+													xcopy /F "%GENERATEDMESSAGECONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedMessageConfiguration.h*"
+												)
+												IF [!ERROR!] == [0] (
+													CD dist
+
+													m2etis_channel_tester.exe > testOutput
+
+													SET ERROR=!ERRORLEVEL!
+													IF NOT [!ERROR!] == [0] (
+														echo Configuration !i! doesn't finish tests
+														type testOutput
+														echo Configuration !i! with %%a, %%b, %%c, %%d, %%e, %%f, %%g, %%h, %%i, %%j doesn't finish tests >> %RESULTS%
+														type testOutput >> %RESULTS%
+														echo. >> %RESULTS%
+														mkdir "%RESULTSDIR%\!i!"
+														xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
+														xcopy /F "%GENERATEDEVENTTYPES%" "%RESULTSDIR%\!i!\GeneratedEventTypes.h*"
+														xcopy /F "%GENERATEDCHANNELCONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedChannelConfiguration.h*"
+														xcopy /F "%GENERATEDMESSAGECONFIGURATION%" "%RESULTSDIR%\!i!\GeneratedMessageConfiguration.h*"
+													)
+													IF [!ERROR!] == [0] (
+														echo Configuration !i! works
+														SET /a completedSuccessful=!completedSuccessful! + 1
+													)
+
+													CD ..
+												)
 											)
 										)
 									)
