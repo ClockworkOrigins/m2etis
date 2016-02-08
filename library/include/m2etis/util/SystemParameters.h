@@ -150,7 +150,7 @@
 *  	<td> UNREGISTERMESSAGETYPE(strMessageTypeName) </td> <td> MessagingController.h </td>
 *  	<td> Deletes a registration of a message type.
 *  	     Have a look at the MessagingController class description to get more information. </td>
-*  <tr>
+*  </tr>
 * </table>
 *
 */
