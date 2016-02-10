@@ -303,7 +303,7 @@ FOR %%a IN (%DeliverStrategies%) DO (
 												IF [!ERROR!] == [0] (
 													CD dist
 
-													%PerformanceToolsPath%\vsperf.exe /launch:m2etis_channel_tester.exe /file:%RESULTSDIR%\Config_!i!_Measurement.vspx
+													%PerformanceToolsPath%\vsperf.exe /launch:m2etis_channel_tester.exe /file:%RESULTSDIR%\Config_!i!_Measurement.vspx /samplinginterval:0.1
 													
 													:loop
 													tasklist /fi "imagename eq VSPerf.exe" |find ":" > nul
