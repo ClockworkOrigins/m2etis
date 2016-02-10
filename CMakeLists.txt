@@ -182,6 +182,7 @@ configure_file(${CMAKE_SOURCE_DIR}/config/Config.h.in ${CMAKE_BINARY_DIR}/includ
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
 
 ADD_SUBDIRECTORY(library)
+ADD_SUBDIRECTORY(tools)
 
 IF(WIN32)
 	file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/dist)
@@ -200,7 +201,7 @@ IF(WIN32)
 	configure_file(${CMAKE_SOURCE_DIR}/config/test-channelconfigurations.bat.in ${CMAKE_BINARY_DIR}/test-channelconfigurations.bat @ONLY)
 	
 	add_custom_target(TestChannelConfigurations COMMAND test-channelconfigurations.bat Release WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-	add_custom_target(TestChannelConfigurationsWithProfiler COMMAND test-channelconfigurations.bat RelWithDebInfo profiler WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	add_custom_target(TestChannelConfigurationsWithProfiler COMMAND test-channelconfigurations.bat RelWithDebInfo profiler WORKING_DIRECTORY ${CMAKE_BINARY_DIR} DEPENDS csvToDotConverter)
 ELSEIF(UNIX)
 	# Script testing all channel configurations
 	configure_file(${CMAKE_SOURCE_DIR}/config/test-channelconfigurations.sh.in ${CMAKE_BINARY_DIR}/test-channelconfigurations.sh @ONLY)

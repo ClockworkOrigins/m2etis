@@ -1,0 +1,24 @@
+# Copyright (2016) Michael Baer, Daniel Bonrath, All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set(csvToDotConverterSrc
+	main.cpp
+)
+
+add_executable(csvToDotConverter ${csvToDotConverterSrc})
+set_target_properties(csvToDotConverter PROPERTIES LINKER_LANGUAGE CXX)
+
+IF(WIN32)
+	add_custom_command(TARGET csvToDotConverter POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/dist/${CMAKE_BUILD_TYPE}/$<CONFIGURATION>/csvToDotConverter.exe ${CMAKE_BINARY_DIR}/dist)
+ENDIF(WIN32)

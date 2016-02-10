@@ -309,11 +309,12 @@ FOR %%a IN (%DeliverStrategies%) DO (
 													tasklist /fi "imagename eq VSPerf.exe" |find ":" > nul
 													if errorlevel 1 goto loop
 													
-													%PerformanceToolsPath%\vsperfreport %RESULTSDIR%\Config_!i!_Measurement.vspx /Summary:Function /SymbolPath:%buildConfig% /PackSymbols
+													%PerformanceToolsPath%\vsperfreport %RESULTSDIR%\Config_!i!_Measurement.vspx /Summary:CallTree /SymbolPath:%buildConfig% /PackSymbols
 													
-													pause
+													xcopy /F "Config_!i!_Measurement_CallTreeSummary.csv" "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.csv*"
 													
-													xcopy /F "Config_!i!_Measurement_FunctionSummary.csv" "%RESULTSDIR%\Config_!i!_Measurement_FunctionSummary.csv*"
+													@CMAKE_BINARY_DIR@\dist\csvToDotConverter.exe "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.csv" "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.dot"
+													dot -Tpdf "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.dot" > "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.pdf"
 
 													mkdir "%RESULTSDIR%\!i!"
 													xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
