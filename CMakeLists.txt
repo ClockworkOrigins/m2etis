@@ -199,6 +199,7 @@ IF(WIN32)
 
 	# Script testing all channel configurations
 	configure_file(${CMAKE_SOURCE_DIR}/config/test-channelconfigurations.bat.in ${CMAKE_BINARY_DIR}/test-channelconfigurations.bat @ONLY)
+	configure_file(${CMAKE_SOURCE_DIR}/config/profile-channel.bat.in ${CMAKE_BINARY_DIR}/profile-channel.bat @ONLY)
 	
 	add_custom_target(TestChannelConfigurations COMMAND test-channelconfigurations.bat Release WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 	add_custom_target(TestChannelConfigurationsWithProfiler COMMAND test-channelconfigurations.bat RelWithDebInfo profiler WORKING_DIRECTORY ${CMAKE_BINARY_DIR} DEPENDS csvToDotConverter)

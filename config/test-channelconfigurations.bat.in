@@ -41,6 +41,8 @@ cd %testDir%
 
 cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF @CMAKE_SOURCE_DIR@
 
+xcopy /F "%currentDir%\profile-channel.bat" "%testDir%\dist\profile-channel.bat*"
+
 SET "DeliverStrategies=m2etis::pubsub::deliver::NullDeliver^<NETWORKTYPE^> m2etis::pubsub::deliver::AckDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::Amount::EXACTLY_ONCE^> m2etis::pubsub::deliver::NackDeliver^<NETWORKTYPE/3/m2etis::pubsub::deliver::Amount::EXACTLY_ONCE^>"
 SET DeliverStrategies.length=3
 SET "FilterStrategies=m2etis::pubsub::filter::NullFilter^<%EventType%/NETWORKTYPE^>"
@@ -286,6 +288,7 @@ FOR %%a IN (%DeliverStrategies%) DO (
 											IF [%mode%] == [profiler] (
 												MSBuild m2etis.sln /t:Clean /p:Configuration="%buildConfig%" > compileOutput
 												MSBuild m2etis.sln /t:m2etis_channel_tester /p:Configuration="%buildConfig%" > compileOutput
+												MSBuild m2etis.sln /t:csvToDotConverter /p:Configuration="Release" >> compileOutput
 
 												SET ERROR=!ERRORLEVEL!
 												IF NOT [!ERROR!] == [0] (
@@ -302,19 +305,8 @@ FOR %%a IN (%DeliverStrategies%) DO (
 												)
 												IF [!ERROR!] == [0] (
 													CD dist
-
-													%PerformanceToolsPath%\vsperf.exe /launch:m2etis_channel_tester.exe /file:%RESULTSDIR%\Config_!i!_Measurement.vspx /samplinginterval:0.1
 													
-													:loop
-													tasklist /fi "imagename eq VSPerf.exe" |find ":" > nul
-													if errorlevel 1 goto loop
-													
-													%PerformanceToolsPath%\vsperfreport %RESULTSDIR%\Config_!i!_Measurement.vspx /Summary:CallTree /SymbolPath:%buildConfig% /PackSymbols
-													
-													xcopy /F "Config_!i!_Measurement_CallTreeSummary.csv" "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.csv*"
-													
-													@CMAKE_BINARY_DIR@\dist\csvToDotConverter.exe "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.csv" "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.dot"
-													dot -Tpdf "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.dot" > "%RESULTSDIR%\Config_!i!_Measurement_CallTreeSummary.pdf"
+													call profile-channel.bat !i!
 
 													mkdir "%RESULTSDIR%\!i!"
 													xcopy /F "%GENERATEDCHANNELNAME%" "%RESULTSDIR%\!i!\GeneratedChannelName.h*"
