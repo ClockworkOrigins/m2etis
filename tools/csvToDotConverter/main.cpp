@@ -32,6 +32,7 @@ struct Node {
 	int inclusiveSamples = 0;
 	double percent = 0.0;
 	std::set<Node *> childs;
+	Node * self = nullptr;
 };
 
 struct Tree {
@@ -74,7 +75,7 @@ int main(int argc, char ** argv) {
 
 	Tree tree;
 
-	std::stack<Node *> nodes;
+	std::stack<Node> nodes;
 
 	std::ifstream in(argv[0]);
 	if (in.good()) {
@@ -100,6 +101,7 @@ int main(int argc, char ** argv) {
 			n->name = std::regex_replace(n->name, std::regex("\\["), "");
 			n->name = std::regex_replace(n->name, std::regex("\\]"), "");
 			nodeMap.insert(std::make_pair(vec[0], n));
+			n->self = n;
 		}
 		try {
 			n->stage = uint16_t(std::stoul(vec[10]));
@@ -114,20 +116,20 @@ int main(int argc, char ** argv) {
 		if (tree.nodes.empty()) {
 			tree.nodes.insert(n);
 		} else {
-			if (n->stage > nodes.top()->stage) {
-				nodes.top()->childs.insert(n);
-			} else if (n->stage <= nodes.top()->stage) {
-				while (!nodes.empty() && n != nodes.top() && n->stage <= nodes.top()->stage) {
+			if (n->stage > nodes.top().stage) {
+				nodes.top().self->childs.insert(n);
+			} else if (n->stage <= nodes.top().stage) {
+				while (!nodes.empty() && n != nodes.top().self && n->stage <= nodes.top().stage) {
 					nodes.pop();
 				}
 				if (n->stage == 0) {
 					tree.nodes.insert(n);
 				} else {
-					nodes.top()->childs.insert(n);
+					nodes.top().self->childs.insert(n);
 				}
 			}
 		}
-		nodes.push(n);
+		nodes.push(*n);
 	}
 
 	int samples = 0;
