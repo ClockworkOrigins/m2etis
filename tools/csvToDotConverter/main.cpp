@@ -134,10 +134,14 @@ int main(int argc, char ** argv) {
 
 	int samples = 0;
 	for (auto p : nodeMap) {
-		samples += p.second->inclusiveSamples;
+		if (p.second->name.find(".dll") == std::string::npos) {
+			samples += p.second->inclusiveSamples;
+		}
 	}
 	for (auto p : nodeMap) {
-		p.second->percent = p.second->inclusiveSamples / double(samples);
+		if (p.second->name.find(".dll") == std::string::npos) {
+			p.second->percent = p.second->inclusiveSamples / double(samples);
+		}
 	}
 
 	std::ofstream out(argv[1]);
