@@ -15,7 +15,13 @@
 #!/bin/bash
 
 configuration=${1}
-valgrind=${2}
+mode=${2}
+
+PROFILING_FLAG=OFF
+
+if [ "$mode" = "profiler" ] ; then
+	PROFILING_FLAG=ON
+fi
 
 testDir="/tmp/`whoami`/m2etisTest"
 currentDir="${PWD}"
@@ -53,7 +59,7 @@ mkdir -p ${testDir}
 
 cd ${testDir}
 
-cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=OFF -DWITH_MESSAGECOMPRESSION=OFF -DWITH_DOCU=OFF -DCMAKE_BUILD_TYPE=${configuration} @CMAKE_SOURCE_DIR@
+cmake -DWITH_TESTING=ON -DWITH_LOGGING=OFF -DWITH_SIM=OFF -DWITH_CHIMERA=OFF -DWITH_PROFILING=${PROFILING_FLAG} -DWITH_MESSAGECOMPRESSION=OFF -DCMAKE_BUILD_TYPE=${configuration} @CMAKE_SOURCE_DIR@
 
 # Count all possible combinations (product of all lengths of the arrays)
 countAll=$((${#DeliverStrategies[@]} * ${#FilterStrategies[@]} * ${#OrderStrategies[@]} * ${#PartitionStrategies[@]} * ${#PersistenceStrategies[@]} * ${#RendezvousStrategies[@]} * ${#RoutingStrategies[@]} * ${#SecurityStrategies[@]} * ${#ValidityStrategies[@]} * ${#NetworkTypes[@]}))
@@ -279,10 +285,16 @@ for a in ${DeliverStrategies[*]} ; do
 											if [ ${ERRORCODE} -eq 0 ] ; then
 												cd dist/${configuration}
 
-												if [ "$valgrind" = "valgrind" ] ; then
+												if [ "$mode" = "valgrind" ] ; then
 													valgrind --leak-check=full ./m2etis_channel_tester &> testOutput
 												else
-													./m2etis_channel_tester &> testOutput
+													if [ "$mode" = "profiler" ] ; then
+														env CPUPROFILE=${RESULTSDIR}/${counter}.prof CPUPROFILE_FREQUENCY=10000 LD_PRELOAD="@GPerfTools_ROOT@/lib/libprofiler.so" ./m2etis_channel_tester
+														@GPerfTools_ROOT@/bin/pprof --dot ./m2etis_channel_tester ${RESULTSDIR}/${counter}.prof > ${RESULTSDIR}/${counter}.dot
+														dot -Tpdf ${RESULTSDIR}/${counter}.dot > ${RESULTSDIR}/${counter}.pdf
+													else
+														./m2etis_channel_tester &> testOutput
+													fi
 												fi
 
 												ERRORCODE=$?

@@ -101,7 +101,7 @@ if(APPLE)
 	SET(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 endif(APPLE)
 
-SET (CXX_FLAGS "-pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor -Wformat=2 -Winit-self -Wswitch-default -Wfloat-equal -Wshadow -Wredundant-decls -Wctor-dtor-privacy -Wold-style-cast -Wsign-conversion -Wno-unused-parameter -Wno-long-long -std=c++11 ${STDLIB} -fsanitize=address")
+SET (CXX_FLAGS "-pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wnon-virtual-dtor -Wformat=2 -Winit-self -Wswitch-default -Wfloat-equal -Wshadow -Wredundant-decls -Wctor-dtor-privacy -Wold-style-cast -Wsign-conversion -Wno-unused-parameter -Wno-long-long -std=c++11 ${STDLIB}")
 
 IF(${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
 	SET (CMAKE_CXX_FLAGS			"${CXX_FLAGS} -O0")
@@ -181,6 +181,9 @@ ENDIF(WIN32)
 configure_file(${CMAKE_SOURCE_DIR}/config/Config.h.in ${CMAKE_BINARY_DIR}/include/m2etis/Config.h @ONLY)
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
 
+# set GPerfTools_ROOT also if normal build is without GPerfTools because test scripts configures it into its script
+SET(GPerfTools_ROOT ${DEP_DIR}/gperftools)
+
 ADD_SUBDIRECTORY(library)
 ADD_SUBDIRECTORY(tools)
 
@@ -209,6 +212,7 @@ ELSEIF(UNIX)
 	
 	add_custom_target(TestChannelConfigurations COMMAND ./test-channelconfigurations.sh Release WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 	add_custom_target(TestChannelConfigurationsWithValgrind COMMAND ./test-channelconfigurations.sh RelWithDebInfo valgrind WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	add_custom_target(TestChannelConfigurationsWithProfiler COMMAND ./test-channelconfigurations.sh RelWithDebInfo profiler WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 ENDIF(WIN32)
 
 # INSTALL
