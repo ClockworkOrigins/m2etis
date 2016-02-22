@@ -134,14 +134,10 @@ int main(int argc, char ** argv) {
 
 	int samples = 0;
 	for (auto p : nodeMap) {
-		if (p.second->name.find(".dll") == std::string::npos) {
-			samples += p.second->inclusiveSamples;
-		}
+		samples += p.second->inclusiveSamples;
 	}
 	for (auto p : nodeMap) {
-		if (p.second->name.find(".dll") == std::string::npos) {
-			p.second->percent = p.second->inclusiveSamples / double(samples);
-		}
+		p.second->percent = p.second->inclusiveSamples / double(samples);
 	}
 
 	std::ofstream out(argv[1]);
@@ -149,7 +145,7 @@ int main(int argc, char ** argv) {
 	int id = 0;
 	for (auto p : nodeMap) {
 		for (Node * n : p.second->childs) {
-			if (p.second->percent >= 0.01 && n->percent >= 0.01) {
+			if (p.second->percent >= 0.005 && n->percent >= 0.005) {
 				out << "\t" << id << "[label=\"" << p.second->name << " (" << std::floor(p.second->percent * 100) << "%)" << "\"]" << ";" << std::endl;
 			}
 		}
@@ -158,7 +154,7 @@ int main(int argc, char ** argv) {
 	}
 	for (auto p : nodeMap) {
 		for (Node * n : p.second->childs) {
-			if (p.second->percent >= 0.01 && n->percent >= 0.01) {
+			if (p.second->percent >= 0.005 && n->percent >= 0.005) {
 				out << "\t" << p.second->id << " -> " << n->id << ";" << std::endl;
 			}
 		}
