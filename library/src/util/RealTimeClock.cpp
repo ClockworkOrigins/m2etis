@@ -15,14 +15,15 @@
  */
 
 #include "m2etis/util/RealTimeClock.h"
-#include "m2etis/util/Logger.h"
+
+#include <thread>
 
 #include "m2etis/parameters/QueueParameters.h"
 
 namespace m2etis {
 namespace util {
 
-	RealTimeClock::RealTimeClock(const boost::function<void(void)> & f) : startTime_(boost::posix_time::microsec_clock::universal_time()), update_(f), _running(true), thread_() {
+	RealTimeClock::RealTimeClock(const boost::function<void(void)> & f) : startTime_(std::chrono::high_resolution_clock::now()), update_(f), _running(true), thread_() {
 	}
 
 	RealTimeClock::~RealTimeClock() {
@@ -34,7 +35,7 @@ namespace util {
 	}
 
 	uint64_t RealTimeClock::getCurrentTime(uint64_t) {
-		return uint64_t(boost::posix_time::time_period(startTime_, boost::posix_time::microsec_clock::universal_time()).length().total_microseconds());
+		return uint64_t(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - startTime_).count());
 	}
 
 	void RealTimeClock::Stop() {
@@ -45,7 +46,7 @@ namespace util {
 
 	void RealTimeClock::clockUpdater() {
 		while (_running) {
-			boost::this_thread::sleep(boost::posix_time::microseconds(parameters::CLOCK_UPDATERATE));
+			std::this_thread::sleep_for(std::chrono::microseconds(parameters::CLOCK_UPDATERATE));
 			if (_running) {
 				update_();
 			}

@@ -22,7 +22,8 @@
 #ifndef __M2ETIS_UTIL_REALTIMECLOCK_H__
 #define __M2ETIS_UTIL_REALTIMECLOCK_H__
 
-#include "boost/date_time/posix_time/posix_time.hpp"
+#include <chrono>
+
 #include "boost/function.hpp"
 #include "boost/thread.hpp"
 
@@ -58,7 +59,7 @@ namespace util {
 		void Init();
 
 	private:
-		const boost::posix_time::ptime startTime_;
+		const std::chrono::time_point<std::chrono::high_resolution_clock> startTime_;
 
 		boost::function<void(void)> update_;
 
