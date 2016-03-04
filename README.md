@@ -10,17 +10,16 @@ m2etis is a template based publish subscribe network middleware.
  * Compile time configuration of channels
  * QoS aware strategies
 
-
 ## Platforms ##
 
 m2etis has been tested on:
 
-  * Linux
-  * Windows
+ * Linux
+ * Windows
 
 ## Requirements ##
 
-m2etis has some dependencies as requirements. We use CMake (2.8+) for the build system and require a C++11 capable compiler such as g++ 4.7 or Visual Studio 13. All other dependencies can be provided as system library or be built by yourself. The appropriate build scripts can be found in dependencies directory.
+m2etis has some dependencies as requirements. We use CMake (2.8+) for the build system and require a C++11 capable compiler such as g++ 4.7 or Visual Studio 13 (or higher). All other dependencies can be provided as system library or be built by yourself using the automated build scripts provided in the dependencies directory.
 
 ## Documentation ##
 
@@ -31,8 +30,9 @@ The doxygen documentation can be found on our homepage: http://clockwork-origins
 To build m2etis from source you need cmake and a C++11 compiler. For a complete library setup just use
 
 cmake .
+make
 
-Tests can be enabled using -DWITH_TESTING=ON. This required gtest on your system (or you build it with the appropriate dependency build script in the dependencies directory).
+Tests can be enabled using -DWITH_TESTING=ON. This requires gtest on your system (or you build it with the appropriate dependency build script in the dependencies directory).
 
 ## Contributing Code ##
 
