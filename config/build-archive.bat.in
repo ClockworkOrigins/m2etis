@@ -29,6 +29,7 @@ xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/docs" "@CMAKE_BINARY_DIR@/%archiveName%/docs"
 xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/integrationtest" "@CMAKE_BINARY_DIR@/%archiveName%/integrationtest"
 xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/library" "@CMAKE_BINARY_DIR@/%archiveName%/library"
 xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/simulator" "@CMAKE_BINARY_DIR@/%archiveName%/simulator"
+xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/tools" "@CMAKE_BINARY_DIR@/%archiveName%/tools"
 
 xcopy /F "@CMAKE_SOURCE_DIR@/dependencies/build-boost.bat" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-boost.bat*"
 xcopy /F "@CMAKE_SOURCE_DIR@/dependencies/build-boost.sh" "@CMAKE_BINARY_DIR@/%archiveName%/dependencies/build-boost.sh*"
