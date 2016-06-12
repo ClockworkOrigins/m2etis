@@ -22,6 +22,7 @@
 #ifndef __M2ETIS_MESSAGE_IPV4KEYPROVIDER_H__
 #define __M2ETIS_MESSAGE_IPV4KEYPROVIDER_H__
 
+#include <cstdint>
 #include <cstring>
 #include <sstream>
 
