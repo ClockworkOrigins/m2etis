@@ -66,6 +66,19 @@
 #   pragma warning(disable : 4251) // dll interface to be used by clients...
 #endif
 
+#ifndef M2ETIS_DEPRECATED
+	#ifdef __GNUC__
+		#define M2ETIS_DEPRECATED __attribute__((deprecated))
+	#elif defined(_MSC_VER)
+		#define M2ETIS_DEPRECATED __declspec(deprecated)
+	#elif defined(_MSC_VER)
+		#define M2ETIS_DEPRECATED __attribute__((deprecated))
+	#else
+		#pragma message("WARNING: You need to implement M2ETIS_DEPRECATED for this compiler")
+		#define M2ETIS_DEPRECATED
+	#endif
+#endif
+
 #endif /* __I6ESYSTEMPARAMETERS_H__ */
 
 /*

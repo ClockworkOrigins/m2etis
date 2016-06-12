@@ -37,13 +37,13 @@ namespace util {
 		/**
 		 * \brief default constructor
 		 */
-		DoubleBufferQueue() : _queueA(), _queueB(), _queueRead(&_queueA), _queueWrite(&_queueB), _lock() {
+		M2ETIS_DEPRECATED DoubleBufferQueue() : _queueA(), _queueB(), _queueRead(&_queueA), _queueWrite(&_queueB), _lock() {
 		}
 
 		/**
 		 * \brief pushes the given value into the queue
 		 */
-		void push(const T & value) {
+		M2ETIS_DEPRECATED void push(const T & value) {
 			boost::recursive_mutex::scoped_lock scopeLock(_lock);
 			_queueWrite->push(value);
 			assert(!empty());
@@ -52,7 +52,7 @@ namespace util {
 		/**
 		 * \brief removes first entry of the queue
 		 */
-		void pop() {
+		M2ETIS_DEPRECATED void pop() {
 			boost::recursive_mutex::scoped_lock scopeLock(_lock);
 			if (_queueRead->empty()) {
 				swap();
@@ -68,7 +68,7 @@ namespace util {
 		/**
 		 * \brief returns first entry of the queue
 		 */
-		T front() {
+		M2ETIS_DEPRECATED T front() {
 			boost::recursive_mutex::scoped_lock scopeLock(_lock);
 			if (_queueRead->empty()) {
 				swap();
@@ -84,7 +84,7 @@ namespace util {
 		/**
 		 * \brief remoes first entry of the queue and returns its value
 		 */
-		T poll() {
+		M2ETIS_DEPRECATED T poll() {
 			boost::recursive_mutex::scoped_lock scopeLock(_lock);
 			if (_queueRead->empty()) {
 				swap();
@@ -102,21 +102,21 @@ namespace util {
 		/**
 		 * \brief returns true if the queue is empty, otherwise false
 		 */
-		bool empty() const {
+		M2ETIS_DEPRECATED bool empty() const {
 			return _queueRead->empty() && _queueWrite->empty();
 		}
 
 		/**
 		 * \brief returns size of the queue
 		 */
-		size_t size() const {
+		M2ETIS_DEPRECATED size_t size() const {
 			return _queueRead->size() + _queueWrite->size();
 		}
 
 		/**
 		 * \brief removes all elements in the queue
 		 */
-		void clear() {
+		M2ETIS_DEPRECATED void clear() {
 			boost::recursive_mutex::scoped_lock scopeLock(_lock);
 			while(!_queueRead->empty()) {
 				_queueRead->pop();

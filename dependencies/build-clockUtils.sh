@@ -16,8 +16,8 @@ cd "$(readlink -f "$(dirname "${0}")")"
 
 . ./build-common.sh
 
-ARCHIVE="clockutils-0.5.0-src.zip"
-BUILD_DIR="${BUILD_ROOT}/clockutils-0.5.0-src"
+ARCHIVE="clockutils-1.0.0-src.zip"
+BUILD_DIR="${BUILD_ROOT}/clockutils-1.0.0-src"
 
 PREFIX="${DEP_DIR}/clockUtils"
 DEST_DIR="${PREFIX}"
@@ -57,10 +57,11 @@ cmake -G 'Unix Makefiles'\
  -DCMAKE_BUILD_TYPE="${BUILD_TYPE}"\
  -DCMAKE_INSTALL_PREFIX="${PREFIX}"\
  -DWITH_TESTING=OFF\
- -DWITH_LIBRARY_SOCKETS=ON\
- -DWITH_LIBRARY_INIPARSER=OFF\
  -DWITH_LIBRARY_ARGPARSER=OFF\
  -DWITH_LIBRARY_COMPRESSION=OFF\
+ -DWITH_LIBRARY_CONTAINER=ON\
+ -DWITH_LIBRARY_INIPARSER=OFF\
+ -DWITH_LIBRARY_SOCKETS=ON\
  -DCMAKE_CXX_COMPILER=${COMPILER}\
  .
 

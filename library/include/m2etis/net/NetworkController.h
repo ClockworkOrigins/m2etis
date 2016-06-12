@@ -24,7 +24,6 @@
 
 #include <map>
 
-#include "m2etis/util/DoubleBufferQueue.h"
 #include "m2etis/util/Logger.h"
 
 #include "m2etis/net/NetworkCallbackInterface.h"
@@ -38,6 +37,8 @@
 #include "boost/function.hpp"
 #include "boost/shared_ptr.hpp"
 #include "boost/thread.hpp"
+
+#include "clockUtils/container/DoubleBufferQueue.h"
 
 namespace m2etis {
 namespace net {
@@ -56,6 +57,8 @@ namespace net {
 
 		// TODO: (Daniel) this can be removed, use NetworkMessage directly instead
 		struct DeliverInfo {
+			DeliverInfo() : msg_type(), message() {
+			}
 			explicit DeliverInfo(typename message::NetworkMessage<NetworkType>::Ptr ms) : msg_type(*ms->typePtr), message(ms) {
 			}
 			message::MessageType msg_type;
@@ -161,7 +164,7 @@ namespace net {
 		DMapType deliver_map_;
 		typedef std::map<message::MessageType, net_forward_func> FMapType;
 		FMapType forward_map_;
-		typedef util::DoubleBufferQueue<DeliverInfo> DIQueueType;
+		typedef clockUtils::container::DoubleBufferQueue<DeliverInfo, true, false> DIQueueType;
 		DIQueueType msgQueue_;
 
 		pubsub::PubSubSystemEnvironment * pssi_;
@@ -179,12 +182,14 @@ namespace net {
 				return false;
 			}
 			while (!msgQueue_.empty()) {
-				DeliverInfo di = msgQueue_.poll();
+				DeliverInfo di;
+				clockUtils::ClockError err = msgQueue_.poll(di);
 
-				typename DMapType::iterator it = deliver_map_.find(di.msg_type);
-
-				if (it != deliver_map_.end()) {
-					it->second(di.message);
+				if (err == clockUtils::ClockError::SUCCESS) {
+					typename DMapType::iterator it = deliver_map_.find(di.msg_type);
+					if (it != deliver_map_.end()) {
+						it->second(di.message);
+					}
 				}
 			}
 			return _running;

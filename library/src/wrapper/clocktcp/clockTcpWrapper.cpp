@@ -31,7 +31,8 @@ namespace clocktcp {
 
 	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string &, const uint16_t) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _lock(), _sockets(), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threads() {
 		clockUtils::sockets::TcpSocket * newSocket = new clockUtils::sockets::TcpSocket();
-		newSocket->listen(_local.getPort(), 100, true, [this](clockUtils::sockets::TcpSocket * socket) {
+		newSocket->listen(_local.getPort(), 100, true, [this](clockUtils::sockets::TcpSocket * socket, clockUtils::ClockError err) {
+			if (err == clockUtils::ClockError::SUCCESS) {
 				message::Key<message::IPv4KeyProvider> k(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
 
 				{
@@ -39,7 +40,8 @@ namespace clocktcp {
 					_sockets[k] = socket;
 				}
 				_threads.insert(std::make_pair(1, new boost::thread(boost::bind(&clockTcpWrapper::readFromSocket, this, socket))));
-			});
+			}
+		});
 		boost::mutex::scoped_lock l(_lock);
 		_sockets[_local] = newSocket;
 	}
@@ -84,7 +86,7 @@ namespace clocktcp {
 			if (_sockets.find(realKey) == _sockets.end()) {
 				M2ETIS_LOG_DEBUG("clockTcpWrapper", "creating new socket: " << realKey.ipStr() << ":" << realKey.portStr());
 				clockUtils::sockets::TcpSocket * socket = new clockUtils::sockets::TcpSocket();
-				clockUtils::ClockError error = socket->connect(realKey.ipStr(), realKey.getPort(), 2000);
+				clockUtils::ClockError error = socket->connectToIP(realKey.ipStr(), realKey.getPort(), 2000);
 
 				if (error != clockUtils::ClockError::SUCCESS) {
 					socket->close();

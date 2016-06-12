@@ -14,8 +14,8 @@ REM limitations under the License.
 
 call build-common.bat %1 %2
 
-Set ARCHIVE=clockutils-0.5.0-src.zip
-Set BUILD_DIR=%TMP_DIR%/clockutils-0.5.0-src
+Set ARCHIVE=clockutils-1.0.0-src.zip
+Set BUILD_DIR=%TMP_DIR%/clockutils-1.0.0-src
 Set PREFIX=%DEP_DIR%/%ARCH_DIR%/clockUtils/
 
 echo "Compile clockUtils"
@@ -25,7 +25,7 @@ call build-common.bat downloadAndUnpack %ARCHIVE% %BUILD_DIR% http://clockwork-o
 cd %BUILD_DIR%
 
 echo "Configuring clockUtils"
-cmake -DWITH_TESTING=OFF -DWITH_LIBRARY_COMPRESSION=OFF -DWITH_LIBRARY_SOCKETS=ON -DWITH_LIBRARY_INIPARSER=OFF -DWITH_LIBRARY_ARGPARSER=OFF -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%VSCOMPILER%%VSARCH%" .
+cmake -DWITH_TESTING=OFF -DWITH_LIBRARY_COMPRESSION=OFF -DWITH_LIBRARY_CONTAINER=ON -DWITH_LIBRARY_SOCKETS=ON -DWITH_LIBRARY_INIPARSER=OFF -DWITH_LIBRARY_ARGPARSER=OFF -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%VSCOMPILER%%VSARCH%" .
 
 echo "Building clockUtils"
 MSBuild.exe clockUtils.sln /p:Configuration=Release > NUL

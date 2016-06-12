@@ -73,9 +73,9 @@ namespace pubsub {
 		const ChannelName topic_;
 		net::NetworkController<NetworkType> * controller_;
 		std::vector<TreeType *> trees_;
-		util::DoubleBufferQueue<typename message::M2Message<EventType>::Ptr> msgQueue_;
-		util::DoubleBufferQueue<std::pair<BasicDeliverCallbackInterface<EventType> *, boost::shared_ptr<filter::FilterExp<EventType>>>> subscribeQueue_;
-		util::DoubleBufferQueue<boost::shared_ptr<filter::FilterExp<EventType>>> unsubscribeQueue_; // for filter strategies
+		clockUtils::container::DoubleBufferQueue<typename message::M2Message<EventType>::Ptr, true, false> msgQueue_;
+		clockUtils::container::DoubleBufferQueue<std::pair<BasicDeliverCallbackInterface<EventType> *, boost::shared_ptr<filter::FilterExp<EventType>>>, true, false> subscribeQueue_;
+		clockUtils::container::DoubleBufferQueue<boost::shared_ptr<filter::FilterExp<EventType>>, true, false> unsubscribeQueue_; // for filter strategies
 		bool unsubscribe_;
 		PubSubSystemEnvironment * pssi_;
 		std::map<typename NetworkType::Key, uint64_t> _nodeList;
@@ -194,11 +194,12 @@ namespace pubsub {
 
 		bool parseMessages() {
 			while (!subscribeQueue_.empty()) {
-				_lastSubscribe = subscribeQueue_.poll();
-				_hasSubscribe = true;
-
-				for (auto tree_index : ChannelType::PartitionStrategy::getSubscribeTrees(_lastSubscribe.second)) {
-					trees_[tree_index]->subscribe(*_lastSubscribe.first, _lastSubscribe.second);
+				clockUtils::ClockError err = subscribeQueue_.poll(_lastSubscribe);
+				_hasSubscribe = err == clockUtils::ClockError::SUCCESS;
+				if (_hasSubscribe) {
+					for (auto tree_index : ChannelType::PartitionStrategy::getSubscribeTrees(_lastSubscribe.second)) {
+						trees_[tree_index]->subscribe(*_lastSubscribe.first, _lastSubscribe.second);
+					}
 				}
 			}
 
@@ -212,23 +213,28 @@ namespace pubsub {
 
 			// for filter strategies: process unsubscribeQueue
 			while (!unsubscribeQueue_.empty()) {
-				boost::shared_ptr<filter::FilterExp<EventType> > deregisteredFilter = unsubscribeQueue_.poll();
-
-				for (auto tree_index : ChannelType::PartitionStrategy::getSubscribeTrees(deregisteredFilter)) {
-					trees_[tree_index]->unsubscribe(deregisteredFilter);
+				boost::shared_ptr<filter::FilterExp<EventType>> deregisteredFilter;
+				clockUtils::ClockError err = unsubscribeQueue_.poll(deregisteredFilter);
+				if (err == clockUtils::ClockError::SUCCESS) {
+					for (auto tree_index : ChannelType::PartitionStrategy::getSubscribeTrees(deregisteredFilter)) {
+						trees_[tree_index]->unsubscribe(deregisteredFilter);
+					}
 				}
 			}
 
 			uint32_t msgPublished = 0; // pause publishing after some messages to allow other task running
 			while (msgPublished < parameters::PUBLISH_MESSAGECOUNT_MAX && !msgQueue_.empty() && !trees_.empty()) {
-				typename message::M2Message<EventType>::Ptr msg = msgQueue_.front();
-				std::vector<int>::size_type i = ChannelType::PartitionStrategy::getPublishTree(msg->payload, _self);
-				if (i < trees_.size()) {
-					msgQueue_.pop();
-					trees_[ChannelType::PartitionStrategy::getPublishTree(msg->payload, _self)]->publish(msg);
-					++msgPublished;
-				} else {
-					break;
+				typename message::M2Message<EventType>::Ptr msg;
+				clockUtils::ClockError err = msgQueue_.front(msg);
+				if (err == clockUtils::ClockError::SUCCESS) {
+					std::vector<int>::size_type i = ChannelType::PartitionStrategy::getPublishTree(msg->payload, _self);
+					if (i < trees_.size()) {
+						msgQueue_.pop();
+						trees_[ChannelType::PartitionStrategy::getPublishTree(msg->payload, _self)]->publish(msg);
+						++msgPublished;
+					} else {
+						break;
+					}
 				}
 			}
 			return true;
