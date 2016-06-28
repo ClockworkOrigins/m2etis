@@ -16,6 +16,8 @@
 
 #include "m2etis/wrapper/clocktcp/clockTcpWrapper.h"
 
+#include <thread>
+
 #include "m2etis/util/Logger.h"
 
 #include "m2etis/message/MessageSerialization.h"
@@ -39,7 +41,7 @@ namespace clocktcp {
 					boost::mutex::scoped_lock l(_lock);
 					_sockets[k] = socket;
 				}
-				_threads.insert(std::make_pair(1, new boost::thread(boost::bind(&clockTcpWrapper::readFromSocket, this, socket))));
+				_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::readFromSocket, this, socket))));
 			}
 		});
 		boost::mutex::scoped_lock l(_lock);
@@ -58,11 +60,8 @@ namespace clocktcp {
 		}
 		_sockets.clear();
 		_lock.unlock();
-		for (std::pair<uint16_t, boost::thread *> p : _threads) {
-			p.second->interrupt();
-			if (p.second->joinable()) {
-				p.second->join();
-			}
+		for (std::pair<uint16_t, std::thread *> p : _threads) {
+			p.second->join();
 			delete p.second;
 		}
 	}
@@ -83,7 +82,8 @@ namespace clocktcp {
 			_mapLock.unlock();
 
 			boost::mutex::scoped_lock l(_lock);
-			if (_sockets.find(realKey) == _sockets.end()) {
+			auto it = _sockets.find(realKey);
+			if (it == _sockets.end()) {
 				M2ETIS_LOG_DEBUG("clockTcpWrapper", "creating new socket: " << realKey.ipStr() << ":" << realKey.portStr());
 				clockUtils::sockets::TcpSocket * socket = new clockUtils::sockets::TcpSocket();
 				clockUtils::ClockError error = socket->connectToIP(realKey.ipStr(), realKey.getPort(), 2000);
@@ -94,13 +94,13 @@ namespace clocktcp {
 					M2ETIS_THROW_FAILURE("clockTcpWrapper - Couldn't connect", metisKey.toStr(), int(error));
 				}
 
-				_sockets[realKey] = socket;
-				_threads.insert(std::make_pair(1, new boost::thread(boost::bind(&clockTcpWrapper::readFromSocket, this, socket))));
+				it = _sockets.insert(std::make_pair(realKey, socket)).first;
+				_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::readFromSocket, this, socket))));
 			}
-			if (_sockets.find(realKey)->second == nullptr) {
+			if (it->second == nullptr) {
 				return;
 			}
-			_sockets.find(realKey)->second->writePacketAsync(std::vector<uint8_t>(ser.begin(), ser.end()));
+			it->second->writePacketAsync(std::vector<uint8_t>(ser.begin(), ser.end()));
 		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
@@ -114,7 +114,7 @@ namespace clocktcp {
 				_sockets[realKey]->close();
 				delete _sockets[realKey];
 				_sockets[realKey] = nullptr;
-				_threads.insert(std::make_pair(1, new boost::thread(boost::bind(&clockTcpWrapper::eraseSocket, this, realKey))));
+				_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::eraseSocket, this, realKey))));
 			}
 		} catch (boost::archive::archive_exception & e) {
 			std::cout << e.what() << std::endl;
@@ -165,7 +165,7 @@ namespace clocktcp {
 						socket->close();
 						delete socket;
 						it->second = nullptr;
-						_threads.insert(std::make_pair(1, new boost::thread(boost::bind(&clockTcpWrapper::eraseSocket, this, realKey))));
+						_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::eraseSocket, this, realKey))));
 						break;
 					}
 				}

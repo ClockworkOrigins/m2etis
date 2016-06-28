@@ -41,7 +41,7 @@ namespace util {
 		/**
 		 * \brief initializes Clock and propagates Update method to Updater
 		 */
-		Clock() : Updater(boost::bind(&Clock::Update, this)), timer_(), lock_(), usedIds_(0), systemTime_(0), running_(true), offset_(0) {
+		Clock() : Updater(std::bind(&Clock::Update, this)), timer_(), lock_(), usedIds_(0), systemTime_(0), running_(true), offset_(0) {
 			Updater::Init();
 		}
 

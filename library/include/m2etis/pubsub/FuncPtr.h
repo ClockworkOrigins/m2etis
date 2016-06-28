@@ -29,7 +29,7 @@
 namespace m2etis {
 namespace pubsub {
 
-// typedef boost::function<void(const message::M2Message &)> app_deliver_func;
+// typedef std::function<void(const message::M2Message &)> app_deliver_func;
 
 } /* namespace pubsub */
 } /* namespace m2etis */

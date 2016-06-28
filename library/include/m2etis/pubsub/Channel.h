@@ -106,15 +106,15 @@ namespace pubsub {
 
 			updateOrderTrees();
 
-			parseID_ = pssi->scheduler_.runRepeated(parameters::PULL_PARSEMESSAGE, boost::bind(&Channel::parseMessages, this), 2);
-			controller_->register_deliver(message::JOIN | topic_, boost::bind(&Channel::deliver, this, _1));
-			controller_->register_deliver(message::STATE | topic_, boost::bind(&Channel::deliver, this, _1));
-			controller_->register_deliver(message::LEAVE | topic_, boost::bind(&Channel::deliver, this, _1));
+			parseID_ = pssi->scheduler_.runRepeated(parameters::PULL_PARSEMESSAGE, std::bind(&Channel::parseMessages, this), 2);
+			controller_->register_deliver(message::JOIN | topic_, std::bind(&Channel::deliver, this, std::placeholders::_1));
+			controller_->register_deliver(message::STATE | topic_, std::bind(&Channel::deliver, this, std::placeholders::_1));
+			controller_->register_deliver(message::LEAVE | topic_, std::bind(&Channel::deliver, this, std::placeholders::_1));
 
 			if (_self != _rendezvous) {
-				pssi->scheduler_.runOnce(1000, boost::bind(&Channel::startJoin, this), 1);
+				pssi->scheduler_.runOnce(1000, std::bind(&Channel::startJoin, this), 1);
 			} else {
-				dynamicPeriodID_ = pssi->scheduler_.runRepeated(6000000, boost::bind(&Channel::purgeNodes, this), 1);
+				dynamicPeriodID_ = pssi->scheduler_.runRepeated(6000000, std::bind(&Channel::purgeNodes, this), 1);
 				joined = true;
 			}
 		}
@@ -382,7 +382,7 @@ namespace pubsub {
 		bool startJoin() {
 			updateState();
 
-			dynamicPeriodID_ = pssi_->scheduler_.runRepeated(5000000, boost::bind(&Channel::updateState, this), 1);
+			dynamicPeriodID_ = pssi_->scheduler_.runRepeated(5000000, std::bind(&Channel::updateState, this), 1);
 
 			return false;
 		}

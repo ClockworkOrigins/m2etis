@@ -52,8 +52,8 @@ namespace net {
 	template<class NetworkType>
 	class NetworkController : public NetworkCallbackInterface<NetworkType> {
 	public:
-		typedef boost::function<void(typename message::NetworkMessage<NetworkType>::Ptr message)> net_deliver_func;
-		typedef boost::function<pubsub::FIPtr(typename message::NetworkMessage<NetworkType>::Ptr message)> net_forward_func;
+		typedef std::function<void(typename message::NetworkMessage<NetworkType>::Ptr message)> net_deliver_func;
+		typedef std::function<pubsub::FIPtr(typename message::NetworkMessage<NetworkType>::Ptr message)> net_forward_func;
 
 		// TODO: (Daniel) this can be removed, use NetworkMessage directly instead
 		struct DeliverInfo {
@@ -73,7 +73,7 @@ namespace net {
 		 * adds a polling job for incoming messages
 		 */
 		NetworkController(NetworkInterface<NetworkType> * network, pubsub::PubSubSystemEnvironment * pssi) : network_(network), deliver_map_(), forward_map_(), msgQueue_(), pssi_(pssi), _running(true) {
-			processingID_ = pssi->scheduler_.runRepeated(parameters::PULL_DELIVERQUEUE, boost::bind(&NetworkController::processDeliverQueue, this), 3);
+			processingID_ = pssi->scheduler_.runRepeated(parameters::PULL_DELIVERQUEUE, std::bind(&NetworkController::processDeliverQueue, this), 3);
 			network_->setCallback(this);
 		}
 

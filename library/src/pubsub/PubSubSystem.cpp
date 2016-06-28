@@ -16,6 +16,8 @@
 
 #include "m2etis/pubsub/PubSubSystem.h"
 
+#include <thread>
+
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 
 /*
@@ -33,8 +35,8 @@
 namespace m2etis {
 namespace pubsub {
 
-	PubSubSystem::PubSubSystem(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort, const std::vector<std::string> & rootList) : _pssi(new PubSubSystemEnvironment(listenIP, listenPort, connectIP, connectPort)), channels_(new ChannelConfiguration(listenIP, listenPort, connectIP, connectPort, _pssi, rootList)), initialized(true), _exceptionCallbacks(5, std::vector<boost::function<void(const std::string &)>>()), _running(true) {
-		exceptionID_ = _pssi->scheduler_.runRepeated(500000, boost::bind(&PubSubSystem::exceptionLoop, this), 4);
+	PubSubSystem::PubSubSystem(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort, const std::vector<std::string> & rootList) : _pssi(new PubSubSystemEnvironment(listenIP, listenPort, connectIP, connectPort)), channels_(new ChannelConfiguration(listenIP, listenPort, connectIP, connectPort, _pssi, rootList)), initialized(true), _exceptionCallbacks(5, std::vector<std::function<void(const std::string &)>>()), _running(true) {
+		exceptionID_ = _pssi->scheduler_.runRepeated(500000, std::bind(&PubSubSystem::exceptionLoop, this), 4);
 #ifdef WITH_LOGGING
 		util::log::initializeLogging();
 #endif
@@ -52,7 +54,7 @@ namespace pubsub {
 #endif
 	}
 
-	void PubSubSystem::registerExceptionCallback(exceptionEvents e, boost::function<void(const std::string &)> _ptr) {
+	void PubSubSystem::registerExceptionCallback(exceptionEvents e, std::function<void(const std::string &)> _ptr) {
 		_exceptionCallbacks[e].push_back(_ptr);
 	}
 
@@ -75,8 +77,8 @@ namespace pubsub {
 			}
 
 			if (_running && !_exceptionCallbacks[ev].empty()) {
-				for (boost::function<void(const std::string &)> f : _exceptionCallbacks[ev]) {
-					boost::thread(boost::bind(f, info.message));
+				for (std::function<void(const std::string &)> f : _exceptionCallbacks[ev]) {
+					std::thread(std::bind(f, info.message));
 				}
 			}
 		}

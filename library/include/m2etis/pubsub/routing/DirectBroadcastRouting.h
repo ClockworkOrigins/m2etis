@@ -77,14 +77,14 @@ namespace routing {
 
 		// inform listener, whether a subscriber has been purged, e.g. by timeout
 		// currently only needed for filter strategies
-		boost::function<void(const typename NetworkType::Key)> _removed_subscribereventlistener;
+		std::function<void(const typename NetworkType::Key)> _removed_subscribereventlistener;
 
 		uint64_t purgeID_;
 
 		uint64_t registerID_;
 
 		DirectBroadcastRouting(const unsigned short topic_name, PubSubSystemEnvironment * pssi, const typename NetworkType::Key & root) : BaseRouting<NetworkType>(topic_name, pssi), periodic_(directbroadcast::RESUBSCRIPTION_INTERVAL), purge_distance_(directbroadcast::PURGE_DISTANCE), _pssi(pssi), _removed_subscribereventlistener(), purgeID_(), registerID_(), topic_name_(topic_name), self_(), selfSubscribed_(false), _subscriber(), _purging(true), _newSubs(), _nodes(), _root(root) {
-			purgeID_ = pssi->scheduler_.runRepeated(purge_distance_, boost::bind(&DirectBroadcastRouting::purgeList, this), 6);
+			purgeID_ = pssi->scheduler_.runRepeated(purge_distance_, std::bind(&DirectBroadcastRouting::purgeList, this), 6);
 			registerID_ = pssi->scheduler_.runOnce(1, [this]() {
 				registerOnRoot();
 				return false;
@@ -122,7 +122,7 @@ namespace routing {
 			}
 		}
 
-		void setUnsubscriptionListener(const boost::function<void(const typename NetworkType::Key)> & listener) {
+		void setUnsubscriptionListener(const std::function<void(const typename NetworkType::Key)> & listener) {
 			_removed_subscribereventlistener = listener;
 		}
 
@@ -282,7 +282,7 @@ namespace routing {
 				}
 			};
 
-			_subscriber.erase(std::remove_if(_subscriber.begin(), _subscriber.end(), boost::bind(T::test, sender, _1)), _subscriber.end());
+			_subscriber.erase(std::remove_if(_subscriber.begin(), _subscriber.end(), std::bind(T::test, sender, std::placeholders::_1)), _subscriber.end());
 			rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 		}
 
@@ -405,7 +405,7 @@ namespace routing {
 			// and remove every subscriber which hasn't resubscribed within the "purge_distance"
 			uint64_t jetzt = _pssi->clock_.getTime();
 
-			auto iter_first_erased_subscriber = std::remove_if(_subscriber.begin(), _subscriber.end(), boost::bind(T::test, purge_distance_, jetzt, _1));
+			auto iter_first_erased_subscriber = std::remove_if(_subscriber.begin(), _subscriber.end(), std::bind(T::test, purge_distance_, jetzt, std::placeholders::_1));
 			// notify listeners about erased subscribers:
 			for (auto iter_subscriber = iter_first_erased_subscriber; iter_subscriber != _subscriber.end(); ++iter_subscriber) {
 				_removed_subscribereventlistener(iter_subscriber->second);

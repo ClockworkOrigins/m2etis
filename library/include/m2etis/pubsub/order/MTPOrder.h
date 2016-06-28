@@ -60,7 +60,7 @@ namespace order {
 		typedef message::MTPOrderInfo OrderInfoType;
 
 		MTPOrder(PubSubSystemEnvironment * pssi, bool b) : BaseOrder<NetworkType>(pssi, b), queue_(), nextRec_(0), nextSend_(0), delivered_(0), periodicID_(0) {
-			periodicID_ = pssi->scheduler_.runRepeated(50000, boost::bind(&MTPOrder::purge, this), 1);
+			periodicID_ = pssi->scheduler_.runRepeated(50000, std::bind(&MTPOrder::purge, this), 1);
 		}
 
 		virtual ~MTPOrder() {

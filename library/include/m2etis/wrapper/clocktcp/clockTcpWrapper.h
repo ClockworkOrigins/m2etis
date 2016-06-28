@@ -30,9 +30,9 @@
 #include "boost/make_shared.hpp"
 #include "boost/thread/mutex.hpp"
 
-namespace boost {
+namespace std {
 	class thread;
-} /* namespace boost */
+} /* namespace std */
 namespace clockUtils {
 namespace sockets {
 	class TcpSocket;
@@ -117,7 +117,7 @@ namespace clocktcp {
 		/**
 		 * \brief stores all threads created in this class for cleanup issues
 		 */
-		std::multimap<uint32_t, boost::thread *> _threads;
+		std::multimap<uint32_t, std::thread *> _threads;
 	};
 
 } /* namespace clocktcp */

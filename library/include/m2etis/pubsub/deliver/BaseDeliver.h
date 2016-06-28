@@ -48,14 +48,14 @@ namespace deliver {
 		 * \brief used to set the function to be called when a message should be send to the next processing stage
 		 * call this function with the id given in receive() to deliver the appropriate message
 		 */
-		void configureCallback(const boost::function<void(uint64_t, msgProcess)> & func) {
+		void configureCallback(const std::function<void(uint64_t, msgProcess)> & func) {
 			process_ = func;
 		}
 
 		/**
 		 * \brief with this function, new messages can be sent directly to nodes
 		 */
-		void configureSendCallback(const boost::function<void(message::DeliverInfo::Ptr, const typename NetworkType::Key &, ControlTarget)> & func) {
+		void configureSendCallback(const std::function<void(message::DeliverInfo::Ptr, const typename NetworkType::Key &, ControlTarget)> & func) {
 			sendCtrlMsg_ = func;
 		}
 
@@ -104,7 +104,7 @@ namespace deliver {
 		* \brief stores the function to be called for delivering
 		* 1. Parameter (int): specifies the message id that should be further processed
 		*/
-		boost::function<void(uint64_t, msgProcess)> process_;
+		std::function<void(uint64_t, msgProcess)> process_;
 
 		/**
 		* \brief stores the function to send new messages
@@ -114,7 +114,7 @@ namespace deliver {
 		* 2. Parameter (string): Name of the target. This can either be a real node identifier or
 		* "root" to send directly to the root of this tree
 		*/
-		boost::function<void(message::DeliverInfo::Ptr, typename NetworkType::Key, ControlTarget)> sendCtrlMsg_;
+		std::function<void(message::DeliverInfo::Ptr, typename NetworkType::Key, ControlTarget)> sendCtrlMsg_;
 	};
 
 } /* namespace deliver */

@@ -123,7 +123,7 @@ namespace pubsub {
 		 */
 		inline bool isInitialized() const { return initialized; }
 
-		void registerExceptionCallback(exceptionEvents e, boost::function<void(const std::string &)> _ptr);
+		void registerExceptionCallback(exceptionEvents e, std::function<void(const std::string &)> _ptr);
 
 	private:
 		PubSubSystem(const PubSubSystem &) = delete;
@@ -138,7 +138,7 @@ namespace pubsub {
 		ChannelConfiguration * channels_;
 		bool initialized;
 
-		std::vector<std::vector<boost::function<void(const std::string &)>>> _exceptionCallbacks;
+		std::vector<std::vector<std::function<void(const std::string &)>>> _exceptionCallbacks;
 
 		uint64_t exceptionID_;
 

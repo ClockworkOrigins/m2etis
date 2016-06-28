@@ -47,7 +47,7 @@ namespace routing {
 		/**
 		 * \brief with this function, new messages can be sent directly to nodes
 		 */
-		void configureSendCallback(const boost::function<void(typename message::RoutingInfo<NetworkType>::Ptr, const typename NetworkType::Key &, ControlTarget)> & func) {
+		void configureSendCallback(const std::function<void(typename message::RoutingInfo<NetworkType>::Ptr, const typename NetworkType::Key &, ControlTarget)> & func) {
 			sendCtrlMsg_ = func;
 		}
 
@@ -118,10 +118,10 @@ namespace routing {
 		 */
 		virtual void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) = 0;
 
-		virtual void setUnsubscriptionListener(const boost::function<void(const typename NetworkType::Key)> & listener) = 0;
+		virtual void setUnsubscriptionListener(const std::function<void(const typename NetworkType::Key)> & listener) = 0;
 
 	protected:
-		boost::function<void(typename message::RoutingInfo<NetworkType>::Ptr, typename NetworkType::Key, ControlTarget)> sendCtrlMsg_;
+		std::function<void(typename message::RoutingInfo<NetworkType>::Ptr, typename NetworkType::Key, ControlTarget)> sendCtrlMsg_;
 	};
 
 } /* namespace routing */

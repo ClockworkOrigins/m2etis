@@ -38,11 +38,11 @@ TEST(Scheduler, Once) {
 	m2etis::util::Clock<m2etis::util::RealTimeClock> cl;
 	m2etis::pubsub::Scheduler<m2etis::util::RealTimeClock> sched(cl);
 	func1_counter = 0;
-	sched.runOnce(50000, boost::bind(&func1, cl.getTime() + 50000, &cl, 0), 0);
-	sched.runOnce(100000, boost::bind(&func1, cl.getTime() + 100000, &cl, 3), 0);
-	sched.runOnce(150000, boost::bind(&func1, cl.getTime() + 150000, &cl, 4), 1);
-	sched.runOnce(75000, boost::bind(&func1, cl.getTime() + 75000, &cl, 2), 0);
-	sched.runOnce(75000, boost::bind(&func1, cl.getTime() + 75000, &cl, 1), 1);
+	sched.runOnce(50000, std::bind(&func1, cl.getTime() + 50000, &cl, 0), 0);
+	sched.runOnce(100000, std::bind(&func1, cl.getTime() + 100000, &cl, 3), 0);
+	sched.runOnce(150000, std::bind(&func1, cl.getTime() + 150000, &cl, 4), 1);
+	sched.runOnce(75000, std::bind(&func1, cl.getTime() + 75000, &cl, 2), 0);
+	sched.runOnce(75000, std::bind(&func1, cl.getTime() + 75000, &cl, 1), 1);
 	for (int i = 0; i < 40; ++i) {
 		boost::this_thread::sleep(boost::posix_time::milliseconds(5));
 	}
@@ -56,7 +56,7 @@ bool func2(long time, m2etis::util::Clock<m2etis::util::RealTimeClock> * cl, m2e
 	EXPECT_LE(cl->getTime(), time + 3000);
 	jobs.push_back(counter);
 	if (counter == 3) {
-		sched->runRepeated(10000, boost::bind(func2, cl->getTime() + 10000, cl, sched, 5), 0);
+		sched->runRepeated(10000, std::bind(func2, cl->getTime() + 10000, cl, sched, 5), 0);
 	}
 	return false;
 }
@@ -65,11 +65,11 @@ TEST(Scheduler, RepeatOnce) {
 	m2etis::util::Clock<m2etis::util::RealTimeClock> cl;
 	m2etis::pubsub::Scheduler<m2etis::util::RealTimeClock> sched(cl);
 	jobs.clear();
-	sched.runRepeated(50000, boost::bind(func2, cl.getTime() + 50000, &cl, &sched, 0), 0);
-	sched.runRepeated(100000, boost::bind(func2, cl.getTime() + 100000, &cl, &sched, 1), 0);
-	sched.runRepeated(150000, boost::bind(func2, cl.getTime() + 150000, &cl, &sched, 2), 1);
-	sched.runRepeated(75000, boost::bind(func2, cl.getTime() + 75000, &cl, &sched, 3), 0);
-	sched.runRepeated(75000, boost::bind(func2, cl.getTime() + 75000, &cl, &sched, 4), 1);
+	sched.runRepeated(50000, std::bind(func2, cl.getTime() + 50000, &cl, &sched, 0), 0);
+	sched.runRepeated(100000, std::bind(func2, cl.getTime() + 100000, &cl, &sched, 1), 0);
+	sched.runRepeated(150000, std::bind(func2, cl.getTime() + 150000, &cl, &sched, 2), 1);
+	sched.runRepeated(75000, std::bind(func2, cl.getTime() + 75000, &cl, &sched, 3), 0);
+	sched.runRepeated(75000, std::bind(func2, cl.getTime() + 75000, &cl, &sched, 4), 1);
 	for (int i = 0; i < 40; ++i) {
 		boost::this_thread::sleep(boost::posix_time::milliseconds(5));
 	}

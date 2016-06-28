@@ -49,7 +49,7 @@ namespace deliver {
 		typedef message::AckDeliverInfo DeliverInfoType;
 
 		AckDeliver(PubSubSystemEnvironment * pssi, const typename NetworkType::Key & self) : BaseDeliver<NetworkType>(pssi), queue_(), acked_(), delivered_() {
-			periodicID_ = pssi->scheduler_.runRepeated(5000, boost::bind(&AckDeliver::periodicCheck, this), 1);
+			periodicID_ = pssi->scheduler_.runRepeated(5000, std::bind(&AckDeliver::periodicCheck, this), 1);
 		}
 
 		virtual ~AckDeliver() {

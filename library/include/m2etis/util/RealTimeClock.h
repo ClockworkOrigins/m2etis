@@ -23,6 +23,7 @@
 #define __M2ETIS_UTIL_REALTIMECLOCK_H__
 
 #include <chrono>
+#include <thread>
 
 #include "boost/function.hpp"
 #include "boost/thread.hpp"
@@ -38,7 +39,7 @@ namespace util {
 		/**
 		 * \brief initializes a worker thread calling given function when time changed
 		 */
-		explicit RealTimeClock(const boost::function<void(void)> & f);
+		explicit RealTimeClock(const std::function<void(void)> & f);
 
 		/**
 		 * \brief destructor
@@ -61,11 +62,11 @@ namespace util {
 	private:
 		const std::chrono::time_point<std::chrono::high_resolution_clock> startTime_;
 
-		boost::function<void(void)> update_;
+		std::function<void(void)> update_;
 
 		volatile bool _running;
 
-		boost::thread thread_;
+		std::thread thread_;
 
 		void clockUpdater();
 

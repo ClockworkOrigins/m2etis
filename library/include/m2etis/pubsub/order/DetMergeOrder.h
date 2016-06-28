@@ -58,7 +58,7 @@ namespace order {
 		 */
 		DetMergeOrder(PubSubSystemEnvironment * pssi, bool b) : BaseOrder<NetworkType>(pssi, b), rt(0), lastEv(new typename OrderInfoType::Timestamp()), queue_(), pssi_(pssi) {
 			lastEv->kn[0] = 1;
-			periodicID_ = pssi->scheduler_.runRepeated(5000, boost::bind(&DetMergeOrder::updatePhyClock, this), 1);
+			periodicID_ = pssi->scheduler_.runRepeated(5000, std::bind(&DetMergeOrder::updatePhyClock, this), 1);
 		}
 
 		/**

@@ -41,7 +41,7 @@ namespace deliver {
 		typedef message::NackDeliverInfo DeliverInfoType;
 
 		NackDeliver(PubSubSystemEnvironment * pssi, const typename NetworkType::Key & self) : BaseDeliver<NetworkType>(pssi), buffer_(), missing_(), lastMessages_(), lastID_(), self_(self), delivered_() {
-			periodicID_ = pssi->scheduler_.runRepeated(REQUESTTIME / 2, boost::bind(&NackDeliver::periodicCheck, this), 1);
+			periodicID_ = pssi->scheduler_.runRepeated(REQUESTTIME / 2, std::bind(&NackDeliver::periodicCheck, this), 1);
 		}
 
 		virtual ~NackDeliver() {

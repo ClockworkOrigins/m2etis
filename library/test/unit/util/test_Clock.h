@@ -61,7 +61,7 @@ TEST(Clock, Notifies) {
     	EXPECT_EQ(ind, 0);
     	sT = clock->getTime();
     	done = false;
-    	boost::thread(boost::bind(func, clock)).detach();
+    	std::thread(std::bind(func, clock)).detach();
     	for (int i = 0; i < 20; ++i) {
     		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
     	}

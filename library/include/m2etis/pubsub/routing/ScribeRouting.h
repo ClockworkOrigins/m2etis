@@ -74,7 +74,7 @@ namespace routing {
 
 		// inform listener, whether a subscriber has been purged, e.g. by timeout
 		// currently only needed for filter strategies
-		boost::function<void(const typename NetworkType::Key)> removed_subscriber_eventlistener_;
+		std::function<void(const typename NetworkType::Key)> removed_subscriber_eventlistener_;
 
 		uint64_t purgeID_;
 
@@ -82,7 +82,7 @@ namespace routing {
 			, periodic_(scribe::RESUBSCRIPTION_INTERVAL), purge_distance_(scribe::PURGE_DISTANCE), _pssi(pssi)
 			, topic_name_(topic_name), self_(), subscribed_(false), subscriber_()
 			, purging_(true), _root(root) {
-			purgeID_ = pssi->scheduler_.runRepeated(purge_distance_, boost::bind(&ScribeRouting::purgeList, this), 0);
+			purgeID_ = pssi->scheduler_.runRepeated(purge_distance_, std::bind(&ScribeRouting::purgeList, this), 0);
 		}
 
 		virtual ~ScribeRouting() {
@@ -94,7 +94,7 @@ namespace routing {
 			self_ = self;
 		}
 
-        void setUnsubscriptionListener(const boost::function<void(const typename NetworkType::Key)> & listener) {
+        void setUnsubscriptionListener(const std::function<void(const typename NetworkType::Key)> & listener) {
             removed_subscriber_eventlistener_ = listener;
         }
 
@@ -200,7 +200,7 @@ namespace routing {
 				}
 			};
 
-			subscriber_.erase(std::remove_if(subscriber_.begin(), subscriber_.end(), boost::bind(T::test, sender, _1)), subscriber_.end());
+			subscriber_.erase(std::remove_if(subscriber_.begin(), subscriber_.end(), std::bind(T::test, sender, std::placeholders::_1)), subscriber_.end());
 		}
 
 		/**
@@ -232,7 +232,6 @@ namespace routing {
 		TimeList subscriber_;
 
 		// Control variables for the purging thread
-		boost::thread purger_;
 		volatile bool purging_;
 
 		typename NetworkType::Key _root;
@@ -268,7 +267,7 @@ namespace routing {
 			// and remove every subscriber which hasn't resubscribed within the "purge_distance"
 			uint64_t jetzt = _pssi->clock_.getTime();
 
-			auto iter_first_erased_subscriber = std::remove_if(subscriber_.begin(), subscriber_.end(), boost::bind(T::test, purge_distance_, jetzt, _1));
+			auto iter_first_erased_subscriber = std::remove_if(subscriber_.begin(), subscriber_.end(), std::bind(T::test, purge_distance_, jetzt, std::placeholders::_1));
 			// notify listeners about erased subscribers:
 			for (auto iter_subscriber = iter_first_erased_subscriber; iter_subscriber != subscriber_.end(); ++iter_subscriber) {
 				removed_subscriber_eventlistener_(iter_subscriber->second);

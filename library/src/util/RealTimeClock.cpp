@@ -23,7 +23,7 @@
 namespace m2etis {
 namespace util {
 
-	RealTimeClock::RealTimeClock(const boost::function<void(void)> & f) : startTime_(std::chrono::high_resolution_clock::now()), update_(f), _running(true), thread_() {
+	RealTimeClock::RealTimeClock(const std::function<void(void)> & f) : startTime_(std::chrono::high_resolution_clock::now()), update_(f), _running(true), thread_() {
 	}
 
 	RealTimeClock::~RealTimeClock() {
@@ -31,7 +31,7 @@ namespace util {
 	}
 
 	void RealTimeClock::Init() {
-		thread_ = boost::thread(boost::bind(&RealTimeClock::clockUpdater, this));
+		thread_ = std::thread(std::bind(&RealTimeClock::clockUpdater, this));
 	}
 
 	uint64_t RealTimeClock::getCurrentTime(uint64_t) {
@@ -39,9 +39,10 @@ namespace util {
 	}
 
 	void RealTimeClock::Stop() {
-		_running = false;
-		thread_.interrupt();
-		thread_.join();
+		if (_running) {
+			_running = false;
+			thread_.join();
+		}
 	}
 
 	void RealTimeClock::clockUpdater() {

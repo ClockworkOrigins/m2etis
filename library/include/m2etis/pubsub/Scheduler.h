@@ -24,7 +24,9 @@
 
 #include <atomic>
 #include <cstdint>
+#include <mutex>
 #include <queue>
+#include <thread>
 
 #include "m2etis/util/Clock.h"
 
@@ -37,9 +39,9 @@ namespace pubsub {
 	class Scheduler {
 	public:
 		typedef struct Job {
-			Job(const boost::function<bool(void)> & f, uint64_t t, int16_t p, uint64_t d, uint64_t i = UINT64_MAX) : func(f), time(t), priority(p), interval(i), id(d) {
+			Job(const std::function<bool(void)> & f, uint64_t t, int16_t p, uint64_t d, uint64_t i = UINT64_MAX) : func(f), time(t), priority(p), interval(i), id(d) {
 			}
-			boost::function<bool(void)> func;
+			std::function<bool(void)> func;
 			uint64_t time;
 			int16_t priority; // the higher, the better
 			uint64_t interval;
@@ -58,7 +60,7 @@ namespace pubsub {
 
 		explicit Scheduler(util::Clock<ClockUpdater> & c) : running_(true), clock_(c), queue_(), lock_()
 #ifndef WITH_SIM
-		, worker_(boost::bind(&Scheduler<ClockUpdater>::worker, this))
+		, worker_(std::bind(&Scheduler<ClockUpdater>::worker, this))
 #else
 		, worker_()
 #endif
@@ -75,7 +77,7 @@ namespace pubsub {
 		 * \param[in] func function to be called when scheduled
 		 * \param[in] priority priority of this job
 		 */
-		uint64_t runOnce(uint64_t time, const boost::function<bool(void)> & func, int16_t priority) {
+		uint64_t runOnce(uint64_t time, const std::function<bool(void)> & func, int16_t priority) {
 			// TODO: if first element in queue, adjust waitingtime
 			Job j(func, clock_.getTime() + time, priority, id_++);
 			lock_.lock();
@@ -91,7 +93,7 @@ namespace pubsub {
 		 * \param[in] func function to be called when scheduled
 		 * \param[in] priority priority of this job
 		 */
-		uint64_t runRepeated(uint64_t interval, const boost::function<bool(void)> & func, int16_t priority) {
+		uint64_t runRepeated(uint64_t interval, const std::function<bool(void)> & func, int16_t priority) {
 			// TODO: if first element in queue, adjust waitingtime
 			Job j(func, clock_.getTime() + interval, priority, id_++, interval);
 			lock_.lock();
@@ -171,9 +173,9 @@ namespace pubsub {
 
 		std::priority_queue<Job> queue_;
 
-		boost::mutex lock_;
+		std::mutex lock_;
 
-		boost::thread worker_;
+		std::thread worker_;
 
 		std::atomic<uint64_t> id_;
 

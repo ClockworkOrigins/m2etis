@@ -74,13 +74,13 @@ namespace pubsub {
 			ChannelType::FilterStrategy::setSelf(self_);
 			ChannelType::OrderStrategy::setRoot(self_ == _rendezvous); // if this node is the RP, then set true flag to make this node sequenzer
 
-			ChannelType::RoutingStrategy::setUnsubscriptionListener(boost::bind(&Tree::processRoutingStrategyUnsubscribeNotification, this, _1));
+			ChannelType::RoutingStrategy::setUnsubscriptionListener(std::bind(&Tree::processRoutingStrategyUnsubscribeNotification, this, std::placeholders::_1));
 
-			ChannelType::RoutingStrategy::configureSendCallback(boost::bind(&Tree::sendRoutingControlMessage, this, _1, _2, _3));
-			ChannelType::DeliverStrategy::configureCallback(boost::bind(&MessageBuffer::deliver, &buffer_, _1, _2));
-			ChannelType::DeliverStrategy::configureSendCallback(boost::bind(&Tree::sendDeliverControlMessage, this, _1, _2, _3));
-			ChannelType::OrderStrategy::configureCallback(boost::bind(&MessageBuffer::deliver, &buffer_, _1, _2));
-			ChannelType::OrderStrategy::configureSendCallback(boost::bind(&Tree::sendOrderControlMessage, this, _1, _2, _3));
+			ChannelType::RoutingStrategy::configureSendCallback(std::bind(&Tree::sendRoutingControlMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+			ChannelType::DeliverStrategy::configureCallback(std::bind(&MessageBuffer::deliver, &buffer_, std::placeholders::_1, std::placeholders::_2));
+			ChannelType::DeliverStrategy::configureSendCallback(std::bind(&Tree::sendDeliverControlMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+			ChannelType::OrderStrategy::configureCallback(std::bind(&MessageBuffer::deliver, &buffer_, std::placeholders::_1, std::placeholders::_2));
+			ChannelType::OrderStrategy::configureSendCallback(std::bind(&Tree::sendOrderControlMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 			ChannelType::OrderStrategy::setHn(self_);
 			registerMessageTypes();
 			registerNetworkCallbacks();
@@ -217,7 +217,7 @@ namespace pubsub {
 								}
 							} else {
 								if (ChannelType::ValidityStrategy::isValid(todeliver->validityInfo)) {
-									uint64_t a = buffer_.insert(boost::bind(&BasicDeliverCallbackInterface<EventType>::deliverCallback, deliver_f, todeliver));
+									uint64_t a = buffer_.insert(std::bind(&BasicDeliverCallbackInterface<EventType>::deliverCallback, deliver_f, todeliver));
 									ChannelType::OrderStrategy::receive(a, todeliver->orderInfo, todeliver->sender);
 								}
 							}
@@ -248,7 +248,7 @@ namespace pubsub {
 									}
 								} else {
 									if (ChannelType::ValidityStrategy::isValid(todeliver->validityInfo)) {
-										uint64_t a = buffer_.insert(boost::bind(&BasicDeliverCallbackInterface<EventType>::deliverCallback, deliver_f, todeliver));
+										uint64_t a = buffer_.insert(std::bind(&BasicDeliverCallbackInterface<EventType>::deliverCallback, deliver_f, todeliver));
 										ChannelType::OrderStrategy::receive(a, todeliver->orderInfo, todeliver->sender);
 									}
 								}
@@ -274,8 +274,8 @@ namespace pubsub {
 		}
 
 		void registerNetworkCallbacks() {
-			typename net::NetworkController<NetworkType>::net_deliver_func deliv = boost::bind(&Tree::deliver, this, _1);
-			typename net::NetworkController<NetworkType>::net_forward_func forw = boost::bind(&Tree::forward, this, _1);
+			typename net::NetworkController<NetworkType>::net_deliver_func deliv = std::bind(&Tree::deliver, this, std::placeholders::_1);
+			typename net::NetworkController<NetworkType>::net_forward_func forw = std::bind(&Tree::forward, this, std::placeholders::_1);
 
 			if (ChannelType::RoutingStrategy::register_forward_subscribe) {
 				controller_->register_forward(message::SUBSCRIBE | topic_, forw);
@@ -298,7 +298,7 @@ namespace pubsub {
 		void deregisterNetworkCallbacks() {
 			/* look at http://www.boost.org/doc/libs/1_43_0/doc/html/function/tutorial.html#id866854
 			 * for more information about binding a member method
-			 * However, I'm using boost::bind here! (It's less clumsy.)
+			 * However, I'm using std::bind here! (It's less clumsy.)
 			 */
 			if (ChannelType::RoutingStrategy::register_forward_subscribe) {
 				controller_->deregister_forward(message::SUBSCRIBE | topic_);
@@ -325,7 +325,7 @@ namespace pubsub {
 		}
 
 		void sendDirect(typename IMessage::Ptr msg) {
-			uint64_t a = buffer_.insert(boost::bind(&Tree::reallySendMsg, this, msg));
+			uint64_t a = buffer_.insert(std::bind(&Tree::reallySendMsg, this, msg));
 			message::ActionType action = message::ActionType(msg->type & message::ACTION_TYPE_MASK);
 			ChannelType::OrderStrategy::configureOrderInfo(a, action, msg->orderInfo, msg->receiver);
 		}
@@ -354,14 +354,14 @@ namespace pubsub {
 					continue;
 				}
 				typename IMessage::Ptr msg2 = boost::make_shared<IMessage>(*msg);
-				uint64_t a = buffer_.insert(boost::bind(&Tree::reallySendMsg, this, msg2));
+				uint64_t a = buffer_.insert(std::bind(&Tree::reallySendMsg, this, msg2));
 				ChannelType::OrderStrategy::configureOrderInfo(a, action, msg2->orderInfo, to);
 			}
 		}
 
 		void reallySendMsg(typename IMessage::Ptr msg) {
 			message::ActionType action = message::ActionType(msg->type & message::ACTION_TYPE_MASK);
-			uint64_t a = buffer_.insert(boost::bind(&net::NetworkController<NetworkType>::send, controller_, boost::static_pointer_cast<message::NetworkMessage<NetworkType>>(msg)));
+			uint64_t a = buffer_.insert(std::bind(&net::NetworkController<NetworkType>::send, controller_, boost::static_pointer_cast<message::NetworkMessage<NetworkType>>(msg)));
 			ChannelType::DeliverStrategy::configureDeliverInfo(a, action, msg->deliverInfo, msg->receiver, msg->ctrlType_);
 		}
 
@@ -469,7 +469,7 @@ namespace pubsub {
 			if (resubscribeID_ != UINT64_MAX) {
 				pssi_->scheduler_.stop(resubscribeID_);
 			}
-			resubscribeID_ = pssi_->scheduler_.runRepeated(ChannelType::RoutingStrategy::periodic_, boost::bind(&Tree::subs, this, &callback, predicate), 5);
+			resubscribeID_ = pssi_->scheduler_.runRepeated(ChannelType::RoutingStrategy::periodic_, std::bind(&Tree::subs, this, &callback, predicate), 5);
 			subscribed_ = true;
 		}
 

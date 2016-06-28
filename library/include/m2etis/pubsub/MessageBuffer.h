@@ -34,14 +34,14 @@ namespace pubsub {
 		MessageBuffer() : buffer_(), counter(0) {
 		}
 
-		uint64_t insert(const boost::function<void(void)> & func) {
+		uint64_t insert(const std::function<void(void)> & func) {
 			buffer_.insert(std::make_pair(counter, func));
 			return counter++;
 		}
 
 		void deliver(uint64_t id, msgProcess proc) {
 			assert(buffer_.find(id) != buffer_.end());
-			boost::function<void(void)> p = buffer_[id];
+			std::function<void(void)> p = buffer_[id];
 			if (proc == msgProcess::MSG_DELETE || proc == msgProcess::MSG_PROCESS_AND_DELETE) {
 				buffer_.erase(id);
 				assert(buffer_.find(id) == buffer_.end());
@@ -52,7 +52,7 @@ namespace pubsub {
 		}
 
 	private:
-		std::map<uint64_t, boost::function<void(void)>> buffer_;
+		std::map<uint64_t, std::function<void(void)>> buffer_;
 		uint64_t counter;
 	};
 
