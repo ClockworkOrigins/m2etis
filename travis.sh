@@ -6,7 +6,6 @@ cd dependencies
 ./build-boost.sh $M2ETIS_COMPILER
 ./build-clockUtils.sh $M2ETIS_COMPILER
 ./build-gflags.sh $M2ETIS_COMPILER
-./build-glog.sh $M2ETIS_COMPILER
 ./build-gmock.sh $M2ETIS_COMPILER
 cd ..
 mkdir build || true
