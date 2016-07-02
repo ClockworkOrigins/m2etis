@@ -28,8 +28,6 @@
 
 #include "m2etis/message/info/order/DetMergeOrderInfo.h"
 
-#undef max
-
 namespace m2etis {
 namespace pubsub {
 namespace order {
