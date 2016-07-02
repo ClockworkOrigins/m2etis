@@ -2,7 +2,6 @@
 set -evx
 env | sort
 
-cd ..
 mkdir build || true
 mkdir build/$M2ETIS_TARGET || true
 cd build/$M2ETIS_TARGET
