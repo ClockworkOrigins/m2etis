@@ -1,7 +1,7 @@
 install:
 # necessary exports for build scripts
-- if [ "$CXX" = "g++" ]; then export SPC_COMPILER="gcc"; fi
-- if [ "$CXX" = "clang++" ]; then export SPC_COMPILER="clang"; fi
+- if [ "$CXX" = "g++" ]; then export M2ETIS_COMPILER="gcc"; fi
+- if [ "$CXX" = "clang++" ]; then export M2ETIS_COMPILER="clang"; fi
 # change to correct gcc version
 - if [ "$CXX" = "g++" ]; then export CXX="g++-4.7" CC="gcc-4.7"; fi
 - echo ${PATH}
@@ -25,8 +25,10 @@ compiler:
 script: ./travis.sh
 env:
     matrix:
-        - SPC_TARGET=NoM2etisDebug SPC_M2ETIS=OFF SPC_BUILD_TYPE=Debug
-        - SPC_TARGET=M2etisDebug SPC_M2ETIS=ON SPC_BUILD_TYPE=Debug
-        - SPC_TARGET=NoM2etisRelease SPC_M2ETIS=OFF SPC_BUILD_TYPE=Release
-        - SPC_TARGET=M2etisRelease SPC_M2ETIS=ON SPC_BUILD_TYPE=Release
+        - M2ETIS_TARGET=NoLoggingNoValgrindDebug M2ETIS_LOGGING=OFF M2ETIS_VALGRIND=OFF M2ETIS_BUILD_TYPE=Debug
+        - M2ETIS_TARGET=LoggingNoValgrindDebug M2ETIS_LOGGING=ON M2ETIS_VALGRIND=OFF M2ETIS_BUILD_TYPE=Debug
+        - M2ETIS_TARGET=NoLoggingValgrindDebug M2ETIS_LOGGING=OFF M2ETIS_VALGRIND=ON M2ETIS_BUILD_TYPE=Debug
+        - M2ETIS_TARGET=LoggingValgrindDebug M2ETIS_LOGGING=ON M2ETIS_VALGRIND=ON M2ETIS_BUILD_TYPE=Debug
+        - M2ETIS_TARGET=NoLoggingNoValgrindRelease M2ETIS_LOGGING=OFF M2ETIS_BUILD_TYPE=Release
+        - M2ETIS_TARGET=LoggingNoValgrindRelease M2ETIS_LOGGING=ON M2ETIS_BUILD_TYPE=Release
 
