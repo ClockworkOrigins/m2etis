@@ -36,6 +36,8 @@ namespace message {
 	template<class EventType>
 	class BruteForceFilterInfo : public FilterInfo {
 	public:
+		static const bool CLONE = false;
+
 		typedef boost::shared_ptr<BruteForceFilterInfo<EventType>> Ptr;
 
         static bool doSerialize(ActionType t) {

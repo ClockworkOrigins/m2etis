@@ -31,6 +31,8 @@ namespace message {
 
 	class NullOrderInfo : public OrderInfo {
 	public:
+		static const bool CLONE = false;
+
         typedef boost::shared_ptr<NullOrderInfo> Ptr;
 
         static bool doSerialize(ActionType) {

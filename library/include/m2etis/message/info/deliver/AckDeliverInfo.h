@@ -28,6 +28,8 @@ namespace m2etis {
 namespace message {
 
 	struct AckDeliverInfo : public DeliverInfo {
+		static const bool CLONE = true;
+
 		typedef boost::shared_ptr<AckDeliverInfo> Ptr;
 
 		AckDeliverInfo() : DeliverInfo(), nr(UINT64_MAX) {}

@@ -32,6 +32,8 @@ namespace message {
 	template<class NetworkType>
 	class ScribeRoutingInfo : public RoutingInfo<NetworkType> {
 	public:
+		static const bool CLONE = false;
+
 		typedef boost::shared_ptr<ScribeRoutingInfo<NetworkType>> Ptr;
 
         static bool doSerialize(ActionType t) {

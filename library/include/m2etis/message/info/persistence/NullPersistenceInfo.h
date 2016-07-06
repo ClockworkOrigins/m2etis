@@ -31,6 +31,8 @@ namespace message {
 
 	class NullPersistenceInfo : public PersistenceInfo {
 	public:
+		static const bool CLONE = false;
+
         typedef boost::shared_ptr<NullPersistenceInfo> Ptr;
 
         static bool doSerialize(ActionType) {

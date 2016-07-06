@@ -2506,29 +2506,6 @@ struct ChannelT<TEST_Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_Char
     }
 };
 
-typedef Channel<
-    ChannelType<
-        DirectRouting<net::NetworkType<net::UDP>>
-        , NullFilter<IntegrationTestEventType, net::NetworkType<net::UDP>>
-        , NullOrder<net::NetworkType<net::UDP>>
-        , NullDeliver<net::NetworkType<net::UDP>>
-        , NullPersistence
-        , NullValidity
-        , DirectBroadcastPartition<net::NetworkType<net::UDP>, IntegrationTestEventType>
-        , NullSecurity, NullRendezvous
-    >,
-    net::NetworkType<net::UDP>,
-    IntegrationTestEventType
-> TEST_Direct_Integration_UDPType;
-
-template <>
-struct ChannelT<TEST_Direct_Integration_UDP>{
-    ChannelT(const std::string & ip, const unsigned short port, const std::string & known_hostname, const unsigned short known_hostport, PubSubSystemEnvironment * pssi, std::vector<ChannelEventInterface *> & map, const std::vector<std::string> & rootList)
-    {
-        map.push_back(new TEST_Direct_Integration_UDPType(TEST_Direct_Integration_UDP, ip, port, known_hostname, known_hostport, pssi, rootList));
-    }
-};
-
 #endif
 
 #endif

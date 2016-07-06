@@ -184,18 +184,53 @@ namespace message {
 
 		explicit InternalMessage(const InternalMessage & msg) : M2Message<EventType>(msg, &type), NetworkMessage<NetworkType>(msg, &type),
 			type(msg.type),
-			deliverInfo(boost::make_shared<DInfo>(*msg.deliverInfo)),
-			filterInfo(boost::make_shared<FInfo>(*msg.filterInfo)),
-			orderInfo(boost::make_shared<OInfo>(*msg.orderInfo)),
-			persistenceInfo(boost::make_shared<PInfo>(*msg.persistenceInfo)),
-			routingInfo(boost::make_shared<RInfo>(*msg.routingInfo)),
-			securityInfo(boost::make_shared<SInfo>(*msg.securityInfo)),
-			validityInfo(boost::make_shared<VInfo>(*msg.validityInfo)),
+			deliverInfo(),
+			filterInfo(),
+			orderInfo(),
+			persistenceInfo(),
+			routingInfo(),
+			securityInfo(),
+			validityInfo(),
 			ctrlType_(msg.ctrlType_),
 			_nodeList(msg._nodeList),
 			_time(msg._time),
 			_trees(msg._trees),
 			_topics(msg._topics) {
+			if (DInfo::CLONE) {
+				deliverInfo = boost::make_shared<DInfo>(*msg.deliverInfo);
+			} else {
+				deliverInfo = msg.deliverInfo;
+			}
+			if (FInfo::CLONE) {
+				filterInfo = boost::make_shared<FInfo>(*msg.filterInfo);
+			} else {
+				filterInfo = msg.filterInfo;
+			}
+			if (OInfo::CLONE) {
+				orderInfo = boost::make_shared<OInfo>(*msg.orderInfo);
+			} else {
+				orderInfo = msg.orderInfo;
+			}
+			if (PInfo::CLONE) {
+				persistenceInfo = boost::make_shared<PInfo>(*msg.persistenceInfo);
+			} else {
+				persistenceInfo = msg.persistenceInfo;
+			}
+			if (RInfo::CLONE) {
+				routingInfo = boost::make_shared<RInfo>(*msg.routingInfo);
+			} else {
+				routingInfo = msg.routingInfo;
+			}
+			if (SInfo::CLONE) {
+				securityInfo = boost::make_shared<SInfo>(*msg.securityInfo);
+			} else {
+				securityInfo = msg.securityInfo;
+			}
+			if (VInfo::CLONE) {
+				validityInfo = boost::make_shared<VInfo>(*msg.validityInfo);
+			} else {
+				validityInfo = msg.validityInfo;
+			}
 		}
 
 		~InternalMessage() {
@@ -215,6 +250,7 @@ namespace message {
 			ss << ")";
 			return ss.str();
 		}
+
 	private:
         friend class boost::serialization::access;
 

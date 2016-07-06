@@ -31,6 +31,8 @@ namespace message {
 
 	class NullSecurityInfo : public SecurityInfo {
 	public:
+		static const bool CLONE = false;
+
         typedef boost::shared_ptr<NullSecurityInfo> Ptr;
 
         static bool doSerialize(ActionType) {

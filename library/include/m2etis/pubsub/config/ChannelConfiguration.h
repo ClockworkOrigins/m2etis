@@ -25,28 +25,29 @@
 
 
 namespace m2etis {
-    namespace pubsub {
+namespace pubsub {
 
-        // Forward Decls
-        class ChannelConfigurationImpl;
-        struct ChannelEventInterface;
-        class PubSubSystemEnvironment;
+    // Forward Decls
+    class ChannelConfigurationImpl;
+    struct ChannelEventInterface;
+    class PubSubSystemEnvironment;
 
-		class M2ETIS_API ChannelConfiguration {
-        private:
-            ChannelConfigurationImpl * impl;
+	class M2ETIS_API ChannelConfiguration {
+    public:
+        uint8_t count;
 
-        public:
-            uint8_t count;
+        virtual ~ChannelConfiguration();
 
-            virtual ~ChannelConfiguration();
+        ChannelConfiguration(const std::string & ip, const uint16_t port, const std::string & known_hostname, const uint16_t known_hostport, PubSubSystemEnvironment * pssi, const std::vector<std::string> & rootList);
 
-            ChannelConfiguration(const std::string & ip, const uint16_t port, const std::string & known_hostname, const uint16_t known_hostport, PubSubSystemEnvironment * pssi, const std::vector<std::string> & rootList);
+		const std::vector<ChannelEventInterface *> & channels() const;
 
-            const std::vector<ChannelEventInterface *> & channels() const;
-        };
-    }
-}
+	private:
+		ChannelConfigurationImpl * impl;
+    };
+
+} /* namespace pubsub */
+} /* namespace m2etis */
 
 #endif /* __M2ETIS_PUBSUB_CHANNELCONFIGURATION_H__ */
 

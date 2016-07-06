@@ -31,6 +31,8 @@ namespace message {
 
 	class NullValidityInfo : public ValidityInfo {
 	public:
+		static const bool CLONE = false;
+
         typedef boost::shared_ptr<NullValidityInfo> Ptr;
 
         static bool doSerialize(ActionType) {

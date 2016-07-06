@@ -31,6 +31,8 @@ namespace message {
 
 	class MTPOrderInfo : public OrderInfo {
 	public:
+		static const bool CLONE = true;
+
 		typedef boost::shared_ptr<MTPOrderInfo> Ptr;
 
 		enum MTPStatus {

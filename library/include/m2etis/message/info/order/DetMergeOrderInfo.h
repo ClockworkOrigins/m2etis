@@ -36,6 +36,8 @@ namespace message {
 	template<class Config>
 	class DetMergeOrderInfo : public OrderInfo, public Config {
 	public:
+		static const bool CLONE = true;
+
 		typedef boost::shared_ptr<DetMergeOrderInfo> Ptr;
 
 		/**

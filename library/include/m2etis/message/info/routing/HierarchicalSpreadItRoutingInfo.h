@@ -32,6 +32,8 @@ namespace message {
 	template<class NetworkType>
 	class HierarchicalSpreadItRoutingInfo : public RoutingInfo<NetworkType> {
 	public:
+		static const bool CLONE = true;
+
 		typedef boost::shared_ptr<HierarchicalSpreadItRoutingInfo<NetworkType>> Ptr;
 
         static bool doSerialize(ActionType t) {

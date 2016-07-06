@@ -35,6 +35,8 @@ namespace message {
 	template<class EventType>
 	class GeneralBooleanExpressionsFilterInfo : public FilterInfo {
 	public:
+		static const bool CLONE = false;
+
 		typedef boost::shared_ptr<GeneralBooleanExpressionsFilterInfo<EventType>> Ptr;
 
         static bool doSerialize(ActionType t) {

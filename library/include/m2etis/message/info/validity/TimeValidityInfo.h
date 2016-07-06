@@ -31,6 +31,8 @@ namespace message {
 
 	class TimeValidityInfo : public ValidityInfo {
 	public:
+		static const bool CLONE = false;
+
         typedef boost::shared_ptr<TimeValidityInfo> Ptr;
 
         static bool doSerialize(ActionType t) {

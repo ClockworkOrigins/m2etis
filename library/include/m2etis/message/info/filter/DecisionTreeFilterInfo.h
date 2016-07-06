@@ -34,6 +34,8 @@ namespace message {
 	template<class EventType, class NetworkType>
 	class DecisionTreeFilterInfo : public FilterInfo {
 	public:
+		static const bool CLONE = false;
+
 		typedef boost::shared_ptr<DecisionTreeFilterInfo<EventType, NetworkType>> Ptr;
 
         static bool doSerialize(ActionType t) {

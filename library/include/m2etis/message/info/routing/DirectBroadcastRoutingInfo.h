@@ -33,6 +33,8 @@ namespace message {
 	template<class NetworkType>
 	class DirectBroadcastRoutingInfo : public RoutingInfo<NetworkType> {
 	public:
+		static const bool CLONE = false;
+
 		typedef boost::shared_ptr<DirectBroadcastRoutingInfo<NetworkType>> Ptr;
 
         static bool doSerialize(ActionType t) {

@@ -31,6 +31,8 @@ namespace message {
 
 	class NullDeliverInfo : public DeliverInfo {
 	public:
+		static const bool CLONE = false;
+
         typedef boost::shared_ptr<NullDeliverInfo> Ptr;
 
         static bool doSerialize(ActionType) {

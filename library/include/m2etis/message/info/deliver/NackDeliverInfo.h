@@ -29,6 +29,8 @@ namespace message {
 
 	class NackDeliverInfo : public DeliverInfo {
 	public:
+		static const bool CLONE = true;
+
 		typedef boost::shared_ptr<NackDeliverInfo> Ptr;
 
 		NackDeliverInfo() : DeliverInfo(), nr(), dropped() {}

@@ -1374,18 +1374,6 @@ m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::U
 BOOST_CLASS_EXPORT_GUID(Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDPMessage, "87")
 BOOST_CLASS_IMPLEMENTATION(Spreadit_BruteForce_GMS_Null_Null_Null_BruteForce_Null_CharVector_UDPMessage, boost::serialization::object_serializable)
 
-typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
-m2etis::pubsub::routing::DirectRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::filter::NullFilter<IntegrationTestEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
-, m2etis::pubsub::persistence::NullPersistence
-, m2etis::pubsub::validity::NullValidity
-, m2etis::pubsub::partition::DirectBroadcastPartition<m2etis::net::NetworkType<m2etis::net::UDP>, IntegrationTestEventType>
-, m2etis::pubsub::security::NullSecurity, m2etis::pubsub::rendezvous::NullRendezvous>, IntegrationTestEventType> Direct_Integration_UDPMessage;
-BOOST_CLASS_EXPORT_GUID(Direct_Integration_UDPMessage, "88")
-BOOST_CLASS_IMPLEMENTATION(Direct_Integration_UDPMessage, boost::serialization::object_serializable)
-
 #endif
 
 #endif

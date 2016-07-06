@@ -33,6 +33,8 @@ namespace message {
 	template<class EventType>
 	class NullFilterInfo : public FilterInfo {
 	public:
+		static const bool CLONE = false;
+
 		typedef boost::shared_ptr<NullFilterInfo<EventType>> Ptr;
 
         static bool doSerialize(ActionType) {

@@ -37,6 +37,8 @@ namespace message {
 	template<class NetworkType>
 	class GMSOrderInfo : public OrderInfo {
 	public:
+		static const bool CLONE = true;
+
 		typedef boost::shared_ptr<GMSOrderInfo> Ptr;
 
 		GMSOrderInfo() : realTree(UINT64_MAX), msgNr(0), seqNr(0), mT(0), type(TYPE::NONE), sender() {
