@@ -22,6 +22,7 @@
 #ifndef __M2ETIS_NET_NETWORKCONTROLLER_H__
 #define __M2ETIS_NET_NETWORKCONTROLLER_H__
 
+#include <condition_variable>
 #include <map>
 
 #include "m2etis/util/Logger.h"
@@ -55,16 +56,6 @@ namespace net {
 		typedef std::function<void(typename message::NetworkMessage<NetworkType>::Ptr message)> net_deliver_func;
 		typedef std::function<pubsub::FIPtr(typename message::NetworkMessage<NetworkType>::Ptr message)> net_forward_func;
 
-		// TODO: (Daniel) this can be removed, use NetworkMessage directly instead
-		struct DeliverInfo {
-			DeliverInfo() : msg_type(), message() {
-			}
-			explicit DeliverInfo(typename message::NetworkMessage<NetworkType>::Ptr ms) : msg_type(*ms->typePtr), message(ms) {
-			}
-			message::MessageType msg_type;
-			typename message::NetworkMessage<NetworkType>::Ptr message;
-		};
-
 		// TODO: (Daniel) public access to pointer isn't what we normally do, so refactor to be conform with our normal coding style
 		NetworkInterface<NetworkType> * network_;
 
@@ -72,7 +63,7 @@ namespace net {
 		 * \brief creates new interface for communication with a wrapper
 		 * adds a polling job for incoming messages
 		 */
-		NetworkController(NetworkInterface<NetworkType> * network, pubsub::PubSubSystemEnvironment * pssi) : network_(network), deliver_map_(), forward_map_(), msgQueue_(), pssi_(pssi), _running(true) {
+		NetworkController(NetworkInterface<NetworkType> * network, pubsub::PubSubSystemEnvironment * pssi) : network_(network), _running(true), deliver_map_(), forward_map_(), msgQueue_(), pssi_(pssi), _sendLock(), _sendConditionVariable(), _sendThread(std::bind(&NetworkController::sendWorker, this)) {
 			processingID_ = pssi->scheduler_.runRepeated(parameters::PULL_DELIVERQUEUE, std::bind(&NetworkController::processDeliverQueue, this), 3);
 			network_->setCallback(this);
 		}
@@ -81,8 +72,13 @@ namespace net {
 		 * \brief stops polling job and cleans up wrapper
 		 */
 		~NetworkController() {
-			pssi_->scheduler_.stop(processingID_);
-			_running = false;
+			{
+				std::unique_lock<std::mutex> ul(_sendLock);
+				_running = false;
+				pssi_->scheduler_.stop(processingID_);
+				_sendConditionVariable.notify_one();
+			}
+			_sendThread.join();
 			delete network_;
 			network_ = nullptr;
 		}
@@ -112,7 +108,7 @@ namespace net {
 				M2ETIS_THROW_FAILURE("NetworkController - deliver", "invalid message type", -1);
 			}
 
-			msgQueue_.push(DeliverInfo(message));
+			msgQueue_.push(message);
 		}
 
 		/**
@@ -132,7 +128,9 @@ namespace net {
 				deliver(msg);
 				return;
 			}
-			network_->send(msg, typename NodeHandle<NetworkType>::Ptr_const());
+			std::unique_lock<std::mutex> ul(_sendLock);
+			_sendQueue.push(msg);
+			_sendConditionVariable.notify_one();
 		}
 
 		void registerMessageType(message::MessageType type, const bool ack = true) {
@@ -160,16 +158,20 @@ namespace net {
 		}
 
 	private:
+		bool _running;
+
 		typedef std::map<message::MessageType, net_deliver_func> DMapType;
 		DMapType deliver_map_;
 		typedef std::map<message::MessageType, net_forward_func> FMapType;
 		FMapType forward_map_;
-		typedef clockUtils::container::DoubleBufferQueue<DeliverInfo, true, false> DIQueueType;
+		typedef clockUtils::container::DoubleBufferQueue<typename message::NetworkMessage<NetworkType>::Ptr, true, false> DIQueueType;
 		DIQueueType msgQueue_;
+		clockUtils::container::DoubleBufferQueue<typename message::NetworkMessage<NetworkType>::Ptr, false, false> _sendQueue;
+		std::mutex _sendLock;
+		std::condition_variable _sendConditionVariable;
+		std::thread _sendThread;
 
 		pubsub::PubSubSystemEnvironment * pssi_;
-
-		bool _running;
 
 		uint64_t processingID_;
 
@@ -182,17 +184,43 @@ namespace net {
 				return false;
 			}
 			while (!msgQueue_.empty()) {
-				DeliverInfo di;
-				clockUtils::ClockError err = msgQueue_.poll(di);
+				typename message::NetworkMessage<NetworkType>::Ptr msg;
+				clockUtils::ClockError err = msgQueue_.poll(msg);
 
 				if (err == clockUtils::ClockError::SUCCESS) {
-					typename DMapType::iterator it = deliver_map_.find(di.msg_type);
+					typename DMapType::iterator it = deliver_map_.find(*msg->typePtr);
 					if (it != deliver_map_.end()) {
-						it->second(di.message);
+						it->second(msg);
 					}
 				}
 			}
 			return _running;
+		}
+
+		void sendWorker() {
+			do {
+				{ // synchronize with destructor. Inside a scope to unlock _condMutex after waiting
+					// acquire the condition mutex
+					std::unique_lock<std::mutex> ul(_sendLock);
+					// The normal case is waiting for new write request
+					// Exceptions are:
+					//	* !_running  -> socket will be closed soon
+					//	* !empty() -> new requests arrived
+					// this check needs to be inside the lock to avoid a lost wake-up
+					// if this 'if' or the 'else if' is true, the lock ensures that the notify is called *after* the wait call
+					if (!_running || !_sendQueue.empty()) {
+						// nothing
+					} else {
+						_sendConditionVariable.wait(ul);
+					}
+				}
+				while (!_sendQueue.empty()) {
+					typename message::NetworkMessage<NetworkType>::Ptr msg;
+					if (clockUtils::ClockError::SUCCESS == _sendQueue.poll(msg)) {
+						network_->send(msg, typename NodeHandle<NetworkType>::Ptr_const());
+					}
+				}
+			} while (_running);
 		}
 
 		// make non-copyable
