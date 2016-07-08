@@ -24,9 +24,6 @@
 
 #include "clockUtils/sockets/TcpSocket.h"
 
-#include "boost/bind.hpp"
-#include "boost/thread.hpp"
-
 namespace m2etis {
 namespace wrapper {
 namespace clocktcp {
@@ -38,13 +35,13 @@ namespace clocktcp {
 				message::Key<message::IPv4KeyProvider> k(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
 
 				{
-					boost::mutex::scoped_lock l(_lock);
+					std::lock_guard<std::mutex> lg(_lock);
 					_sockets[k] = socket;
 				}
 				_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::readFromSocket, this, socket))));
 			}
 		});
-		boost::mutex::scoped_lock l(_lock);
+		std::lock_guard<std::mutex> lg(_lock);
 		_sockets[_local] = newSocket;
 	}
 
@@ -81,35 +78,42 @@ namespace clocktcp {
 			net::NetworkType<net::clockTCP>::Key realKey = metis2real(metisKey);
 			_mapLock.unlock();
 
-			boost::mutex::scoped_lock l(_lock);
-			auto it = _sockets.find(realKey);
-			if (it == _sockets.end()) {
-				M2ETIS_LOG_DEBUG("clockTcpWrapper", "creating new socket: " << realKey.ipStr() << ":" << realKey.portStr());
-				clockUtils::sockets::TcpSocket * socket = new clockUtils::sockets::TcpSocket();
-				clockUtils::ClockError error = socket->connectToIP(realKey.ipStr(), realKey.getPort(), 2000);
+			clockUtils::sockets::TcpSocket * sendSocket = nullptr;
+			{
+				std::lock_guard<std::mutex> lg(_lock);
+				auto it = _sockets.find(realKey);
+				if (it == _sockets.end()) {
+					M2ETIS_LOG_DEBUG("clockTcpWrapper", "creating new socket: " << realKey.ipStr() << ":" << realKey.portStr());
+					clockUtils::sockets::TcpSocket * socket = new clockUtils::sockets::TcpSocket();
+					clockUtils::ClockError error = socket->connectToIP(realKey.ipStr(), realKey.getPort(), 2000);
 
-				if (error != clockUtils::ClockError::SUCCESS) {
-					socket->close();
-					delete socket;
-					M2ETIS_THROW_FAILURE("clockTcpWrapper - Couldn't connect", metisKey.toStr(), int(error));
+					if (error != clockUtils::ClockError::SUCCESS) {
+						socket->close();
+						delete socket;
+						M2ETIS_THROW_FAILURE("clockTcpWrapper - Couldn't connect", metisKey.toStr(), int(error));
+					}
+
+					_sockets.insert(std::make_pair(realKey, socket)).first;
+					_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::readFromSocket, this, socket))));
+					sendSocket = socket;
+				} else {
+					sendSocket = it->second;
 				}
-
-				it = _sockets.insert(std::make_pair(realKey, socket)).first;
-				_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::readFromSocket, this, socket))));
 			}
-			if (it->second == nullptr) {
+			if (sendSocket == nullptr) {
 				return;
 			}
-			it->second->writePacketAsync(std::vector<uint8_t>(ser.begin(), ser.end()));
+			sendSocket->writePacketAsync(ser);
 		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
 
 			// remove socket from map
 			net::NetworkType<net::clockTCP>::Key metisKey = msg->receiver;
-			boost::mutex::scoped_lock sl(_mapLock);
+			std::lock_guard<std::mutex> lg(_mapLock);
 			net::NetworkType<net::clockTCP>::Key realKey = metis2real(metisKey);
 
+			std::lock_guard<std::mutex> lg2(_lock);
 			if (_sockets.find(realKey) != _sockets.end()) {
 				_sockets[realKey]->close();
 				delete _sockets[realKey];
@@ -132,8 +136,6 @@ namespace clocktcp {
 		net::NetworkType<net::clockTCP>::Key metisKey = real2metis(realKey);
 		try {
 			while (_initialized) {
-				boost::this_thread::interruption_point();
-
 				std::string message;
 				clockUtils::ClockError error = socket->receivePacket(message);
 
@@ -147,7 +149,7 @@ namespace clocktcp {
 				} else {
 					// sender set, create mapping
 					metisKey = msg->sender;
-					boost::mutex::scoped_lock sl(_mapLock);
+					std::lock_guard<std::mutex> lg(_mapLock);
 					_mapping_metis_real[metisKey] = realKey;
 					_mapping_real_metis[realKey] = metisKey;
 				}
@@ -158,7 +160,7 @@ namespace clocktcp {
 				e.writeLog();
 				e.PassToMain();
 
-				boost::mutex::scoped_lock l(_lock);
+				std::lock_guard<std::mutex> lg(_lock);
 				// TODO simplify
 				for (std::map<net::NetworkType<net::clockTCP>::Key, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 					if (it->second == socket) {
@@ -192,12 +194,11 @@ namespace clocktcp {
 	}
 
 	void clockTcpWrapper::eraseSocket(net::NetworkType<net::clockTCP>::Key realKey) {
-		boost::this_thread::sleep(boost::posix_time::seconds(1));
-		boost::this_thread::interruption_point();
-		boost::mutex::scoped_lock sl(_mapLock);
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+		std::lock_guard<std::mutex> lg(_mapLock);
 		_mapping_metis_real.erase(real2metis(realKey));
 		_mapping_real_metis.erase(realKey);
-		boost::mutex::scoped_lock l(_lock);
+		std::lock_guard<std::mutex> lg2(_lock);
 		_sockets.erase(realKey);
 	}
 

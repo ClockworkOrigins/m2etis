@@ -22,13 +22,12 @@
 #ifndef __M2ETIS_WRAPPER_CLOCKTCPWRAPPER_H__
 #define __M2ETIS_WRAPPER_CLOCKTCPWRAPPER_H__
 
+#include <mutex>
+
 #include "m2etis/net/NetworkCallbackInterface.h"
 #include "m2etis/net/NetworkInterface.h"
 #include "m2etis/net/NetworkType.h"
 #include "m2etis/net/NodeHandle.h"
-
-#include "boost/make_shared.hpp"
-#include "boost/thread/mutex.hpp"
 
 namespace std {
 	class thread;
@@ -101,7 +100,7 @@ namespace clocktcp {
 
 		net::NetworkType<net::clockTCP>::Key _local;
 
-		boost::mutex _lock; // used to lock _sockets
+		std::mutex _lock; // used to lock _sockets
 		std::map<net::NetworkType<net::clockTCP>::Key, clockUtils::sockets::TcpSocket *> _sockets;
 
 		/**
@@ -112,7 +111,7 @@ namespace clocktcp {
 
 		std::map<net::NetworkType<net::clockTCP>::Key, net::NetworkType<net::clockTCP>::Key> _mapping_metis_real;
 		std::map<net::NetworkType<net::clockTCP>::Key, net::NetworkType<net::clockTCP>::Key> _mapping_real_metis;
-		boost::mutex _mapLock;
+		std::mutex _mapLock;
 
 		/**
 		 * \brief stores all threads created in this class for cleanup issues
