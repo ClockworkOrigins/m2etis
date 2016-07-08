@@ -341,7 +341,9 @@ namespace pubsub {
 			msg->sender = self_;
 			msg->type = action | topic_;
 
-			for (typename NetworkType::Key to : v) {
+			size_t receiverSize = v.size();
+			for (size_t i = 1; i < receiverSize; i++) {
+				typename NetworkType::Key to = v[i];
 				// Using the same Message and sending it to all receivers. Don't change it later!
 				msg->receiver = to;
 
@@ -356,6 +358,23 @@ namespace pubsub {
 				typename IMessage::Ptr msg2 = boost::make_shared<IMessage>(*msg);
 				uint64_t a = buffer_.insert(std::bind(&Tree::reallySendMsg, this, msg2));
 				ChannelType::OrderStrategy::configureOrderInfo(a, action, msg2->orderInfo, to);
+			}
+
+			if (!v.empty()) {
+				typename NetworkType::Key to = v[0];
+				// Using the same Message and sending it to all receivers. Don't change it later!
+				msg->receiver = to;
+
+				if (action == message::NOTIFY && !ChannelType::FilterStrategy::match(to, msg->filterInfo, msg->payload)) {
+					ChannelType::OrderStrategy::notifyRemovedMessage(msg->orderInfo, to);
+					return;
+				}
+				if ((action == message::NOTIFY || action == message::PUBLISH) && !ChannelType::ValidityStrategy::isValid(msg->validityInfo)) {
+					ChannelType::OrderStrategy::notifyRemovedMessage(msg->orderInfo, to);
+					return;
+				}
+				uint64_t a = buffer_.insert(std::bind(&Tree::reallySendMsg, this, msg));
+				ChannelType::OrderStrategy::configureOrderInfo(a, action, msg->orderInfo, to);
 			}
 		}
 
