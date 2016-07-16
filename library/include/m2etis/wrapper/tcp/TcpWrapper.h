@@ -102,7 +102,7 @@ namespace tcp {
 		boost::asio::io_service _io_service;
 		boost::asio::ip::tcp::acceptor * _acceptor;
 
-		boost::mutex lock_; // used to lock _sockets
+		std::mutex lock_; // used to lock _sockets
 		std::map<net::NetworkType<net::TCP>::Key, boost::asio::ip::tcp::socket *> _sockets;
 
 		boost::asio::io_service::strand _strand__;
@@ -114,7 +114,7 @@ namespace tcp {
 		std::map<net::NetworkType<net::TCP>::Key, net::NetworkType<net::TCP>::Key> _mapping_metis_real;
 		std::map<net::NetworkType<net::TCP>::Key, net::NetworkType<net::TCP>::Key> _mapping_real_metis;
 
-		boost::mutex _mapLock;
+		std::mutex _mapLock;
 
 		std::mutex _threadLock;
 		std::multimap<uint16_t, boost::thread *> threads_;
