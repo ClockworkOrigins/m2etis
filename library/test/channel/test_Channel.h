@@ -18,29 +18,27 @@
 
 #include "DCB.h"
 
-#include "boost/thread.hpp"
-
 const unsigned short NODE_AMOUNT = 4;
 const uint16_t MESSAGE_AMOUNT = 50;
 const unsigned int FIRSTCHANNEL = 0;
 const unsigned int CHANNELAMOUNT = m2etis::pubsub::CHANNEL_COUNT;
 
 void testChannel(m2etis::pubsub::ChannelName cn) {
-	std::vector<boost::shared_ptr<DCB>> _callbacks;
-	std::vector<boost::shared_ptr<m2etis::pubsub::PubSubSystem>> _pubSubs;
+	std::vector<std::shared_ptr<DCB>> _callbacks;
+	std::vector<std::shared_ptr<m2etis::pubsub::PubSubSystem>> _pubSubs;
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		_pubSubs.push_back(boost::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, { "127.0.0.1" })));
-		_callbacks.push_back(boost::make_shared<DCB>());
+		_pubSubs.push_back(std::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, { "127.0.0.1" })));
+		_callbacks.push_back(std::make_shared<DCB>());
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(375 * NODE_AMOUNT));
+	std::this_thread::sleep_for(std::chrono::milliseconds(375 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->subscribe<CharVectorEventType>(cn, *_callbacks[i]);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(375 * NODE_AMOUNT));
+	std::this_thread::sleep_for(std::chrono::milliseconds(375 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);
@@ -74,21 +72,21 @@ TEST(M2etis, testChannelsForDelivery) {
 }
 
 void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
-	std::vector<boost::shared_ptr<DCB>> _callbacks;
-	std::vector<boost::shared_ptr<m2etis::pubsub::PubSubSystem>> _pubSubs;
+	std::vector<std::shared_ptr<DCB>> _callbacks;
+	std::vector<std::shared_ptr<m2etis::pubsub::PubSubSystem>> _pubSubs;
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		_pubSubs.push_back(boost::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, {"127.0.0.1"})));
-		_callbacks.push_back(boost::make_shared<DCB>());
+		_pubSubs.push_back(std::shared_ptr<m2etis::pubsub::PubSubSystem>(new m2etis::pubsub::PubSubSystem("127.0.0.1", 12345 + i, "127.0.0.1", 12345, {"127.0.0.1"})));
+		_callbacks.push_back(std::make_shared<DCB>());
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(375 * NODE_AMOUNT));
+	std::this_thread::sleep_for(std::chrono::milliseconds(375 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_pubSubs[i]->subscribe<CharVectorEventType>(cn, *_callbacks[i]);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(375 * NODE_AMOUNT));
+	std::this_thread::sleep_for(std::chrono::milliseconds(375 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);
@@ -115,7 +113,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		_pubSubs[i]->unsubscribe<CharVectorEventType>(cn);
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(50 * NODE_AMOUNT));
+	std::this_thread::sleep_for(std::chrono::milliseconds(50 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < MESSAGE_AMOUNT; ++i) {
 		for (unsigned short j = 0; j < NODE_AMOUNT; ++j) {
@@ -124,7 +122,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 		}
 	}
 
-	boost::this_thread::sleep(boost::posix_time::milliseconds(200 * NODE_AMOUNT));
+	std::this_thread::sleep_for(std::chrono::milliseconds(200 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		ASSERT_EQ(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << cn << " of Node " << i << " has not correct amount of messages!";

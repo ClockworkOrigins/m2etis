@@ -46,6 +46,7 @@ namespace pubsub {
 
 		/**
 		 * \brief deliver a callback
+		 * called from m2etis thread, so try to move message to another thread as soon as possible to not slowdown m2etis
 		 *
 		 * \param[in] message delivered message
 		 */
