@@ -92,14 +92,10 @@ public:
 		}
 		std::string b = a.str();
 		std::cout << boost::posix_time::ptime(boost::posix_time::second_clock::local_time()) << ": publishing... " << a.str() << std::endl;
-		m2etis::message::M2Message<CurrentEventType>::Ptr msg_ = _pubsub->createMessage<CurrentEventType>(_chan);
-		m2etis::message::M2Message<CurrentEventType>::PayloadPtr p(new CurrentEventType(event));
 
-		msg_->payload = p;
+		std::cout << "content of sent event: " << convertEventToString(event) << std::endl;
 
-		std::cout << "content of sent event: " << convertEventToString(*p) << std::endl;
-
-		_pubsub->publish<CurrentEventType>(_chan, msg_);
+		_pubsub->publish(_chan, event);
     }
 
     // m2etis_node only instantiates one channel.
@@ -163,8 +159,8 @@ public:
 		return;
 	}
 
-    void deliverCallback(const m2etis::message::M2Message<CurrentEventType>::Ptr message) {
-    	std::cout << "content of received event: " << convertEventToString(*(message->payload)) << std::endl;
+    void deliverCallback(CurrentEventType message) {
+    	std::cout << "content of received event: " << convertEventToString(message) << std::endl;
     }
 
 private:

@@ -25,8 +25,6 @@
 #include "m2etis/util/ExceptionQueue.h"
 #include "m2etis/util/SystemParameters.h"
 
-#include "m2etis/message/M2Message.h"
-
 #include "m2etis/pubsub/ChannelEventInterface.h"
 #include "m2etis/pubsub/ChannelInterface.h"
 #include "m2etis/pubsub/config/ChannelConfiguration.h"
@@ -102,14 +100,7 @@ namespace pubsub {
 		 * \param[in] publish_message published message
 		 * \return Returns a pointer to the PubSubSystem
 		 */
-		template<class EventType> const PubSubSystem & publish(const ChannelName channel, const typename message::M2Message<EventType>::Ptr publish_message) const;
-
-		/**
-		 * \brief returns a M2Message for the given EventType and Payload
-		 */
-		// FIXME: (Daniel) if we kick M2Message, we can kick also these to methods and publish Payload directly
-		template<class EventType> typename message::M2Message<EventType>::Ptr createMessage(const ChannelName channel, const EventType & payload);
-		template<class EventType> typename message::M2Message<EventType>::Ptr createMessage(const ChannelName channel);
+		template<class EventType> const PubSubSystem & publish(const ChannelName channel, EventType publishEvent) const;
 
 		/**
 		 * \brief Returns a string representation of the requested channel
@@ -202,18 +193,10 @@ namespace pubsub {
 		return *this;
 	}
 
-	template<class EventType> const PubSubSystem & PubSubSystem::publish(const ChannelName channel, const typename message::M2Message<EventType>::Ptr publish_message) const {
+	template<class EventType> const PubSubSystem & PubSubSystem::publish(const ChannelName channel, EventType publishEvent) const {
 		BasicChannelInterface<EventType> * const ret = getChannelHandle<EventType>(channel);
-		ret->publish(publish_message);
+		ret->publish(publishEvent);
 		return *this;
-	}
-
-	template<class EventType> typename message::M2Message<EventType>::Ptr PubSubSystem::createMessage(const ChannelName channel, const EventType & payload) {
-		return getChannelHandle<EventType>(channel)->createMessage(payload);
-	}
-
-	template<class EventType> typename message::M2Message<EventType>::Ptr PubSubSystem::createMessage(const ChannelName channel) {
-		return createMessage<EventType>(channel, EventType());
 	}
 
 } /* namespace pubsub */

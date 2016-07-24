@@ -55,7 +55,7 @@ namespace filter {
 		 *
 		 * \param[in] msg published message on the channel
 		 */
-		virtual void publish(const typename message::M2Message<EventType>::Ptr msg) = 0;
+		virtual void publish(EventType msg) = 0;
 
 		/**
 		 * \brief subscribes to the channel
@@ -82,10 +82,6 @@ namespace filter {
 		virtual ChannelName getChannel() const = 0;
 
 		virtual std::string getSelf() const = 0;
-
-		virtual typename message::M2Message<EventType>::Ptr createMessage() const = 0;
-
-		virtual typename message::M2Message<EventType>::Ptr createMessage(const EventType & payload) const = 0;
 
 #ifdef WITH_SIM
 		virtual typename message::NetworkMessage<net::NetworkType<net::OMNET> >::Ptr transformToNetworkMessage(typename message::M2Message<EventType>::Ptr msg) const = 0;

@@ -213,11 +213,11 @@ namespace pubsub {
 						if (ChannelType::RoutingStrategy::selfSubscribed()) {
 							if (todeliver->sender == todeliver->receiver) {
 								if (ChannelType::ValidityStrategy::isValid(todeliver->validityInfo)) {
-									deliver_f->deliverCallback(todeliver);
+									deliver_f->deliverCallback(*todeliver->payload);
 								}
 							} else {
 								if (ChannelType::ValidityStrategy::isValid(todeliver->validityInfo)) {
-									uint64_t a = buffer_.insert(std::bind(&BasicDeliverCallbackInterface<EventType>::deliverCallback, deliver_f, todeliver));
+									uint64_t a = buffer_.insert(std::bind(&BasicDeliverCallbackInterface<EventType>::deliverCallback, deliver_f, *todeliver->payload));
 									ChannelType::OrderStrategy::receive(a, todeliver->orderInfo, todeliver->sender);
 								}
 							}
@@ -244,11 +244,11 @@ namespace pubsub {
 							if (ChannelType::FilterStrategy::match(todeliver->payload)) {
 								if (todeliver->sender == todeliver->receiver) {
 									if (ChannelType::ValidityStrategy::isValid(todeliver->validityInfo)) {
-										deliver_f->deliverCallback(todeliver);
+										deliver_f->deliverCallback(*todeliver->payload);
 									}
 								} else {
 									if (ChannelType::ValidityStrategy::isValid(todeliver->validityInfo)) {
-										uint64_t a = buffer_.insert(std::bind(&BasicDeliverCallbackInterface<EventType>::deliverCallback, deliver_f, todeliver));
+										uint64_t a = buffer_.insert(std::bind(&BasicDeliverCallbackInterface<EventType>::deliverCallback, deliver_f, *todeliver->payload));
 										ChannelType::OrderStrategy::receive(a, todeliver->orderInfo, todeliver->sender);
 									}
 								}

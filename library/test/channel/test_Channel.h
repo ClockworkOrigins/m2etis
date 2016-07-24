@@ -41,8 +41,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(375 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);
-		_pubSubs[i]->publish<CharVectorEventType>(cn, m);
+		_pubSubs[i]->publish(cn, CharVectorEventType());
 	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
@@ -52,8 +51,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < MESSAGE_AMOUNT; ++i) {
 		for (unsigned short j = 0; j < NODE_AMOUNT; ++j) {
-			m2etis::message::M2etisMessage::Ptr m = _pubSubs[j]->createMessage<CharVectorEventType>(cn);
-			_pubSubs[j]->publish<CharVectorEventType>(cn, m);
+			_pubSubs[j]->publish(cn, CharVectorEventType());
 		}
 	}
 
@@ -89,8 +87,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(375 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		m2etis::message::M2etisMessage::Ptr m = _pubSubs[i]->createMessage<CharVectorEventType>(cn);
-		_pubSubs[i]->publish<CharVectorEventType>(cn, m);
+		_pubSubs[i]->publish(cn, CharVectorEventType());
 	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
@@ -100,8 +97,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < MESSAGE_AMOUNT; ++i) {
 		for (unsigned short j = 0; j < NODE_AMOUNT; ++j) {
-			m2etis::message::M2etisMessage::Ptr m = _pubSubs[j]->createMessage<CharVectorEventType>(cn);
-			_pubSubs[j]->publish<CharVectorEventType>(cn, m);
+			_pubSubs[j]->publish(cn, CharVectorEventType());
 		}
 	}
 
@@ -117,8 +113,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < MESSAGE_AMOUNT; ++i) {
 		for (unsigned short j = 0; j < NODE_AMOUNT; ++j) {
-			m2etis::message::M2etisMessage::Ptr m = _pubSubs[j]->createMessage<CharVectorEventType>(cn);
-			_pubSubs[j]->publish<CharVectorEventType>(cn, m);
+			_pubSubs[j]->publish(cn, CharVectorEventType());
 		}
 	}
 

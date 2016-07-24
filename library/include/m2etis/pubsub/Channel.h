@@ -48,11 +48,6 @@
 #include "boost/shared_ptr.hpp"
 #include "boost/thread/locks.hpp"
 
-#if I6E_PLATFORM == I6E_PLATFORM_WIN32
-	#pragma warning(push)
-	#pragma warning(disable : 4127)
-#endif
-
 namespace m2etis {
 namespace pubsub {
 
@@ -135,9 +130,9 @@ namespace pubsub {
 				SimulationEventType v;
 				v._simID = -1;
 				v._simChannel = topic_;
-				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(createMessage(v));
+				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage(v));
 #else
-				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(createMessage());
+				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
 #endif /* WITH_SIM */
 
 				msg->sender = _self;
@@ -170,16 +165,8 @@ namespace pubsub {
 			unsubscribe_ = true;
 		}
 
-		void publish(const typename message::M2Message<EventType>::Ptr msg) {
-			msgQueue_.push(msg);
-		}
-
-		typename message::M2Message<EventType>::Ptr createMessage() const {
-			return factory_.template createMessage<EventType>();
-		}
-
-		typename message::M2Message<EventType>::Ptr createMessage(const EventType & payload) const {
-			return factory_.createMessage(payload);
+		void publish(EventType publishEvent) {
+			msgQueue_.push(factory_.createMessage(publishEvent));
 		}
 
 #ifdef WITH_SIM
@@ -299,7 +286,6 @@ namespace pubsub {
 				}
 
 				uint64_t rT = pssi_->clock_.getRealTime();
-//				assert(msg2->_time + parameters::EXPECTED_LATENCY >= rT);
 				uint64_t offset = msg2->_time - rT + parameters::EXPECTED_LATENCY;
 				pssi_->clock_.setOffset(offset); // difference between the two clocks + network delay
 
@@ -409,9 +395,9 @@ namespace pubsub {
 				SimulationEventType v;
 				v._simID = -1;
 				v._simChannel = topic_;
-				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(createMessage(v));
+				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage(v));
 #else
-				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(createMessage());
+				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
 #endif /* WITH_SIM */
 
 				msg->sender = node;
@@ -454,9 +440,9 @@ namespace pubsub {
 			SimulationEventType v;
 			v._simID = -1;
 			v._simChannel = topic_;
-			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(createMessage(v));
+			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage(v));
 #else
-			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(createMessage());
+			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
 #endif /* WITH_SIM */
 
 			msg->sender = _self;
@@ -516,10 +502,6 @@ namespace pubsub {
 
 } /* namespace pubsub */
 } /* namespace m2etis */
-
-#if I6E_PLATFORM == I6E_PLATFORM_WIN32
-	#pragma warning(pop)
-#endif
 
 #endif /* __M2ETIS_PUBSUB_CHANNEL_H__ */
 

@@ -50,10 +50,10 @@ namespace pubsub {
 		 *
 		 * \param[in] message delivered message
 		 */
-		virtual void deliverCallback(const typename m2etis::message::M2Message<EventType>::Ptr m) = 0;
+		virtual void deliverCallback(EventType message) = 0;
 	};
 
-	M2ETIS_API typedef BasicDeliverCallbackInterface<std::vector<unsigned char> > DeliverCallbackInterface;
+	M2ETIS_API typedef BasicDeliverCallbackInterface<std::vector<unsigned char>> DeliverCallbackInterface;
 
 } /* namespace pubsub */
 } /* namespace m2etis */

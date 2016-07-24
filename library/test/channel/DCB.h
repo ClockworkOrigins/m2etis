@@ -25,7 +25,7 @@ class DCB : public m2etis::pubsub::DeliverCallbackInterface {
 public:
 	DCB() : _counter(0), _amount(), _timeOut() {
 	}
-	void deliverCallback(const m2etis::message::M2etisMessage::Ptr m) {
+	void deliverCallback(CharVectorEventType m) {
 		_counter++;
 	}
 
