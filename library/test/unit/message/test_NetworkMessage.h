@@ -37,7 +37,7 @@ using namespace m2etis::pubsub::rendezvous;
 
 namespace NetworkMesageTest {
 
-	typedef m2etis::message::M2Message<std::vector<unsigned char>>::PayloadPtr PP;
+	typedef boost::shared_ptr<std::vector<unsigned char>> PP;
 	typedef m2etis::message::NetworkMessage<m2etis::net::NetworkType<m2etis::net::UDP>> NetMessage;
 	typedef m2etis::message::InternalMessage < m2etis::net::NetworkType<m2etis::net::UDP>,
 		m2etis::pubsub::ChannelType<SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>

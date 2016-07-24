@@ -115,13 +115,12 @@ namespace pubsub {
 			subscribe_impl(callback, predicate, Int2Type<ChannelType::RoutingStrategy::periodicSubscribtion>());
 		}
 
-		void publish(const typename message::M2Message<EventType>::Ptr msg) {
-			typename IMessage::Ptr topublish = boost::static_pointer_cast<IMessage>(msg);
+		void publish(const typename IMessage::Ptr msg) {
 			message::ActionType tmp = message::PUBLISH;
-			ChannelType::RoutingStrategy::configureRoutingInfo(tmp, topublish->routingInfo, topublish->receiver);
-			ChannelType::ValidityStrategy::configureValidityInfo(topublish->validityInfo);
-			topublish->type = tmp | topic_;
-			sendMessages(topublish);
+			ChannelType::RoutingStrategy::configureRoutingInfo(tmp, msg->routingInfo, msg->receiver);
+			ChannelType::ValidityStrategy::configureValidityInfo(msg->validityInfo);
+			msg->type = tmp | topic_;
+			sendMessages(msg);
 		}
 
 		void unsubscribe() {

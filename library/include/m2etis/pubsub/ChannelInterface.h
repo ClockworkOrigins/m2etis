@@ -22,7 +22,6 @@
 #ifndef __M2ETIS_PUBSUB_CHANNELINTERFACE_H__
 #define __M2ETIS_PUBSUB_CHANNELINTERFACE_H__
 
-#include "m2etis/message/M2Message.h"
 #include "m2etis/message/NetworkMessage.h"
 #include "m2etis/net/NetworkType.h"
 #include "m2etis/pubsub/config/ChannelName.h"
@@ -82,12 +81,6 @@ namespace filter {
 		virtual ChannelName getChannel() const = 0;
 
 		virtual std::string getSelf() const = 0;
-
-#ifdef WITH_SIM
-		virtual typename message::NetworkMessage<net::NetworkType<net::OMNET> >::Ptr transformToNetworkMessage(typename message::M2Message<EventType>::Ptr msg) const = 0;
-
-		virtual typename message::M2Message<EventType>::Ptr transformToM2Message(typename message::NetworkMessage<net::NetworkType<net::OMNET> >::Ptr msg) const = 0;
-#endif /* WITH_SIM */
 	};
 
 	typedef BasicChannelInterface<std::vector<unsigned char> > ChannelInterface;

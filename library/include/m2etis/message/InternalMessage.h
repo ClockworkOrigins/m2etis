@@ -22,7 +22,6 @@
 #ifndef __M2ETIS_MESSAGE_INTERNALMESSAGE_H__
 #define __M2ETIS_MESSAGE_INTERNALMESSAGE_H__
 
-#include "m2etis/message/M2Message.h"
 #include "m2etis/message/NetworkMessage.h"
 
 #include "m2etis/message/info/DeliverInfo.h"
@@ -56,10 +55,13 @@ namespace message {
 	};
 
 	template<class NetworkType, class ChannelType, class EventType>
-	class InternalMessage : public M2Message<EventType>, public NetworkMessage<NetworkType> {
+	class InternalMessage : public NetworkMessage<NetworkType> {
 	public:
 		// Message Ptr
 		typedef boost::shared_ptr<InternalMessage> Ptr;
+
+		// Payload Ptr
+		typedef boost::shared_ptr<EventType> PayloadPtr;
 
 		typedef typename ChannelType::DeliverStrategy::DeliverInfoType DInfo;
 		typedef typename ChannelType::FilterStrategy::FilterInfoType FInfo;
@@ -88,6 +90,11 @@ namespace message {
 		} TreeHelper;
 
 	    MessageType type;
+
+	    /**
+		 * \brief payload
+		 */
+	    PayloadPtr payload;
 
 		/**
 		 * \brief contains message dependent datas for Delivering
@@ -150,8 +157,9 @@ namespace message {
 		 */
 		std::set<uint16_t> _topics;
 
-		InternalMessage() : M2Message<EventType>(&type), NetworkMessage<NetworkType>(&type),
+		InternalMessage() : NetworkMessage<NetworkType>(&type),
 			type(),
+			payload(boost::make_shared<EventType>()),
 			deliverInfo(boost::make_shared<DInfo>()),
 			filterInfo(boost::make_shared<FInfo>()),
 			orderInfo(boost::make_shared<OInfo>()),
@@ -166,8 +174,9 @@ namespace message {
 			_topics() {
 		}
 
-		explicit InternalMessage(const EventType & v) : M2Message<EventType>(v, &type), NetworkMessage<NetworkType>(&type),
+		explicit InternalMessage(const EventType & v) : NetworkMessage<NetworkType>(&type),
 			type(),
+			payload(boost::make_shared<EventType>(v)),
 			deliverInfo(boost::make_shared<DInfo>()),
 			filterInfo(boost::make_shared<FInfo>()),
 			orderInfo(boost::make_shared<OInfo>()),
@@ -182,8 +191,9 @@ namespace message {
 			_topics() {
 		}
 
-		explicit InternalMessage(const InternalMessage & msg) : M2Message<EventType>(msg, &type), NetworkMessage<NetworkType>(msg, &type),
+		explicit InternalMessage(const InternalMessage & msg) : NetworkMessage<NetworkType>(msg, &type),
 			type(msg.type),
+			payload(boost::make_shared<EventType>(*msg.payload)),
 			deliverInfo(),
 			filterInfo(),
 			orderInfo(),
@@ -258,9 +268,6 @@ namespace message {
 		void serialize(Archive & ar, const unsigned int) {
         	ar & type;
         	ActionType actionType = ActionType(type & ACTION_TYPE_MASK);
-        	if (actionType == PUBLISH || actionType == NOTIFY) {
-        		ar & boost::serialization::base_object<m2etis::message::M2Message<EventType>>(*this);
-        	}
         	ar & boost::serialization::base_object<m2etis::message::NetworkMessage<NetworkType>>(*this);
         	if (RInfo::doSerialize(actionType)) {
         		ar & routingInfo;

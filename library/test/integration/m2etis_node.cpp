@@ -17,7 +17,6 @@
 #include <exception>
 #include <map>
 
-#include "m2etis/message/M2Message.h"
 #include "m2etis/pubsub/DeliverCallbackInterface.h"
 #include "m2etis/pubsub/PubSubSystem.h"
 

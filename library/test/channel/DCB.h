@@ -21,7 +21,7 @@
 
 #include "m2etis/pubsub/DeliverCallbackInterface.h"
 
-class DCB : public m2etis::pubsub::DeliverCallbackInterface {
+class DCB : public m2etis::pubsub::BasicDeliverCallbackInterface<std::vector<unsigned char>> {
 public:
 	DCB() : _counter(0), _amount(), _timeOut() {
 	}

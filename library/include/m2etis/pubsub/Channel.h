@@ -68,7 +68,7 @@ namespace pubsub {
 		const ChannelName topic_;
 		net::NetworkController<NetworkType> * controller_;
 		std::vector<TreeType *> trees_;
-		clockUtils::container::DoubleBufferQueue<typename message::M2Message<EventType>::Ptr, true, false> msgQueue_;
+		clockUtils::container::DoubleBufferQueue<typename IMessage::Ptr, true, false> msgQueue_;
 		clockUtils::container::DoubleBufferQueue<std::pair<BasicDeliverCallbackInterface<EventType> *, boost::shared_ptr<filter::FilterExp<EventType>>>, true, false> subscribeQueue_;
 		clockUtils::container::DoubleBufferQueue<boost::shared_ptr<filter::FilterExp<EventType>>, true, false> unsubscribeQueue_; // for filter strategies
 		bool unsubscribe_;
@@ -211,7 +211,7 @@ namespace pubsub {
 
 			uint32_t msgPublished = 0; // pause publishing after some messages to allow other task running
 			while (msgPublished < parameters::PUBLISH_MESSAGECOUNT_MAX && !msgQueue_.empty() && !trees_.empty()) {
-				typename message::M2Message<EventType>::Ptr msg;
+				typename IMessage::Ptr msg;
 				clockUtils::ClockError err = msgQueue_.front(msg);
 				if (err == clockUtils::ClockError::SUCCESS) {
 					std::vector<int>::size_type i = ChannelType::PartitionStrategy::getPublishTree(msg->payload, _self);

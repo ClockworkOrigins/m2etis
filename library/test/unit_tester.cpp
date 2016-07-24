@@ -22,7 +22,6 @@
 
 #include "unit/message/test_InternalMessage.h"
 #include "unit/message/test_Key.h"
-#include "unit/message/test_M2Message.h"
 #include "unit/message/test_NetworkMessage.h"
 #include "unit/FilterPredicate_test.h"
 

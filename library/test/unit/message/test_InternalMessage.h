@@ -35,7 +35,7 @@ using namespace m2etis::pubsub::partition;
 using namespace m2etis::pubsub::deliver;
 using namespace m2etis::pubsub::rendezvous;
 
-typedef m2etis::message::M2Message<std::vector<unsigned char>>::PayloadPtr PP;
+typedef boost::shared_ptr<std::vector<unsigned char>> PP;
 typedef m2etis::message::NetworkMessage<m2etis::net::NetworkType<m2etis::net::UDP>> NetMessage;
 typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>,
 		m2etis::pubsub::ChannelType<SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
@@ -61,7 +61,6 @@ TEST(InternalMessageTest, Serialize) {
     m1->type = m2etis::message::PUBLISH;
 	EXPECT_EQ("127.0.0.1:6666", m1->sender.toStr());
 	EXPECT_EQ("123.123.123.123:123", m1->receiver.toStr());
-	EXPECT_EQ(t, m1->getPayloadString());
 
 	// Serialize
 	std::string y = m2etis::message::serialization::serializeNetworkMsg<NetMessage>(m1);
@@ -70,7 +69,6 @@ TEST(InternalMessageTest, Serialize) {
 	IMessage m2(*static_cast<IMessage *>(mm2.get()));
 
 	// Test for equality
-	EXPECT_EQ(t, m2.getPayloadString());
     EXPECT_EQ(m2etis::message::PUBLISH, m2etis::message::ActionType(m2.type));
 
     IMessage::Ptr m3(new IMessage());
@@ -86,7 +84,6 @@ TEST(InternalMessageTest, Serialize) {
     m3->type = m2etis::message::SUBSCRIBE;
 	EXPECT_EQ("127.0.0.1:6666", m3->sender.toStr());
 	EXPECT_EQ("123.123.123.123:123", m3->receiver.toStr());
-	EXPECT_EQ(t3, m3->getPayloadString());
 
 	// Serialize
 	std::string y3 = m2etis::message::serialization::serializeNetworkMsg<NetMessage>(m3);
@@ -95,7 +92,6 @@ TEST(InternalMessageTest, Serialize) {
 	IMessage m4(*static_cast<IMessage *>(mm3.get()));
 
 	// Test for equality
-	EXPECT_EQ("", m4.getPayloadString());
     EXPECT_EQ("127.0.0.1:6666", m4.sender.toStr());
     EXPECT_EQ(m2etis::message::SUBSCRIBE, m2etis::message::ActionType(m4.type));
 }

@@ -24,8 +24,6 @@
 
 #include "m2etis/util/SystemParameters.h"
 
-#include "m2etis/message/M2Message.h"
-
 namespace m2etis {
 namespace pubsub {
 
@@ -34,7 +32,6 @@ namespace pubsub {
 	 * \brief DeliverCallbackInterface
 	 *
 	 * Long Desc
-	 *
 	 */
 	template<class EventType>
 	class BasicDeliverCallbackInterface {
@@ -52,8 +49,6 @@ namespace pubsub {
 		 */
 		virtual void deliverCallback(EventType message) = 0;
 	};
-
-	M2ETIS_API typedef BasicDeliverCallbackInterface<std::vector<unsigned char>> DeliverCallbackInterface;
 
 } /* namespace pubsub */
 } /* namespace m2etis */
