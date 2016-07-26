@@ -90,7 +90,7 @@ fi
 
 # shared variables
 DEP_DIR="${PWD}"
-BUILD_ROOT="/tmp/`whoami`/"
+BUILD_ROOT="/tmp/`whoami`/m2etis"
 
 mkdir -p "${BUILD_ROOT}"
 

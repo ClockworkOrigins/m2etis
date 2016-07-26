@@ -1,3 +1,5 @@
+@echo OFF
+
 REM Copyright (2016) Michael Baer, Daniel Bonrath, All rights reserved.
 REM
 REM Licensed under the Apache License, Version 2.0 (the "License");

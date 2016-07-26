@@ -1,3 +1,5 @@
+@echo OFF
+
 REM Copyright (2016) Michael Baer, Daniel Bonrath, All rights reserved.
 REM
 REM Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +24,8 @@ Set DEBUG_FLAG="variant=debug"
 Set RELEASE_FLAG="variant=release"
 
 Set BUILD_TYPE=%RELEASE_FLAG%
+
+IF EXIST %PREFIX% EXIT /B
 
 echo "Compile Boost"
 

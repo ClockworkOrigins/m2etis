@@ -29,32 +29,38 @@ IF(WITH_SIM)
         SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DWITH_SIM")
 ENDIF(WITH_SIM)
 
-#GoogleTest
+# GoogleTest
 #-----------------------------------------------------
-SET (GTest_ROOT "${DEP_DIR}/gmock")
-FIND_PACKAGE(GTest REQUIRED)
+IF(WIN32)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-gmock.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+ELSEIF(UNIX)
+	execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-gmock.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+ENDIF()
 
-INCLUDE_DIRECTORIES(SYSTEM ${GTest_INCLUDE_DIR})
-LINK_DIRECTORIES(${GTest_LIB_DIR})
+SET(LIBNAME "GTEST")
+SET(LIBHEADER "gtest/gtest.h")
+SET(GTEST_ROOT ${DEP_DIR}/gmock)
+find_package(EasyFind REQUIRED COMPONENTS gmock_main gmock gtest gtest_main)
+include_directories(SYSTEM ${GTEST_INCLUDE_DIR})
 
-
-#gflags
+# gflags
 #--------------------------------------
 
-	SET(LIBNAME "GFLAGS")
-	SET(LIBHEADER "gflags/gflags.h")
-	SET(GFLAGS_ROOT ${DEP_DIR}/gflags)
-	find_package(EasyFind REQUIRED COMPONENTS gflags)
-	include_directories(SYSTEM ${GFLAGS_INCLUDE_DIR})
+IF(WIN32)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-gflags.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+ELSEIF(UNIX)
+	execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-gflags.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+ENDIF()
 
-	LINK_DIRECTORIES(${LINK_DIRECTORIES} ${GFLAGS_LIB_DIR})
-
-
-enable_testing()
+SET(LIBNAME "GFLAGS")
+SET(LIBHEADER "gflags/gflags.h")
+SET(GFLAGS_ROOT ${DEP_DIR}/gflags)
+find_package(EasyFind REQUIRED COMPONENTS gflags)
+include_directories(SYSTEM ${GFLAGS_INCLUDE_DIR})
 
 file(GLOB_RECURSE unittests unit/*.h)
 add_executable(m2etis_unit_tester unit_tester.cpp ${unittests})
-target_link_libraries(m2etis_unit_tester ${GTest_LIBRARIES} m2etis)
+target_link_libraries(m2etis_unit_tester m2etis ${GTEST_LIBRARIES})
 
 IF(NOT WIN32)
 	target_link_libraries(m2etis_unit_tester pthread)
@@ -68,7 +74,7 @@ add_test(M2etisUnitTests ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/m2etis_unit_tester)
 
 file(GLOB_RECURSE channeltests channel/*.h)
 add_executable(m2etis_channel_tester channel_tester.cpp ${channeltests})
-target_link_libraries(m2etis_channel_tester  ${GTest_LIBRARIES} m2etis)
+target_link_libraries(m2etis_channel_tester m2etis ${GTEST_LIBRARIES})
 
 IF(NOT WIN32)
 	target_link_libraries(m2etis_channel_tester pthread)

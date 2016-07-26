@@ -1,3 +1,5 @@
+@echo OFF
+
 REM Copyright (2016) Michael Baer, Daniel Bonrath, All rights reserved.
 REM
 REM Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +19,8 @@ call build-common.bat %1 %2
 Set ARCHIVE=gflags-2.1.2.zip
 Set BUILD_DIR=%TMP_DIR%/gflags-2.1.2
 Set PREFIX=%DEP_DIR%/%ARCH_DIR%/gflags
+
+IF EXIST %PREFIX% EXIT /B
 
 echo "Compile GFlags"
 

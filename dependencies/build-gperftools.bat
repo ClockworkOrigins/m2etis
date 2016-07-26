@@ -1,3 +1,5 @@
+@echo OFF
+
 REM Copyright (2016) Michael Baer, Daniel Bonrath, All rights reserved.
 REM
 REM Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +19,8 @@ call build-common.bat
 Set ARCHIVE=gperftools-2.4.tar.gz
 Set BUILD_DIR=%TMP_DIR%/gperftools-2.4
 Set PREFIX=%DEP_DIR%/gperftools
+
+IF EXIST %PREFIX% EXIT /B
 
 echo "Compile GPerfTools"
 

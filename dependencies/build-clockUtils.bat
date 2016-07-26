@@ -1,3 +1,5 @@
+@echo OFF
+
 REM Copyright (2016) Michael Baer, Daniel Bonrath, All rights reserved.
 REM
 REM Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +19,8 @@ call build-common.bat %1 %2
 Set ARCHIVE=clockutils-1.0.0-src.zip
 Set BUILD_DIR=%TMP_DIR%/clockutils-1.0.0-src
 Set PREFIX=%DEP_DIR%/%ARCH_DIR%/clockUtils/
+
+IF EXIST %PREFIX% EXIT /B
 
 echo "Compile clockUtils"
 

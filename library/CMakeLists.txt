@@ -23,6 +23,12 @@
 
 #Boost
 #---------------------------------------------------
+IF(WIN32)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-boost.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+ELSEIF(UNIX)
+	execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-boost.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+ENDIF()
+
 IF(APPLE)
 	SET(COMPONENTS thread filesystem serialization system date_time iostreams)
 	FIND_PACKAGE(Boost REQUIRED ${COMPONENTS})
@@ -61,6 +67,10 @@ ENDIF(APPLE)
 #Chimera
 #----------------------------------------------------
 IF(WITH_CHIMERA)
+	IF(UNIX)
+		execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-boost.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+	ENDIF()
+
 	FIND_PACKAGE(Chimera REQUIRED)
 
 	LINK_DIRECTORIES(${LINK_DIRECTORIES} ${CHIMERA_LIB_DIR})
@@ -82,6 +92,12 @@ ENDIF(WITH_CHIMERA)
 #glog
 #--------------------------------------
 IF(WITH_LOGGING)
+	IF(WIN32)
+		execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-glog.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+	ELSEIF(UNIX)
+		execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-glog.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+	ENDIF()
+
 	LINK_DIRECTORIES(${LINK_DIRECTORIES} ${GLOG_LIB_DIR})
 	SET(LIBNAME "GLOG")
 	SET(LIBHEADER "glog/logging.h")
@@ -91,6 +107,12 @@ IF(WITH_LOGGING)
 ENDIF(WITH_LOGGING)
 
 IF(WITH_PROFILING)
+	IF(WIN32)
+		execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-gperftools.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+	ELSEIF(UNIX)
+		execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-gperftools.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+	ENDIF()
+
 	SET(LIBNAME "GPerfTools")
 	SET(LIBHEADER "gperftools/tcmalloc.h")
 	IF(WIN32)
@@ -108,6 +130,12 @@ ENDIF(WITH_PROFILING)
 
 # clockUtils
 #----------------------------------------------------
+IF(WIN32)
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-clockUtils.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+ELSEIF(UNIX)
+	execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-clockUtils.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
+ENDIF()
+
 SET(LIBNAME "CLOCKUTILS")
 SET(LIBHEADER "clockUtils/errors.h")
 SET(CLOCKUTILS_ROOT ${DEP_DIR}/clockUtils)
