@@ -47,17 +47,19 @@ namespace clocktcp {
 
 	clockTcpWrapper::~clockTcpWrapper() {
 		_initialized = false;
-		_lock.lock();
-		for (std::map<message::Key<message::IPv4KeyProvider>, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-			if (it->second != nullptr) {
-				clockUtils::sockets::TcpSocket * tmp = it->second;
-				tmp->close();
-				delete tmp;
+		{
+			std::lock_guard<std::mutex> lg(_lock);
+			for (std::map<message::Key<message::IPv4KeyProvider>, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+				if (it->second != nullptr) {
+					clockUtils::sockets::TcpSocket * tmp = it->second;
+					tmp->close();
+					delete tmp;
+				}
 			}
+			_sockets.clear();
 		}
-		_sockets.clear();
-		_lock.unlock();
 		for (std::pair<uint16_t, std::thread *> p : _threads) {
+			assert(p.second);
 			p.second->join();
 			delete p.second;
 		}
@@ -77,6 +79,7 @@ namespace clocktcp {
 			_mapLock.lock();
 			net::NetworkType<net::clockTCP>::Key realKey = metis2real(metisKey);
 			_mapLock.unlock();
+			assert(!realKey.toStr().empty());
 
 			clockUtils::sockets::TcpSocket * sendSocket = nullptr;
 			{
@@ -103,6 +106,7 @@ namespace clocktcp {
 			if (sendSocket == nullptr) {
 				return;
 			}
+			assert(sendSocket);
 			sendSocket->writePacketAsync(ser);
 		} catch (util::SystemFailureException & e) {
 			e.writeLog();
@@ -112,9 +116,11 @@ namespace clocktcp {
 			net::NetworkType<net::clockTCP>::Key metisKey = msg->receiver;
 			std::lock_guard<std::mutex> lg(_mapLock);
 			net::NetworkType<net::clockTCP>::Key realKey = metis2real(metisKey);
+			assert(!realKey.toStr().empty());
 
 			std::lock_guard<std::mutex> lg2(_lock);
 			if (_sockets.find(realKey) != _sockets.end()) {
+				assert(_sockets[realKey]);
 				_sockets[realKey]->close();
 				delete _sockets[realKey];
 				_sockets[realKey] = nullptr;
@@ -132,8 +138,10 @@ namespace clocktcp {
 	}
 
 	void clockTcpWrapper::readFromSocket(clockUtils::sockets::TcpSocket * socket) {
+		assert(socket);
 		net::NetworkType<net::clockTCP>::Key realKey(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
 		net::NetworkType<net::clockTCP>::Key metisKey = real2metis(realKey);
+		assert(!metisKey.toStr().empty());
 		try {
 			while (_initialized) {
 				std::string message;
@@ -164,6 +172,7 @@ namespace clocktcp {
 				// TODO simplify
 				for (std::map<net::NetworkType<net::clockTCP>::Key, clockUtils::sockets::TcpSocket *>::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 					if (it->second == socket) {
+						assert(socket);
 						socket->close();
 						delete socket;
 						it->second = nullptr;
