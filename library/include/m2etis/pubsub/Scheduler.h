@@ -30,8 +30,6 @@
 
 #include "m2etis/util/Clock.h"
 
-#include "boost/thread.hpp"
-
 namespace m2etis {
 namespace pubsub {
 
