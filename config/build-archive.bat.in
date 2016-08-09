@@ -25,6 +25,7 @@ mkdir "%archiveName%"
 mkdir "%archiveName%/dependencies"
 
 xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/config" "@CMAKE_BINARY_DIR@/%archiveName%/config"
+xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/copyright" "@CMAKE_BINARY_DIR@/%archiveName%/copyright"
 xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/docs" "@CMAKE_BINARY_DIR@/%archiveName%/docs"
 xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/integrationtest" "@CMAKE_BINARY_DIR@/%archiveName%/integrationtest"
 xcopy /S /Y /I "@CMAKE_SOURCE_DIR@/library" "@CMAKE_BINARY_DIR@/%archiveName%/library"
