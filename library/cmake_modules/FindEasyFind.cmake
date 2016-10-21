@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# easyFind version 1.1 - 17.10.2014 - # 010
+# easyFind version 1.2 - 21.10.2016 - # 011
 
 # Find $LIBNAME includes and library
 #
@@ -71,7 +71,7 @@ ENDIF (NOT EasyFind_FIND_QUIETLY)
 	IF (${LIBNAME}_notFoundList)
 		SET (${LIBNAME}_FOUND FALSE)
 		IF (${EasyFind_FIND_REQUIRED})
-			message(SEND_ERROR "${LIBNAME} marked as required, but not all components were found.")
+			message(FATAL_ERROR "${LIBNAME} marked as required, but not all components were found.")
 		ELSE (${EasyFind_FIND_REQUIRED})
 			message(WARNING "Not all components were found. Continuing anyways")
 		ENDIF (${EasyFind_FIND_REQUIRED})
@@ -94,7 +94,7 @@ ENDIF (NOT EasyFind_FIND_QUIETLY)
 	ELSE (${LIBNAME}_HEADER)
 		SET (${LIBNAME}_FOUND FALSE)
 		IF (${EasyFind_FIND_REQUIRED})
-			message(SEND_ERROR "${LIBNAME} marked as required but header not found")
+			message(FATAL_ERROR "${LIBNAME} marked as required but header not found")
 		ELSE (${EasyFind_FIND_REQUIRED})
 			IF (NOT ${LIBNAME}_FIND_QUIETLY)
 				message(WARNING "${LIBNAME} header not found")
