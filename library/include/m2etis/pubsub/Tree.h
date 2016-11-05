@@ -22,10 +22,6 @@
 #ifndef __M2ETIS_PUBSUB_TREE_H__
 #define __M2ETIS_PUBSUB_TREE_H__
 
-#ifdef ANDROID
-	#define __STDC_LIMIT_MACROS
-#endif
-
 #include "m2etis/util/Logger.h"
 
 #include "m2etis/TemplateHelper.h"

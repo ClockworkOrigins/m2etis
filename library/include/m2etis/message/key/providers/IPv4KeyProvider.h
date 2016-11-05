@@ -30,7 +30,7 @@
 
 #ifdef ANDROID
 namespace std {
-	template<typnename T>
+	template<typename T>
 	std::string to_string(T value) {
 		std::stringstream ss;
 		ss << value;

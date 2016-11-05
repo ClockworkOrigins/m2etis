@@ -14,10 +14,6 @@
  limitations under the License.
  */
 
-#ifdef ANDROID
-	#define __STDC_LIMIT_MACROS
-#endif
-
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 
 #include "m2etis/net/NetworkFactory.h"

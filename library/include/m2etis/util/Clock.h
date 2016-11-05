@@ -22,6 +22,12 @@
 #ifndef __M2ETIS_UTIL_CLOCK_H__
 #define __M2ETIS_UTIL_CLOCK_H__
 
+#ifdef ANDROID
+	#ifndef UINT64_MAX
+		#define UINT64_MAX (__UINT64_C(18446744073709551615))
+	#endif
+#endif
+
 #include <climits>
 #include <condition_variable>
 #include <map>
