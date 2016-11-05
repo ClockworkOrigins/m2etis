@@ -33,14 +33,18 @@ namespace filter {
 	class TruePredicate : public Predicate<EventType> {
 	public:
 		typedef EventType schema; // needed for operator overloading
+
+		virtual ~TruePredicate() {}
+
 		// TODO: (Roland) probably not needed, remove:
 		virtual void Accept(FilterVisitor<EventType> & filter_visitor) const override {
 			filter_visitor.Visit(this);
 		}
 
-		virtual bool match(const EventType &) const { return true; }
-		virtual bool overlaps(const Predicate<EventType> *) const { return true; } // other_predicate assumed to be satisfiable
-		virtual ~TruePredicate() {}
+		virtual bool match(const EventType &) const override { return true; }
+		virtual bool overlaps(const Predicate<EventType> *) const override {
+			return true;
+		} // other_predicate assumed to be satisfiable
 
 		virtual void getAttributeType(FilterVisitor<EventType> &) const override {
 			M2ETIS_THROW_API("TruePredicate", "getAttributeType not allowed in strategies with attribute types.");

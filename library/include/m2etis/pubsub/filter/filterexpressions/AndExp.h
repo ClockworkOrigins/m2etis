@@ -67,7 +67,7 @@ namespace filter {
 			}
 		}
 
-		virtual size_t doHash() const {
+		virtual size_t doHash() const override {
 			return std::hash<FilterExp<EventType>>()(*operand1_) ^ std::hash<FilterExp<EventType>>()(*operand2_);
 		}
 

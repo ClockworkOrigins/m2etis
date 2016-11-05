@@ -14,6 +14,8 @@
  limitations under the License.
  */
 
+#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
+
 #include "m2etis/wrapper/tcp/TcpWrapper.h"
 
 #include <thread>
@@ -22,7 +24,6 @@
 
 #include "m2etis/message/MessageSerialization.h"
 
-#include "boost/bind.hpp"
 #include "boost/thread.hpp"
 
 namespace m2etis {
@@ -30,7 +31,7 @@ namespace wrapper {
 namespace tcp {
 
 	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _rendezvouz(connectIP + ":" + std::to_string(connectPort)), _io_service(), _acceptor(), _sockets(), _strand__(_io_service), _outbox(), _work(new boost::asio::io_service::work(_io_service)), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threadLock(), threads_(), _deleteSocketsLock(), _deleteSockets() {
-		threads_.insert(std::make_pair(0, new boost::thread(boost::bind(&boost::asio::io_service::run, &_strand__.get_io_service()))));
+		threads_.insert(std::make_pair(0, new boost::thread(std::bind(static_cast<std::size_t(boost::asio::io_service::*)(void)>(&boost::asio::io_service::run), &_strand__.get_io_service()))));
 		std::thread(std::bind(&TcpWrapper::workerFunc, this)).join();
 	}
 
@@ -99,7 +100,7 @@ namespace tcp {
 			}
 
 			boost::asio::ip::tcp::socket * newSocket = new boost::asio::ip::tcp::socket(_io_service);
-			_acceptor->async_accept(*newSocket, boost::bind(&TcpWrapper::handleAccept, this, boost::asio::placeholders::error, newSocket));
+			_acceptor->async_accept(*newSocket, std::bind(&TcpWrapper::handleAccept, this, std::placeholders::_1, newSocket));
 			std::lock_guard<std::mutex> lgMap(lock_);
 			_sockets.insert(std::make_pair(_local, newSocket));
 		} catch(util::SystemFailureException & e) {
@@ -121,7 +122,7 @@ namespace tcp {
 		}
 		{
 			std::lock_guard<std::mutex> lg(_threadLock);
-			threads_.insert(std::make_pair(0, new boost::thread(boost::bind(&TcpWrapper::readFromSocket, this, socket))));
+			threads_.insert(std::make_pair(0, new boost::thread(std::bind(&TcpWrapper::readFromSocket, this, socket))));
 		}
 
 		// Listen for new connection
@@ -130,7 +131,7 @@ namespace tcp {
 			std::lock_guard<std::mutex> lgMap(lock_);
 			_sockets[_local] = newSocket;
 		}
-		_acceptor->async_accept(*newSocket, boost::bind(&TcpWrapper::handleAccept, this, boost::asio::placeholders::error, newSocket));
+		_acceptor->async_accept(*newSocket, std::bind(&TcpWrapper::handleAccept, this, std::placeholders::_1, newSocket));
 	}
 
 	void TcpWrapper::send(const message::NetworkMessage<net::NetworkType<net::TCP>>::Ptr msg, net::NodeHandle<net::NetworkType<net::TCP>>::Ptr_const hint) {
@@ -193,7 +194,7 @@ namespace tcp {
 
 				_sockets[realKey] = socket;
 				std::lock_guard<std::mutex> lg(_threadLock);
-				threads_.insert(std::make_pair(0, new boost::thread(boost::bind(&TcpWrapper::readFromSocket, this, socket))));
+				threads_.insert(std::make_pair(0, new boost::thread(std::bind(&TcpWrapper::readFromSocket, this, socket))));
 			}
 			if (_sockets.find(realKey)->second == nullptr) {
 				return;
@@ -214,7 +215,7 @@ namespace tcp {
 				delete _sockets[realKey];
 				_sockets[realKey] = nullptr;
 				std::lock_guard<std::mutex> lg2(_threadLock);
-				threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, realKey))));
+				threads_.insert(std::make_pair(1, new boost::thread(std::bind(&TcpWrapper::eraseSocket, this, realKey))));
 			}
 		} catch (boost::archive::archive_exception & e) {
 			std::cout << e.what() << std::endl;
@@ -273,7 +274,7 @@ namespace tcp {
 
 	void TcpWrapper::write(const std::vector<uint8_t> & message, boost::asio::ip::tcp::socket * sock) {
 		if (_initialized) {
-			_strand__.post(boost::bind(&TcpWrapper::writeImpl, this, message, sock));
+			_strand__.post(std::bind(&TcpWrapper::writeImpl, this, message, sock));
 		}
 	}
 
@@ -315,7 +316,7 @@ namespace tcp {
 				}
 			}
 			if (goOn) {
-				boost::asio::async_write(*(message.second), boost::asio::buffer(&(message.first[0]), message.first.size()), _strand__.wrap(boost::bind(&TcpWrapper::writeHandler, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred)));
+				boost::asio::async_write(*(message.second), boost::asio::buffer(&(message.first[0]), message.first.size()), _strand__.wrap(std::bind(&TcpWrapper::writeHandler, this, std::placeholders::_1, std::placeholders::_2)));
 			}
 		}
 	}
@@ -367,7 +368,7 @@ namespace tcp {
 					sock->close();
 					it->second = nullptr;
 					std::lock_guard<std::mutex> lg(_threadLock);
-					threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, it->first))));
+					threads_.insert(std::make_pair(1, new boost::thread(std::bind(&TcpWrapper::eraseSocket, this, it->first))));
 					break;
 				}
 			}

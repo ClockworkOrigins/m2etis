@@ -34,7 +34,6 @@
 #include "m2etis/net/NodeHandle.h"
 
 #include "boost/make_shared.hpp"
-#include "boost/thread/mutex.hpp"
 
 namespace boost {
 	class thread;

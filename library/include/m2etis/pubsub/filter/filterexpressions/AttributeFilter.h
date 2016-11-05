@@ -92,7 +92,7 @@ namespace filter {
 			}
 		}
 
-		virtual size_t doHash() const {
+		virtual size_t doHash() const override {
 			// hash function should be improved:
 			if (constants_.empty()) {
 				return (std::hash<AttributeName>()(attribute_id_) ^ std::hash<std::string>()(std::string(typeid(*this).name())));

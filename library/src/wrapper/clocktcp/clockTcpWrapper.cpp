@@ -96,7 +96,7 @@ namespace clocktcp {
 						M2ETIS_THROW_FAILURE("clockTcpWrapper - Couldn't connect", metisKey.toStr(), int(error));
 					}
 
-					_sockets.insert(std::make_pair(realKey, socket)).first;
+					_sockets.insert(std::make_pair(realKey, socket));
 					_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::readFromSocket, this, socket))));
 					sendSocket = socket;
 				} else {
