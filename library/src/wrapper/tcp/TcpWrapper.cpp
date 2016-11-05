@@ -14,7 +14,9 @@
  limitations under the License.
  */
 
-#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
+#ifndef _GLIBCXX_USE_NANOSLEEP
+	#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
+#endif
 
 #include "m2etis/wrapper/tcp/TcpWrapper.h"
 
@@ -28,8 +30,9 @@ namespace m2etis {
 namespace wrapper {
 namespace tcp {
 
-	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _rendezvouz(connectIP + ":" + std::to_string(connectPort)), _io_service(), _acceptor(), _sockets(), _strand__(_io_service), _outbox(), _work(new boost::asio::io_service::work(_io_service)), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threadLock(), threads_(), _deleteSocketsLock(), _deleteSockets() {
+	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _rendezvouz(connectIP + ":" + std::to_string(connectPort)), _io_service(), _acceptor(), _sockets(), _strand__(_io_service), _outbox(), _work(new boost::asio::io_service::work(_io_service)), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threadLock(), threads_(), _deleteSocketsLock(), _deleteSockets(), _purgeKeys() {
 		threads_.insert(std::make_pair(0, new std::thread(std::bind(static_cast<std::size_t(boost::asio::io_service::*)(void)>(&boost::asio::io_service::run), &_strand__.get_io_service()))));
+		threads_.insert(std::make_pair(0, new std::thread(std::bind(&TcpWrapper::purgeSockets, this))));
 		std::thread(std::bind(&TcpWrapper::workerFunc, this)).join();
 	}
 
@@ -361,7 +364,7 @@ namespace tcp {
 					sock->close();
 					it->second = nullptr;
 					std::lock_guard<std::mutex> lg(_threadLock);
-					threads_.insert(std::make_pair(1, new std::thread(std::bind(&TcpWrapper::eraseSocket, this, it->first))));
+					_purgeKeys.push_back(it->first);
 					break;
 				}
 			}
@@ -369,6 +372,27 @@ namespace tcp {
 		{
 			std::lock_guard<std::mutex> lg(_deleteSocketsLock);
 			_deleteSockets.insert(sock);
+		}
+	}
+
+	void TcpWrapper::purgeSockets() {
+		{
+			std::lock_guard<std::mutex> lgMap(lock_);
+			// TODO simplify
+			for (auto it = _purgeKeys.begin(); it != _purgeKeys.end(); ++it) {
+				std::lock_guard<std::mutex> lg(_mapLock);
+				_mapping_metis_real.erase(real2metis(*it));
+				_mapping_real_metis.erase(*it);
+				_sockets.erase(*it);
+			}
+			_purgeKeys.clear();
+		}
+		{
+			std::lock_guard<std::mutex> lg(_deleteSocketsLock);
+			for (boost::asio::ip::tcp::socket * sock : _deleteSockets) {
+				delete sock;
+			}
+			_deleteSockets.clear();
 		}
 	}
 

@@ -121,6 +121,8 @@ namespace tcp {
 		std::mutex _deleteSocketsLock;
 		std::set<boost::asio::ip::tcp::socket *> _deleteSockets;
 
+		std::vector<net::NetworkType<net::TCP>::Key> _purgeKeys;
+
 		void eraseSocket(net::NetworkType<net::TCP>::Key realKey);
 		void workerFunc();
 
@@ -156,6 +158,8 @@ namespace tcp {
 		}
 
 		void removeSocket(boost::asio::ip::tcp::socket * sock);
+
+		void purgeSockets();
 
 		TcpWrapper(const TcpWrapper &) = delete;
 		TcpWrapper & operator=(const TcpWrapper & rhs) = delete;
