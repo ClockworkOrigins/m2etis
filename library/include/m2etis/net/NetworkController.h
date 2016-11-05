@@ -35,9 +35,7 @@
 #include "m2etis/pubsub/ForwardInfo.h"
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 
-#include "boost/function.hpp"
 #include "boost/shared_ptr.hpp"
-#include "boost/thread.hpp"
 
 #include "clockUtils/container/DoubleBufferQueue.h"
 
@@ -214,7 +212,7 @@ namespace net {
 						_sendConditionVariable.wait(ul);
 					}
 				}
-				while (!_sendQueue.empty()) {
+				while (!_sendQueue.empty() && _running) {
 					typename message::NetworkMessage<NetworkType>::Ptr msg;
 					if (clockUtils::ClockError::SUCCESS == _sendQueue.poll(msg)) {
 						network_->send(msg, typename NodeHandle<NetworkType>::Ptr_const());

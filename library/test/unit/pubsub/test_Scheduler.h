@@ -17,7 +17,11 @@
 #ifndef m2etis_scheduler_test_h
 #define m2etis_scheduler_test_h
 
+#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
+
+#include <chrono>
 #include <cmath>
+#include <thread>
 
 #include "m2etis/pubsub/Scheduler.h"
 #include "m2etis/util/RealTimeClock.h"
@@ -44,7 +48,7 @@ TEST(Scheduler, Once) {
 	sched.runOnce(75000, std::bind(&func1, cl.getTime() + 75000, &cl, 2), 0);
 	sched.runOnce(75000, std::bind(&func1, cl.getTime() + 75000, &cl, 1), 1);
 	for (int i = 0; i < 40; ++i) {
-		boost::this_thread::sleep(boost::posix_time::milliseconds(5));
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
 	EXPECT_EQ(func1_counter, 5);
 }
@@ -71,7 +75,7 @@ TEST(Scheduler, RepeatOnce) {
 	sched.runRepeated(75000, std::bind(func2, cl.getTime() + 75000, &cl, &sched, 3), 0);
 	sched.runRepeated(75000, std::bind(func2, cl.getTime() + 75000, &cl, &sched, 4), 1);
 	for (int i = 0; i < 40; ++i) {
-		boost::this_thread::sleep(boost::posix_time::milliseconds(5));
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
     int b[] = {0, 4, 3, 5, 1, 2};
 	std::vector<int> ref(b, b + sizeof(b) / sizeof(int));

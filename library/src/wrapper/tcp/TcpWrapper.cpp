@@ -24,14 +24,12 @@
 
 #include "m2etis/message/MessageSerialization.h"
 
-#include "boost/thread.hpp"
-
 namespace m2etis {
 namespace wrapper {
 namespace tcp {
 
 	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _rendezvouz(connectIP + ":" + std::to_string(connectPort)), _io_service(), _acceptor(), _sockets(), _strand__(_io_service), _outbox(), _work(new boost::asio::io_service::work(_io_service)), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threadLock(), threads_(), _deleteSocketsLock(), _deleteSockets() {
-		threads_.insert(std::make_pair(0, new boost::thread(std::bind(static_cast<std::size_t(boost::asio::io_service::*)(void)>(&boost::asio::io_service::run), &_strand__.get_io_service()))));
+		threads_.insert(std::make_pair(0, new std::thread(std::bind(static_cast<std::size_t(boost::asio::io_service::*)(void)>(&boost::asio::io_service::run), &_strand__.get_io_service()))));
 		std::thread(std::bind(&TcpWrapper::workerFunc, this)).join();
 	}
 
@@ -63,8 +61,7 @@ namespace tcp {
 		}
 		{
 			std::lock_guard<std::mutex> lg(_threadLock);
-			for (std::pair<uint16_t, boost::thread *> p : threads_) {
-				p.second->interrupt();
+			for (std::pair<uint16_t, std::thread *> p : threads_) {
 				if (p.second->joinable()) {
 					p.second->join();
 				}
@@ -122,7 +119,7 @@ namespace tcp {
 		}
 		{
 			std::lock_guard<std::mutex> lg(_threadLock);
-			threads_.insert(std::make_pair(0, new boost::thread(std::bind(&TcpWrapper::readFromSocket, this, socket))));
+			threads_.insert(std::make_pair(0, new std::thread(std::bind(&TcpWrapper::readFromSocket, this, socket))));
 		}
 
 		// Listen for new connection
@@ -194,7 +191,7 @@ namespace tcp {
 
 				_sockets[realKey] = socket;
 				std::lock_guard<std::mutex> lg(_threadLock);
-				threads_.insert(std::make_pair(0, new boost::thread(std::bind(&TcpWrapper::readFromSocket, this, socket))));
+				threads_.insert(std::make_pair(0, new std::thread(std::bind(&TcpWrapper::readFromSocket, this, socket))));
 			}
 			if (_sockets.find(realKey)->second == nullptr) {
 				return;
@@ -215,7 +212,7 @@ namespace tcp {
 				delete _sockets[realKey];
 				_sockets[realKey] = nullptr;
 				std::lock_guard<std::mutex> lg2(_threadLock);
-				threads_.insert(std::make_pair(1, new boost::thread(std::bind(&TcpWrapper::eraseSocket, this, realKey))));
+				threads_.insert(std::make_pair(1, new std::thread(std::bind(&TcpWrapper::eraseSocket, this, realKey))));
 			}
 		} catch (boost::archive::archive_exception & e) {
 			std::cout << e.what() << std::endl;
@@ -236,11 +233,9 @@ namespace tcp {
 			boost::system::error_code error;
 
 			while (_initialized) {
-				boost::this_thread::interruption_point();
 				// read until message delemiter appears
 				char delim[6] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x00 };
 				size_t len = boost::asio::read_until(*socket, buf, delim, error);
-				boost::this_thread::interruption_point();
 				if (error) {
 					M2ETIS_THROW_FAILURE("TcpWrapper - An error receiving a message occured", metisKey.toStr(), error.value());
 				} else {
@@ -338,11 +333,9 @@ namespace tcp {
 	}
 
 	void TcpWrapper::eraseSocket(net::NetworkType<net::TCP>::Key realKey) {
-		boost::this_thread::sleep(boost::posix_time::seconds(1));
-		boost::this_thread::interruption_point();
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		{
 			std::lock_guard<std::mutex> lg(_mapLock);
-			boost::this_thread::interruption_point();
 			_mapping_metis_real.erase(real2metis(realKey));
 			_mapping_real_metis.erase(realKey);
 		}
@@ -368,7 +361,7 @@ namespace tcp {
 					sock->close();
 					it->second = nullptr;
 					std::lock_guard<std::mutex> lg(_threadLock);
-					threads_.insert(std::make_pair(1, new boost::thread(std::bind(&TcpWrapper::eraseSocket, this, it->first))));
+					threads_.insert(std::make_pair(1, new std::thread(std::bind(&TcpWrapper::eraseSocket, this, it->first))));
 					break;
 				}
 			}

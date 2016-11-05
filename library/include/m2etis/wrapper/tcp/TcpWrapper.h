@@ -35,9 +35,9 @@
 
 #include "boost/make_shared.hpp"
 
-namespace boost {
+namespace std {
 	class thread;
-} /* namespace boost */
+} /* namespace std */
 
 namespace m2etis {
 namespace wrapper {
@@ -116,7 +116,7 @@ namespace tcp {
 		std::mutex _mapLock;
 
 		std::mutex _threadLock;
-		std::multimap<uint16_t, boost::thread *> threads_;
+		std::multimap<uint16_t, std::thread *> threads_;
 
 		std::mutex _deleteSocketsLock;
 		std::set<boost::asio::ip::tcp::socket *> _deleteSockets;
