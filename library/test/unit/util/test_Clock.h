@@ -17,7 +17,11 @@
 #ifndef __M2ETIS_CLOCK_TEST_H__
 #define __M2ETIS_CLOCK_TEST_H__
 
+#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
+
+#include <chrono>
 #include <cmath>
+#include <thread>
 
 #include "m2etis/util/Clock.h"
 #include "m2etis/util/RealTimeClock.h"
@@ -27,7 +31,7 @@ TEST(Clock, RealTime) {
     	uint64_t lastTime = clock.getTime();
     	lastTime += 2000;
     	for(int i = 1; i < 10; ++i) {
-    		boost::this_thread::sleep(boost::posix_time::milliseconds(50));
+    		std::this_thread::sleep_for(std::chrono::milliseconds(50));
     		// set the value on the right to anything that will work. As long it is << 50.000
     		// the test is ok. It's just .. this loop takes more than 0 microsecssecs
     		uint64_t a = clock.getTime();
@@ -63,11 +67,11 @@ TEST(Clock, Notifies) {
     	done = false;
     	std::thread(std::bind(func, clock)).detach();
     	for (int i = 0; i < 20; ++i) {
-    		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+    		std::this_thread::sleep_for(std::chrono::milliseconds(20));
     	}
     	EXPECT_FALSE(done);
     	for (int i = 0; i < 30; ++i) {
-    		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+    		std::this_thread::sleep_for(std::chrono::milliseconds(20));
     	}
     	EXPECT_TRUE(done);
     	delete clock;

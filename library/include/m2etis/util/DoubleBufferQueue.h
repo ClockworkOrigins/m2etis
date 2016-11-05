@@ -26,8 +26,6 @@
 
 #include "m2etis/util/Exceptions.h"
 
-#include "boost/thread/recursive_mutex.hpp"
-
 namespace m2etis {
 namespace util {
 
@@ -44,7 +42,7 @@ namespace util {
 		 * \brief pushes the given value into the queue
 		 */
 		M2ETIS_DEPRECATED void push(const T & value) {
-			boost::recursive_mutex::scoped_lock scopeLock(_lock);
+			std::lock_guard<std::mutex> lg(_lock);
 			_queueWrite->push(value);
 			assert(!empty());
 		}
@@ -53,7 +51,7 @@ namespace util {
 		 * \brief removes first entry of the queue
 		 */
 		M2ETIS_DEPRECATED void pop() {
-			boost::recursive_mutex::scoped_lock scopeLock(_lock);
+			std::lock_guard<std::mutex> lg(_lock);
 			if (_queueRead->empty()) {
 				swap();
 			}
@@ -69,7 +67,7 @@ namespace util {
 		 * \brief returns first entry of the queue
 		 */
 		M2ETIS_DEPRECATED T front() {
-			boost::recursive_mutex::scoped_lock scopeLock(_lock);
+			std::lock_guard<std::mutex> lg(_lock);
 			if (_queueRead->empty()) {
 				swap();
 			}
@@ -85,7 +83,7 @@ namespace util {
 		 * \brief remoes first entry of the queue and returns its value
 		 */
 		M2ETIS_DEPRECATED T poll() {
-			boost::recursive_mutex::scoped_lock scopeLock(_lock);
+			std::lock_guard<std::mutex> lg(_lock);
 			if (_queueRead->empty()) {
 				swap();
 			}
@@ -117,7 +115,7 @@ namespace util {
 		 * \brief removes all elements in the queue
 		 */
 		M2ETIS_DEPRECATED void clear() {
-			boost::recursive_mutex::scoped_lock scopeLock(_lock);
+			std::lock_guard<std::mutex> lg(_lock);
 			while(!_queueRead->empty()) {
 				_queueRead->pop();
 			}
@@ -133,7 +131,7 @@ namespace util {
 		std::queue<T> * _queueRead;
 		std::queue<T> * _queueWrite;
 
-		boost::recursive_mutex _lock;
+		std::mutex _lock;
 
 		DoubleBufferQueue(const DoubleBufferQueue &);
 
@@ -141,7 +139,7 @@ namespace util {
 		 * \brief switches read and write buffer
 		 */
 		void swap() {
-			boost::recursive_mutex::scoped_lock scopeLock(_lock);
+			std::lock_guard<std::mutex> lg(_lock);
 			if (_queueRead == &_queueA) {
 				_queueWrite = &_queueA;
 				_queueRead = &_queueB;

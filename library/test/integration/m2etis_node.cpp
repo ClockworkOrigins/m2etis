@@ -14,8 +14,11 @@
  limitations under the License.
  */
 
+#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
+
 #include <exception>
 #include <map>
+#include <thread>
 
 #include "m2etis/pubsub/DeliverCallbackInterface.h"
 #include "m2etis/pubsub/PubSubSystem.h"
@@ -23,8 +26,6 @@
 #include "m2etis/pubsub/filter/events/Position.h"
 #include "m2etis/pubsub/filter/FilterPredicate.h"
 
-#include "boost/date_time/posix_time/posix_time.hpp"
-#include "boost/thread.hpp"
 #include "boost/tokenizer.hpp"
 
 #include "gflags/gflags.h"
@@ -182,6 +183,7 @@ protected:
 
 	Command & operator=(const Command & other) {
 		node = other.node;
+		return *this;
 	}
 };
 
@@ -215,7 +217,7 @@ struct PublishCommand : Command {
 	void execute() {
 		for (int i = 0; i < count; ++i) {
 			node.publish(CurrentEventType(), i + 1);
-			boost::this_thread::sleep(boost::posix_time::milliseconds(delay));
+			std::this_thread::sleep_for(std::chrono::milliseconds(delay));
 		}
 	}
 
