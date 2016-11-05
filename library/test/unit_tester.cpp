@@ -31,10 +31,6 @@
 
 #include "unit/pubsub/test_PubSubSystem.h"
 
-#if I6E_PLATFORM != I6E_PLATFORM_WIN32
-	#include "unit/pubsub/test_Scheduler.h"
-	#include "unit/util/test_Clock.h"
-#endif
 #include "unit/util/test_SegmentTree.h"
 
 int main(int argc, char ** argv) {
