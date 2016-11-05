@@ -406,14 +406,7 @@ namespace pubsub {
 		}
 
 		void sendDeliverControlMessage(message::DeliverInfo::Ptr p, const typename NetworkType::Key & receiver, ControlTarget target) {
-#ifdef WITH_SIM
-			SimulationEventType v;
-			v._simID = -1;
-			v._simChannel = channelID_;
-			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.template createMessage<EventType>(v));
-#else
 			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.template createMessage<EventType>());
-#endif /* WITH_SIM */
 
 			msg->ctrlType_ = message::ControlType::DELIVER;
 			msg->deliverInfo = boost::static_pointer_cast<typename ChannelType::DeliverStrategy::DeliverInfoType>(p);
