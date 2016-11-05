@@ -46,6 +46,7 @@ cp "${PATCH_DIR}/boost/user-config-AndroidLinux.jam" "${BUILD_DIR}/tools/build/s
 status "Building & Installing Boost"
 
 ./bjam -d2 \
+	cxxflags=-fPIC \
 	-j ${CPU_CORES} \
 	variant=release \
 	--layout=system \

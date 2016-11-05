@@ -45,6 +45,7 @@ cd "${BUILD_DIR}"
 status "Building & Installing Boost"
 
 ./bjam -d2 \
+	cxxflags=-fPIC \
 	-j ${CPU_CORES} \
 	variant=release \
 	--layout=system \
