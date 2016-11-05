@@ -151,10 +151,10 @@ namespace order {
 				int32_t v2 = 0;
 				int32_t v3 = 0;
 				// values outside the array are 0
-				if (t + rt - lastEv->r < 2 * Config::eps && t + rt - lastEv->r >= 0) {
+				if (t + rt - lastEv->r < 2 * Config::eps /*&& t + rt - lastEv->r >= 0*/) {
 					v2 = lastEv->kn[t + size_t(rt - lastEv->r)];
 				}
-				if (t + rt - info->ts->r < 2 * Config::eps && t + rt - info->ts->r >= 0) {
+				if (t + rt - info->ts->r < 2 * Config::eps /*&& t + rt - info->ts->r >= 0*/) {
 					v3 = info->ts->kn[t + size_t(rt - info->ts->r)];
 				}
 				lastEv->kn[t] = max(v1, max(v2, v3));
