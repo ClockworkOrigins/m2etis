@@ -31,7 +31,6 @@
 	#include "unit/pubsub/test_Scheduler.h"
 	#include "unit/util/test_Clock.h"
 #endif
-#include "unit/util/test_DoubleBufferQueue.h"
 #include "unit/util/test_SegmentTree.h"
 
 int main(int argc, char ** argv) {
