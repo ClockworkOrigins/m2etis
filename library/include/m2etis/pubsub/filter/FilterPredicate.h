@@ -27,8 +27,6 @@
 #include <set>
 #include <string>
 
-#include "m2etis/TemplateHelper.h" // for Int2Type
-
 #include "m2etis/pubsub/filter/AttributeAccessor.h"
 #include "m2etis/pubsub/filter/AttributeAccessorBasic.h"
 #include "m2etis/pubsub/filter/AttributeTypeInformation.h"

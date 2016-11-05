@@ -30,8 +30,6 @@
 #include "m2etis/pubsub/config/ChannelConfiguration.h"
 #include "m2etis/pubsub/filter/FilterPredicate.h"
 
-#include "boost/function.hpp"
-
 // Forward Declarations
 
 namespace m2etis {

@@ -25,10 +25,6 @@
 #include "m2etis/message/key/providers/IPv4KeyProvider.h"
 #include "m2etis/message/key/providers/SHA1KeyProvider.h"
 
-#ifdef WITH_SIM
-	#include "m2etis/sim/OmNetKeyProvider.h"
-#endif /* WITH_SIM */
-
 #endif /* __M2ETIS_KEYPROVIDERS_H__ */
 
 /**

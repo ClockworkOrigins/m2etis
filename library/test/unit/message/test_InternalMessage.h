@@ -23,8 +23,6 @@
 
 #include "m2etis/pubsub/config/Strategies.h"
 
-#include "boost/mpl/bool.hpp"
-
 using namespace m2etis::pubsub::routing;
 using namespace m2etis::pubsub::filter;
 using namespace m2etis::pubsub::persistence;

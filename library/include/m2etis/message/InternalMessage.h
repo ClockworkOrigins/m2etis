@@ -22,6 +22,8 @@
 #ifndef __M2ETIS_MESSAGE_INTERNALMESSAGE_H__
 #define __M2ETIS_MESSAGE_INTERNALMESSAGE_H__
 
+#include <set>
+
 #include "m2etis/message/NetworkMessage.h"
 
 #include "m2etis/message/info/DeliverInfo.h"
@@ -31,6 +33,8 @@
 #include "m2etis/message/info/RoutingInfo.h"
 #include "m2etis/message/info/SecurityInfo.h"
 #include "m2etis/message/info/ValidityInfo.h"
+
+#include "m2etis/pubsub/filter/filterexpressions/FilterExp.h"
 
 #include "boost/serialization/export.hpp"
 #include "boost/serialization/base_object.hpp"

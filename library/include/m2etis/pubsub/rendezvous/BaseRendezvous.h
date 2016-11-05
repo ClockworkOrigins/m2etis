@@ -22,7 +22,8 @@
 #ifndef __M2ETIS_PUBSUB_RENDEZVOUS_BASERENDEZVOUS_H__
 #define __M2ETIS_PUBSUB_RENDEZVOUS_BASERENDEZVOUS_H__
 
-#include "m2etis/pubsub/rendezvous/BaseRendezvous.h"
+#include <string>
+#include <vector>
 
 namespace m2etis {
 namespace pubsub {

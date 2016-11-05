@@ -23,7 +23,6 @@
 #define __M2ETIS_MESSAGE_KEY_H__
 
 #include <string>
-#include <vector>
 
 #include "boost/serialization/base_object.hpp"
 

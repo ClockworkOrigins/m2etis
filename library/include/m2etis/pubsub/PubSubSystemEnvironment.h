@@ -25,14 +25,8 @@
 #include <string>
 
 #include "m2etis/pubsub/Scheduler.h"
-
-#ifndef WITH_SIM
-	#include "m2etis/util/RealTimeClock.h"
-#else
-	#include "m2etis/sim/OmNetClock.h"
-#endif
-
 #include "m2etis/util/Clock.h"
+#include "m2etis/util/RealTimeClock.h"
 
 namespace m2etis {
 namespace net {
@@ -49,13 +43,8 @@ namespace pubsub {
 
 		~PubSubSystemEnvironment();
 
-#ifndef WITH_SIM
 		util::Clock<util::RealTimeClock> clock_;
 		Scheduler<util::RealTimeClock> scheduler_;
-#else
-		util::Clock<sim::OmNetClock> clock_;
-		Scheduler<sim::OmNetClock> scheduler_;
-#endif
 		net::NetworkFactory * _factory;
 		TreeFactory * _tree_factory;
 

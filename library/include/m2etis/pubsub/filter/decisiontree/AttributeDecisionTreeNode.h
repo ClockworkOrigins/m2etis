@@ -32,7 +32,7 @@
 namespace m2etis {
 namespace pubsub {
 
-	M2ETIS_API extern std::map<filter::AttributeName, std::shared_ptr<filter::AttributeAccessor_Basic> > attributes_accessor_map;
+	M2ETIS_API extern std::map<filter::AttributeName, std::shared_ptr<filter::AttributeAccessor_Basic>> attributes_accessor_map;
 
 namespace filter {
 

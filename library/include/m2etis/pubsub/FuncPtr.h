@@ -24,8 +24,6 @@
 
 #include "m2etis/message/MessageFactory.h"
 
-#include "boost/function.hpp"
-
 namespace m2etis {
 namespace pubsub {
 

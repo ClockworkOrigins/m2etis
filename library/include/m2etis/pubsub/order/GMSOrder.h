@@ -27,8 +27,6 @@
 #include "m2etis/message/info/order/GMSOrderInfo.h"
 #include "m2etis/pubsub/order/BaseOrder.h"
 
-#include "boost/any.hpp"
-
 namespace m2etis {
 namespace pubsub {
 namespace order {

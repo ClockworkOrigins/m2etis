@@ -28,11 +28,8 @@
 
 #include "m2etis/message/MessageType.h"
 #include "m2etis/message/info/routing/SpreadItRoutingInfo.h"
-
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 #include "m2etis/pubsub/routing/BaseRouting.h"
-
-#include "boost/date_time/posix_time/posix_time_types.hpp"
 
 namespace m2etis {
 namespace pubsub {

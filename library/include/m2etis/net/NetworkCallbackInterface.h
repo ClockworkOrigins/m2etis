@@ -22,8 +22,6 @@
 #ifndef __M2ETIS_NET_NETWORKCALLBACKINTERFACE_H__
 #define __M2ETIS_NET_NETWORKCALLBACKINTERFACE_H__
 
-#include <stdexcept>
-
 #include "m2etis/message/NetworkMessage.h"
 #include "m2etis/net/NodeHandle.h"
 

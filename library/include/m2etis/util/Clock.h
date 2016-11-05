@@ -23,11 +23,10 @@
 #define __M2ETIS_UTIL_CLOCK_H__
 
 #include <climits>
+#include <condition_variable>
 #include <map>
 
 #include "m2etis/util/Logger.h"
-
-#include "boost/thread.hpp"
 
 namespace m2etis {
 namespace util {
@@ -51,8 +50,8 @@ namespace util {
 		~Clock() {
 			Updater::Stop();
 			running_ = false;
-			boost::mutex::scoped_lock l(lock_);
-			for (std::map<uint64_t, std::pair<uint64_t, boost::condition_variable *>>::iterator it = timer_.begin(); it != timer_.end(); ++it) {
+			std::lock_guard<std::mutex> lg(lock_);
+			for (std::map<uint64_t, std::pair<uint64_t, std::condition_variable *>>::iterator it = timer_.begin(); it != timer_.end(); ++it) {
 				it->second.second->notify_all();
 				// FIXME: but there musn't be any remaing waiting processes...
 				delete it->second.second;
@@ -82,9 +81,9 @@ namespace util {
 		 * \brief returns a new ID for a timer
 		 */
 		uint64_t registerTimer() {
-			std::pair<uint64_t, boost::condition_variable *> p(std::make_pair(UINT64_MAX, new boost::condition_variable()));
+			std::pair<uint64_t, std::condition_variable *> p(std::make_pair(UINT64_MAX, new std::condition_variable()));
 
-			boost::mutex::scoped_lock lock(lock_);
+			std::lock_guard<std::mutex> lg(lock_);
 			uint64_t id = usedIds_++;
 			timer_[id] = p;
 
@@ -95,7 +94,7 @@ namespace util {
 		 * \brief frees a timer ID
 		 */
 		void unregisterTimer(uint64_t timerID) {
-			boost::mutex::scoped_lock lock(lock_);
+			std::lock_guard<std::mutex> lg(lock_);
 			delete timer_[timerID].second;
 			timer_.erase(timerID);
 		}
@@ -104,7 +103,7 @@ namespace util {
 		 * \brief updates the time a given timer has to wait
 		 */
 		void updateWaitTime(uint64_t timerID, uint64_t time) {
-			boost::mutex::scoped_lock lock(lock_);
+			std::lock_guard<std::mutex> lg(lock_);
 			if (time <= systemTime_ + offset_) {
 				timer_[timerID].second->notify_all();
 				return;
@@ -119,12 +118,12 @@ namespace util {
 			if (!running_) {
 				return false;
 			}
-			boost::mutex::scoped_lock lock(lock_); // Is a scoped lock
+			std::unique_lock<std::mutex> ul(lock_);
 			if (time <= systemTime_ + offset_) {
 				return true;
 			}
 			timer_[timerID].first = time;
-			timer_[timerID].second->wait(lock);
+			timer_[timerID].second->wait(ul);
 			return running_;
 		}
 
@@ -144,9 +143,9 @@ namespace util {
 
 	private:
 		//        id            wakeuptime      variable
-		std::map<uint64_t, std::pair<uint64_t, boost::condition_variable *>> timer_;
+		std::map<uint64_t, std::pair<uint64_t, std::condition_variable *>> timer_;
 
-		boost::mutex lock_;
+		std::mutex lock_;
 		uint64_t usedIds_;
 
 		// last system time
@@ -161,13 +160,13 @@ namespace util {
 				return;
 			}
 			// Get current time.
-			boost::mutex::scoped_lock sl(lock_);
+			std::lock_guard<std::mutex> lg(lock_);
 			systemTime_ = Updater::getCurrentTime(systemTime_);
 			notifyTimer();
 		}
 
 		void notifyTimer() {
-			for (std::map<uint64_t, std::pair<uint64_t, boost::condition_variable *>>::iterator it = timer_.begin(); it != timer_.end(); ++it) {
+			for (std::map<uint64_t, std::pair<uint64_t, std::condition_variable *>>::iterator it = timer_.begin(); it != timer_.end(); ++it) {
 				if (systemTime_ + offset_ >= it->second.first) {
 					it->second.first = UINT64_MAX;
 					it->second.second->notify_all();

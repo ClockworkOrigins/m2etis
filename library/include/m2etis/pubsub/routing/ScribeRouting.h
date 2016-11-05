@@ -28,7 +28,6 @@
 
 #include "m2etis/message/MessageType.h"
 #include "m2etis/message/info/routing/ScribeRoutingInfo.h"
-
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 
 namespace m2etis {

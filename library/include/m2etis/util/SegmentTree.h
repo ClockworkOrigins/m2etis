@@ -22,7 +22,7 @@
 #ifndef __M2ETIS_UTIL_SEGMENTTREE_H__
 #define __M2ETIS_UTIL_SEGMENTTREE_H__
 
-#include <queue>
+#include <vector>
 
 #include "m2etis/util/Exceptions.h"
 

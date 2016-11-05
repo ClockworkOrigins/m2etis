@@ -29,8 +29,6 @@
 #include "m2etis/pubsub/order/BaseOrder.h"
 #include "m2etis/pubsub/order/RemoveHelper.h"
 
-#include "boost/thread.hpp"
-
 #if I6E_PLATFORM == I6E_PLATFORM_WIN32
 	#pragma warning(push)
 	#pragma warning(disable : 4127)

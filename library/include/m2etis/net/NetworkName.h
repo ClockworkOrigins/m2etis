@@ -26,11 +26,9 @@ namespace m2etis {
 namespace net {
 
 	enum NetworkName {
-		CHIMERA,
 		TCP,
 		UDP,
-		clockTCP,
-		OMNET
+		clockTCP
 	};
 
 } /* namespace net */

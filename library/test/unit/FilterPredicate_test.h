@@ -20,8 +20,6 @@
 #include "m2etis/pubsub/filter/events/Position.h"
 #include "m2etis/pubsub/filter/FilterPredicate.h"
 
-#include "boost/variant.hpp"
-
 using namespace m2etis::pubsub::filter;
 
 enum attribute_names {

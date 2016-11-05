@@ -24,6 +24,8 @@
 
 #include "m2etis/util/Logger.h"
 
+#include "m2etis/TemplateHelper.h"
+
 #include "m2etis/message/MessageFactory.h"
 #include "m2etis/net/NetworkController.h"
 #include "m2etis/net/NetworkFactory.h"

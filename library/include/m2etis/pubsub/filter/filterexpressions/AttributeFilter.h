@@ -32,7 +32,7 @@
 namespace m2etis {
 namespace pubsub {
 
-	M2ETIS_API extern std::map<filter::AttributeName, std::shared_ptr<filter::AttributeAccessor_Basic> > attributes_accessor_map; // TODO: (Roland) make non-static, defined where?
+	M2ETIS_API extern std::map<filter::AttributeName, std::shared_ptr<filter::AttributeAccessor_Basic>> attributes_accessor_map; // TODO: (Roland) make non-static, defined where?
 
 namespace filter {
 

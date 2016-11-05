@@ -29,11 +29,6 @@
 
 namespace m2etis {
 
-// Forward declarations
-namespace sim {
-	class OmNetKeyProvider;
-} /* namespace sim */
-
 namespace message {
 	template<class T>
 	class Key;
@@ -91,18 +86,6 @@ namespace net {
 	class KeyPChooser<NetworkType<clockTCP>> {
 	public:
 		typedef message::IPv4KeyProvider KeyProvider;
-	};
-
-	template<>
-	class KeyPChooser<NetworkType<CHIMERA>> {
-	public:
-		typedef message::SHA1KeyProvider KeyProvider;
-	};
-
-	template<>
-	class KeyPChooser<NetworkType<OMNET>> {
-	public:
-		typedef sim::OmNetKeyProvider KeyProvider;
 	};
 
 } /* namespace net */

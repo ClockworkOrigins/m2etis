@@ -22,8 +22,6 @@
 #ifndef __M2ETIS_MESSAGE_NULLSECURITYINFO_H__
 #define __M2ETIS_MESSAGE_NULLSECURITYINFO_H__
 
-#include "m2etis/message/info/OrderInfo.h"
-
 #include "boost/serialization/base_object.hpp"
 
 namespace m2etis {

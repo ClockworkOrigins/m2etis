@@ -31,6 +31,8 @@ namespace message {
 		typedef boost::shared_ptr<ValidityInfo> Ptr;
 
 		ValidityInfo() {}
+		virtual ~ValidityInfo() {
+		}
 
 		template<typename Archive>
 		void serialize(Archive &, const unsigned int) {

@@ -24,8 +24,6 @@
 
 #include "m2etis/pubsub/partition/BasePartition.h"
 
-#include "boost/assign/list_of.hpp"
-
 namespace m2etis {
 namespace pubsub {
 namespace partition {

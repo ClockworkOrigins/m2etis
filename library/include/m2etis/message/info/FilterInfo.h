@@ -24,8 +24,6 @@
 #ifndef __M2ETIS_MESSAGE_INFO_FILTERINFO_H__
 #define __M2ETIS_MESSAGE_INFO_FILTERINFO_H__
 
-#include "m2etis/pubsub/filter/FilterPredicate.h"
-
 #include "boost/shared_ptr.hpp"
 
 namespace m2etis {

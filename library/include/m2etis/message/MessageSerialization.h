@@ -36,9 +36,13 @@ namespace serialization {
 	template<class NetworkType>
 	typename NetworkMessage<NetworkType>::Ptr deserializeNetworkMsg(const std::string & msg) {
 		std::stringstream objStringStream(msg);
-		boost::archive::text_iarchive objOArchive(objStringStream, boost::archive::no_header | boost::archive::no_codecvt | boost::archive::no_xml_tag_checking | boost::archive::archive_flags::no_tracking);
 		typename NetworkMessage<NetworkType>::Ptr nm;
-		objOArchive >> nm;
+		try {
+			boost::archive::text_iarchive objOArchive(objStringStream, boost::archive::no_header | boost::archive::no_codecvt | boost::archive::no_xml_tag_checking | boost::archive::archive_flags::no_tracking);
+			objOArchive >> nm;
+		} catch (boost::archive::archive_exception & e) {
+			std::cout << e.what() << std::endl;
+		}
 
 		return nm;
 	}
@@ -46,8 +50,12 @@ namespace serialization {
 	template<class MessageType>
 	std::string serializeNetworkMsg(typename MessageType::Ptr msg) {
 		std::stringstream objStringStream;
-		boost::archive::text_oarchive objOArchive(objStringStream, boost::archive::no_header | boost::archive::no_codecvt | boost::archive::no_xml_tag_checking | boost::archive::archive_flags::no_tracking);
-		objOArchive << msg;
+		try {
+			boost::archive::text_oarchive objOArchive(objStringStream, boost::archive::no_header | boost::archive::no_codecvt | boost::archive::no_xml_tag_checking | boost::archive::archive_flags::no_tracking);
+			objOArchive << msg;
+		} catch (boost::archive::archive_exception & e) {
+			std::cout << e.what() << std::endl;
+		}
 		return objStringStream.str();
 	}
 

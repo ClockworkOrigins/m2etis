@@ -30,9 +30,6 @@
 #include "m2etis/pubsub/filter/FilterPredicate.h"
 #include "m2etis/pubsub/filter/filtervisitors/MatchVisitor.h"
 
-#include "boost/make_shared.hpp"
-#include "boost/shared_ptr.hpp"
-
 /**
  * \class BaseFilter
  *

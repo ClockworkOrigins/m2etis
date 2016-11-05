@@ -25,9 +25,6 @@
 #include <chrono>
 #include <thread>
 
-#include "boost/function.hpp"
-#include "boost/thread.hpp"
-
 namespace m2etis {
 namespace util {
 

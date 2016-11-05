@@ -23,7 +23,6 @@
 #ifndef __M2ETIS_PUBSUB_CHANNELCONFIGURATION_H__
 #define __M2ETIS_PUBSUB_CHANNELCONFIGURATION_H__
 
-
 namespace m2etis {
 namespace pubsub {
 

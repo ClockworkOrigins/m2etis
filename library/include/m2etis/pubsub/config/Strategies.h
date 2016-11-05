@@ -27,9 +27,6 @@
 #include "m2etis/message/key/Key.h"
 #include "m2etis/message/key/providers/IPv4KeyProvider.h"
 #include "m2etis/message/key/providers/SHA1KeyProvider.h"
-#ifdef WITH_SIM
-	#include "m2etis/sim/OmNetKeyProvider.h"
-#endif
 
 #include "m2etis/pubsub/routing/DirectRouting.h"
 #include "m2etis/pubsub/routing/DirectBroadcastRouting.h"

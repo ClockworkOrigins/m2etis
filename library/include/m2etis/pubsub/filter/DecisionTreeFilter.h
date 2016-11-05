@@ -32,8 +32,6 @@
 #include "m2etis/pubsub/filter/decisiontree/DecisionTreeLeaf.h"
 #include "m2etis/pubsub/filter/decisiontree/AttributeDecisionTreeNode.h"
 
-#include "boost/shared_ptr.hpp"
-
 /**
  * \class DecisionTreeFilter
  *
