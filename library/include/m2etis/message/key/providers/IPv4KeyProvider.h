@@ -28,6 +28,17 @@
 
 #include "m2etis/message/key/Key.h"
 
+#ifdef ANDROID
+namespace std {
+	template<typnename T>
+	std::string to_string(T value) {
+		std::stringstream ss;
+		ss << value;
+		return ss.str();
+	}
+} /* namespace std */
+#endif
+
 namespace m2etis {
 namespace message {
 
