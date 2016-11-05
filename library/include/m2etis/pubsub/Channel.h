@@ -131,17 +131,17 @@ namespace pubsub {
 			}
 		}
 
-		inline std::string getSelf() const {
+		inline std::string getSelf() const override {
 			// all trees belonging to the same topic have a reference to the same NetworkController
 			// arbitrariliy choosing the first tree:
 			return trees_[0]->getSelf().toStr();
 		}
 
-		inline ChannelName getChannel() const {
+		inline ChannelName getChannel() const override {
 			return topic_;
 		}
 
-		void subscribe(BasicDeliverCallbackInterface<EventType> & callback, boost::shared_ptr<filter::FilterExp<EventType> > predicate) {
+		void subscribe(BasicDeliverCallbackInterface<EventType> & callback, boost::shared_ptr<filter::FilterExp<EventType>> predicate) override {
 			subscribeQueue_.push(std::make_pair(&callback, predicate));
 		}
 
@@ -150,11 +150,11 @@ namespace pubsub {
 			unsubscribeQueue_.push(predicate);
 		}
 
-		void unsubscribe() {
+		void unsubscribe() override {
 			unsubscribe_ = true;
 		}
 
-		void publish(EventType publishEvent) {
+		void publish(EventType publishEvent) override {
 			msgQueue_.push(factory_.createMessage(publishEvent));
 		}
 
