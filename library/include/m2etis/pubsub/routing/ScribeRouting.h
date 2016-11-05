@@ -31,8 +31,6 @@
 
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 
-#include "boost/thread.hpp"
-
 namespace m2etis {
 namespace pubsub {
 namespace routing {
@@ -94,7 +92,7 @@ namespace routing {
 			self_ = self;
 		}
 
-        void setUnsubscriptionListener(const std::function<void(const typename NetworkType::Key)> & listener) {
+		void setUnsubscriptionListener(const std::function<void(const typename NetworkType::Key)> & listener) override {
             removed_subscriber_eventlistener_ = listener;
         }
 
@@ -108,7 +106,7 @@ namespace routing {
 			return subscribed_;
 		}
 
-		void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) {
+		void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) override {
             typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
             switch (msgType) {
 				case message::SUBSCRIBE: {
@@ -129,7 +127,7 @@ namespace routing {
 			}
 		}
 
-		KeyList getTargetNodes(const message::ActionType mtype, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) const {
+		KeyList getTargetNodes(const message::ActionType mtype, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) const override {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 
 			/*
@@ -165,7 +163,7 @@ namespace routing {
 			return m;
 		}
 
-		bool processSubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		bool processSubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 			if (sender == self_) { // TODO: (Daniel) hack, not sure that's right, but otherwise nodes subscribe on itself
 				return false;
 			}
@@ -192,7 +190,7 @@ namespace routing {
 			return true;
 		}
 
-		void processUnsubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processUnsubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 			// TODO: (???) use subscribed_ to check if I am a subscriber or just forwarder
 			struct T {
 				static bool test(const typename NetworkType::Key & send, const TimePair & paar) {
@@ -206,17 +204,17 @@ namespace routing {
 		/**
 		 * Handle a publish message
 		 */
-		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 			M2ETIS_LOG_INFO("Received Publish msg", "");
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 
 			msgType = message::NOTIFY;
 		}
 
-		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 		}
 
-		void processControlPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processControlPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 			return;
 		}
 

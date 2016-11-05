@@ -32,8 +32,6 @@
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 #include "m2etis/pubsub/routing/BaseRouting.h"
 
-#include "boost/date_time/posix_time/posix_time_types.hpp"
-
 namespace m2etis {
 namespace pubsub {
 namespace routing {
@@ -77,7 +75,7 @@ namespace routing {
 		// currently only needed for filter strategies
 		std::function<void(const typename NetworkType::Key)> removed_subscriber_eventlistener_;
 
-		unsigned int purgeID_;
+		uint64_t purgeID_;
 
 		HierarchicalSpreaditRouting(unsigned int topic_name, PubSubSystemEnvironment * pssi, const typename NetworkType::Key & root) :
 			BaseRouting<NetworkType>(topic_name, pssi)
@@ -97,7 +95,7 @@ namespace routing {
 			self_ = self;
 		}
 
-        void setUnsubscriptionListener(const std::function<void(const typename NetworkType::Key)> & listener) {
+		void setUnsubscriptionListener(const std::function<void(const typename NetworkType::Key)> & listener)  override {
             removed_subscriber_eventlistener_ = listener;
         }
 
@@ -111,7 +109,7 @@ namespace routing {
 			return subscribed_;
 		}
 
-		void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) {
+		void configureRoutingInfo(message::ActionType & msgType, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) override {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 			switch (msgType) {
 			case message::SUBSCRIBE: {
@@ -146,7 +144,7 @@ namespace routing {
 			return;
 		}
 
-		KeyList getTargetNodes(const message::ActionType mtype, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) const {
+		KeyList getTargetNodes(const message::ActionType mtype, typename message::RoutingInfo<NetworkType>::Ptr routingInfo, typename NetworkType::Key & receiver) const override {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 			/*
 			 * All messages must be sent to root.
@@ -269,7 +267,7 @@ namespace routing {
 			return is_subscribe_successful;
 		}
 
-		void processUnsubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processUnsubscribePayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 
 			struct T {
@@ -291,17 +289,17 @@ namespace routing {
 			rInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 		}
 
-		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processPublishPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 			assert(false);
 		}
 
-		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processNotifyPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 			if ((subscriber_.empty() && (parent_vector.empty() && self_ == _root)) || sender == self_) {
 				routingInfo->action = message::RoutingInfo<NetworkType>::RoutingType::STOP;
 			}
 		}
 
-		void processControlPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) {
+		void processControlPayload(typename message::RoutingInfo<NetworkType>::Ptr routingInfo, const typename NetworkType::Key & sender, typename NetworkType::Key & receiver, message::ActionType & msgType) override {
 			typename RoutingInfoType::Ptr rInfo = cast(routingInfo);
 			// new parent acknowledges the subscription
 			if (rInfo->action == message::RoutingInfo<NetworkType>::RoutingType::ACK) {

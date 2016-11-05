@@ -23,8 +23,6 @@
 
 #include "m2etis/pubsub/config/Strategies.h"
 
-#include "boost/mpl/bool.hpp"
-
 using namespace m2etis::pubsub::routing;
 using namespace m2etis::pubsub::filter;
 using namespace m2etis::pubsub::persistence;
@@ -45,7 +43,7 @@ using namespace m2etis::pubsub::rendezvous;
 		, m2etis::pubsub::validity::NullValidity
 		, m2etis::pubsub::partition::NullPartition<m2etis::net::NetworkType<m2etis::net::UDP>, CharVectorEventType>
 		, m2etis::pubsub::security::NullSecurity, m2etis::pubsub::rendezvous::NullRendezvous>, CharVectorEventType> Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage;
-	BOOST_CLASS_EXPORT_GUID(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage, "57")
+	BOOST_CLASS_EXPORT_GUID(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage, "27")
 	BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage, boost::serialization::object_serializable)
 #endif
 

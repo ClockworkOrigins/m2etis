@@ -20,7 +20,7 @@
 namespace m2etis {
 namespace pubsub {
 
-	ChannelConfiguration::ChannelConfiguration(const std::string & ip, const uint16_t port, const std::string & known_hostname, const uint16_t known_hostport, PubSubSystemEnvironment * pssi, const std::vector<std::string> & rootList) : impl(new ChannelConfigurationImpl(ip, port, known_hostname, known_hostport, pssi, rootList)), count(CHANNEL_COUNT) {
+	ChannelConfiguration::ChannelConfiguration(const std::string & ip, const uint16_t port, const std::string & known_hostname, const uint16_t known_hostport, PubSubSystemEnvironment * pssi, const std::vector<std::string> & rootList) : count(CHANNEL_COUNT), impl(new ChannelConfigurationImpl(ip, port, known_hostname, known_hostport, pssi, rootList)) {
 	}
 
 	ChannelConfiguration::~ChannelConfiguration() {

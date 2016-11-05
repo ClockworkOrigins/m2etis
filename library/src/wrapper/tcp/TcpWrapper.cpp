@@ -214,7 +214,7 @@ namespace tcp {
 				_sockets[realKey]->close();
 				delete _sockets[realKey];
 				_sockets[realKey] = nullptr;
-				std::lock_guard<std::mutex> lg(_threadLock);
+				std::lock_guard<std::mutex> lg2(_threadLock);
 				threads_.insert(std::make_pair(1, new boost::thread(boost::bind(&TcpWrapper::eraseSocket, this, realKey))));
 			}
 		} catch (boost::archive::archive_exception & e) {

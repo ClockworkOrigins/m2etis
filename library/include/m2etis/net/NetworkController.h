@@ -63,7 +63,7 @@ namespace net {
 		 * \brief creates new interface for communication with a wrapper
 		 * adds a polling job for incoming messages
 		 */
-		NetworkController(NetworkInterface<NetworkType> * network, pubsub::PubSubSystemEnvironment * pssi) : network_(network), _running(true), deliver_map_(), forward_map_(), msgQueue_(), pssi_(pssi), _sendLock(), _sendConditionVariable(), _sendThread(std::bind(&NetworkController::sendWorker, this)) {
+		NetworkController(NetworkInterface<NetworkType> * network, pubsub::PubSubSystemEnvironment * pssi) : network_(network), _running(true), deliver_map_(), forward_map_(), msgQueue_(), _sendLock(), _sendConditionVariable(), _sendThread(std::bind(&NetworkController::sendWorker, this)), pssi_(pssi) {
 			processingID_ = pssi->scheduler_.runRepeated(parameters::PULL_DELIVERQUEUE, std::bind(&NetworkController::processDeliverQueue, this), 3);
 			network_->setCallback(this);
 		}

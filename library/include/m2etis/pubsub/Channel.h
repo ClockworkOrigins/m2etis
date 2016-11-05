@@ -41,12 +41,8 @@
 
 #include "m2etis/sim/i6eRandom.h"
 
-#include "boost/bind.hpp"
-#include "boost/date_time/posix_time/posix_time_types.hpp"
-#include "boost/foreach.hpp"
 #include "boost/make_shared.hpp"
 #include "boost/shared_ptr.hpp"
-#include "boost/thread/locks.hpp"
 
 namespace m2etis {
 namespace pubsub {
@@ -126,14 +122,7 @@ namespace pubsub {
 			trees_.clear();
 
 			if (_self != _rendezvous) {
-#ifdef WITH_SIM
-				SimulationEventType v;
-				v._simID = -1;
-				v._simChannel = topic_;
-				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage(v));
-#else
 				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
-#endif /* WITH_SIM */
 
 				msg->sender = _self;
 				msg->receiver = _rendezvous;
@@ -168,16 +157,6 @@ namespace pubsub {
 		void publish(EventType publishEvent) {
 			msgQueue_.push(factory_.createMessage(publishEvent));
 		}
-
-#ifdef WITH_SIM
-		typename message::NetworkMessage<net::NetworkType<net::OMNET> >::Ptr transformToNetworkMessage(typename message::M2Message<EventType>::Ptr msg) const {
-			return factory_.template transformToNetworkMessage<EventType>(msg);
-		}
-
-		typename message::M2Message<EventType>::Ptr transformToM2Message(typename message::NetworkMessage<net::NetworkType<net::OMNET>>::Ptr msg) const {
-			return factory_.template transformToM2Message<EventType>(msg);
-		}
-#endif
 
 		bool parseMessages() {
 			while (!subscribeQueue_.empty()) {
@@ -391,14 +370,7 @@ namespace pubsub {
 			}
 
 			for (typename NetworkType::Key node : purges) {
-#ifdef WITH_SIM
-				SimulationEventType v;
-				v._simID = -1;
-				v._simChannel = topic_;
-				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage(v));
-#else
 				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
-#endif /* WITH_SIM */
 
 				msg->sender = node;
 				msg->type = message::LEAVE | topic_;
@@ -436,14 +408,7 @@ namespace pubsub {
 		 * \brief sends new join message to inform RP that this node is still alive
 		 */
 		bool updateState() {
-#ifdef WITH_SIM
-			SimulationEventType v;
-			v._simID = -1;
-			v._simChannel = topic_;
-			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage(v));
-#else
 			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
-#endif /* WITH_SIM */
 
 			msg->sender = _self;
 			msg->receiver = _rendezvous;

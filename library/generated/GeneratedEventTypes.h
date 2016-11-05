@@ -25,23 +25,6 @@
 typedef std::vector<unsigned char> CharVectorEventType;
 typedef m2etis::pubsub::filter::Position PositionEventType;
 
-class SimulationEventType {
-public:
-	SimulationEventType() : _simID(), _simChannel() {
-	}
-
-	int _simID;
-	int _simChannel;
-
-private:
-		friend class boost::serialization::access;
-		template <class Archive>
-		void serialize(Archive & ar, const unsigned int) {
-			ar & _simID;
-			ar & _simChannel;
-		}
-};
-
 class IntegrationTestEventType {
 	friend class boost::serialization::access;
 
