@@ -72,7 +72,7 @@ std::string convertEventToString(std::vector<unsigned char> char_vector) {
 }
 
 std::string convertEventToString(m2etis::pubsub::filter::Position position) {
-	return position.toStr();
+	return "";
 }
 
 class Node: public m2etis::pubsub::BasicDeliverCallbackInterface<CurrentEventType> {

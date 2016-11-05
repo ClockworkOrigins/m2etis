@@ -57,17 +57,9 @@ namespace net {
 			M2ETIS_THROW_FAILURE("NetworkFactory", "Wrong Usage of Network Factory! Call with existing NetworkType!", 1);
 		}
 
-#ifdef WITH_CHIMERA
-		NetworkController<NetworkType<CHIMERA> > * createNetworkController(NetworkType<CHIMERA>);
-#endif
-
 		NetworkController<NetworkType<TCP>> * createNetworkController(NetworkType<TCP>);
 		NetworkController<NetworkType<UDP>> * createNetworkController(NetworkType<UDP>);
 		NetworkController<NetworkType<clockTCP>> * createNetworkController(NetworkType<clockTCP>);
-
-#ifdef WITH_SIM
-		NetworkController<NetworkType<OMNET>> * createNetworkController(NetworkType<OMNET>);
-#endif
 
 	private:
 		std::string _listenIP;
@@ -75,13 +67,6 @@ namespace net {
 		std::string _connectIP;
 		unsigned short _connectPort;
 		pubsub::PubSubSystemEnvironment * _pssi;
-#ifdef WITH_CHIMERA
-		NetworkController<NetworkType<CHIMERA>> * chimeracontroller_;
-#endif /* WITH_CHIMERA */
-
-#ifdef WITH_SIM
-		NetworkController<NetworkType<OMNET>> * simcontroller_;
-#endif
 
 		NetworkController<NetworkType<TCP>> * tcpcontroller_;
 		NetworkController<NetworkType<UDP>> * udpcontroller_;

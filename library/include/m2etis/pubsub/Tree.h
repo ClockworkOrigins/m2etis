@@ -22,6 +22,10 @@
 #ifndef __M2ETIS_PUBSUB_TREE_H__
 #define __M2ETIS_PUBSUB_TREE_H__
 
+#ifdef ANDROID
+	#define __STDC_LIMIT_MACROS
+#endif
+
 #include "m2etis/util/Logger.h"
 
 #include "m2etis/TemplateHelper.h"
@@ -33,8 +37,6 @@
 #include "m2etis/pubsub/DeliverCallbackInterface.h"
 #include "m2etis/pubsub/MessageBuffer.h"
 #include "m2etis/pubsub/config/ChannelType.h"
-
-#include "boost/bind.hpp"
 
 #if I6E_PLATFORM == I6E_PLATFORM_WIN32
 	#pragma warning(push)

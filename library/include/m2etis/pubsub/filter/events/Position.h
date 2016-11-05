@@ -48,10 +48,6 @@ namespace filter {
 
 		Position() {}
 
-		std::string toStr() const {
-			return region + ";" + std::to_string(x) + ";" +  std::to_string(y);
-		}
-
 		std::string get_region () const { return region; }
 		int get_x () const { return x; }
 		int get_y () const { return y; }
