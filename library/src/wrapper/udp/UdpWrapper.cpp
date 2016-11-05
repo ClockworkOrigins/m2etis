@@ -16,17 +16,13 @@
 
 #include "m2etis/wrapper/udp/UdpWrapper.h"
 
+#include <thread>
+
 #include "m2etis/message/MessageSerialization.h"
 #include "m2etis/message/NetworkMessage.h"
 #include "m2etis/net/NodeHandle.h"
 #include "m2etis/parameters/WrapperParameters.h"
 #include "m2etis/util/Logger.h"
-
-#include "boost/array.hpp"
-#include "boost/bind.hpp"
-#include "boost/date_time/posix_time/posix_time.hpp"
-#include "boost/enable_shared_from_this.hpp"
-#include "boost/shared_ptr.hpp"
 
 namespace m2etis {
 namespace wrapper {
@@ -37,8 +33,8 @@ namespace udp {
 		ss << _hostName << ":" << _hostPort;
 		_root = net::NetworkType<net::UDP>::Key(ss.str());
 
-		threads_.push_back(new boost::thread(boost::bind(&boost::asio::io_service::run, &_strand__.get_io_service())));
-		boost::thread(boost::bind(&UdpWrapper::workerFunc, this)).join();
+		threads_.push_back(new std::thread(std::bind(static_cast<std::size_t(boost::asio::io_service::*)(void)>(&boost::asio::io_service::run), &_strand__.get_io_service())));
+		std::thread(std::bind(&UdpWrapper::workerFunc, this)).join();
 		_initialized = true;
 	}
 
@@ -71,7 +67,7 @@ namespace udp {
 			_remote_endpoint = new boost::asio::ip::udp::endpoint();
 			// start receiving again
 			boost::system::error_code error;
-			_socket->async_receive_from(boost::asio::buffer(recv_buf, parameters::UDPWRAPPER_SIZE), *_remote_endpoint, boost::bind(&UdpWrapper::handleReceive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, _remote_endpoint));
+			_socket->async_receive_from(boost::asio::buffer(recv_buf, parameters::UDPWRAPPER_SIZE), *_remote_endpoint, std::bind(&UdpWrapper::handleReceive, this, std::placeholders::_1, std::placeholders::_2, _remote_endpoint));
 		} catch (util::SystemFailureException & e) {
 			e.writeLog();
 			e.PassToMain();
@@ -92,12 +88,12 @@ namespace udp {
 		ss << re->address().to_string() << ":" << re->port();
 		message::Key<message::IPv4KeyProvider> k(ss.str());
 
-		boost::thread t(boost::bind(&UdpWrapper::handleReceive, this, _socket, message, re, len));
+		std::thread t(std::bind(&UdpWrapper::handleReceiveMessage, this, _socket, message, re, len));
 		workerFunc();
 		t.join();
 	}
 
-	void UdpWrapper::handleReceive(boost::asio::ip::udp::socket *, std::string message, boost::asio::ip::udp::endpoint * endpoint, size_t len) {
+	void UdpWrapper::handleReceiveMessage(boost::asio::ip::udp::socket *, std::string message, boost::asio::ip::udp::endpoint * endpoint, size_t len) {
 		std::vector<uint8_t> v(message.begin(), message.begin() + std::string::difference_type(len));
 		std::string msgString(v.begin(), v.end());
 
@@ -142,7 +138,7 @@ namespace udp {
 
 	void UdpWrapper::write(const std::vector<uint8_t> & message, message::Key<message::IPv4KeyProvider> key) {
 		if (_initialized) {
-			_strand__.post(boost::bind(&UdpWrapper::writeImpl, this, message, key));
+			_strand__.post(std::bind(&UdpWrapper::writeImpl, this, message, key));
 		}
 	}
 

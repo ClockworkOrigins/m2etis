@@ -32,7 +32,10 @@
 #include "m2etis/net/NodeHandle.h"
 
 #include "boost/make_shared.hpp"
-#include "boost/thread.hpp"
+
+namespace std {
+	class thread;
+} /* namespace std */
 
 namespace m2etis {
 namespace wrapper {
@@ -101,8 +104,8 @@ namespace udp {
 		boost::asio::ip::udp::socket * _socket;
 		net::NetworkType<net::UDP>::Key _root;
 
-		std::vector<boost::thread *> threads_;
-		boost::array<uint8_t, 1048576> recv_buf;
+		std::vector<std::thread *> threads_;
+		std::array<uint8_t, 1048576> recv_buf;
 
 		boost::asio::io_service::strand _strand__;
 		// buffers messages till they got sent
@@ -120,7 +123,7 @@ namespace udp {
 
 		void workerFunc();
 
-		void handleReceive(boost::asio::ip::udp::socket * socket, std::string message, boost::asio::ip::udp::endpoint * endpoint, size_t len);
+		void handleReceiveMessage(boost::asio::ip::udp::socket * socket, std::string message, boost::asio::ip::udp::endpoint * endpoint, size_t len);
 		void handleReceive(const boost::system::error_code & error, size_t len, boost::asio::ip::udp::endpoint * re);
 
 		UdpWrapper(const UdpWrapper &) = delete;
