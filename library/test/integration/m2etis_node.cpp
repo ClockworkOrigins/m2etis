@@ -91,7 +91,9 @@ public:
 			a << "__" << n;
 		}
 		std::string b = a.str();
-		std::cout << boost::posix_time::ptime(boost::posix_time::second_clock::local_time()) << ": publishing... " << a.str() << std::endl;
+		auto now = std::chrono::system_clock::now();
+		auto in_time_t = std::chrono::system_clock::to_time_t(now);
+		std::cout << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X") << ": publishing... " << a.str() << std::endl;
 
 		std::cout << "content of sent event: " << convertEventToString(event) << std::endl;
 

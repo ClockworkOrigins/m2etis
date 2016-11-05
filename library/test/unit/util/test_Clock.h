@@ -17,8 +17,6 @@
 #ifndef __M2ETIS_CLOCK_TEST_H__
 #define __M2ETIS_CLOCK_TEST_H__
 
-#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
-
 #include <chrono>
 #include <cmath>
 #include <thread>

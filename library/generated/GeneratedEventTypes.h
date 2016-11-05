@@ -19,9 +19,6 @@
 
 #include "m2etis/pubsub/filter/events/Position.h"
 
-#include "boost/date_time/posix_time/posix_time.hpp"
-#include "boost/date_time/posix_time/time_serialize.hpp"
-
 typedef std::vector<unsigned char> CharVectorEventType;
 typedef m2etis::pubsub::filter::Position PositionEventType;
 

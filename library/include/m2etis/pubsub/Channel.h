@@ -39,8 +39,6 @@
 #include "m2etis/pubsub/TreeFactory.h"
 #include "m2etis/pubsub/config/ChannelType.h"
 
-#include "m2etis/sim/i6eRandom.h"
-
 #include "boost/make_shared.hpp"
 #include "boost/shared_ptr.hpp"
 

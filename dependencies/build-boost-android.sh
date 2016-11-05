@@ -41,7 +41,7 @@ status "Configuring Boost"
 
 cd "${BUILD_DIR}"
 cp "${PATCH_DIR}/boost/user-config-AndroidLinux.jam" "${BUILD_DIR}/tools/build/src/user-config.jam"
-./bootstrap.sh  --prefix="${PREFIX}" --with-libraries=chrono,date_time,filesystem,regex,serialization,system,thread
+./bootstrap.sh  --prefix="${PREFIX}" --with-libraries=serialization,system
 
 status "Building & Installing Boost"
 

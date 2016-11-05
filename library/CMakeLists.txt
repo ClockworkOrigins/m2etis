@@ -39,9 +39,6 @@ file(GLOB_RECURSE m2etis_pubsub_header ${I6MC_INC_DIR}/m2etis/pubsub/*.h)
 file(GLOB_RECURSE m2etis_config ${I6MC_SRC_DIR}/config/*.cpp)
 file(GLOB_RECURSE m2etis_config_header ${I6MC_INC_DIR}/m2etis/config/*.h)
 
-file(GLOB_RECURSE m2etis_chimera_wrapper ${I6MC_SRC_DIR}/wrapper/chimera/*.cpp)
-file(GLOB_RECURSE m2etis_chimera_wrapper_header ${I6MC_INC_DIR}/m2etis/wrapper/chimera/*.h)
-
 file(GLOB_RECURSE m2etis_tcp_wrapper ${I6MC_SRC_DIR}/wrapper/tcp/*.cpp)
 file(GLOB_RECURSE m2etis_tcp_wrapper_header ${I6MC_INC_DIR}/m2etis/wrapper/tcp/*.h)
 
@@ -51,9 +48,6 @@ file(GLOB_RECURSE m2etis_clocktcp_wrapper_header ${I6MC_INC_DIR}/m2etis/wrapper/
 file(GLOB_RECURSE m2etis_udp_wrapper ${I6MC_SRC_DIR}/wrapper/udp/*.cpp)
 file(GLOB_RECURSE m2etis_udp_wrapper_header ${I6MC_INC_DIR}/m2etis/wrapper/udp/*.h)
 
-file(GLOB_RECURSE m2etis_simulator_bindings ${I6MC_SRC_DIR}/sim/*.cpp)
-file(GLOB_RECURSE m2etis_simulator_bindings_header ${I6MC_INC_DIR}/m2etis/sim/*.h)
-
 #Define IDE source groups
 SOURCE_GROUP(util FILES ${utils_header} ${utils})
 
@@ -61,29 +55,17 @@ SOURCE_GROUP(net FILES ${net_header} ${net})
 
 SOURCE_GROUP(message FILES ${message_header} ${message})
 
-SOURCE_GROUP(sim FILES ${m2etis_simulator_bindings_header} ${m2etis_simulator_bindings})
-
 SOURCE_GROUP(pubsub FILES ${m2etis_pubsub_header} ${m2etis_pubsub})
 
 SOURCE_GROUP(config FILES ${m2etis_config_header} ${m2etis_config})
 
 SOURCE_GROUP(wrapper\\tcp FILES ${m2etis_tcp_wrapper_header} ${m2etis_tcp_wrapper})
 SOURCE_GROUP(wrapper\\clocktcp FILES ${m2etis_clocktcp_wrapper_header} ${m2etis_clocktcp_wrapper})
-SOURCE_GROUP(wrapper\\self FILES ${m2etis_self_wrapper_header} ${m2etis_self_wrapper})
 SOURCE_GROUP(wrapper\\udp FILES ${m2etis_udp_wrapper_header} ${m2etis_udp_wrapper})
-SOURCE_GROUP(wrapper\\chimera FILES ${m2etis_chimera_wrapper_header} ${m2etis_chimera_wrapper})
 
 INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${I6MC_INC_DIR}")
 
 SET(m2etis_source ${utils_header} ${utils} ${net_header} ${net} ${message_header} ${message} ${m2etis_pubsub_header} ${m2etis_pubsub} ${m2etis_config_header} ${m2etis_config} ${m2etis_tcp_wrapper_header} ${m2etis_tcp_wrapper} ${m2etis_clocktcp_wrapper_header} ${m2etis_clocktcp_wrapper} ${m2etis_udp_wrapper_header} ${m2etis_udp_wrapper})
-
-IF(WITH_SIM)
-	SET(m2etis_source ${m2etis_source} ${m2etis_simulator_bindings_header} ${m2etis_simulator_bindings})
-ENDIF(WITH_SIM)
-
-IF(WITH_CHIMERA)
-	SET(m2etis_source ${m2etis_source} ${m2etis_chimera_wrapper_header} ${m2etis_chimera_wrapper})
-ENDIF(WITH_CHIMERA)
 
 IF(M2ETIS_BUILD_SHARED)
 	add_library(m2etis SHARED ${m2etis_source})

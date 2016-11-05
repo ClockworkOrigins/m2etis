@@ -24,9 +24,6 @@
 
 #include "m2etis/util/SystemParameters.h"
 
-#include "boost/interprocess/sync/scoped_lock.hpp"
-#include "boost/thread.hpp"
-
 namespace m2etis {
 namespace util {
 
@@ -54,7 +51,7 @@ namespace util {
 	protected:
 		Singleton() {}
         virtual ~Singleton() {
-			boost::unique_lock<boost::mutex> lock(_objMutex);
+			std::lock_guard<std::mutex> lg(_objMutex);
         	if (_ptrSingleton != NULL) {
         		delete _ptrSingleton;
         		_ptrSingleton = NULL;
@@ -68,7 +65,7 @@ namespace util {
 			// Double check to avoid overhead locking
 			if (!_ptrSingleton) {
 				// no need to unlock, because the destructor of boost::unique_lock does this for us
-				boost::unique_lock<boost::mutex> lock(_objMutex);
+				std::lock_guard<std::mutex> lg(_objMutex);
 				if (!_ptrSingleton) {
 					_ptrSingleton = new T();
 				}
@@ -80,7 +77,7 @@ namespace util {
 	};
 
 	template<typename T> T * Singleton<T>::_ptrSingleton = nullptr;
-    template<typename T> boost::mutex  Singleton<T>::_objMutex;
+    template<typename T> std::mutex  Singleton<T>::_objMutex;
 
 } /* namespace util */
 } /* namespace m2etis */
