@@ -1,118 +1,59 @@
 #!/bin/bash
 
+##
 # Copyright (2016) Michael Baer, Daniel Bonrath, All rights reserved.
-#
+# 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-#
+# 
 # http://www.apache.org/licenses/LICENSE-2.0
-#
+# 
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+##
 
-cd "$(readlink -f "$(dirname "${0}")")"
+cd "$(readlink "$(dirname "${0}")")"
 
-. ./build-common.sh
+. ./build-common.sh ${1}
 
-# boost
-ARCHIVE="boost_1_60_0.tar.bz2"
-BUILD_DIR="${BUILD_ROOT}/boost_1_60_0"
-
-PREFIX="${DEP_DIR}/boost/"
-DEBUG_FLAG="variant=debug"
-RELEASE_FLAG="variant=release"
-PARALLEL_FLAG=""
+ARCHIVE="boost_1_58_0.tar.bz2"
+BUILD_DIR="${BUILD_ROOT}/boost_1_58_0"
+PREFIX="${DEP_OUT_DIR}/boost/"
 
 if [ -d ${PREFIX} ]; then
 	exit 0
 fi
 
-if [ ! -z "${BUILD_PARALLEL}" ]; then
-	PARALLEL_FLAG="-j ${BUILD_PARALLEL}"
-fi
-if [ -z "${DEBUG}" ]; then
-	BUILD_TYPE="${RELEASE_FLAG}"
-else
-	BUILD_TYPE="${DEBUG_FLAG}"
-fi
-if [ ! -z "${CLEAN}" ]; then
-	status "Cleaning Boost"
-	rm -rf "${PREFIX}"
-	exit 0
-fi
-
 title "Compile Boost"
 
-#if ! uptodate "${ARCHIVE}" "${PREFIX}" && ! uptodate "${BOOST_LOG_ARCHIVE}" "${PREFIX}"; then
-#	status "Boost seems to be up to date, skipping build"
-#	exit 0
-#fi
-
-./download-dependency.sh ${ARCHIVE}
-
-status "Cleaning Boost"
-rm -rf "${PREFIX}" >/dev/null
+. ./download-dependency.sh ${ARCHIVE}
 
 status "Extracting Boost"
+
 cd "${BUILD_ROOT}"
-tar xfj "${ARCHIVE}" >/dev/null
+tar xfj "${ARCHIVE}"
 
-status "Bootstrapping Boost"
+status "Configuring Boost"
+
 cd "${BUILD_DIR}"
-
-./bootstrap.sh --prefix="${PREFIX}" --with-libraries=chrono,filesystem,thread,date_time,regex,system,serialization,iostreams > /dev/null
+./bootstrap.sh  --prefix="${PREFIX}" --with-libraries=chrono,date_time,filesystem,regex,serialization,system,thread
 
 status "Building & Installing Boost"
-echo "Using $COMPILER"
-if [[ $OSTYPE =~ "darwin" ]]; then
-  status "Compiling Boost for OS X"
-./bjam \
-        ${PARALLEL_FLAG}\
-        ${BUILD_TYPE}\
-        link=shared\
-        --layout=system\
-        threading=multi\
-        architecture=x86\
-        address-model=32_64\
-	toolset=$COMPILER cxxflags="-std=c++11 $STDLIB" linkflags="$STDLIB"\
-        install >/dev/null
-else
-  ./bjam \
-        ${PARALLEL_FLAG}\
-        ${BUILD_TYPE}\
-        threading=multi\
-        --layout=system\
-        link=shared\
-	toolset=$COMPILER cxxflags="-std=c++11"\
-        install >/dev/null
-fi
+
+./bjam -d2 \
+	-j ${CPU_CORES} \
+	variant=release \
+	--layout=system \
+	threading=multi \
+	link=static \
+	install >/dev/null
 
 status "Cleaning up"
+
 cd "${DEP_DIR}"
-rm -rf "${BUILD_DIR}" >/dev/null
+rm -rf "${BUILD_ROOT}"
 
-if [[ $OSTYPE =~ "darwin" ]]; then
-        status "OS X detected: Setting install_names of libs"
-        cd ${PREFIX}/lib
-        for file in $( ls );
-        do
-        if  [[ $file =~ ".dylib" ]]; then
-            install_name_tool -id @executable_path/../lib/${file} ${file};
-        fi
-        done
-        #install_name_tool -change libboost_thread-mt.dylib @executable_path/../lib/libboost_thread-mt.dylib libboost_log-mt.dylib
-    #install_name_tool -change libboost_filesystem-mt.dylib @executable_path/../lib/libboost_filesystem-mt.dylib libboost_log-mt.dylib
-    #install_name_tool -change libboost_system-mt.dylib @executable_path/../lib/libboost_system-mt.dylib libboost_log-mt.dylib
-    #install_name_tool -change libboost_date_time-mt.dylib @executable_path/../lib/libboost_date_time-mt.dylib libboost_log-mt.dylib
-
-    install_name_tool -change libboost_system-mt.dylib @executable_path/../lib/libboost_system-mt.dylib libboost_filesystem-mt.dylib
-	install_name_tool -change libboost_system-mt.dylib @executable_path/../lib/libboost_system-mt.dylib libboost_thread-mt.dylib
-fi
-
-
-touch "${PREFIX}"
-rm -rf ${BUILD_ROOT}

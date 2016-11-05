@@ -20,5 +20,5 @@ add_executable(csvToDotConverter ${csvToDotConverterSrc})
 set_target_properties(csvToDotConverter PROPERTIES LINKER_LANGUAGE CXX)
 
 IF(WIN32)
-	add_custom_command(TARGET csvToDotConverter POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/dist/${CMAKE_BUILD_TYPE}/$<CONFIGURATION>/csvToDotConverter.exe ${CMAKE_BINARY_DIR}/dist)
+	add_custom_command(TARGET csvToDotConverter POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/bin/$<CONFIGURATION>/csvToDotConverter.exe ${CMAKE_BINARY_DIR}/bin)
 ENDIF(WIN32)

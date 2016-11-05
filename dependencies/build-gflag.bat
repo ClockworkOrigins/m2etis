@@ -18,28 +18,28 @@ REM
 
 call build-common.bat %1 %2
 
-Set ARCHIVE=glog-rev188.zip
-Set BUILD_DIR=%TMP_DIR%/glog-master
-Set PREFIX=%DEP_DIR%/%ARCH_DIR%/glog
+Set ARCHIVE=gflags-2.1.2.zip
+Set BUILD_DIR=%TMP_DIR%/gflags-2.1.2
+Set PREFIX=%DEP_DIR%/%ARCH_DIR%/gflags
 
 IF EXIST %PREFIX% EXIT /B
 
-echo "Compile GLog"
+echo "Compile GFlags"
 
-echo "Extracting GLog"
+echo "Extracting GFlags"
 
 call build-common.bat downloadAndUnpack %ARCHIVE% %BUILD_DIR%
 
-echo "Configuring GLog"
+echo "Configuring GFlags"
 
 cd %BUILD_DIR%
 cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%VSCOMPILER%%VSARCH%" .
 
-echo "Building GLog"
+echo "Building GFlags"
 
-MSBuild.exe google-glog.sln /p:Configuration=Release
+MSBuild.exe gflags.sln /p:Configuration=Release
 
-echo "Installing GLog"
+echo "Installing GFlags"
 
 MSBuild.exe INSTALL.vcxproj /p:Configuration=Release
 

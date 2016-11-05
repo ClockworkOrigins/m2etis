@@ -31,8 +31,6 @@
 #include "m2etis/pubsub/PubSubSystemEnvironment.h"
 #include "m2etis/pubsub/routing/BaseRouting.h"
 
-#include "boost/date_time/posix_time/posix_time_types.hpp"
-
 namespace m2etis {
 namespace pubsub {
 namespace routing {
@@ -270,7 +268,6 @@ namespace routing {
 		TimeList subscriber_;
 
 		// Control variables for the purging thread
-		mutable boost::mutex subscriber_mutex_;
 		volatile bool purging_;
 
 		typename NetworkType::Key _root;

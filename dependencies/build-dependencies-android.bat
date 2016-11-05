@@ -16,35 +16,5 @@ REM See the License for the specific language governing permissions and
 REM limitations under the License.
 REM
 
-call build-common.bat %1 %2
-
-Set ARCHIVE=glog-rev188.zip
-Set BUILD_DIR=%TMP_DIR%/glog-master
-Set PREFIX=%DEP_DIR%/%ARCH_DIR%/glog
-
-IF EXIST %PREFIX% EXIT /B
-
-echo "Compile GLog"
-
-echo "Extracting GLog"
-
-call build-common.bat downloadAndUnpack %ARCHIVE% %BUILD_DIR%
-
-echo "Configuring GLog"
-
-cd %BUILD_DIR%
-cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%VSCOMPILER%%VSARCH%" .
-
-echo "Building GLog"
-
-MSBuild.exe google-glog.sln /p:Configuration=Release
-
-echo "Installing GLog"
-
-MSBuild.exe INSTALL.vcxproj /p:Configuration=Release
-
-echo "Cleaning up"
-
-cd %DEP_DIR%
-RD /S /Q "%TMP_DIR%"
-
+call build-boost-android.bat
+call build-clockUtils-android.bat

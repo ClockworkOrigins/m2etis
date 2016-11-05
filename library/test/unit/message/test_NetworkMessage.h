@@ -35,6 +35,20 @@ using namespace m2etis::pubsub::partition;
 using namespace m2etis::pubsub::deliver;
 using namespace m2etis::pubsub::rendezvous;
 
+#ifdef M2ETIS_BUILD_SHARED
+	typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
+		m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
+		, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
+		, m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
+		, m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
+		, m2etis::pubsub::persistence::NullPersistence
+		, m2etis::pubsub::validity::NullValidity
+		, m2etis::pubsub::partition::NullPartition<m2etis::net::NetworkType<m2etis::net::UDP>, CharVectorEventType>
+		, m2etis::pubsub::security::NullSecurity, m2etis::pubsub::rendezvous::NullRendezvous>, CharVectorEventType> Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage;
+	BOOST_CLASS_EXPORT_GUID(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage, "57")
+	BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage, boost::serialization::object_serializable)
+#endif
+
 namespace NetworkMesageTest {
 
 	typedef boost::shared_ptr<std::vector<unsigned char>> PP;

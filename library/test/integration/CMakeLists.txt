@@ -8,5 +8,5 @@ IF(NOT WIN32)
 ENDIF(NOT WIN32)
 
 IF(WIN32)
-	add_custom_command(TARGET m2etis_node POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/dist/${CMAKE_BUILD_TYPE}/$<CONFIGURATION>/m2etis_node.exe ${CMAKE_BINARY_DIR}/dist)
+	add_custom_command(TARGET m2etis_node POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/bin/$<CONFIGURATION>/m2etis_node.exe ${CMAKE_BINARY_DIR}/bin)
 ENDIF(WIN32)

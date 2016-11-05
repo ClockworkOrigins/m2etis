@@ -1,6 +1,0 @@
-typedef m2etis::message::InternalMessage<
-$network_type
-, m2etis::pubsub::ChannelType<
-$parameterized_strategies>
-, $payload_type
-> ${channel_name}Message;

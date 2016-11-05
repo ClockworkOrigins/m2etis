@@ -29,12 +29,6 @@
 #include "boost/archive/text_iarchive.hpp"
 #include "boost/archive/text_oarchive.hpp"
 
-#ifdef WITH_MESSAGECOMPRESSION
-	#include "boost/iostreams/filtering_streambuf.hpp"
-	#include "boost/iostreams/copy.hpp"
-	#include "boost/iostreams/filter/zlib.hpp"
-#endif
-
 namespace m2etis {
 namespace message {
 namespace serialization {
@@ -42,19 +36,7 @@ namespace serialization {
 	template<class NetworkType>
 	typename NetworkMessage<NetworkType>::Ptr deserializeNetworkMsg(const std::string & msg) {
 		std::stringstream objStringStream(msg);
-
-#ifdef WITH_MESSAGECOMPRESSION
-		boost::iostreams::filtering_streambuf<boost::iostreams::input> out;
-		out.push(boost::iostreams::zlib_decompressor());
-		out.push(objStringStream);
-		std::stringstream tmp;
-		boost::iostreams::copy(out, tmp);
-
-		boost::archive::text_iarchive objOArchive(tmp, boost::archive::no_header | boost::archive::no_codecvt | boost::archive::no_xml_tag_checking | boost::archive::archive_flags::no_tracking);
-#else
 		boost::archive::text_iarchive objOArchive(objStringStream, boost::archive::no_header | boost::archive::no_codecvt | boost::archive::no_xml_tag_checking | boost::archive::archive_flags::no_tracking);
-#endif
-
 		typename NetworkMessage<NetworkType>::Ptr nm;
 		objOArchive >> nm;
 
@@ -66,18 +48,7 @@ namespace serialization {
 		std::stringstream objStringStream;
 		boost::archive::text_oarchive objOArchive(objStringStream, boost::archive::no_header | boost::archive::no_codecvt | boost::archive::no_xml_tag_checking | boost::archive::archive_flags::no_tracking);
 		objOArchive << msg;
-
-#ifdef WITH_MESSAGECOMPRESSION
-		boost::iostreams::filtering_streambuf<boost::iostreams::input> out;
-		out.push(boost::iostreams::zlib_compressor());
-		out.push(objStringStream);
-		std::stringstream tmp;
-		boost::iostreams::copy(out, tmp);
-
-		return tmp.str();
-#else
 		return objStringStream.str();
-#endif
 	}
 
 } /* namespace serialization */

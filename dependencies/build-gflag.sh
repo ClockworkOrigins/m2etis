@@ -20,45 +20,39 @@ cd "$(readlink "$(dirname "${0}")")"
 
 . ./build-common.sh ${1}
 
-ARCHIVE="clockutils-1.0.0-src.zip"
-BUILD_DIR="${BUILD_ROOT}/clockutils-1.0.0-src"
-PREFIX="${DEP_OUT_DIR}/clockUtils/"
+ARCHIVE="gflags-2.1.2.zip"
+BUILD_DIR="${BUILD_ROOT}/gflags-2.1.2"
+PREFIX="${DEP_OUT_DIR}/gflags/"
 
 if [ -d ${PREFIX} ]; then
 	exit 0
 fi
 
-title "Compile clockUtils"
+title "Compile GFlags"
 
-. ./download-dependency.sh ${ARCHIVE} http://clockwork-origins.de/clockUtils/downloads/
+. ./download-dependency.sh ${ARCHIVE}
 
-status "Extracting clockUtils"
+status "Extracting GFlags"
 
 cd "${BUILD_ROOT}"
 unzip "${ARCHIVE}"
 
-status "Configuring clockUtils"
+status "Configuring GFlags"
 
 cd "${BUILD_DIR}"
 cmake \
-	-DWITH_TESTING=OFF \
-	-DWITH_LIBRARY_ARGPARSER=OFF \
-	-DWITH_LIBRARY_COMPRESSION=OFF \
-	-DWITH_LIBRARY_CONTAINER=OFF \
-	-DWITH_LIBRARY_INIPARSER=OFF \
-	-DWITH_LIBRARY_SOCKETS=ON \
-	-DCLOCKUTILS_BUILD_SHARED=ON \
+	-DBUILD_SHARED_LIBS=ON \
 	-DCMAKE_INSTALL_PREFIX="${PREFIX}" \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_C_COMPILER=${C_COMPILER} \
 	-DCMAKE_CXX_COMPILER=${CXX_COMPILER} \
 .
 
-status "Building clockUtils"
+status "Building GFlags"
 
 make -j ${CPU_CORES}
 
-status "Installing clockUtils"
+status "Installing GFlags"
 
 make install
 

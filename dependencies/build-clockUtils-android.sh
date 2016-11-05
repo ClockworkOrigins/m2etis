@@ -18,7 +18,7 @@
 
 cd "$(readlink "$(dirname "${0}")")"
 
-. ./build-common.sh ${1}
+. ./build-common.sh android
 
 ARCHIVE="clockutils-1.0.0-src.zip"
 BUILD_DIR="${BUILD_ROOT}/clockutils-1.0.0-src"
@@ -50,8 +50,8 @@ cmake \
 	-DCLOCKUTILS_BUILD_SHARED=ON \
 	-DCMAKE_INSTALL_PREFIX="${PREFIX}" \
 	-DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_C_COMPILER=${C_COMPILER} \
-	-DCMAKE_CXX_COMPILER=${CXX_COMPILER} \
+	-DCMAKE_TOOLCHAIN_FILE=${DEP_OUT_DIR}/../../cmake/android.toolchain.cmake \
+	-DANDROID_STL=gnustl_shared \
 .
 
 status "Building clockUtils"

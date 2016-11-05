@@ -16,14 +16,7 @@
 # limitations under the License.
 ##
 
-cd "$(readlink -f "$(dirname "${0}")")"
+set -e
 
-FILE=${1}
-URL=http://www.clockwork-origins.de/dependencies/
-if [ -n "$2" ]; then
-	URL=${2}
-fi
-
-if ! [ -f "${BUILD_ROOT}/${FILE}" ]; then
-	wget ${URL}/${FILE} -P ${BUILD_ROOT}
-fi
+. ./build-boost-android.sh
+. ./build-clockUtils-android.sh

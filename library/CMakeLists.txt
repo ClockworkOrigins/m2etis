@@ -16,131 +16,6 @@
 # m2etis CMake Configuration file
 # This file builds the m2etis library and a test/evaluation environment
 #---
-#
-# Dependencies
-#
-#----------------------------------------------------
-
-#Boost
-#---------------------------------------------------
-IF(WIN32)
-	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-boost.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-ELSEIF(UNIX)
-	execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-boost.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-ENDIF()
-
-IF(APPLE)
-	SET(COMPONENTS thread filesystem serialization system date_time iostreams)
-	FIND_PACKAGE(Boost REQUIRED ${COMPONENTS})
-
-	#copy libs to expected dir for os x:
-	IF(APPLE)
-		foreach(comp ${COMPONENTS})
-			configure_file(${Boost_LIBRARY_DIRS}/libboost_${comp}.dylib ${I6MC_DEP_LIB_DIR}/libboost_${comp}.dylib COPYONLY)
-		endforeach(comp)
-	ENDIF(APPLE)
-
-	SET(CMAKE_INCLUDE_SYSTEM_FLAG_C "-isystem ")
-	SET(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ")
-
-	#WORKAROUND FOR XCODE Generator BUG in CMake
-	IF(CMAKE_GENERATOR STREQUAL "Xcode")
-		SET(CMAKE_CXX_FLAGS_DEBUG "-isystem ${Boost_INCLUDE_DIR} ${CMAKE_CXX_FLAGS_DEBUG}")
-		SET(CMAKE_CXX_FLAGS_RELEASE "-isystem ${Boost_INCLUDE_DIR} ${CMAKE_CXX_FLAGS_RELEASE}")
-	ELSE()
-		INCLUDE_DIRECTORIES(SYSTEM "${Boost_INCLUDE_DIR}")
-	ENDIF()
-
-	SET(BOOST_LIBRARIES ${Boost_LIBRARIES})
-ELSE(APPLE)
-	SET(LIBNAME "BOOST")
-	SET(LIBHEADER "boost/thread.hpp")
-	SET(BOOST_ROOT ${DEP_DIR}/boost)
-	IF(WITH_MESSAGECOMPRESSION)
-		find_package(EasyFind REQUIRED COMPONENTS boost_chrono boost_date_time boost_filesystem boost_iostreams boost_regex boost_serialization boost_system boost_thread)
-	ELSE(WITH_MESSAGECOMPRESSION)
-		find_package(EasyFind REQUIRED COMPONENTS boost_chrono boost_date_time boost_filesystem boost_regex boost_serialization boost_system boost_thread)
-	ENDIF(WITH_MESSAGECOMPRESSION)
-	include_directories(SYSTEM ${BOOST_INCLUDE_DIR})
-ENDIF(APPLE)
-
-#Chimera
-#----------------------------------------------------
-IF(WITH_CHIMERA)
-	IF(UNIX)
-		execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-boost.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-	ENDIF()
-
-	FIND_PACKAGE(Chimera REQUIRED)
-
-	LINK_DIRECTORIES(${LINK_DIRECTORIES} ${CHIMERA_LIB_DIR})
-	IF(APPLE)
-		configure_file(${CHIMERA_LIB_DIR}/libchimera.1.4.dylib ${I6MC_DEP_LIB_DIR}/libchimera.1.4.dylib COPYONLY)
-	        SET(CMAKE_CXX_FLAGS_DEBUG "-isystem ${CHIMERA_INCLUDE_DIR} ${CMAKE_CXX_FLAGS_DEBUG}")
-			SET(CMAKE_CXX_FLAGS_RELEASE "-isystem ${CHIMERA_INCLUDE_DIR} ${CMAKE_CXX_FLAGS_RELEASE}")
-	ENDIF(APPLE)
-	IF(WIN32)
-	        INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} "${CHIMERA_INCLUDE_DIR}")
-	ENDIF(WIN32)
-	IF(UNIX AND NOT APPLE)
-		configure_file(${CHIMERA_LIB_DIR}/libchimera.so ${I6MC_DEP_LIB_DIR}/libchimera.so COPYONLY)
-		SET(CMAKE_CXX_FLAGS_DEBUG "-isystem ${CHIMERA_INCLUDE_DIR} ${CMAKE_CXX_FLAGS_DEBUG}")
-		SET(CMAKE_CXX_FLAGS_RELEASE "-isystem ${CHIMERA_INCLUDE_DIR} ${CMAKE_CXX_FLAGS_RELEASE}")
-	ENDIF(UNIX AND NOT APPLE)
-ENDIF(WITH_CHIMERA)
-
-#glog
-#--------------------------------------
-IF(WITH_LOGGING)
-	IF(WIN32)
-		execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-glog.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-	ELSEIF(UNIX)
-		execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-glog.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-	ENDIF()
-
-	LINK_DIRECTORIES(${LINK_DIRECTORIES} ${GLOG_LIB_DIR})
-	SET(LIBNAME "GLOG")
-	SET(LIBHEADER "glog/logging.h")
-	SET(GLOG_ROOT ${DEP_DIR}/glog)
-	find_package(EasyFind REQUIRED COMPONENTS glog)
-	include_directories(SYSTEM ${GLOG_INCLUDE_DIR})
-ENDIF(WITH_LOGGING)
-
-IF(WITH_PROFILING)
-	IF(WIN32)
-		execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-gperftools.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-	ELSEIF(UNIX)
-		execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-gperftools.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-	ENDIF()
-
-	SET(LIBNAME "GPerfTools")
-	SET(LIBHEADER "gperftools/tcmalloc.h")
-	IF(WIN32)
-		find_package(EasyFind REQUIRED COMPONENTS libtcmalloc_minimal)
-	ELSE(WIN32)
-		find_package(EasyFind REQUIRED COMPONENTS tcmalloc profiler)
-	ENDIF(WIN32)
-	include_directories(SYSTEM ${GPerfTools_INCLUDE_DIR})
-
-	IF(APPLE)
-		SET(CMAKE_CXX_FLAGS_DEBUG "-isystem ${GPerfTools_INCLUDE_DIR} ${CMAKE_CXX_FLAGS}")
-		SET(CMAKE_CXX_FLAGS_RELEASE "-isystem ${GPerfTools_INCLUDE_DIR} ${CMAKE_CXX_FLAGS}")
-	ENDIF(APPLE)
-ENDIF(WITH_PROFILING)
-
-# clockUtils
-#----------------------------------------------------
-IF(WIN32)
-	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/deps/build-clockUtils.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-ELSEIF(UNIX)
-	execute_process(COMMAND /bin/bash ${CMAKE_SOURCE_DIR}/deps/build-clockUtils.sh WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/deps)
-ENDIF()
-
-SET(LIBNAME "CLOCKUTILS")
-SET(LIBHEADER "clockUtils/errors.h")
-SET(CLOCKUTILS_ROOT ${DEP_DIR}/clockUtils)
-find_package(EasyFind REQUIRED COMPONENTS clock_sockets)
-include_directories(SYSTEM ${CLOCKUTILS_INCLUDE_DIR})
 
 # Generated Channels
 configure_file(${CMAKE_SOURCE_DIR}/library/generated/GeneratedChannelConfiguration.h ${CMAKE_BINARY_DIR}/include/m2etis/config/GeneratedChannelConfiguration.h COPYONLY)
@@ -222,18 +97,12 @@ ENDIF(WIN32)
 
 target_link_libraries(m2etis ${BOOST_LIBRARIES} ${CLOCKUTILS_LIBRARIES})
 
-IF(WITH_CHIMERA)
-	target_link_libraries(m2etis chimera)
-ENDIF(WITH_CHIMERA)
 IF(WITH_LOGGING)
 	target_link_libraries(m2etis ${GLOG_LIBRARIES})
 ENDIF(WITH_LOGGING)
-IF(WITH_PROFILING)
-	target_link_libraries(m2etis ${GPerfTools_LIBRARIES})
-ENDIF(WITH_PROFILING)
 
 IF(WIN32 AND M2ETIS_BUILD_SHARED)
-	add_custom_command(TARGET m2etis POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/dist/${CMAKE_BUILD_TYPE}/$<CONFIGURATION>/m2etis.dll ${CMAKE_BINARY_DIR}/dist/)
+	add_custom_command(TARGET m2etis POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_BINARY_DIR}/bin/$<CONFIGURATION>/m2etis.dll ${CMAKE_BINARY_DIR}/bin/)
 ENDIF(WIN32 AND M2ETIS_BUILD_SHARED)
 
 # TESTING

@@ -1,8 +1,0 @@
---- !Network
-
-Identifier:
-
-Parameters:
-  test_param_1: 1
-  test_param_2: 3
-  test_param_2: 5

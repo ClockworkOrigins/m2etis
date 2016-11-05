@@ -16,7 +16,7 @@ REM See the License for the specific language governing permissions and
 REM limitations under the License.
 REM
 
-call build-common.bat %1 %2
+call build-common.bat android
 
 Set ARCHIVE=clockutils-1.0.0-src.zip
 Set BUILD_DIR=%TMP_DIR%/clockutils-1.0.0-src
@@ -33,15 +33,15 @@ call build-common.bat downloadAndUnpack %ARCHIVE% %BUILD_DIR% http://clockwork-o
 echo "Configuring clockUtils"
 
 cd %BUILD_DIR%
-cmake -DWITH_TESTING=OFF -DWITH_LIBRARY_ARGPARSER=OFF  -DWITH_LIBRARY_COMPRESSION=OFF  -DWITH_LIBRARY_CONTAINER=OFF  -DWITH_LIBRARY_INIPARSER=OFF  -DWITH_LIBRARY_SOCKETS=ON  -DCLOCKUTILS_BUILD_SHARED=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%VSCOMPILER%%VSARCH%" .
+cmake -DWITH_TESTING=OFF -DWITH_LIBRARY_ARGPARSER=OFF  -DWITH_LIBRARY_COMPRESSION=OFF  -DWITH_LIBRARY_CONTAINER=OFF  -DWITH_LIBRARY_INIPARSER=OFF  -DWITH_LIBRARY_SOCKETS=ON  -DCLOCKUTILS_BUILD_SHARED=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "MinGW Makefiles" -DCMAKE_TOOLCHAIN_FILE=%DEP_DIR%/../cmake/android.toolchain.cmake -DCMAKE_MAKE_PROGRAM="%ANDROID_NDK%\prebuilt\windows-x86_64\bin\make.exe" -DANDROID_STL=gnustl_shared .
 
 echo "Building clockUtils"
 
-MSBuild.exe clockUtils.sln /p:Configuration=Release
+cmake --build .
 
 echo "Installing clockUtils"
 
-MSBuild.exe INSTALL.vcxproj /p:Configuration=Release
+cmake --build . --target install
 
 echo "Cleaning up"
 
