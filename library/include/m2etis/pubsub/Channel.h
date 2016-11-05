@@ -122,7 +122,7 @@ namespace pubsub {
 			trees_.clear();
 
 			if (_self != _rendezvous) {
-				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
+				typename IMessage::Ptr msg = factory_.createMessage<EventType>();
 
 				msg->sender = _self;
 				msg->receiver = _rendezvous;
@@ -370,7 +370,7 @@ namespace pubsub {
 			}
 
 			for (typename NetworkType::Key node : purges) {
-				typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
+				typename IMessage::Ptr msg = factory_.createMessage<EventType>();
 
 				msg->sender = node;
 				msg->type = message::LEAVE | topic_;
@@ -408,7 +408,7 @@ namespace pubsub {
 		 * \brief sends new join message to inform RP that this node is still alive
 		 */
 		bool updateState() {
-			typename IMessage::Ptr msg = boost::static_pointer_cast<IMessage>(factory_.createMessage<EventType>());
+			typename IMessage::Ptr msg = factory_.createMessage<EventType>();
 
 			msg->sender = _self;
 			msg->receiver = _rendezvous;
