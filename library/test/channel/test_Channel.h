@@ -56,7 +56,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		_callbacks[i]->waitUntil(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, 10000000);
+		_callbacks[i]->waitUntil(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, 20000000);
 		ASSERT_EQ(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
 	}
 }
@@ -102,7 +102,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		_callbacks[i]->waitUntil(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, 10000000);
+		_callbacks[i]->waitUntil(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, 20000000);
 	}
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
