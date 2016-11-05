@@ -63,21 +63,4 @@ bool func2(long time, m2etis::util::Clock<m2etis::util::RealTimeClock> * cl, m2e
 	return false;
 }
 
-TEST(Scheduler, RepeatOnce) {
-	m2etis::util::Clock<m2etis::util::RealTimeClock> cl;
-	m2etis::pubsub::Scheduler<m2etis::util::RealTimeClock> sched(cl);
-	jobs.clear();
-	sched.runRepeated(50000, std::bind(func2, cl.getTime() + 50000, &cl, &sched, 0), 0);
-	sched.runRepeated(100000, std::bind(func2, cl.getTime() + 100000, &cl, &sched, 1), 0);
-	sched.runRepeated(150000, std::bind(func2, cl.getTime() + 150000, &cl, &sched, 2), 1);
-	sched.runRepeated(75000, std::bind(func2, cl.getTime() + 75000, &cl, &sched, 3), 0);
-	sched.runRepeated(75000, std::bind(func2, cl.getTime() + 75000, &cl, &sched, 4), 1);
-	for (int i = 0; i < 40; ++i) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(5));
-	}
-    int b[] = {0, 4, 3, 5, 1, 2};
-	std::vector<int> ref(b, b + sizeof(b) / sizeof(int));
-	EXPECT_EQ(ref, jobs);
-}
-
 #endif /* m2etis_scheduler_test_h */
