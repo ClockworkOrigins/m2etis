@@ -22,7 +22,6 @@
 
 #include "m2etis/message/MessageSerialization.h"
 
-#include "boost/array.hpp"
 #include "boost/bind.hpp"
 #include "boost/thread.hpp"
 

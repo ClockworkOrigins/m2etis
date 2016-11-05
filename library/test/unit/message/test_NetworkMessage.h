@@ -34,31 +34,31 @@ using namespace m2etis::pubsub::deliver;
 using namespace m2etis::pubsub::rendezvous;
 
 #ifdef M2ETIS_BUILD_SHARED
-	typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::UDP>, m2etis::pubsub::ChannelType<
-		m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-		, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::UDP>>
-		, m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
-		, m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
+	typedef m2etis::message::InternalMessage<m2etis::net::NetworkType<m2etis::net::TCP>, m2etis::pubsub::ChannelType<
+		m2etis::pubsub::routing::SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
+		, m2etis::pubsub::filter::NullFilter<CharVectorEventType, m2etis::net::NetworkType<m2etis::net::TCP>>
+		, m2etis::pubsub::order::NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
+		, m2etis::pubsub::deliver::NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 		, m2etis::pubsub::persistence::NullPersistence
 		, m2etis::pubsub::validity::NullValidity
-		, m2etis::pubsub::partition::NullPartition<m2etis::net::NetworkType<m2etis::net::UDP>, CharVectorEventType>
-		, m2etis::pubsub::security::NullSecurity, m2etis::pubsub::rendezvous::NullRendezvous>, CharVectorEventType> Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage;
-	BOOST_CLASS_EXPORT_GUID(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage, "27")
-	BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_UDPMessage, boost::serialization::object_serializable)
+		, m2etis::pubsub::partition::NullPartition<m2etis::net::NetworkType<m2etis::net::TCP>, CharVectorEventType>
+		, m2etis::pubsub::security::NullSecurity, m2etis::pubsub::rendezvous::NullRendezvous>, CharVectorEventType> Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_TCPMessage;
+	BOOST_CLASS_EXPORT_GUID(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_TCPMessage, "28")
+	BOOST_CLASS_IMPLEMENTATION(Spreadit_Null_Null_Null_Null_Null_Null_Null_CharVector_TCPMessage, boost::serialization::object_serializable)
 #endif
 
 namespace NetworkMesageTest {
 
 	typedef boost::shared_ptr<std::vector<unsigned char>> PP;
-	typedef m2etis::message::NetworkMessage<m2etis::net::NetworkType<m2etis::net::UDP>> NetMessage;
-	typedef m2etis::message::InternalMessage < m2etis::net::NetworkType<m2etis::net::UDP>,
-		m2etis::pubsub::ChannelType<SpreaditRouting<m2etis::net::NetworkType<m2etis::net::UDP>>
-		, NullFilter<std::vector<unsigned char>, m2etis::net::NetworkType<m2etis::net::UDP>>
-		, NullOrder<m2etis::net::NetworkType<m2etis::net::UDP>>
-		, NullDeliver<m2etis::net::NetworkType<m2etis::net::UDP>>
+	typedef m2etis::message::NetworkMessage<m2etis::net::NetworkType<m2etis::net::TCP>> NetMessage;
+	typedef m2etis::message::InternalMessage < m2etis::net::NetworkType<m2etis::net::TCP>,
+		m2etis::pubsub::ChannelType<SpreaditRouting<m2etis::net::NetworkType<m2etis::net::TCP>>
+		, NullFilter<std::vector<unsigned char>, m2etis::net::NetworkType<m2etis::net::TCP>>
+		, NullOrder<m2etis::net::NetworkType<m2etis::net::TCP>>
+		, NullDeliver<m2etis::net::NetworkType<m2etis::net::TCP>>
 		, NullPersistence
 		, NullValidity
-		, NullPartition<m2etis::net::NetworkType<m2etis::net::UDP>, std::vector<unsigned char>>
+		, NullPartition<m2etis::net::NetworkType<m2etis::net::TCP>, std::vector<unsigned char>>
 		, NullSecurity, NullRendezvous>, std::vector<unsigned char>> IMessage;
 
 	TEST(NetworkMessageTest, Serialize) {
@@ -76,7 +76,7 @@ namespace NetworkMesageTest {
 		// Serialize
 		std::string y = m2etis::message::serialization::serializeNetworkMsg<NetMessage>(m1);
 		// Deserialize
-		NetMessage::Ptr mm2 = m2etis::message::serialization::deserializeNetworkMsg<m2etis::net::NetworkType<m2etis::net::UDP>>(y);
+		NetMessage::Ptr mm2 = m2etis::message::serialization::deserializeNetworkMsg<m2etis::net::NetworkType<m2etis::net::TCP>>(y);
 		IMessage::Ptr m2(boost::static_pointer_cast<IMessage>(mm2));
 
 		NetMessage::Ptr m3(new IMessage());
@@ -94,7 +94,7 @@ namespace NetworkMesageTest {
 		// Serialize
 		std::string y3 = m2etis::message::serialization::serializeNetworkMsg<NetMessage>(m3);
 		// Deserialize
-		NetMessage::Ptr mm3 = m2etis::message::serialization::deserializeNetworkMsg<m2etis::net::NetworkType<m2etis::net::UDP>>(y3);
+		NetMessage::Ptr mm3 = m2etis::message::serialization::deserializeNetworkMsg<m2etis::net::NetworkType<m2etis::net::TCP>>(y3);
 		IMessage::Ptr m4(boost::static_pointer_cast<IMessage>(mm3));
 
 		// Test for equality
