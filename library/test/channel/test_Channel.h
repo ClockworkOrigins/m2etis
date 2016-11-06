@@ -46,7 +46,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_callbacks[i]->waitUntil(NODE_AMOUNT, 2000000);
-		ASSERT_NEAR(NODE_AMOUNT, _callbacks[i]->_counter, NODE_AMOUNT / 2) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
+		ASSERT_NEAR(NODE_AMOUNT, _callbacks[i]->_counter, NODE_AMOUNT / 3) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
 	}
 
 	for (unsigned short i = 0; i < MESSAGE_AMOUNT; ++i) {
@@ -57,7 +57,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_callbacks[i]->waitUntil(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, 10000000);
-		ASSERT_NEAR(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter, (MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT) / 2) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
+		ASSERT_NEAR(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter, (MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT) / 3) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
 	}
 }
 
@@ -92,7 +92,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_callbacks[i]->waitUntil(NODE_AMOUNT, 2000000);
-		ASSERT_NEAR(NODE_AMOUNT, _callbacks[i]->_counter, NODE_AMOUNT / 2) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
+		ASSERT_NEAR(NODE_AMOUNT, _callbacks[i]->_counter, NODE_AMOUNT / 3) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
 	}
 
 	for (unsigned short i = 0; i < MESSAGE_AMOUNT; ++i) {
@@ -120,7 +120,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(200 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		ASSERT_NEAR(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter, (MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT) / 2) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
+		ASSERT_NEAR(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, _callbacks[i]->_counter, (MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT) / 3) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
 	}
 }
 
