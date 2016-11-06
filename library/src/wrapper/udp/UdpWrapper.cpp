@@ -160,7 +160,7 @@ namespace udp {
 			boost::asio::ip::udp::resolver::query query(boost::asio::ip::udp::v4(), message.second.ipStr(), message.second.portStr());
 			boost::asio::ip::udp::endpoint endpoint(*resolver.resolve(query));
 			boost::system::error_code err;
-
+			assert(_socket);
 			_socket->send_to(boost::asio::buffer(message.first), endpoint);
 			_outbox.pop_front();
 		}
