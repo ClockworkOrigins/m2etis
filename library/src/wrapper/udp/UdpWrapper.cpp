@@ -161,7 +161,11 @@ namespace udp {
 			boost::asio::ip::udp::endpoint endpoint(*resolver.resolve(query));
 			boost::system::error_code err;
 			assert(_socket);
-			_socket->send_to(boost::asio::buffer(message.first), endpoint);
+			try {
+				_socket->send_to(boost::asio::buffer(message.first), endpoint);
+			} catch (const boost::exception&) {
+				continue;
+			}
 			_outbox.pop_front();
 		}
 	}

@@ -44,10 +44,10 @@ echo "Installing GoogleMock with GoogleTest"
 mkdir "%PREFIX%"
 mkdir "%PREFIX%/include"
 mkdir "%PREFIX%/lib"
-xcopy /S /Y "%BUILD_DIR%/gtest/include" "%PREFIX%/include" > NUL
-xcopy /S /Y "%BUILD_DIR%/include" "%PREFIX%/include" > NUL
-xcopy /S /Y "%BUILD_DIR%/gtest/Release" "%PREFIX%/lib" > NUL
-xcopy /S /Y "%BUILD_DIR%/Release" "%PREFIX%/lib" > NUL
+xcopy /S /Y "%BUILD_DIR%/gtest/include" "%PREFIX%/include"
+xcopy /S /Y "%BUILD_DIR%/include" "%PREFIX%/include"
+xcopy /S /Y "%BUILD_DIR%/gtest/Release" "%PREFIX%/lib"
+xcopy /S /Y "%BUILD_DIR%/Release" "%PREFIX%/lib"
 
 echo "Cleaning up"
 

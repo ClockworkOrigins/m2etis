@@ -38,7 +38,7 @@ cd %BUILD_DIR%
 call bootstrap.bat
 
 echo "Building Boost"
-b2 toolset=%BOOSTCOMPILER% address-model=%BOOSTARCH% --with-serialization --with-system link=static threading=multi --layout=system -j %NUMBER_OF_PROCESSORS% variant=release install --prefix=%PREFIX% stage > NUL
+b2 toolset=%BOOSTCOMPILER% address-model=%BOOSTARCH% --with-serialization --with-system link=static threading=multi --layout=system -j %NUMBER_OF_PROCESSORS% variant=release install --prefix=%PREFIX% stage
 
 echo "Installing Boost"
 
