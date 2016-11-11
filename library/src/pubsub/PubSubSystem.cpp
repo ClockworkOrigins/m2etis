@@ -78,7 +78,9 @@ namespace pubsub {
 
 			if (_running && !_exceptionCallbacks[ev].empty()) {
 				for (std::function<void(const std::string &)> f : _exceptionCallbacks[ev]) {
-					std::thread(std::bind(f, info.message)).detach();
+					if (f) {
+						std::thread(std::bind(f, info.message)).detach();
+					}
 				}
 			}
 		}
