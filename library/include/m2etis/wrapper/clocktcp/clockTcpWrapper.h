@@ -87,26 +87,12 @@ namespace clocktcp {
 		void registerMessageType(const message::MessageType type, const bool ack) const;
 
 	private:
-		clockTcpWrapper(const clockTcpWrapper &) = delete;
-		clockTcpWrapper & operator=(const clockTcpWrapper & rhs) = delete;
-
-		net::NetworkType<net::clockTCP>::Key real2metis(net::NetworkType<net::clockTCP>::Key key);
-
-		net::NetworkType<net::clockTCP>::Key metis2real(net::NetworkType<net::clockTCP>::Key key);
-
-		void eraseSocket(net::NetworkType<net::clockTCP>::Key realKey);
-
 		bool _initialized;
 
 		net::NetworkType<net::clockTCP>::Key _local;
 
 		std::mutex _lock; // used to lock _sockets
 		std::map<net::NetworkType<net::clockTCP>::Key, clockUtils::sockets::TcpSocket *> _sockets;
-
-		/**
-		 * \brief called after incoming connection. New thread
-		 */
-		void readFromSocket(clockUtils::sockets::TcpSocket * oldSocket);
 
 
 		std::map<net::NetworkType<net::clockTCP>::Key, net::NetworkType<net::clockTCP>::Key> _mapping_metis_real;
@@ -117,6 +103,24 @@ namespace clocktcp {
 		 * \brief stores all threads created in this class for cleanup issues
 		 */
 		std::multimap<uint32_t, std::thread *> _threads;
+
+		std::vector<net::NetworkType<net::TCP>::Key> _purgeKeys;
+
+		/**
+		 * \brief called after incoming connection. New thread
+		 */
+		void readFromSocket(clockUtils::sockets::TcpSocket * oldSocket);
+
+		net::NetworkType<net::clockTCP>::Key real2metis(net::NetworkType<net::clockTCP>::Key key);
+
+		net::NetworkType<net::clockTCP>::Key metis2real(net::NetworkType<net::clockTCP>::Key key);
+
+		void eraseSocket(net::NetworkType<net::clockTCP>::Key realKey);
+
+		void purgeSockets();
+
+		clockTcpWrapper(const clockTcpWrapper &) = delete;
+		clockTcpWrapper & operator=(const clockTcpWrapper & rhs) = delete;
 	};
 
 } /* namespace clocktcp */

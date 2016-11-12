@@ -32,8 +32,9 @@ namespace m2etis {
 namespace wrapper {
 namespace clocktcp {
 
-	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string &, const uint16_t) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _lock(), _sockets(), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threads() {
+	clockTcpWrapper::clockTcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string &, const uint16_t) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _lock(), _sockets(), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threads(), _purgeKeys() {
 		clockUtils::sockets::TcpSocket * newSocket = new clockUtils::sockets::TcpSocket();
+		_threads.insert(std::make_pair(0, new std::thread(std::bind(&clockTcpWrapper::purgeSockets, this))));
 		newSocket->listen(_local.getPort(), 100, true, [this](clockUtils::sockets::TcpSocket * socket, clockUtils::ClockError err) {
 			if (err == clockUtils::ClockError::SUCCESS) {
 				message::Key<message::IPv4KeyProvider> k(socket->getRemoteIP() + ":" + std::to_string(socket->getRemotePort()));
@@ -128,7 +129,7 @@ namespace clocktcp {
 				_sockets[realKey]->close();
 				delete _sockets[realKey];
 				_sockets[realKey] = nullptr;
-				_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::eraseSocket, this, realKey))));
+				_purgeKeys.push_back(realKey);
 			}
 		} catch (boost::archive::archive_exception & e) {
 			std::cout << e.what() << std::endl;
@@ -180,7 +181,7 @@ namespace clocktcp {
 						socket->close();
 						delete socket;
 						it->second = nullptr;
-						_threads.insert(std::make_pair(1, new std::thread(std::bind(&clockTcpWrapper::eraseSocket, this, realKey))));
+						_purgeKeys.push_back(realKey);
 						break;
 					}
 				}
@@ -213,6 +214,21 @@ namespace clocktcp {
 		_mapping_real_metis.erase(realKey);
 		std::lock_guard<std::mutex> lg2(_lock);
 		_sockets.erase(realKey);
+	}
+
+	void clockTcpWrapper::purgeSockets() {
+		while (_initialized) {
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			std::lock_guard<std::mutex> lgMap(_lock);
+			// TODO simplify
+			for (auto it = _purgeKeys.begin(); it != _purgeKeys.end(); ++it) {
+				std::lock_guard<std::mutex> lg(_mapLock);
+				_mapping_metis_real.erase(real2metis(*it));
+				_mapping_real_metis.erase(*it);
+				_sockets.erase(*it);
+			}
+			_purgeKeys.clear();
+		}
 	}
 
 } /* namespace clocktcp */

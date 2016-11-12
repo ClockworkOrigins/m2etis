@@ -33,7 +33,7 @@ namespace tcp {
 	TcpWrapper::TcpWrapper(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort) : _initialized(true), _local(listenIP + ":" + std::to_string(listenPort)), _rendezvouz(connectIP + ":" + std::to_string(connectPort)), _io_service(), _acceptor(), _sockets(), _strand__(_io_service), _outbox(), _work(new boost::asio::io_service::work(_io_service)), _mapping_metis_real(), _mapping_real_metis(), _mapLock(), _threadLock(), threads_(), _deleteSocketsLock(), _deleteSockets(), _purgeKeys() {
 		threads_.insert(std::make_pair(0, new std::thread(std::bind(static_cast<std::size_t(boost::asio::io_service::*)(void)>(&boost::asio::io_service::run), &_strand__.get_io_service()))));
 		threads_.insert(std::make_pair(0, new std::thread(std::bind(&TcpWrapper::purgeSockets, this))));
-		std::thread(std::bind(&TcpWrapper::workerFunc, this)).join();
+		workerFunc();
 	}
 
 	TcpWrapper::~TcpWrapper() {
@@ -189,6 +189,7 @@ namespace tcp {
 				if (error) {
 					socket->close();
 					delete socket;
+					socket = nullptr;
 					M2ETIS_THROW_FAILURE("TcpWrapper - Couldn't connect", metisKey.toStr(), error.value());
 				}
 
@@ -210,13 +211,7 @@ namespace tcp {
 			net::NetworkType<net::TCP>::Key realKey = metis2real(metisKey);
 
 			std::lock_guard<std::mutex> lgMap(lock_);
-			if (_sockets.find(realKey) != _sockets.end()) {
-				_sockets[realKey]->close();
-				delete _sockets[realKey];
-				_sockets[realKey] = nullptr;
-				std::lock_guard<std::mutex> lg2(_threadLock);
-				threads_.insert(std::make_pair(1, new std::thread(std::bind(&TcpWrapper::eraseSocket, this, realKey))));
-			}
+			removeSocket((_sockets.find(realKey) != _sockets.end()) ? _sockets[realKey] : nullptr);
 		} catch (boost::archive::archive_exception & e) {
 			std::cout << e.what() << std::endl;
 		}
@@ -363,7 +358,6 @@ namespace tcp {
 				if (it->second == sock) {
 					sock->close();
 					it->second = nullptr;
-					std::lock_guard<std::mutex> lg(_threadLock);
 					_purgeKeys.push_back(it->first);
 					break;
 				}
