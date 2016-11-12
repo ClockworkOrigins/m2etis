@@ -14,7 +14,9 @@
  limitations under the License.
  */
 
-#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
+#ifndef _GLIBCXX_USE_NANOSLEEP
+	#define _GLIBCXX_USE_NANOSLEEP // needed for sleep_for, see http://stackoverflow.com/questions/4438084/stdthis-threadsleep-for-and-gcc
+#endif
 
 #include "m2etis/util/RealTimeClock.h"
 

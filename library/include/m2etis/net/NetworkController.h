@@ -174,10 +174,6 @@ namespace net {
 		uint64_t processingID_;
 
 		bool processDeliverQueue() {
-			/* Was will ich hier:
-			 * Später darf sich ein Threadpool um die Einträge in der Queue kümmern.
-			 * Beim Rausnehmen sollen die sich natürlich nicht in die Quere kommen.
-			 */
 			if (!_running) {
 				return false;
 			}

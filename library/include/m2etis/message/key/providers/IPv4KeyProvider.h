@@ -48,6 +48,9 @@ namespace message {
 		uint16_t port;
 
 	public:
+		virtual ~IPv4KeyProvider() {
+		}
+
 		std::string ipStr() const {
 			std::ostringstream ret;
 			ret << int(ip[0]) << "." << int(ip[1]) << "." << int(ip[2]) << "." << int(ip[3]);
@@ -61,8 +64,6 @@ namespace message {
 		inline uint16_t getPort() const {
 			return port;
 		}
-
-		virtual ~IPv4KeyProvider() {}
 
 	protected:
 		IPv4KeyProvider() : port(0) {

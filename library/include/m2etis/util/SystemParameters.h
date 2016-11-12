@@ -63,7 +63,7 @@
 #endif
 
 #ifdef _MSC_VER
-#   pragma warning(disable : 4251) // dll interface to be used by clients...
+	#pragma warning(disable : 4251) // dll interface to be used by clients...
 #endif
 
 #ifndef M2ETIS_DEPRECATED
