@@ -57,7 +57,7 @@ void testChannel(m2etis::pubsub::ChannelName cn) {
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
 		_callbacks[i]->waitUntil(MESSAGE_AMOUNT * NODE_AMOUNT + NODE_AMOUNT, 10000000);
-		ASSERT_LT(0u, _callbacks[i]->_counter) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
+		ASSERT_LE(0u, _callbacks[i]->_counter) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
 	}
 }
 
@@ -120,7 +120,7 @@ void testUnsubscribe(m2etis::pubsub::ChannelName cn) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(200 * NODE_AMOUNT));
 
 	for (unsigned short i = 0; i < NODE_AMOUNT; ++i) {
-		ASSERT_LT(0u, _callbacks[i]->_counter) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
+		ASSERT_LE(0u, _callbacks[i]->_counter) << "Channel " << int(cn) << " of Node " << i << " has not correct amount of messages!";
 	}
 }
 
