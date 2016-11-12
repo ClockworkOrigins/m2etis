@@ -35,8 +35,8 @@
 namespace m2etis {
 namespace pubsub {
 
-	PubSubSystem::PubSubSystem(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort, const std::vector<std::string> & rootList) : _pssi(new PubSubSystemEnvironment(listenIP, listenPort, connectIP, connectPort)), channels_(new ChannelConfiguration(listenIP, listenPort, connectIP, connectPort, _pssi, rootList)), initialized(true), _exceptionCallbacks(5, std::vector<std::function<void(const std::string &)>>()), _running(true) {
-		exceptionID_ = _pssi->scheduler_.runRepeated(500000, std::bind(&PubSubSystem::exceptionLoop, this), 4);
+	PubSubSystem::PubSubSystem(const std::string & listenIP, const uint16_t listenPort, const std::string & connectIP, const uint16_t connectPort, const std::vector<std::string> & rootList) : _pssi(new PubSubSystemEnvironment(listenIP, listenPort, connectIP, connectPort)), _channels(new ChannelConfiguration(listenIP, listenPort, connectIP, connectPort, _pssi, rootList)), _initialized(true), _exceptionCallbacks(5, std::vector<std::function<void(const std::string &)>>()), _running(true), _exceptionCondition(), _exceptionLock(), _exceptionQueue(), _exceptionThread(std::bind(&PubSubSystem::performExceptionCallback, this)) {
+		_exceptionID = _pssi->scheduler_.runRepeated(500000, std::bind(&PubSubSystem::exceptionLoop, this), 4);
 #ifdef WITH_LOGGING
 		util::log::initializeLogging();
 #endif
@@ -44,10 +44,15 @@ namespace pubsub {
 
 	PubSubSystem::~PubSubSystem() {
 		_running = false;
-		_pssi->scheduler_.stop(exceptionID_);
+		_pssi->scheduler_.stop(_exceptionID);
 		_pssi->scheduler_.Stop();
-		delete channels_;
+		delete _channels;
 		delete _pssi;
+		{
+			std::unique_lock<std::mutex> ul(_exceptionLock);
+			_exceptionCondition.notify_one();
+		}
+		_exceptionThread.join();
 		_exceptionCallbacks.clear();
 #ifdef WITH_LOGGING
 		util::log::shutdownLogging();
@@ -77,15 +82,34 @@ namespace pubsub {
 			}
 
 			if (_running && !_exceptionCallbacks[ev].empty()) {
+				std::unique_lock<std::mutex> ul(_exceptionLock);
 				for (std::function<void(const std::string &)> f : _exceptionCallbacks[ev]) {
 					if (f) {
-						std::thread(std::bind(f, info.message)).detach();
+						_exceptionQueue.push(std::bind(f, info.message));
 					}
 				}
+				_exceptionCondition.notify_one();
 			}
 		}
 
 		return _running;
+	}
+
+	void PubSubSystem::performExceptionCallback() {
+		while (_running) {
+			while (_running && !_exceptionQueue.empty()) {
+				std::function<void(void)> f;
+				if (clockUtils::ClockError::SUCCESS == _exceptionQueue.poll(f)) {
+					if (f) {
+						f();
+					}
+				}
+			}
+			std::unique_lock<std::mutex> ul(_exceptionLock);
+			if (_running) {
+				_exceptionCondition.wait(ul);
+			}
+		}
 	}
 
 } /* namespace pubsub */

@@ -22,6 +22,9 @@
 #ifndef __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__
 #define __M2ETIS_PUBSUB_PUBSUBSYSTEM_H__
 
+#include <condition_variable>
+#include <thread>
+
 #include "m2etis/util/ExceptionQueue.h"
 #include "m2etis/util/SystemParameters.h"
 
@@ -30,7 +33,7 @@
 #include "m2etis/pubsub/config/ChannelConfiguration.h"
 #include "m2etis/pubsub/filter/FilterPredicate.h"
 
-// Forward Declarations
+#include "clockUtils/container/DoubleBufferQueue.h"
 
 namespace m2etis {
 namespace pubsub {
@@ -110,32 +113,25 @@ namespace pubsub {
 		/**
 		 * \brief sets callback for disconnect
 		 */
-		inline bool isInitialized() const { return initialized; }
+		inline bool isInitialized() const { return _initialized; }
 
 		void registerExceptionCallback(exceptionEvents e, std::function<void(const std::string &)> _ptr);
 
 	private:
-		PubSubSystem(const PubSubSystem &) = delete;
-		PubSubSystem & operator=(const PubSubSystem &) = delete;
-
-		bool exceptionLoop();
-
-	public:
 		PubSubSystemEnvironment * _pssi;
-
-	private:
-		ChannelConfiguration * channels_;
-		bool initialized;
+		ChannelConfiguration * _channels;
+		bool _initialized;
 
 		std::vector<std::vector<std::function<void(const std::string &)>>> _exceptionCallbacks;
 
-		uint64_t exceptionID_;
+		uint64_t _exceptionID;
 
 		bool _running;
+		std::condition_variable _exceptionCondition;
+		std::mutex _exceptionLock;
+		clockUtils::container::DoubleBufferQueue<std::function<void(void)>, false, false> _exceptionQueue;
+		std::thread _exceptionThread;
 
-#ifdef WITH_SIM
-	public:
-#endif
 		/**
 		 * \brief Gets a Handle to interact with the requested channel
 		 *
@@ -144,6 +140,12 @@ namespace pubsub {
 		 * \return Returns a Handle to interact with the requested channel
 		 */
 		template<class EventType> BasicChannelInterface<EventType> * getChannelHandle(const ChannelName channel) const;
+
+		bool exceptionLoop();
+		void performExceptionCallback();
+
+		PubSubSystem(const PubSubSystem &) = delete;
+		PubSubSystem & operator=(const PubSubSystem &) = delete;
 	};
 
 	template<class EventType> std::string PubSubSystem::getSelf(ChannelName channel) const {
@@ -151,13 +153,13 @@ namespace pubsub {
 	}
 
 	template<class EventType> BasicChannelInterface<EventType> * PubSubSystem::getChannelHandle(ChannelName channel) const {
-		if (!initialized) {
+		if (!_initialized) {
 			M2ETIS_THROW_API("PubSubSystem", "Invalid call, initialize PubSubSystem first.");
 		}
-		if (channel >= channels_->count) {
+		if (channel >= _channels->count) {
 			M2ETIS_THROW_API("PubSubSystem", std::string("Invalid channel, enum exceeds CHANNEL_COUNT: ") + std::to_string(channel));
 		}
-		BasicChannelInterface<EventType> * const ret = dynamic_cast<BasicChannelInterface<EventType> * const>(channels_->channels()[channel]);
+		BasicChannelInterface<EventType> * const ret = dynamic_cast<BasicChannelInterface<EventType> * const>(_channels->channels()[channel]);
 		if (ret == NULL) {
 			M2ETIS_THROW_API("PubSubSystem", "Invalid channel type cast. Check your channel configuration.");
 		}
