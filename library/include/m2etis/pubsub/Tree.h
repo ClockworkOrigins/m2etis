@@ -599,6 +599,9 @@ namespace pubsub {
 
 			return boost::make_shared<ForwardInfo>(stop, changes);
 		}
+
+		Tree(const Tree &) = delete;
+		const Tree & operator=(const Tree &) = delete;
 	};
 
 } /* namespace pubsub */

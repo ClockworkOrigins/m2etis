@@ -310,6 +310,9 @@ namespace routing {
 
 			return purging_;
 		}
+
+		DirectRouting(const DirectRouting &) = delete;
+		const DirectRouting & operator=(const DirectRouting &) = delete;
 	};
 
 } /* namespace routing */
