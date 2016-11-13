@@ -30,12 +30,9 @@ fi
 
 title "Compile GLog"
 
-. ./download-dependency.sh ${ARCHIVE}
-
 status "Extracting GLog"
 
-cd "${BUILD_ROOT}"
-tar xfvz "${ARCHIVE}"
+downloadAndUnpack ${ARCHIVE}
 
 status "Configuring GLog"
 

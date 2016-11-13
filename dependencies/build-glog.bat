@@ -37,7 +37,7 @@ cmake -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=%PREFIX% -G "%VSCOMPILER%%VS
 
 echo "Building GLog"
 
-MSBuild.exe google-glog.sln /p:Configuration=Release
+MSBuild.exe google-glog.sln /m:%NUMBER_OF_PROCESSORS% /p:Configuration=Release
 
 echo "Installing GLog"
 

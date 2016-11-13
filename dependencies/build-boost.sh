@@ -20,8 +20,8 @@ cd "$(readlink "$(dirname "${0}")")"
 
 . ./build-common.sh ${1}
 
-ARCHIVE="boost_1_58_0.tar.bz2"
-BUILD_DIR="${BUILD_ROOT}/boost_1_58_0"
+ARCHIVE="boost_1_62_0.tar.bz2"
+BUILD_DIR="${BUILD_ROOT}/boost_1_62_0"
 PREFIX="${DEP_OUT_DIR}/boost/"
 
 if [ -d ${PREFIX} ]; then
@@ -30,12 +30,9 @@ fi
 
 title "Compile Boost"
 
-. ./download-dependency.sh ${ARCHIVE}
-
 status "Extracting Boost"
 
-cd "${BUILD_ROOT}"
-tar xfj "${ARCHIVE}"
+downloadAndUnpack ${ARCHIVE}
 
 status "Configuring Boost"
 
@@ -45,6 +42,7 @@ cd "${BUILD_DIR}"
 status "Building & Installing Boost"
 
 ./bjam -d2 \
+	--toolset=${C_COMPILER} \
 	cxxflags=-fPIC \
 	-j ${CPU_CORES} \
 	variant=release \
