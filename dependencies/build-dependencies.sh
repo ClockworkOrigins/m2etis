@@ -20,6 +20,5 @@ set -e
 
 . ./build-boost.sh ${1}
 . ./build-clockUtils.sh ${1}
-. ./build-gflag.sh ${1}
 . ./build-glog.sh ${1}
 . ./build-gmock.sh ${1}

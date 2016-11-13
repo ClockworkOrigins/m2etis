@@ -30,7 +30,7 @@
 
 #include "boost/tokenizer.hpp"
 
-#include "gflags/gflags.h"
+#include "clockUtils/argParser/ArgumentParser.h"
 
 enum attribute_names {
 	POSITION_X,
@@ -46,18 +46,6 @@ using m2etis::pubsub::filter::Equals;
 using m2etis::pubsub::filter::NotEquals;
 using m2etis::pubsub::filter::LessThan;
 using m2etis::pubsub::filter::GreaterThan;
-
-DEFINE_string(dip, "127.0.0.1", "Destination IP, to connect to for bootstrapping. Defaults to 127.0.0.1");
-DEFINE_VARIABLE(uint16_t, U16, dport, 7000, "Destination port to use for bootstrapping");
-DEFINE_string(lip, "127.0.0.1", "Listening IP for this node. Defaults to 127.0.0.1");
-DEFINE_VARIABLE(uint16_t, U16, lport, 7000, "Listening port for this node. Defaults to 7000.");
-
-DEFINE_bool(sub, false, "Flag for automatic subscription.");
-DEFINE_string(net, "tcp", "Define which network backend to use. Currently supported: tcp, udp. Defaults to tcp.");
-DEFINE_string(routing, "direct", "Defines which routing strategy to use. Currently supported: spreadit, yoid, nice, direct");
-DEFINE_string(order, "null", "Defines which routing strategy to use. Currently supported: null, detmerge, mtp, garcia");
-DEFINE_string(filter, "null", "Defines which filter strategy to use. Currently supported: null, BruteForce, DecisionTree, GeneralBooleanExpressions.");
-DEFINE_string(partition, "null", "Defines which partition strategy to use. Currently supported: null, PartitionFiltersChannel3.");
 
 std::map<std::string, m2etis::pubsub::ChannelName> chans_ = {
 	 {"direct_null_null_null_null_null_null_null_char_tcp", m2etis::pubsub::TEST_Direct_Null_Null_Null_Null_Null_Null_Null_CharVector_TCP}
@@ -387,13 +375,32 @@ Command * dispatch(std::string command, Node & node) {
 }
 
 int main(int argc, char * argv[]) {
+	REGISTER_VARIABLE(std::string, dip, dip, "127.0.0.1", "Destination IP, to connect to for bootstrapping. Defaults to 127.0.0.1");
+	REGISTER_VARIABLE(uint16_t, dport, dport, 7000, "Destination port to use for bootstrapping");
+	REGISTER_VARIABLE(std::string, lip, lip, "127.0.0.1", "Listening IP for this node. Defaults to 127.0.0.1");
+	REGISTER_VARIABLE(uint16_t, lport, lport, 7000, "Listening port for this node. Defaults to 7000.");
+
+	REGISTER_VARIABLE(bool, sub, sub, false, "Flag for automatic subscription.");
+	REGISTER_VARIABLE(std::string, net, net, "tcp", "Define which network backend to use. Currently supported: tcp, udp. Defaults to tcp.");
+	REGISTER_VARIABLE(std::string, routing, routing, "direct", "Defines which routing strategy to use. Currently supported: spreadit, yoid, nice, direct");
+	REGISTER_VARIABLE(std::string, order, order, "null", "Defines which routing strategy to use. Currently supported: null, detmerge, mtp, garcia");
+	REGISTER_VARIABLE(std::string, filter, filter, "null", "Defines which filter strategy to use. Currently supported: null, BruteForce, DecisionTree, GeneralBooleanExpressions.");
+	REGISTER_VARIABLE(std::string, partition, partition, "null", "Defines which partition strategy to use. Currently supported: null, PartitionFiltersChannel3.");
+
 	bool exit = false;
-	google::ParseCommandLineFlags(&argc, &argv, true);
-	m2etis::pubsub::ChannelName chname = configureChannel(FLAGS_routing, FLAGS_order, FLAGS_net, FLAGS_filter, FLAGS_partition);
-	Node n(FLAGS_lip, FLAGS_lport, FLAGS_dip, FLAGS_dport, chname, FLAGS_sub);
+	if (clockUtils::ClockError::SUCCESS != PARSE_COMMANDLINE()) {
+		std::cout << GETLASTPARSERERROR() << std::endl;
+		return EXIT_FAILURE;
+	}
+	if (HELPSET()) {
+		std::cout << GETHELPTEXT() << std::endl;
+		return EXIT_SUCCESS;
+	}
+	m2etis::pubsub::ChannelName chname = configureChannel(routing, order, net, filter, partition);
+	Node n(lip, lport, dip, dport, chname, sub);
 	std::cout << "Node initialized." << std::endl
-	<< "Listening on: " << FLAGS_lip << ":" << FLAGS_lport << std::endl
-	<< "Bootstrap Node: " << FLAGS_dip << ":" << FLAGS_dport << std::endl
+	<< "Listening on: " << lip << ":" << lport << std::endl
+	<< "Bootstrap Node: " << dip << ":" << dport << std::endl
 	<< std::endl;
 
 	std::cout << "M2etis Node Console v 0.1" << std::endl << "Press h for help" << std::endl;

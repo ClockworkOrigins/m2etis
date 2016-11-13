@@ -30,19 +30,16 @@ fi
 
 title "Compile clockUtils"
 
-. ./download-dependency.sh ${ARCHIVE} http://clockwork-origins.de/clockUtils/downloads/
-
 status "Extracting clockUtils"
 
-cd "${BUILD_ROOT}"
-unzip "${ARCHIVE}"
+downloadAndUnpack ${ARCHIVE} http://clockwork-origins.de/clockUtils/downloads/
 
 status "Configuring clockUtils"
 
 cd "${BUILD_DIR}"
 cmake \
 	-DWITH_TESTING=OFF \
-	-DWITH_LIBRARY_ARGPARSER=OFF \
+	-DWITH_LIBRARY_ARGPARSER=ON \
 	-DWITH_LIBRARY_COMPRESSION=OFF \
 	-DWITH_LIBRARY_CONTAINER=OFF \
 	-DWITH_LIBRARY_INIPARSER=OFF \

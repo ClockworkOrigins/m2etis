@@ -59,28 +59,13 @@ ENDIF(UNIX AND ANDROID AND NOT CMAKE_HOST_WIN32 AND NOT EXISTS "${M2ETIS_DEP_DIR
 SET(LIBNAME "CLOCKUTILS")
 SET(LIBHEADER "clockUtils/errors.h")
 SET(CLOCKUTILS_ROOT ${M2ETIS_DEP_DIR}/clockUtils)
+IF(WITH_TESTING)
+	SET(CLOCKUTILS_COMPONENT ${CLOCKUTILS_COMPONENT} clock_argParser)
+ENDIF(WITH_TESTING)
 SET(CLOCKUTILS_COMPONENT ${CLOCKUTILS_COMPONENT} clock_sockets)
 
 find_package(EasyFind REQUIRED COMPONENTS ${CLOCKUTILS_COMPONENT})
 include_directories(SYSTEM ${CLOCKUTILS_INCLUDE_DIR})
-
-#----------------------------------------------------
-# GFlags
-#----------------------------------------------------
-
-IF(WITH_TESTING)
-	IF(WIN32 AND NOT ANDROID AND NOT EXISTS "${M2ETIS_DEP_DIR}/gflags/")
-		execute_process(COMMAND ${CMAKE_SOURCE_DIR}/dependencies/build-gflag.bat ${VS_TOOLCHAIN} ${VS_ARCH} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/dependencies)
-	ENDIF(WIN32 AND NOT ANDROID AND NOT EXISTS "${M2ETIS_DEP_DIR}/gflags/")
-	IF(UNIX AND NOT ANDROID AND NOT EXISTS "${M2ETIS_DEP_DIR}/gflags/")
-		execute_process(COMMAND ${CMAKE_SOURCE_DIR}/dependencies/build-gflag.sh ${UNIX_COMPILER} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/dependencies)
-	ENDIF(UNIX AND NOT ANDROID AND NOT EXISTS "${M2ETIS_DEP_DIR}/gflags/")
-	SET(LIBNAME "GFLAGS")
-	SET(LIBHEADER "gflags/gflags.h")
-	SET(GFLAGS_ROOT ${M2ETIS_DEP_DIR}/gflags)
-	find_package(EasyFind REQUIRED COMPONENTS gflags)
-	include_directories(SYSTEM ${GFLAGS_INCLUDE_DIR})
-ENDIF(WITH_TESTING)
 
 #----------------------------------------------------
 # GLog
